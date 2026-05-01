@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Environments
+.env
+.venv/
+venv/
+conda-meta/
+
+# Data and outputs
+data/
+outputs/
+
+# Model weights and arrays
+*.pt
+*.pth
+*.npy
+*.npz
+
+# Logs / temp
+*.log
+tmp/
+temp/
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
