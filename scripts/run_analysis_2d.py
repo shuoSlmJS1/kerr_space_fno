@@ -5,7 +5,14 @@
 # 1. 二维模型的独立推理分析入口；
 # 2. 不修改原来的 scripts/run_analysis.py；
 # 3. 支持通过 registry_2d.py 恢复二维模型；
-# 4. 当前主要用于单参数二维算子任务：
+# 4. 支持 normalization = none / standard；
+# 5. 如果模型训练时使用 standard normalization，
+#    则分析时：
+#       - 使用同样 normalization 构造输入；
+#       - 模型输出先反归一化回物理空间；
+#       - 再计算 MSE / Relative L2；
+#
+# 当前二维算子任务：
 #
 #       (p, lambda) -> (x, y, z)
 #
@@ -51,6 +58,10 @@ from src.models.registry_2d import build_model_2d  # noqa: E402
 from src.training.fno2d.dataset_loader_2d import (  # noqa: E402
     build_fno2d_dataloaders,
     summarize_fno2d_bundle,
+)
+from src.training.fno2d.normalization_2d import (  # noqa: E402
+    FieldNormalizationStats,
+    denormalize_output_field,
 )
 from src.common.io_utils import load_json  # noqa: E402
 from src.common.paths import get_task_meta_json_path  # noqa: E402
@@ -137,7 +148,7 @@ def compute_relative_l2_np(
             f"pred 和 target shape 必须一致，当前 pred={pred.shape}, target={target.shape}"
         )
 
-    batch_size = pred.shape[0]
+    batch_size = int(pred.shape[0])
     pred_flat = pred.reshape(batch_size, -1)
     target_flat = target.reshape(batch_size, -1)
 
@@ -152,6 +163,11 @@ def compute_relative_l2_np(
 def compute_metrics_2d(pred: np.ndarray, target: np.ndarray) -> dict[str, Any]:
     """
     计算二维场推理指标。
+
+    注意：
+    - pred 和 target 应该已经在物理空间；
+    - 如果训练时使用 standard normalization，
+      需要先反归一化再传入此函数。
     """
     return {
         "mse": compute_mse_np(pred, target),
@@ -162,22 +178,34 @@ def compute_metrics_2d(pred: np.ndarray, target: np.ndarray) -> dict[str, Any]:
 
 
 # ==========================================================
-# 四、模型加载
+# 四、checkpoint / 模型 / normalization 加载
 # ==========================================================
 
-def load_fno2d_checkpoint_model(
+def load_checkpoint_2d(
     checkpoint_path: Path,
     device: str,
-) -> tuple[nn.Module, dict[str, Any]]:
+) -> dict[str, Any]:
     """
-    从 best_model.pt 恢复二维模型。
+    加载二维模型 checkpoint。
+    """
+    if not checkpoint_path.exists():
+        raise FileNotFoundError(f"checkpoint 不存在：{checkpoint_path}")
+
+    return torch.load(checkpoint_path, map_location=device)
+
+
+def load_fno2d_checkpoint_model(
+    checkpoint: dict[str, Any],
+    device: str,
+) -> nn.Module:
+    """
+    从 checkpoint 恢复二维模型。
 
     checkpoint 中需要包含：
     - model_state_dict
     - config
     - config["model_config"]
     """
-    checkpoint = torch.load(checkpoint_path, map_location=device)
     config = checkpoint["config"]
     model_config = config["model_config"]
 
@@ -197,7 +225,45 @@ def load_fno2d_checkpoint_model(
     model = model.to(device)
     model.eval()
 
-    return model, checkpoint
+    return model
+
+
+def get_normalization_method_from_checkpoint(
+    checkpoint: dict[str, Any],
+) -> str:
+    """
+    从 checkpoint config 中读取 normalization 方法。
+    """
+    config = checkpoint.get("config", {})
+    return str(config.get("normalization", "none"))
+
+
+def load_normalization_stats_from_checkpoint(
+    checkpoint: dict[str, Any],
+) -> FieldNormalizationStats:
+    """
+    从 checkpoint config 中读取 FNO2d normalization stats。
+
+    训练时 train_config 里保存了 dataset_summary，
+    dataset_summary 中包含 normalization_stats。
+    """
+    config = checkpoint["config"]
+
+    dataset_summary = config.get("dataset_summary", None)
+    if dataset_summary is None:
+        raise KeyError(
+            "checkpoint['config'] 中没有 dataset_summary，"
+            "无法恢复 normalization_stats。"
+        )
+
+    stats_dict = dataset_summary.get("normalization_stats", None)
+    if stats_dict is None:
+        raise KeyError(
+            "dataset_summary 中没有 normalization_stats，"
+            "无法恢复 normalization stats。"
+        )
+
+    return FieldNormalizationStats.from_dict(stats_dict)
 
 
 # ==========================================================
@@ -216,6 +282,11 @@ def predict_2d_loader(
     返回：
     - predictions: [B, H, W, 3]
     - targets:     [B, H, W, 3]
+
+    注意：
+    - 如果 loader 使用 normalization="standard"，
+      则这里返回的是 normalized space 中的预测和标签；
+    - 后续需要根据 normalization stats 反归一化。
     """
     model.eval()
 
@@ -330,7 +401,7 @@ def time_traditional_for_2d_test_field(
     task_name: str,
     param_name: str,
     param_values: np.ndarray,
-) -> dict[str, Any]:
+) -> Any:
     """
     对二维测试场中的每个参数值重新进行传统数值积分计时。
 
@@ -356,41 +427,47 @@ def time_traditional_for_2d_test_field(
     return traditional_timing
 
 
+def get_traditional_total_seconds(traditional_timing: Any) -> float:
+    """
+    兼容 dict 或 TimingResult 对象。
+    """
+    if isinstance(traditional_timing, dict):
+        if "traditional_total_seconds" in traditional_timing:
+            return float(traditional_timing["traditional_total_seconds"])
+        if "total_seconds" in traditional_timing:
+            return float(traditional_timing["total_seconds"])
+
+    if hasattr(traditional_timing, "total_seconds"):
+        return float(traditional_timing.total_seconds)
+
+    raise TypeError(
+        "无法从 traditional_timing 中读取 total_seconds，"
+        f"当前类型为 {type(traditional_timing)}"
+    )
+
+
 def build_timing_comparison_2d(
     model_timing: dict[str, Any],
-    traditional_timing: dict[str, Any],
+    traditional_timing: Any,
 ) -> dict[str, Any]:
     """
     生成二维模型与传统积分的时间对比结果。
+
+    说明：
+    - model_timing 是 dict；
+    - traditional_timing 可能是 TimingResult 对象，也可能是 dict；
+    - 因此用 get_traditional_total_seconds 统一读取。
     """
     model_total = float(model_timing["model_total_seconds"])
-    traditional_total = float(traditional_timing["traditional_total_seconds"])
+    traditional_total = get_traditional_total_seconds(traditional_timing)
 
     num_samples = int(model_timing["num_samples"])
 
-    model_avg = (
-        model_total / num_samples
-        if num_samples > 0
-        else 0.0
-    )
+    model_avg = model_total / num_samples if num_samples > 0 else 0.0
+    traditional_avg = traditional_total / num_samples if num_samples > 0 else 0.0
 
-    traditional_avg = (
-        traditional_total / num_samples
-        if num_samples > 0
-        else 0.0
-    )
-
-    speedup_total = (
-        traditional_total / model_total
-        if model_total > 0
-        else float("inf")
-    )
-
-    speedup_per_sample = (
-        traditional_avg / model_avg
-        if model_avg > 0
-        else float("inf")
-    )
+    speedup_total = traditional_total / model_total if model_total > 0 else float("inf")
+    speedup_per_sample = traditional_avg / model_avg if model_avg > 0 else float("inf")
 
     return {
         "model_total_seconds": float(model_total),
@@ -427,7 +504,7 @@ def build_parser() -> argparse.ArgumentParser:
         "--model-name",
         type=str,
         required=True,
-        help="二维模型名，例如 fno2d_m1_16_m2_32_w64_d4。",
+        help="二维模型名，例如 fno2d_m1_16_m2_32_w64_d4_norm-standard。",
     )
 
     parser.add_argument(
@@ -468,13 +545,25 @@ def main() -> None:
     )
 
     # ------------------------------------------------------
-    # A. 加载数据
+    # A. 先加载 checkpoint
+    # ------------------------------------------------------
+    checkpoint = load_checkpoint_2d(
+        checkpoint_path=dirs["checkpoint_path"],
+        device=device,
+    )
+
+    normalization_method = get_normalization_method_from_checkpoint(checkpoint)
+    normalization_stats = load_normalization_stats_from_checkpoint(checkpoint)
+
+    # ------------------------------------------------------
+    # B. 用训练时同样的 normalization 构造 test loader
     # ------------------------------------------------------
     _, _, test_loader, bundle = build_fno2d_dataloaders(
         task_name=task_name,
         batch_size=int(args.batch_size),
         num_workers=0,
         sort_param=True,
+        normalization=normalization_method,
     )
 
     bundle_summary = summarize_fno2d_bundle(bundle)
@@ -485,29 +574,45 @@ def main() -> None:
     print(json.dumps(bundle_summary, indent=4, ensure_ascii=False))
 
     # ------------------------------------------------------
-    # B. 加载模型
+    # C. 恢复模型
     # ------------------------------------------------------
-    model, checkpoint = load_fno2d_checkpoint_model(
-        checkpoint_path=dirs["checkpoint_path"],
+    model = load_fno2d_checkpoint_model(
+        checkpoint=checkpoint,
         device=device,
     )
 
     # ------------------------------------------------------
-    # C. 推理并计算误差
+    # D. 推理
     # ------------------------------------------------------
-    predictions, targets = predict_2d_loader(
+    predictions_norm, targets_norm = predict_2d_loader(
         model=model,
         loader=test_loader,
         device=device,
     )
 
+    # ------------------------------------------------------
+    # E. 反归一化到物理空间
+    # ------------------------------------------------------
+    predictions = denormalize_output_field(
+        y_norm=predictions_norm,
+        stats=normalization_stats,
+    )
+
+    targets = denormalize_output_field(
+        y_norm=targets_norm,
+        stats=normalization_stats,
+    )
+
+    # ------------------------------------------------------
+    # F. 在物理空间计算误差
+    # ------------------------------------------------------
     metrics = compute_metrics_2d(
         pred=predictions,
         target=targets,
     )
 
     # ------------------------------------------------------
-    # D. 计时：模型推理
+    # G. 计时：模型推理
     # ------------------------------------------------------
     model_timing = time_model_inference_2d(
         model=model,
@@ -517,7 +622,7 @@ def main() -> None:
     )
 
     # ------------------------------------------------------
-    # E. 计时：传统积分
+    # H. 计时：传统积分
     # ------------------------------------------------------
     param_values = bundle.test_field.param_grid
 
@@ -533,14 +638,18 @@ def main() -> None:
     )
 
     # ------------------------------------------------------
-    # F. 保存结果
+    # I. 保存结果
     # ------------------------------------------------------
     predictions_path = dirs["inference_dir"] / "predictions.npy"
+    predictions_norm_path = dirs["inference_dir"] / "predictions_normalized.npy"
+    targets_path = dirs["inference_dir"] / "targets.npy"
     metrics_path = dirs["inference_dir"] / "metrics.json"
     timing_path = dirs["inference_dir"] / "timing.json"
     summary_path = dirs["analysis_dir"] / "analysis_summary.json"
 
     save_npy(predictions, predictions_path)
+    save_npy(predictions_norm, predictions_norm_path)
+    save_npy(targets, targets_path)
     save_json(metrics, metrics_path)
     save_json(timing, timing_path)
 
@@ -549,11 +658,15 @@ def main() -> None:
         "model_name": model_name,
         "model_type": checkpoint["config"].get("model_type", "unknown"),
         "checkpoint_epoch": checkpoint.get("epoch", None),
+        "normalization_method": normalization_method,
+        "normalization": normalization_stats.to_dict(),
         "dataset_summary": bundle_summary,
         "metrics": metrics,
         "timing": timing,
         "saved_files": {
             "predictions": str(predictions_path),
+            "predictions_normalized": str(predictions_norm_path),
+            "targets": str(targets_path),
             "metrics": str(metrics_path),
             "timing": str(timing_path),
             "analysis_summary": str(summary_path),
@@ -563,12 +676,13 @@ def main() -> None:
     save_json(analysis_summary, summary_path)
 
     # ------------------------------------------------------
-    # G. 打印摘要
+    # J. 打印摘要
     # ------------------------------------------------------
     print("-" * 70)
     print("2D inference analysis finished")
     print(f"Task name          : {task_name}")
     print(f"Model name         : {model_name}")
+    print(f"Normalization      : {normalization_method}")
     print(f"Test MSE           : {metrics['mse']:.6e}")
     print(f"Test Relative L2   : {metrics['relative_l2']:.6e}")
     print(f"Model total time   : {timing['model_total_seconds']:.6e} s")

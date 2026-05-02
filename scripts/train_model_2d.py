@@ -390,6 +390,14 @@ def build_parser() -> argparse.ArgumentParser:
     )
 
     parser.add_argument(
+        "--normalization",
+        type=str,
+        default="none",
+        choices=["none", "standard"],
+        help="FNO2d 输入/输出归一化方式。none 表示不归一化，standard 表示使用 train split 均值方差标准化。",
+    )
+
+    parser.add_argument(
         "--epochs",
         type=int,
         default=300,
@@ -454,13 +462,15 @@ def main() -> None:
     # ------------------------------------------------------
     # A. 由 registry_2d 统一生成模型名
     # ------------------------------------------------------
-    model_name = build_model_name_2d(
+    base_model_name = build_model_name_2d(
         model_type=str(args.model),
         modes1=int(args.modes_param),
         modes2=int(args.modes_lambda),
         width=int(args.width),
         depth=int(args.depth),
     )
+
+    model_name = f"{base_model_name}_norm-{args.normalization}"
 
     dirs = get_model_output_dirs(
         task_name=str(args.task_name),
@@ -475,6 +485,7 @@ def main() -> None:
         batch_size=int(args.batch_size),
         num_workers=0,
         sort_param=True,
+        normalization=str(args.normalization),
     )
 
     bundle_summary = summarize_fno2d_bundle(bundle)
@@ -533,8 +544,10 @@ def main() -> None:
         "weight_decay": float(args.weight_decay),
         "scheduler_gamma": float(args.scheduler_gamma),
         "print_every": int(args.print_every),
+        "normalization": str(args.normalization),
         "num_parameters": int(count_parameters(model)),
         "model_config": model_config,
+        "dataset_summary": bundle_summary,
     }
 
     print("=" * 70)

@@ -5,8 +5,10 @@
 # 1. 读取已有的单参数任务 dataset.npz；
 # 2. 检查该任务是否为单变化参数任务；
 # 3. 将原始 1D trajectory dataset 转换成 FNO2d 的二维场数据；
-# 4. 构造 PyTorch Dataset / DataLoader；
-# 5. 支持 Q-only / a-only / E-only / Lz-only 等单参数任务。
+# 4. 支持 Q-only / a-only / E-only / Lz-only 等单参数任务；
+# 5. 支持 FNO2d 输入/输出标准化：
+#       normalization = "none"
+#       normalization = "standard"
 #
 # 输入数据：
 #   x_train: [N_train, 1]
@@ -30,13 +32,18 @@ import numpy as np
 import torch
 from torch.utils.data import DataLoader, Dataset
 
-from src.common.io_utils import load_npz
+from src.common.io_utils import load_json, load_npz
 from src.common.paths import get_task_dataset_npz_path, get_task_meta_json_path
-from src.common.io_utils import load_json
 from src.training.fno2d.input_builder_2d import (
     FNO2dFieldData,
     build_param_lambda_train_val_test_fields,
     summarize_fno2d_fields,
+)
+from src.training.fno2d.normalization_2d import (
+    FieldNormalizationStats,
+    apply_normalization_to_field_pair,
+    compute_field_normalization_stats,
+    summarize_normalization_stats,
 )
 
 
@@ -64,6 +71,13 @@ class FNO2dDatasetBundle:
 
     - vary_params_order:
         原任务中的变化参数顺序
+
+    - normalization:
+        当前归一化方法："none" 或 "standard"
+
+    - normalization_stats:
+        从 train split 计算出的归一化统计量。
+        val/test 必须使用同一组统计量。
     """
     task_name: str
     param_name: str
@@ -72,6 +86,8 @@ class FNO2dDatasetBundle:
     test_field: FNO2dFieldData
     lambda_grid: np.ndarray
     vary_params_order: list[str]
+    normalization: str
+    normalization_stats: FieldNormalizationStats
 
 
 # ==========================================================
@@ -100,7 +116,8 @@ class FNO2dFieldDataset(Dataset):
 
         if self.x.shape[0] != self.y.shape[0]:
             raise ValueError(
-                f"x 和 y 的 batch 维度必须一致，当前 x={tuple(self.x.shape)}, y={tuple(self.y.shape)}"
+                f"x 和 y 的 batch 维度必须一致，当前 x={tuple(self.x.shape)}, "
+                f"y={tuple(self.y.shape)}"
             )
 
     def __len__(self) -> int:
@@ -194,16 +211,84 @@ def validate_npz_keys(data: dict[str, np.ndarray]) -> None:
 
 
 # ==========================================================
-# 四、构造 FNO2d 数据包
+# 四、归一化后的 field 重建
+# ==========================================================
+
+def rebuild_field_with_normalized_arrays(
+    field: FNO2dFieldData,
+    x_norm: np.ndarray,
+    y_norm: np.ndarray,
+) -> FNO2dFieldData:
+    """
+    用归一化后的 x/y 数组重建 FNO2dFieldData。
+
+    其他网格信息保持不变。
+    """
+    return FNO2dFieldData(
+        x_2d=x_norm,
+        y_2d=y_norm,
+        param_grid=field.param_grid,
+        lambda_grid=field.lambda_grid,
+        param_name=field.param_name,
+        num_param=field.num_param,
+        num_lambda=field.num_lambda,
+        in_dim=field.in_dim,
+        out_dim=field.out_dim,
+    )
+
+
+def apply_normalization_to_fields(
+    fields: dict[str, FNO2dFieldData],
+    normalization: str,
+) -> tuple[dict[str, FNO2dFieldData], FieldNormalizationStats]:
+    """
+    对 train / val / test 三个 field 应用归一化。
+
+    关键原则：
+    - 统计量只从 train field 计算；
+    - val/test 使用 train 统计量；
+    - 不允许从 val/test 计算自己的统计量。
+    """
+    stats = compute_field_normalization_stats(
+        x_train=fields["train"].x_2d,
+        y_train=fields["train"].y_2d,
+        method=normalization,
+    )
+
+    normalized_fields: dict[str, FNO2dFieldData] = {}
+
+    for split_name, field in fields.items():
+        x_norm, y_norm = apply_normalization_to_field_pair(
+            x=field.x_2d,
+            y=field.y_2d,
+            stats=stats,
+        )
+
+        normalized_fields[split_name] = rebuild_field_with_normalized_arrays(
+            field=field,
+            x_norm=x_norm,
+            y_norm=y_norm,
+        )
+
+    return normalized_fields, stats
+
+
+# ==========================================================
+# 五、构造 FNO2d 数据包
 # ==========================================================
 
 def load_fno2d_dataset_bundle(
     task_name: str,
     sort_param: bool = True,
     dtype: np.dtype = np.float32,
+    normalization: str = "none",
 ) -> FNO2dDatasetBundle:
     """
     读取单参数任务，并转换为 FNO2d 数据包。
+
+    参数：
+    - normalization:
+        "none" 或 "standard"
     """
     data = load_raw_task_arrays(task_name)
     validate_npz_keys(data)
@@ -224,6 +309,11 @@ def load_fno2d_dataset_bundle(
         dtype=dtype,
     )
 
+    fields, normalization_stats = apply_normalization_to_fields(
+        fields=fields,
+        normalization=normalization,
+    )
+
     return FNO2dDatasetBundle(
         task_name=task_name,
         param_name=param_name,
@@ -232,17 +322,20 @@ def load_fno2d_dataset_bundle(
         test_field=fields["test"],
         lambda_grid=data["lambda_grid"],
         vary_params_order=vary_params_order,
+        normalization=str(normalization),
+        normalization_stats=normalization_stats,
     )
 
 
 # ==========================================================
-# 五、构造 Dataset / DataLoader
+# 六、构造 Dataset / DataLoader
 # ==========================================================
 
 def build_fno2d_datasets(
     task_name: str,
     sort_param: bool = True,
     dtype: np.dtype = np.float32,
+    normalization: str = "none",
 ) -> tuple[FNO2dFieldDataset, FNO2dFieldDataset, FNO2dFieldDataset, FNO2dDatasetBundle]:
     """
     构造 train / val / test Dataset。
@@ -251,6 +344,7 @@ def build_fno2d_datasets(
         task_name=task_name,
         sort_param=sort_param,
         dtype=dtype,
+        normalization=normalization,
     )
 
     train_dataset = FNO2dFieldDataset(bundle.train_field)
@@ -265,6 +359,7 @@ def build_fno2d_dataloaders(
     batch_size: int = 1,
     num_workers: int = 0,
     sort_param: bool = True,
+    normalization: str = "none",
 ) -> tuple[DataLoader, DataLoader, DataLoader, FNO2dDatasetBundle]:
     """
     构造 train / val / test DataLoader。
@@ -277,6 +372,7 @@ def build_fno2d_dataloaders(
     train_dataset, val_dataset, test_dataset, bundle = build_fno2d_datasets(
         task_name=task_name,
         sort_param=sort_param,
+        normalization=normalization,
     )
 
     train_loader = DataLoader(
@@ -304,7 +400,7 @@ def build_fno2d_dataloaders(
 
 
 # ==========================================================
-# 六、摘要函数
+# 七、摘要函数
 # ==========================================================
 
 def summarize_fno2d_bundle(bundle: FNO2dDatasetBundle) -> dict[str, Any]:
@@ -323,6 +419,8 @@ def summarize_fno2d_bundle(bundle: FNO2dDatasetBundle) -> dict[str, Any]:
         "task_name": bundle.task_name,
         "param_name": bundle.param_name,
         "vary_params_order": bundle.vary_params_order,
+        "normalization": bundle.normalization,
+        "normalization_stats": summarize_normalization_stats(bundle.normalization_stats),
         "train": field_summary["train"],
         "val": field_summary["val"],
         "test": field_summary["test"],
