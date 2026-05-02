@@ -2,11 +2,16 @@
 # File: scripts/train_model_2d.py
 #
 # 功能简介：
-# 1. FNO2d / 其他二维模型的独立训练入口；
+# 1. 二维模型的独立训练入口；
 # 2. 不修改原来的 scripts/train_model.py；
 # 3. 通过 src/models/registry_2d.py 构造二维模型；
 # 4. 当前支持 fno2d；
-# 5. 后续可以扩展 cnn2d / unet2d / fno2d_large 等模型；
+# 5. 支持 normalization：
+#       none
+#       standard
+# 6. 支持 target transform：
+#       raw
+#       residual_initial
 #
 # 当前二维算子任务：
 #
@@ -17,23 +22,18 @@
 # - lambda 是轨道参数方向；
 # - 输出是 Kerr 轨道的 xyz 坐标。
 #
-# 输入数据来自已有的一维任务数据集：
-#
-#       data/tasks/<task_name>/dataset.npz
+# 数据处理顺序：
+#   raw xyz
+#   -> target transform
+#   -> normalization
 #
 # 输出目录：
 #
-#       outputs/<task_name>/<model_name>/
+#   outputs/<task_name>/<model_name>/
 #
 # model_name 示例：
 #
-#       fno2d_m1_16_m2_32_w64_d4
-#
-# 其中：
-# - m1_16：第一个二维方向，即参数 p 方向 modes = 16；
-# - m2_32：第二个二维方向，即 lambda 方向 modes = 32；
-# - w64：hidden width = 64；
-# - d4：FNO block depth = 4。
+#   fno2d_m1_16_m2_32_w64_d4_norm-standard_target-residual_initial_ref0
 # ==========================================================
 
 from __future__ import annotations
@@ -152,7 +152,9 @@ def relative_l2_error(
 
     说明：
     - 这里对每个 batch 样本整体展平后计算；
-    - 对于当前 FNO2d 第一版，每个 split 通常只有一个二维场样本。
+    - 对于当前 FNO2d 第一版，每个 split 通常只有一个二维场样本；
+    - 如果 target transform / normalization 开启，这里的误差是在训练目标空间中计算；
+    - 真正物理空间误差应以后续 run_analysis_2d.py 的反变换结果为准。
     """
     if pred.shape != target.shape:
         raise ValueError(
@@ -380,21 +382,46 @@ def build_parser() -> argparse.ArgumentParser:
     )
 
     # ------------------------------------------------------
-    # D. 训练参数
+    # D. 数据变换参数
+    # ------------------------------------------------------
+    parser.add_argument(
+        "--normalization",
+        type=str,
+        default="none",
+        choices=["none", "standard"],
+        help=(
+            "FNO2d 输入/输出归一化方式。"
+            "none 表示不归一化；standard 表示使用 train split 均值方差标准化。"
+        ),
+    )
+
+    parser.add_argument(
+        "--target-transform",
+        type=str,
+        default="raw",
+        choices=["raw", "residual_initial"],
+        help=(
+            "FNO2d 输出目标变换。"
+            "raw 表示直接学习 xyz；"
+            "residual_initial 表示学习相对参考 lambda 点的残差轨迹。"
+        ),
+    )
+
+    parser.add_argument(
+        "--lambda-reference-index",
+        type=int,
+        default=0,
+        help="residual_initial 使用的参考 lambda 索引，默认 0，即轨道初始点。",
+    )
+
+    # ------------------------------------------------------
+    # E. 训练参数
     # ------------------------------------------------------
     parser.add_argument(
         "--batch-size",
         type=int,
         default=1,
         help="FNO2d 第一版建议保持 1，因为一个完整二维场就是一个样本。",
-    )
-
-    parser.add_argument(
-        "--normalization",
-        type=str,
-        default="none",
-        choices=["none", "standard"],
-        help="FNO2d 输入/输出归一化方式。none 表示不归一化，standard 表示使用 train split 均值方差标准化。",
     )
 
     parser.add_argument(
@@ -460,7 +487,7 @@ def main() -> None:
     device = str(args.device)
 
     # ------------------------------------------------------
-    # A. 由 registry_2d 统一生成模型名
+    # A. 由 registry_2d 统一生成基础模型名
     # ------------------------------------------------------
     base_model_name = build_model_name_2d(
         model_type=str(args.model),
@@ -470,7 +497,15 @@ def main() -> None:
         depth=int(args.depth),
     )
 
-    model_name = f"{base_model_name}_norm-{args.normalization}"
+    # ------------------------------------------------------
+    # B. 给模型名加上实验变换标签，避免覆盖旧结果
+    # ------------------------------------------------------
+    model_name = (
+        f"{base_model_name}"
+        f"_norm-{args.normalization}"
+        f"_target-{args.target_transform}"
+        f"_ref{args.lambda_reference_index}"
+    )
 
     dirs = get_model_output_dirs(
         task_name=str(args.task_name),
@@ -478,7 +513,7 @@ def main() -> None:
     )
 
     # ------------------------------------------------------
-    # B. 加载 FNO2d 数据
+    # C. 加载 FNO2d 数据
     # ------------------------------------------------------
     train_loader, val_loader, test_loader, bundle = build_fno2d_dataloaders(
         task_name=str(args.task_name),
@@ -486,6 +521,8 @@ def main() -> None:
         num_workers=0,
         sort_param=True,
         normalization=str(args.normalization),
+        target_transform=str(args.target_transform),
+        lambda_reference_index=int(args.lambda_reference_index),
     )
 
     bundle_summary = summarize_fno2d_bundle(bundle)
@@ -496,7 +533,7 @@ def main() -> None:
     print(json.dumps(bundle_summary, indent=4, ensure_ascii=False))
 
     # ------------------------------------------------------
-    # C. 通过 registry_2d 构造模型
+    # D. 通过 registry_2d 构造模型
     # ------------------------------------------------------
     model = build_model_2d(
         model_type=str(args.model),
@@ -545,6 +582,8 @@ def main() -> None:
         "scheduler_gamma": float(args.scheduler_gamma),
         "print_every": int(args.print_every),
         "normalization": str(args.normalization),
+        "target_transform": str(args.target_transform),
+        "lambda_reference_index": int(args.lambda_reference_index),
         "num_parameters": int(count_parameters(model)),
         "model_config": model_config,
         "dataset_summary": bundle_summary,
@@ -557,7 +596,7 @@ def main() -> None:
     print("write mode: overwrite same-path files if they already exist")
 
     # ------------------------------------------------------
-    # D. 主训练循环
+    # E. 主训练循环
     # ------------------------------------------------------
     history = {
         "train_mse": [],
@@ -629,7 +668,7 @@ def main() -> None:
             )
 
     # ------------------------------------------------------
-    # E. 加载 best model 并做 test
+    # F. 加载 best model 并做 test
     # ------------------------------------------------------
     best_ckpt_path = dirs["checkpoints_dir"] / "best_model.pt"
     checkpoint = torch.load(best_ckpt_path, map_location=device)
@@ -644,7 +683,7 @@ def main() -> None:
     train_total_seconds = perf_counter() - train_start_time
 
     # ------------------------------------------------------
-    # F. 保存 history / summary
+    # G. 保存 history / summary
     # ------------------------------------------------------
     save_json(
         history,
@@ -655,6 +694,9 @@ def main() -> None:
         "task_name": str(args.task_name),
         "model_name": model_name,
         "model_type": str(args.model),
+        "normalization": str(args.normalization),
+        "target_transform": str(args.target_transform),
+        "lambda_reference_index": int(args.lambda_reference_index),
         "best_epoch": int(best_epoch),
         "best_val_mse": float(best_val_mse),
         "test_mse": float(test_mse),

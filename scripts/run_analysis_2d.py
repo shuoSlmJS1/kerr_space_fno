@@ -6,11 +6,16 @@
 # 2. 不修改原来的 scripts/run_analysis.py；
 # 3. 支持通过 registry_2d.py 恢复二维模型；
 # 4. 支持 normalization = none / standard；
-# 5. 如果模型训练时使用 standard normalization，
-#    则分析时：
-#       - 使用同样 normalization 构造输入；
-#       - 模型输出先反归一化回物理空间；
-#       - 再计算 MSE / Relative L2；
+# 5. 支持 target transform = raw / residual_initial；
+# 6. 如果训练时使用 standard normalization 和 residual_initial，
+#    则分析时执行：
+#
+#       model output
+#       -> denormalization
+#       -> inverse target transform
+#       -> raw xyz physical space
+#
+# 7. 最终在物理空间 raw xyz 上计算 MSE / Relative L2。
 #
 # 当前二维算子任务：
 #
@@ -62,6 +67,10 @@ from src.training.fno2d.dataset_loader_2d import (  # noqa: E402
 from src.training.fno2d.normalization_2d import (  # noqa: E402
     FieldNormalizationStats,
     denormalize_output_field,
+)
+from src.training.fno2d.target_transform_2d import (  # noqa: E402
+    TargetTransformConfig,
+    inverse_transform_output_field,
 )
 from src.common.io_utils import load_json  # noqa: E402
 from src.common.paths import get_task_meta_json_path  # noqa: E402
@@ -165,9 +174,9 @@ def compute_metrics_2d(pred: np.ndarray, target: np.ndarray) -> dict[str, Any]:
     计算二维场推理指标。
 
     注意：
-    - pred 和 target 应该已经在物理空间；
-    - 如果训练时使用 standard normalization，
-      需要先反归一化再传入此函数。
+    - pred 和 target 必须已经在 raw xyz 物理空间；
+    - 如果训练时使用 normalization / target transform，
+      必须先完成反归一化和 inverse transform 再传入。
     """
     return {
         "mse": compute_mse_np(pred, target),
@@ -178,7 +187,7 @@ def compute_metrics_2d(pred: np.ndarray, target: np.ndarray) -> dict[str, Any]:
 
 
 # ==========================================================
-# 四、checkpoint / 模型 / normalization 加载
+# 四、checkpoint / 模型 / 变换配置加载
 # ==========================================================
 
 def load_checkpoint_2d(
@@ -238,6 +247,26 @@ def get_normalization_method_from_checkpoint(
     return str(config.get("normalization", "none"))
 
 
+def get_target_transform_method_from_checkpoint(
+    checkpoint: dict[str, Any],
+) -> str:
+    """
+    从 checkpoint config 中读取 target transform 方法。
+    """
+    config = checkpoint.get("config", {})
+    return str(config.get("target_transform", "raw"))
+
+
+def get_lambda_reference_index_from_checkpoint(
+    checkpoint: dict[str, Any],
+) -> int:
+    """
+    从 checkpoint config 中读取 residual_initial 的参考 lambda 索引。
+    """
+    config = checkpoint.get("config", {})
+    return int(config.get("lambda_reference_index", 0))
+
+
 def load_normalization_stats_from_checkpoint(
     checkpoint: dict[str, Any],
 ) -> FieldNormalizationStats:
@@ -266,6 +295,29 @@ def load_normalization_stats_from_checkpoint(
     return FieldNormalizationStats.from_dict(stats_dict)
 
 
+def load_target_transform_config_from_checkpoint(
+    checkpoint: dict[str, Any],
+) -> TargetTransformConfig:
+    """
+    从 checkpoint config 中读取 target transform config。
+
+    优先读取 dataset_summary 中的 target_transform_config；
+    如果没有，则从 config 顶层字段恢复。
+    """
+    config = checkpoint["config"]
+
+    dataset_summary = config.get("dataset_summary", {})
+    transform_dict = dataset_summary.get("target_transform_config", None)
+
+    if transform_dict is not None:
+        return TargetTransformConfig.from_dict(transform_dict)
+
+    return TargetTransformConfig(
+        mode=get_target_transform_method_from_checkpoint(checkpoint),
+        lambda_reference_index=get_lambda_reference_index_from_checkpoint(checkpoint),
+    )
+
+
 # ==========================================================
 # 五、模型推理与计时
 # ==========================================================
@@ -284,9 +336,10 @@ def predict_2d_loader(
     - targets:     [B, H, W, 3]
 
     注意：
-    - 如果 loader 使用 normalization="standard"，
-      则这里返回的是 normalized space 中的预测和标签；
-    - 后续需要根据 normalization stats 反归一化。
+    - 这里返回的是模型训练目标空间中的结果；
+    - 如果使用 standard normalization，则是 normalized target space；
+    - 如果使用 residual_initial，则是 residual target space；
+    - 后续必须做 inverse pipeline 才能回到 raw xyz。
     """
     model.eval()
 
@@ -373,7 +426,115 @@ def time_model_inference_2d(
 
 
 # ==========================================================
-# 六、传统数值计算计时
+# 六、raw target loader：用于 inverse target transform
+# ==========================================================
+
+def load_raw_test_targets_for_inverse(
+    task_name: str,
+    batch_size: int,
+) -> tuple[np.ndarray, Any]:
+    """
+    构造 raw target test loader，用于 inverse target transform。
+
+    为什么需要：
+    - residual_initial 的 inverse transform 需要 raw y 的参考点 y(lambda_0)；
+    - 训练/推理 loader 中的 y 可能已经经过 residual + normalization；
+    - 因此这里单独加载 raw y_test。
+    """
+    _, _, raw_test_loader, raw_bundle = build_fno2d_dataloaders(
+        task_name=task_name,
+        batch_size=batch_size,
+        num_workers=0,
+        sort_param=True,
+        normalization="none",
+        target_transform="raw",
+        lambda_reference_index=0,
+    )
+
+    raw_targets = []
+
+    for _, y_raw in raw_test_loader:
+        raw_targets.append(y_raw.detach().cpu().numpy())
+
+    raw_targets_np = np.concatenate(raw_targets, axis=0)
+
+    return raw_targets_np, raw_bundle
+
+
+# ==========================================================
+# 七、inverse pipeline
+# ==========================================================
+
+def recover_predictions_and_targets_to_raw_xyz(
+    predictions_model_space: np.ndarray,
+    targets_model_space: np.ndarray,
+    raw_targets_reference: np.ndarray,
+    normalization_stats: FieldNormalizationStats,
+    target_transform_config: TargetTransformConfig,
+) -> tuple[np.ndarray, np.ndarray]:
+    """
+    将模型输出和标签从训练目标空间恢复到 raw xyz 物理空间。
+
+    恢复顺序：
+    1. denormalize:
+        normalized target -> transformed target
+
+    2. inverse target transform:
+        transformed target -> raw xyz
+
+    输入：
+    - predictions_model_space:
+        模型输出，可能是 normalized residual / normalized raw / raw 等。
+
+    - targets_model_space:
+        loader 给出的标签，处于同样的训练目标空间。
+
+    - raw_targets_reference:
+        原始 raw xyz test target，用于 residual_initial 的参考点。
+
+    - normalization_stats:
+        训练时保存的 normalization stats。
+
+    - target_transform_config:
+        训练时保存的 target transform config。
+
+    输出：
+    - predictions_raw
+    - targets_raw
+    """
+    # ------------------------------------------------------
+    # A. 先从 normalized target space 还原到 transformed target space
+    # ------------------------------------------------------
+    predictions_transformed = denormalize_output_field(
+        y_norm=predictions_model_space,
+        stats=normalization_stats,
+    )
+
+    targets_transformed = denormalize_output_field(
+        y_norm=targets_model_space,
+        stats=normalization_stats,
+    )
+
+    # ------------------------------------------------------
+    # B. 再从 transformed target space 还原到 raw xyz physical space
+    # ------------------------------------------------------
+    predictions_raw = inverse_transform_output_field(
+        transformed_y=predictions_transformed,
+        reference_y_raw=raw_targets_reference,
+        config=target_transform_config,
+    )
+
+    targets_raw = inverse_transform_output_field(
+        transformed_y=targets_transformed,
+        reference_y_raw=raw_targets_reference,
+        config=target_transform_config,
+    )
+
+    return predictions_raw, targets_raw
+
+
+# ==========================================================
+# 八、传统数值计算计时
 # ==========================================================
 
 def load_task_fixed_info(task_name: str) -> tuple[dict[str, Any], int, float]:
@@ -452,11 +613,6 @@ def build_timing_comparison_2d(
 ) -> dict[str, Any]:
     """
     生成二维模型与传统积分的时间对比结果。
-
-    说明：
-    - model_timing 是 dict；
-    - traditional_timing 可能是 TimingResult 对象，也可能是 dict；
-    - 因此用 get_traditional_total_seconds 统一读取。
     """
     model_total = float(model_timing["model_total_seconds"])
     traditional_total = get_traditional_total_seconds(traditional_timing)
@@ -482,7 +638,7 @@ def build_timing_comparison_2d(
 
 
 # ==========================================================
-# 七、命令行
+# 九、命令行
 # ==========================================================
 
 def build_parser() -> argparse.ArgumentParser:
@@ -504,7 +660,10 @@ def build_parser() -> argparse.ArgumentParser:
         "--model-name",
         type=str,
         required=True,
-        help="二维模型名，例如 fno2d_m1_16_m2_32_w64_d4_norm-standard。",
+        help=(
+            "二维模型名，例如 "
+            "fno2d_m1_16_m2_32_w64_d4_norm-standard_target-residual_initial_ref0。"
+        ),
     )
 
     parser.add_argument(
@@ -525,7 +684,7 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 # ==========================================================
-# 八、主流程
+# 十、主流程
 # ==========================================================
 
 def main() -> None:
@@ -538,6 +697,7 @@ def main() -> None:
     task_name = str(args.task_name)
     model_name = str(args.model_name)
     device = str(args.device)
+    batch_size = int(args.batch_size)
 
     dirs = get_2d_model_dirs(
         task_name=task_name,
@@ -554,19 +714,31 @@ def main() -> None:
 
     normalization_method = get_normalization_method_from_checkpoint(checkpoint)
     normalization_stats = load_normalization_stats_from_checkpoint(checkpoint)
+    target_transform_method = get_target_transform_method_from_checkpoint(checkpoint)
+    target_transform_config = load_target_transform_config_from_checkpoint(checkpoint)
 
     # ------------------------------------------------------
-    # B. 用训练时同样的 normalization 构造 test loader
+    # B. 用训练时同样的 normalization / target transform 构造 test loader
     # ------------------------------------------------------
     _, _, test_loader, bundle = build_fno2d_dataloaders(
         task_name=task_name,
-        batch_size=int(args.batch_size),
+        batch_size=batch_size,
         num_workers=0,
         sort_param=True,
         normalization=normalization_method,
+        target_transform=target_transform_method,
+        lambda_reference_index=target_transform_config.lambda_reference_index,
     )
 
     bundle_summary = summarize_fno2d_bundle(bundle)
+
+    # ------------------------------------------------------
+    # C. 额外加载 raw y_test，供 inverse target transform 使用
+    # ------------------------------------------------------
+    raw_targets_reference, raw_bundle = load_raw_test_targets_for_inverse(
+        task_name=task_name,
+        batch_size=batch_size,
+    )
 
     print("=" * 70)
     print("Loaded 2D test dataset summary")
@@ -574,7 +746,7 @@ def main() -> None:
     print(json.dumps(bundle_summary, indent=4, ensure_ascii=False))
 
     # ------------------------------------------------------
-    # C. 恢复模型
+    # D. 恢复模型
     # ------------------------------------------------------
     model = load_fno2d_checkpoint_model(
         checkpoint=checkpoint,
@@ -582,29 +754,27 @@ def main() -> None:
     )
 
     # ------------------------------------------------------
-    # D. 推理
+    # E. 推理，得到训练目标空间中的预测和标签
     # ------------------------------------------------------
-    predictions_norm, targets_norm = predict_2d_loader(
+    predictions_model_space, targets_model_space = predict_2d_loader(
         model=model,
         loader=test_loader,
         device=device,
     )
 
     # ------------------------------------------------------
-    # E. 反归一化到物理空间
+    # F. 恢复到 raw xyz 物理空间
     # ------------------------------------------------------
-    predictions = denormalize_output_field(
-        y_norm=predictions_norm,
-        stats=normalization_stats,
-    )
-
-    targets = denormalize_output_field(
-        y_norm=targets_norm,
-        stats=normalization_stats,
+    predictions, targets = recover_predictions_and_targets_to_raw_xyz(
+        predictions_model_space=predictions_model_space,
+        targets_model_space=targets_model_space,
+        raw_targets_reference=raw_targets_reference,
+        normalization_stats=normalization_stats,
+        target_transform_config=target_transform_config,
     )
 
     # ------------------------------------------------------
-    # F. 在物理空间计算误差
+    # G. 在 raw xyz 物理空间计算误差
     # ------------------------------------------------------
     metrics = compute_metrics_2d(
         pred=predictions,
@@ -612,7 +782,7 @@ def main() -> None:
     )
 
     # ------------------------------------------------------
-    # G. 计时：模型推理
+    # H. 计时：模型推理
     # ------------------------------------------------------
     model_timing = time_model_inference_2d(
         model=model,
@@ -622,7 +792,7 @@ def main() -> None:
     )
 
     # ------------------------------------------------------
-    # H. 计时：传统积分
+    # I. 计时：传统积分
     # ------------------------------------------------------
     param_values = bundle.test_field.param_grid
 
@@ -638,18 +808,22 @@ def main() -> None:
     )
 
     # ------------------------------------------------------
-    # I. 保存结果
+    # J. 保存结果
     # ------------------------------------------------------
     predictions_path = dirs["inference_dir"] / "predictions.npy"
-    predictions_norm_path = dirs["inference_dir"] / "predictions_normalized.npy"
+    predictions_model_space_path = dirs["inference_dir"] / "predictions_model_space.npy"
     targets_path = dirs["inference_dir"] / "targets.npy"
+    targets_model_space_path = dirs["inference_dir"] / "targets_model_space.npy"
+    raw_targets_reference_path = dirs["inference_dir"] / "targets_raw_reference.npy"
     metrics_path = dirs["inference_dir"] / "metrics.json"
     timing_path = dirs["inference_dir"] / "timing.json"
     summary_path = dirs["analysis_dir"] / "analysis_summary.json"
 
     save_npy(predictions, predictions_path)
-    save_npy(predictions_norm, predictions_norm_path)
+    save_npy(predictions_model_space, predictions_model_space_path)
     save_npy(targets, targets_path)
+    save_npy(targets_model_space, targets_model_space_path)
+    save_npy(raw_targets_reference, raw_targets_reference_path)
     save_json(metrics, metrics_path)
     save_json(timing, timing_path)
 
@@ -660,13 +834,18 @@ def main() -> None:
         "checkpoint_epoch": checkpoint.get("epoch", None),
         "normalization_method": normalization_method,
         "normalization": normalization_stats.to_dict(),
+        "target_transform_method": target_transform_method,
+        "target_transform": target_transform_config.to_dict(),
         "dataset_summary": bundle_summary,
+        "raw_dataset_summary": summarize_fno2d_bundle(raw_bundle),
         "metrics": metrics,
         "timing": timing,
         "saved_files": {
             "predictions": str(predictions_path),
-            "predictions_normalized": str(predictions_norm_path),
+            "predictions_model_space": str(predictions_model_space_path),
             "targets": str(targets_path),
+            "targets_model_space": str(targets_model_space_path),
+            "raw_targets_reference": str(raw_targets_reference_path),
             "metrics": str(metrics_path),
             "timing": str(timing_path),
             "analysis_summary": str(summary_path),
@@ -676,13 +855,14 @@ def main() -> None:
     save_json(analysis_summary, summary_path)
 
     # ------------------------------------------------------
-    # J. 打印摘要
+    # K. 打印摘要
     # ------------------------------------------------------
     print("-" * 70)
     print("2D inference analysis finished")
     print(f"Task name          : {task_name}")
     print(f"Model name         : {model_name}")
     print(f"Normalization      : {normalization_method}")
+    print(f"Target transform   : {target_transform_method}")
     print(f"Test MSE           : {metrics['mse']:.6e}")
     print(f"Test Relative L2   : {metrics['relative_l2']:.6e}")
     print(f"Model total time   : {timing['model_total_seconds']:.6e} s")

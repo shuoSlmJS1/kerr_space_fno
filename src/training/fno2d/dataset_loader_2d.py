@@ -6,9 +6,17 @@
 # 2. 检查该任务是否为单变化参数任务；
 # 3. 将原始 1D trajectory dataset 转换成 FNO2d 的二维场数据；
 # 4. 支持 Q-only / a-only / E-only / Lz-only 等单参数任务；
-# 5. 支持 FNO2d 输入/输出标准化：
-#       normalization = "none"
-#       normalization = "standard"
+# 5. 支持 target transform：
+#       raw
+#       residual_initial
+# 6. 支持 normalization：
+#       none
+#       standard
+#
+# 数据处理顺序：
+#   raw xyz
+#   -> target transform
+#   -> normalization
 #
 # 输入数据：
 #   x_train: [N_train, 1]
@@ -45,6 +53,11 @@ from src.training.fno2d.normalization_2d import (
     compute_field_normalization_stats,
     summarize_normalization_stats,
 )
+from src.training.fno2d.target_transform_2d import (
+    TargetTransformConfig,
+    summarize_target_transform_config,
+    transform_output_field,
+)
 
 
 # ==========================================================
@@ -58,26 +71,33 @@ class FNO2dDatasetBundle:
 
     字段说明：
     - task_name:
-        当前任务名
+        当前任务名。
 
     - param_name:
-        单变化参数名，例如 Q / a / E / Lz
+        单变化参数名，例如 Q / a / E / Lz。
 
     - train_field / val_field / test_field:
-        train / val / test 对应的二维场数据
+        train / val / test 对应的二维场数据。
+        注意：其中 y_2d 已经经过 target transform 和 normalization。
 
     - lambda_grid:
-        lambda 网格
+        lambda 网格。
 
     - vary_params_order:
-        原任务中的变化参数顺序
+        原任务中的变化参数顺序。
 
     - normalization:
-        当前归一化方法："none" 或 "standard"
+        当前归一化方法："none" 或 "standard"。
 
     - normalization_stats:
         从 train split 计算出的归一化统计量。
         val/test 必须使用同一组统计量。
+
+    - target_transform:
+        当前 target transform 方法："raw" 或 "residual_initial"。
+
+    - target_transform_config:
+        target transform 配置对象。
     """
     task_name: str
     param_name: str
@@ -88,6 +108,8 @@ class FNO2dDatasetBundle:
     vary_params_order: list[str]
     normalization: str
     normalization_stats: FieldNormalizationStats
+    target_transform: str
+    target_transform_config: TargetTransformConfig
 
 
 # ==========================================================
@@ -211,22 +233,22 @@ def validate_npz_keys(data: dict[str, np.ndarray]) -> None:
 
 
 # ==========================================================
-# 四、归一化后的 field 重建
+# 四、field 重建工具
 # ==========================================================
 
-def rebuild_field_with_normalized_arrays(
+def rebuild_field_with_arrays(
     field: FNO2dFieldData,
-    x_norm: np.ndarray,
-    y_norm: np.ndarray,
+    x_new: np.ndarray | None = None,
+    y_new: np.ndarray | None = None,
 ) -> FNO2dFieldData:
     """
-    用归一化后的 x/y 数组重建 FNO2dFieldData。
+    用新的 x/y 数组重建 FNO2dFieldData。
 
-    其他网格信息保持不变。
+    如果 x_new 或 y_new 为 None，则保留原数组。
     """
     return FNO2dFieldData(
-        x_2d=x_norm,
-        y_2d=y_norm,
+        x_2d=field.x_2d if x_new is None else x_new,
+        y_2d=field.y_2d if y_new is None else y_new,
         param_grid=field.param_grid,
         lambda_grid=field.lambda_grid,
         param_name=field.param_name,
@@ -236,6 +258,48 @@ def rebuild_field_with_normalized_arrays(
         out_dim=field.out_dim,
     )
 
+
+# ==========================================================
+# 五、target transform
+# ==========================================================
+
+def apply_target_transform_to_fields(
+    fields: dict[str, FNO2dFieldData],
+    target_transform: str,
+    lambda_reference_index: int = 0,
+) -> tuple[dict[str, FNO2dFieldData], TargetTransformConfig]:
+    """
+    对 train / val / test 的 y_2d 应用 target transform。
+
+    重要：
+    - x_2d 不变；
+    - y_2d 会从 raw xyz 变成 raw / residual_initial；
+    - normalization 应该在 target transform 之后再做。
+    """
+    config = TargetTransformConfig(
+        mode=str(target_transform),
+        lambda_reference_index=int(lambda_reference_index),
+    )
+
+    transformed_fields: dict[str, FNO2dFieldData] = {}
+
+    for split_name, field in fields.items():
+        y_transformed = transform_output_field(
+            y=field.y_2d,
+            config=config,
+        )
+
+        transformed_fields[split_name] = rebuild_field_with_arrays(
+            field=field,
+            y_new=y_transformed,
+        )
+
+    return transformed_fields, config
+
+
+# ==========================================================
+# 六、normalization
+# ==========================================================
 
 def apply_normalization_to_fields(
     fields: dict[str, FNO2dFieldData],
@@ -248,6 +312,9 @@ def apply_normalization_to_fields(
     - 统计量只从 train field 计算；
     - val/test 使用 train 统计量；
     - 不允许从 val/test 计算自己的统计量。
+
+    注意：
+    - 此处的 y_2d 应该已经经过 target transform。
     """
     stats = compute_field_normalization_stats(
         x_train=fields["train"].x_2d,
@@ -264,17 +331,17 @@ def apply_normalization_to_fields(
             stats=stats,
         )
 
-        normalized_fields[split_name] = rebuild_field_with_normalized_arrays(
+        normalized_fields[split_name] = rebuild_field_with_arrays(
             field=field,
-            x_norm=x_norm,
-            y_norm=y_norm,
+            x_new=x_norm,
+            y_new=y_norm,
         )
 
     return normalized_fields, stats
 
 
 # ==========================================================
-# 五、构造 FNO2d 数据包
+# 七、构造 FNO2d 数据包
 # ==========================================================
 
 def load_fno2d_dataset_bundle(
@@ -282,6 +349,8 @@ def load_fno2d_dataset_bundle(
     sort_param: bool = True,
     dtype: np.dtype = np.float32,
     normalization: str = "none",
+    target_transform: str = "raw",
+    lambda_reference_index: int = 0,
 ) -> FNO2dDatasetBundle:
     """
     读取单参数任务，并转换为 FNO2d 数据包。
@@ -289,6 +358,12 @@ def load_fno2d_dataset_bundle(
     参数：
     - normalization:
         "none" 或 "standard"
+
+    - target_transform:
+        "raw" 或 "residual_initial"
+
+    - lambda_reference_index:
+        residual_initial 使用的参考 lambda 索引。
     """
     data = load_raw_task_arrays(task_name)
     validate_npz_keys(data)
@@ -296,6 +371,9 @@ def load_fno2d_dataset_bundle(
     vary_params_order = load_task_vary_params_order(task_name)
     param_name = validate_single_param_task(vary_params_order)
 
+    # ------------------------------------------------------
+    # A. 从原始 1D 数据构造 raw FNO2d fields
+    # ------------------------------------------------------
     fields = build_param_lambda_train_val_test_fields(
         x_train_raw=data["x_train"],
         y_train=data["y_train"],
@@ -309,6 +387,18 @@ def load_fno2d_dataset_bundle(
         dtype=dtype,
     )
 
+    # ------------------------------------------------------
+    # B. 先做 target transform
+    # ------------------------------------------------------
+    fields, target_transform_config = apply_target_transform_to_fields(
+        fields=fields,
+        target_transform=target_transform,
+        lambda_reference_index=lambda_reference_index,
+    )
+
+    # ------------------------------------------------------
+    # C. 再做 normalization
+    # ------------------------------------------------------
     fields, normalization_stats = apply_normalization_to_fields(
         fields=fields,
         normalization=normalization,
@@ -324,11 +414,13 @@ def load_fno2d_dataset_bundle(
         vary_params_order=vary_params_order,
         normalization=str(normalization),
         normalization_stats=normalization_stats,
+        target_transform=str(target_transform),
+        target_transform_config=target_transform_config,
     )
 
 
 # ==========================================================
-# 六、构造 Dataset / DataLoader
+# 八、构造 Dataset / DataLoader
 # ==========================================================
 
 def build_fno2d_datasets(
@@ -336,6 +428,8 @@ def build_fno2d_datasets(
     sort_param: bool = True,
     dtype: np.dtype = np.float32,
     normalization: str = "none",
+    target_transform: str = "raw",
+    lambda_reference_index: int = 0,
 ) -> tuple[FNO2dFieldDataset, FNO2dFieldDataset, FNO2dFieldDataset, FNO2dDatasetBundle]:
     """
     构造 train / val / test Dataset。
@@ -345,6 +439,8 @@ def build_fno2d_datasets(
         sort_param=sort_param,
         dtype=dtype,
         normalization=normalization,
+        target_transform=target_transform,
+        lambda_reference_index=lambda_reference_index,
     )
 
     train_dataset = FNO2dFieldDataset(bundle.train_field)
@@ -360,6 +456,8 @@ def build_fno2d_dataloaders(
     num_workers: int = 0,
     sort_param: bool = True,
     normalization: str = "none",
+    target_transform: str = "raw",
+    lambda_reference_index: int = 0,
 ) -> tuple[DataLoader, DataLoader, DataLoader, FNO2dDatasetBundle]:
     """
     构造 train / val / test DataLoader。
@@ -373,6 +471,8 @@ def build_fno2d_dataloaders(
         task_name=task_name,
         sort_param=sort_param,
         normalization=normalization,
+        target_transform=target_transform,
+        lambda_reference_index=lambda_reference_index,
     )
 
     train_loader = DataLoader(
@@ -400,7 +500,7 @@ def build_fno2d_dataloaders(
 
 
 # ==========================================================
-# 七、摘要函数
+# 九、摘要函数
 # ==========================================================
 
 def summarize_fno2d_bundle(bundle: FNO2dDatasetBundle) -> dict[str, Any]:
@@ -421,6 +521,10 @@ def summarize_fno2d_bundle(bundle: FNO2dDatasetBundle) -> dict[str, Any]:
         "vary_params_order": bundle.vary_params_order,
         "normalization": bundle.normalization,
         "normalization_stats": summarize_normalization_stats(bundle.normalization_stats),
+        "target_transform": bundle.target_transform,
+        "target_transform_config": summarize_target_transform_config(
+            bundle.target_transform_config
+        ),
         "train": field_summary["train"],
         "val": field_summary["val"],
         "test": field_summary["test"],
