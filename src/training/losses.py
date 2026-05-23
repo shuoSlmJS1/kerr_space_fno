@@ -40,6 +40,22 @@ def build_mse_loss() -> nn.Module:
 # 二、误差指标
 # ==========================================================
 
+def _reshape_trajectory_samples(array: torch.Tensor) -> torch.Tensor:
+    """
+    将轨道张量整理为 [N_traj, T * C]。
+
+    - 1D: [B, T, C] -> B 条轨道；
+    - 2D: [B_field, N_param, T, C] -> B_field * N_param 条轨道。
+    """
+    if array.ndim >= 3:
+        return array.reshape(-1, array.shape[-2] * array.shape[-1])
+
+    if array.ndim == 2:
+        return array.reshape(array.shape[0], -1)
+
+    raise ValueError(f"Relative L2 至少需要 2 维张量，当前 shape={tuple(array.shape)}")
+
+
 def relative_l2_error(
     pred: torch.Tensor,
     target: torch.Tensor,
@@ -68,10 +84,8 @@ def relative_l2_error(
             f"pred 和 target 的形状必须一致，当前得到：pred={tuple(pred.shape)}, target={tuple(target.shape)}"
         )
 
-    batch_size = pred.shape[0]
-
-    pred_flat = pred.reshape(batch_size, -1)
-    target_flat = target.reshape(batch_size, -1)
+    pred_flat = _reshape_trajectory_samples(pred)
+    target_flat = _reshape_trajectory_samples(target)
 
     diff_norm = torch.norm(pred_flat - target_flat, p=2, dim=1)
     target_norm = torch.norm(target_flat, p=2, dim=1)

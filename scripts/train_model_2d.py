@@ -139,22 +139,43 @@ def mse_loss(pred: torch.Tensor, target: torch.Tensor) -> torch.Tensor:
     return torch.mean((pred - target) ** 2)
 
 
+def _reshape_trajectory_samples(array: torch.Tensor) -> torch.Tensor:
+    """
+    将轨道预测张量整理为 [N_traj, T * C]。
+
+    统一约定：
+    - 1D FNO 输出通常是 [B, T, C]，每个 B 是一条轨道；
+    - 2D FNO 输出通常是 [B_field, N_param, T, C]，每个 (field, param) 是一条轨道；
+    - C 通常为 3，对应 xyz。
+
+    因此，对于 ndim >= 3 且最后一维是坐标通道的张量，
+    所有倒数第二维 T 之前的维度都视为“轨道样本维”。
+    """
+    if array.ndim >= 3:
+        return array.reshape(-1, array.shape[-2] * array.shape[-1])
+
+    if array.ndim == 2:
+        return array.reshape(array.shape[0], -1)
+
+    raise ValueError(f"relative_l2_error 至少需要 2 维张量，当前 shape={tuple(array.shape)}")
+
+
 def relative_l2_error(
     pred: torch.Tensor,
     target: torch.Tensor,
     eps: float = 1e-12,
 ) -> torch.Tensor:
     """
-    计算 Relative L2 error。
+    计算统一口径的轨道级 Relative L2。
 
-    公式：
-        ||pred - target||_2 / ||target||_2
+    计算方式：
+        先把 pred/target 整理成 [N_traj, T*C]；
+        对每条轨道分别计算 ||pred_i-target_i||_2 / ||target_i||_2；
+        最后对所有轨道取平均。
 
-    说明：
-    - 这里对每个 batch 样本整体展平后计算；
-    - 对于当前 FNO2d 第一版，每个 split 通常只有一个二维场样本；
-    - 如果 target transform / normalization 开启，这里的误差是在训练目标空间中计算；
-    - 真正物理空间误差应以后续 run_analysis_2d.py 的反变换结果为准。
+    对 2D FNO：
+        [B_field, N_param, T, 3] 会被视为 B_field * N_param 条轨道，
+        不再把一个完整二维场当成一个样本来算 Relative L2。
     """
     if pred.shape != target.shape:
         raise ValueError(
@@ -162,16 +183,11 @@ def relative_l2_error(
             f"target={tuple(target.shape)}"
         )
 
-    diff_norm = torch.linalg.norm(
-        (pred - target).reshape(pred.shape[0], -1),
-        dim=1,
-    )
+    pred_flat = _reshape_trajectory_samples(pred)
+    target_flat = _reshape_trajectory_samples(target)
 
-    target_norm = torch.linalg.norm(
-        target.reshape(target.shape[0], -1),
-        dim=1,
-    )
-
+    diff_norm = torch.linalg.norm(pred_flat - target_flat, dim=1)
+    target_norm = torch.linalg.norm(target_flat, dim=1)
     rel = diff_norm / (target_norm + eps)
 
     return torch.mean(rel)
@@ -323,8 +339,42 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--task-name",
         type=str,
-        required=True,
-        help="已有单参数任务名，例如 vary_Q__Q1.6_3__n2000__T1200__cfg1。",
+        default=None,
+        help=(
+            "已有单参数任务名，例如 vary_Q__Q1.6_3__n2000__T1200__cfg1。"
+            "旧的单 cfg 模式使用这个参数。"
+        ),
+    )
+
+    parser.add_argument(
+        "--task-names",
+        type=str,
+        nargs="+",
+        default=None,
+        help=(
+            "多 cfg 模式：传入多个同结构单参数任务名。"
+            "例如多个 vary_Q__...__cfg_a042/cfg_a046/...。"
+        ),
+    )
+
+    parser.add_argument(
+        "--cfg-param-name",
+        type=str,
+        default=None,
+        help=(
+            "多 cfg 模式下作为条件输入通道的固定参数名，例如 a。"
+            "模型输入会从 [Q, lambda] 变成 [Q, lambda, a]。"
+        ),
+    )
+
+    parser.add_argument(
+        "--output-task-name",
+        type=str,
+        default=None,
+        help=(
+            "多 cfg 模式输出目录使用的任务名。"
+            "如果不提供，会自动用 multi_cfg__... 生成一个很长的名字。"
+        ),
     )
 
     parser.add_argument(
@@ -484,6 +534,16 @@ def main() -> None:
         print(get_model_help_text_2d())
         return
 
+    if args.task_names is None and args.task_name is None:
+        raise ValueError("必须提供 --task-name 或 --task-names。")
+
+    if args.task_names is not None and len(args.task_names) > 0:
+        if args.cfg_param_name is None:
+            raise ValueError("使用 --task-names 多 cfg 模式时，必须提供 --cfg-param-name。")
+        effective_task_name = str(args.output_task_name or "multi_cfg_2d")
+    else:
+        effective_task_name = str(args.task_name)
+
     device = str(args.device)
 
     # ------------------------------------------------------
@@ -508,7 +568,7 @@ def main() -> None:
     )
 
     dirs = get_model_output_dirs(
-        task_name=str(args.task_name),
+        task_name=effective_task_name,
         model_name=model_name,
     )
 
@@ -516,7 +576,10 @@ def main() -> None:
     # C. 加载 FNO2d 数据
     # ------------------------------------------------------
     train_loader, val_loader, test_loader, bundle = build_fno2d_dataloaders(
-        task_name=str(args.task_name),
+        task_name=args.task_name,
+        task_names=args.task_names,
+        cfg_param_name=args.cfg_param_name,
+        output_task_name=effective_task_name,
         batch_size=int(args.batch_size),
         num_workers=0,
         sort_param=True,
@@ -537,8 +600,8 @@ def main() -> None:
     # ------------------------------------------------------
     model = build_model_2d(
         model_type=str(args.model),
-        in_dim=2,
-        out_dim=3,
+        in_dim=int(bundle.train_field.in_dim),
+        out_dim=int(bundle.train_field.out_dim),
         modes1=int(args.modes_param),
         modes2=int(args.modes_lambda),
         width=int(args.width),
@@ -560,8 +623,8 @@ def main() -> None:
 
     model_config = summarize_model_config_2d(
         model_type=str(args.model),
-        in_dim=2,
-        out_dim=3,
+        in_dim=int(bundle.train_field.in_dim),
+        out_dim=int(bundle.train_field.out_dim),
         modes1=int(args.modes_param),
         modes2=int(args.modes_lambda),
         width=int(args.width),
@@ -571,7 +634,9 @@ def main() -> None:
     )
 
     train_config = {
-        "task_name": str(args.task_name),
+        "task_name": effective_task_name,
+        "task_names": args.task_names if args.task_names is not None else [str(args.task_name)],
+        "cfg_param_name": args.cfg_param_name,
         "model_name": model_name,
         "model_type": str(args.model),
         "device": device,
@@ -691,7 +756,9 @@ def main() -> None:
     )
 
     summary = {
-        "task_name": str(args.task_name),
+        "task_name": effective_task_name,
+        "task_names": args.task_names if args.task_names is not None else [str(args.task_name)],
+        "cfg_param_name": args.cfg_param_name,
         "model_name": model_name,
         "model_type": str(args.model),
         "normalization": str(args.normalization),

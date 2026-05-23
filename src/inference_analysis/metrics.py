@@ -53,6 +53,27 @@ def mse_numpy(pred: np.ndarray, target: np.ndarray) -> float:
     return float(np.mean((pred - target) ** 2))
 
 
+def _reshape_trajectory_samples(array: np.ndarray) -> np.ndarray:
+    """
+    将轨道数组整理为 [N_traj, T * C]。
+
+    统一约定：
+    - 1D 输出通常是 [N, T, C]，每个 N 是一条轨道；
+    - 2D 输出通常是 [B_field, N_param, T, C]，每个 (field, param) 是一条轨道；
+    - C 通常为 3，对应 xyz。
+
+    因此，对于 ndim >= 3 的数组，所有倒数第二维 T 之前的维度
+    都视为“轨道样本维”。
+    """
+    if array.ndim >= 3:
+        return array.reshape(-1, array.shape[-2] * array.shape[-1])
+
+    if array.ndim == 2:
+        return array.reshape(array.shape[0], -1)
+
+    raise ValueError(f"Relative L2 至少需要 2 维数组，当前 shape={array.shape}")
+
+
 def relative_l2_numpy(
     pred: np.ndarray,
     target: np.ndarray,
@@ -74,10 +95,8 @@ def relative_l2_numpy(
             f"pred 和 target 的形状必须一致，当前得到：pred={pred.shape}, target={target.shape}"
         )
 
-    num_samples = pred.shape[0]
-
-    pred_flat = pred.reshape(num_samples, -1)
-    target_flat = target.reshape(num_samples, -1)
+    pred_flat = _reshape_trajectory_samples(pred)
+    target_flat = _reshape_trajectory_samples(target)
 
     diff_norm = np.linalg.norm(pred_flat - target_flat, ord=2, axis=1)
     target_norm = np.linalg.norm(target_flat, ord=2, axis=1)
@@ -106,9 +125,9 @@ def per_sample_mse(pred: np.ndarray, target: np.ndarray) -> np.ndarray:
             f"pred 和 target 的形状必须一致，当前得到：pred={pred.shape}, target={target.shape}"
         )
 
-    num_samples = pred.shape[0]
     diff2 = (pred - target) ** 2
-    return diff2.reshape(num_samples, -1).mean(axis=1)
+    diff2_flat = _reshape_trajectory_samples(diff2)
+    return diff2_flat.mean(axis=1)
 
 
 def per_sample_relative_l2(
@@ -131,10 +150,8 @@ def per_sample_relative_l2(
             f"pred 和 target 的形状必须一致，当前得到：pred={pred.shape}, target={target.shape}"
         )
 
-    num_samples = pred.shape[0]
-
-    pred_flat = pred.reshape(num_samples, -1)
-    target_flat = target.reshape(num_samples, -1)
+    pred_flat = _reshape_trajectory_samples(pred)
+    target_flat = _reshape_trajectory_samples(target)
 
     diff_norm = np.linalg.norm(pred_flat - target_flat, ord=2, axis=1)
     target_norm = np.linalg.norm(target_flat, ord=2, axis=1)

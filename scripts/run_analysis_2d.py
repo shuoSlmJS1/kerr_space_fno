@@ -318,6 +318,41 @@ def load_target_transform_config_from_checkpoint(
     )
 
 
+
+def get_multicfg_source_from_checkpoint(
+    checkpoint: dict[str, Any],
+    fallback_task_name: str,
+) -> tuple[str | None, list[str] | None, str | None, str]:
+    """
+    从 checkpoint 恢复 2D analysis 应该读取的数据源。
+
+    旧单场模式：
+        task_name = fallback_task_name
+        task_names = None
+
+    新多 cfg 模式：
+        task_name = None
+        task_names = checkpoint["config"]["task_names"]
+        cfg_param_name = checkpoint["config"]["cfg_param_name"]
+        output_task_name = fallback_task_name
+
+    注意：fallback_task_name 是 outputs/<task_name>/<model_name> 中的 task_name，
+    多 cfg 时它通常只是输出任务名，不对应 data/tasks 下的真实目录。
+    """
+    config = checkpoint.get("config", {})
+    task_names = config.get("task_names", None)
+    cfg_param_name = config.get("cfg_param_name", None)
+
+    if isinstance(task_names, list) and len(task_names) > 1:
+        if cfg_param_name is None:
+            raise ValueError(
+                "checkpoint config 中存在多个 task_names，但没有 cfg_param_name，"
+                "无法恢复多 cfg 数据。"
+            )
+        return None, [str(t) for t in task_names], str(cfg_param_name), fallback_task_name
+
+    return fallback_task_name, None, None, fallback_task_name
+
 # ==========================================================
 # 五、模型推理与计时
 # ==========================================================
@@ -430,8 +465,11 @@ def time_model_inference_2d(
 # ==========================================================
 
 def load_raw_test_targets_for_inverse(
-    task_name: str,
+    task_name: str | None,
     batch_size: int,
+    task_names: list[str] | None = None,
+    cfg_param_name: str | None = None,
+    output_task_name: str | None = None,
 ) -> tuple[np.ndarray, Any]:
     """
     构造 raw target test loader，用于 inverse target transform。
@@ -443,6 +481,9 @@ def load_raw_test_targets_for_inverse(
     """
     _, _, raw_test_loader, raw_bundle = build_fno2d_dataloaders(
         task_name=task_name,
+        task_names=task_names,
+        cfg_param_name=cfg_param_name,
+        output_task_name=output_task_name,
         batch_size=batch_size,
         num_workers=0,
         sort_param=True,
@@ -588,6 +629,40 @@ def time_traditional_for_2d_test_field(
     return traditional_timing
 
 
+
+def time_traditional_for_2d_test_multicfg(
+    task_names: list[str],
+    param_name: str,
+    param_values: np.ndarray,
+) -> dict[str, Any]:
+    """
+    多 cfg 2D 测试场的传统积分计时。
+
+    对每个真实 cfg task 分别用相同的 param_values 重新积分，
+    最后把传统计算总时间相加。
+    """
+    per_cfg: list[dict[str, Any]] = []
+    total_seconds = 0.0
+
+    for task_name in task_names:
+        timing_i = time_traditional_for_2d_test_field(
+            task_name=task_name,
+            param_name=param_name,
+            param_values=param_values,
+        )
+        seconds_i = get_traditional_total_seconds(timing_i)
+        total_seconds += seconds_i
+        per_cfg.append({
+            "task_name": task_name,
+            "traditional_total_seconds": float(seconds_i),
+        })
+
+    return {
+        "traditional_total_seconds": float(total_seconds),
+        "num_cfg_tasks": int(len(task_names)),
+        "per_cfg": per_cfg,
+    }
+
 def get_traditional_total_seconds(traditional_timing: Any) -> float:
     """
     兼容 dict 或 TimingResult 对象。
@@ -717,11 +792,21 @@ def main() -> None:
     target_transform_method = get_target_transform_method_from_checkpoint(checkpoint)
     target_transform_config = load_target_transform_config_from_checkpoint(checkpoint)
 
+    data_task_name, data_task_names, cfg_param_name, output_task_name = (
+        get_multicfg_source_from_checkpoint(
+            checkpoint=checkpoint,
+            fallback_task_name=task_name,
+        )
+    )
+
     # ------------------------------------------------------
     # B. 用训练时同样的 normalization / target transform 构造 test loader
     # ------------------------------------------------------
     _, _, test_loader, bundle = build_fno2d_dataloaders(
-        task_name=task_name,
+        task_name=data_task_name,
+        task_names=data_task_names,
+        cfg_param_name=cfg_param_name,
+        output_task_name=output_task_name,
         batch_size=batch_size,
         num_workers=0,
         sort_param=True,
@@ -736,7 +821,10 @@ def main() -> None:
     # C. 额外加载 raw y_test，供 inverse target transform 使用
     # ------------------------------------------------------
     raw_targets_reference, raw_bundle = load_raw_test_targets_for_inverse(
-        task_name=task_name,
+        task_name=data_task_name,
+        task_names=data_task_names,
+        cfg_param_name=cfg_param_name,
+        output_task_name=output_task_name,
         batch_size=batch_size,
     )
 
@@ -796,11 +884,18 @@ def main() -> None:
     # ------------------------------------------------------
     param_values = bundle.test_field.param_grid
 
-    traditional_timing = time_traditional_for_2d_test_field(
-        task_name=task_name,
-        param_name=bundle.param_name,
-        param_values=param_values,
-    )
+    if data_task_names is not None:
+        traditional_timing = time_traditional_for_2d_test_multicfg(
+            task_names=data_task_names,
+            param_name=bundle.param_name,
+            param_values=param_values,
+        )
+    else:
+        traditional_timing = time_traditional_for_2d_test_field(
+            task_name=task_name,
+            param_name=bundle.param_name,
+            param_values=param_values,
+        )
 
     timing = build_timing_comparison_2d(
         model_timing=model_timing,
@@ -829,6 +924,9 @@ def main() -> None:
 
     analysis_summary = {
         "task_name": task_name,
+        "data_task_name": data_task_name,
+        "data_task_names": data_task_names,
+        "cfg_param_name": cfg_param_name,
         "model_name": model_name,
         "model_type": checkpoint["config"].get("model_type", "unknown"),
         "checkpoint_epoch": checkpoint.get("epoch", None),
