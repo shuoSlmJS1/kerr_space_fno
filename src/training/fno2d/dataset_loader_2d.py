@@ -536,6 +536,29 @@ def build_fno2d_dataloaders(
         lambda_reference_index=lambda_reference_index,
     )
 
+    # Dataset 的长度表示二维场批次数，不表示轨道参数点数。
+    # 单配置任务即使参数集合为空，field shape 仍可能是 [1, 0, T, C]，
+    # 因此必须检查每个 field 的 num_param。
+    split_sizes = {
+        "train": int(bundle.train_field.num_param),
+        "val": int(bundle.val_field.num_param),
+        "test": int(bundle.test_field.num_param),
+    }
+
+    empty_splits = [
+        split_name
+        for split_name, split_size in split_sizes.items()
+        if split_size <= 0
+    ]
+
+    if empty_splits:
+        raise ValueError(
+            "FNO2D 训练要求 train / val / test 三个集合都非空。"
+            f"当前为空的集合：{empty_splits}；"
+            f"各集合大小：{split_sizes}。"
+            "请重新生成数据集并设置非零的 train/val/test 比例。"
+        )
+
     train_loader = DataLoader(
         train_dataset,
         batch_size=batch_size,

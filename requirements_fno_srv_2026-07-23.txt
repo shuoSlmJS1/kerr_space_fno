@@ -1,0 +1,44 @@
+brotlicffi @ file:///home/task_176496125431831/conda-bld/brotlicffi_1764961387175/work
+certifi @ file:///home/task_176765898807400/croot/certifi_1767659142395/work/certifi
+cffi @ file:///home/task_176183215827778/conda-bld/cffi_1761832774246/work
+charset-normalizer @ file:///home/task_176174482135433/conda-bld/charset-normalizer_1761744871447/work
+contourpy @ file:///croot/contourpy_1732540045555/work
+cycler @ file:///home/task_176606789361081/croot/cycler_1766067914492/work
+filelock @ file:///home/task_176943957887863/croot/filelock_1769440496799/work
+fonttools @ file:///home/task_177425656495804/croot/fonttools_1774256604770/work
+gmpy2 @ file:///home/task_176474799466805/conda-bld/gmpy2_1764748040727/work
+idna @ file:///home/task_176191177045451/conda-bld/idna_1761911980742/work
+Jinja2 @ file:///croot/jinja2_1741710844255/work
+kiwisolver @ file:///home/task_176415926973141/conda-bld/kiwisolver_1764159298569/work
+MarkupSafe @ file:///croot/markupsafe_1738584038848/work
+matplotlib==3.10.8
+mkl-service==2.4.0
+mkl_fft @ file:///io/mkl313/mkl_fft_1730824109137/work
+mkl_random @ file:///io/mkl313/mkl_random_1730823916628/work
+mpmath @ file:///croot/mpmath_1690848262763/work
+narwhals==2.24.0
+networkx @ file:///croot/networkx_1737039604450/work
+numpy @ file:///croot/numpy_and_numpy_base_1725470312869/work/dist/numpy-2.0.1-cp310-cp310-linux_x86_64.whl#sha256=120568f3fd675f59e4cb6de79a5c193b4067d90878d8bab2040fda8e3a2df6fa
+packaging==26.0
+pillow @ file:///home/task_177247536673546/croot/pillow_1772475408094/work
+plotly==6.9.0
+pycparser @ file:///home/task_177495969016250/croot/pycparser_1774959730411/work
+pyparsing @ file:///home/task_176397361890982/conda-bld/pyparsing_1763973787669/work
+PyQt6==6.11.0
+PyQt6_sip @ file:///home/task_177582778937984/croot/pyqt-split_1775828356965/work/pyqt_sip
+PySocks @ file:///home/task_176175228103966/conda-bld/pysocks_1761753009555/work
+python-dateutil @ file:///croot/python-dateutil_1716495738603/work
+PyYAML @ file:///home/task_176346546342115/conda-bld/pyyaml_1763465494987/work
+requests @ file:///home/task_177506598436692/croot/requests_1775066074113/work
+scipy @ file:///croot/scipy_1747238027288/work/dist/scipy-1.15.3-cp310-cp310-linux_x86_64.whl#sha256=4055d6b52bbbfc19594ac7c25008889945de175e153afc0935b6415716fa348e
+sip @ file:///home/task_177080672090124/croot/sip_1770807537277/work
+six @ file:///croot/six_1744271502820/work
+sympy @ file:///home/task_176476278707978/conda-bld/sympy_1764762918518/work
+tomli @ file:///home/task_176829635583515/croot/tomli_1768296437642/work
+torch==2.5.1
+torchaudio==2.5.1
+torchvision==0.20.1
+tornado @ file:///home/task_177430341073469/croot/tornado_1774303626775/work
+triton==3.1.0
+typing_extensions @ file:///croot/typing_extensions_1756280817316/work
+urllib3 @ file:///home/task_176781015826610/croot/urllib3_1767810263778/work

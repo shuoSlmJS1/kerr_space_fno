@@ -258,15 +258,55 @@ def split_indices(
     indices = np.arange(n)
     rng.shuffle(indices)
 
-    n_train = int(round(n * train_ratio))
-    n_val = int(round(n * val_ratio))
+    ratios = np.array(
+        [train_ratio, val_ratio, test_ratio],
+        dtype=np.float64,
+    )
 
-    # 防止边界情况下切分为空
-    n_train = min(max(n_train, 1), n - 2) if n >= 3 else max(1, n - 1)
-    n_val = min(max(n_val, 1), n - n_train - 1) if n - n_train >= 2 else max(0, n - n_train)
+    # 先取每一部分的整数下界。
+    raw_counts = n * ratios
+    counts = np.floor(raw_counts).astype(int)
+
+    # 把由于取整剩余的样本，按小数部分从大到小分配。
+    remainder = int(n - counts.sum())
+    fractional_parts = raw_counts - counts
+
+    for index in np.argsort(-fractional_parts)[:remainder]:
+        counts[index] += 1
+
+    # 显式比例为 0 的集合必须保持为空。
+    counts[ratios == 0.0] = 0
+
+    # 比例大于 0 时，在样本数允许的情况下至少保留 1 条。
+    positive_indices = np.flatnonzero(ratios > 0.0)
+    if n >= len(positive_indices):
+        for index in positive_indices:
+            if counts[index] == 0:
+                donor_candidates = [
+                    donor
+                    for donor in positive_indices
+                    if counts[donor] > 1
+                ]
+                if not donor_candidates:
+                    break
+
+                donor = max(
+                    donor_candidates,
+                    key=lambda donor_index: counts[donor_index],
+                )
+                counts[donor] -= 1
+                counts[index] += 1
+
+    # 最终再次保证样本总数严格等于 n。
+    difference = int(n - counts.sum())
+    if difference != 0:
+        target = int(np.argmax(ratios))
+        counts[target] += difference
+
+    n_train, n_val, n_test = map(int, counts)
 
     train_idx = indices[:n_train]
     val_idx = indices[n_train:n_train + n_val]
-    test_idx = indices[n_train + n_val:]
+    test_idx = indices[n_train + n_val:n_train + n_val + n_test]
 
     return train_idx, val_idx, test_idx

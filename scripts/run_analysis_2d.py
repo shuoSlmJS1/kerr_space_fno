@@ -603,6 +603,7 @@ def time_traditional_for_2d_test_field(
     task_name: str,
     param_name: str,
     param_values: np.ndarray,
+    refinement_factor: int = 1,
 ) -> Any:
     """
     对二维测试场中的每个参数值重新进行传统数值积分计时。
@@ -624,6 +625,8 @@ def time_traditional_for_2d_test_field(
         full_param_dicts=full_param_dicts,
         n_steps=n_steps,
         step_size=step_size,
+        refinement_factor=refinement_factor,
+        warmup=True,
     )
 
     return traditional_timing
@@ -634,6 +637,7 @@ def time_traditional_for_2d_test_multicfg(
     task_names: list[str],
     param_name: str,
     param_values: np.ndarray,
+    refinement_factor: int = 1,
 ) -> dict[str, Any]:
     """
     多 cfg 2D 测试场的传统积分计时。
@@ -649,6 +653,7 @@ def time_traditional_for_2d_test_multicfg(
             task_name=task_name,
             param_name=param_name,
             param_values=param_values,
+            refinement_factor=refinement_factor,
         )
         seconds_i = get_traditional_total_seconds(timing_i)
         total_seconds += seconds_i
@@ -660,6 +665,8 @@ def time_traditional_for_2d_test_multicfg(
     return {
         "traditional_total_seconds": float(total_seconds),
         "num_cfg_tasks": int(len(task_names)),
+        "solver_name": "second_order_rk4",
+        "refinement_factor": int(refinement_factor),
         "per_cfg": per_cfg,
     }
 
@@ -755,6 +762,22 @@ def build_parser() -> argparse.ArgumentParser:
         help="二维场推理 batch size，第一版通常保持 1。",
     )
 
+    parser.add_argument(
+        "--reference-factor",
+        type=int,
+        default=8,
+        help="二阶高精度参考计时的步长细化倍数。",
+    )
+
+    parser.add_argument(
+        "--run-reference-timing",
+        action="store_true",
+        help=(
+            "额外计算高精度二阶参考计时。默认关闭，"
+            "因为该计算会显著增加分析耗时。"
+        ),
+    )
+
     return parser
 
 
@@ -773,6 +796,11 @@ def main() -> None:
     model_name = str(args.model_name)
     device = str(args.device)
     batch_size = int(args.batch_size)
+    reference_factor = int(args.reference_factor)
+    run_reference_timing = bool(args.run_reference_timing)
+
+    if reference_factor < 1:
+        raise ValueError("--reference-factor 必须为正整数。")
 
     dirs = get_2d_model_dirs(
         task_name=task_name,
@@ -880,27 +908,82 @@ def main() -> None:
     )
 
     # ------------------------------------------------------
-    # I. 计时：传统积分
+    # I. 计时：二阶数值积分
+    #
+    # 标准口径：任务原始步长，与训练数据精度一致。
+    # 参考口径：相同 lambda_max，步长按 reference_factor 细化。
     # ------------------------------------------------------
     param_values = bundle.test_field.param_grid
 
-    if data_task_names is not None:
-        traditional_timing = time_traditional_for_2d_test_multicfg(
-            task_names=data_task_names,
+    def time_second_order(refinement_factor: int) -> Any:
+        if data_task_names is not None:
+            return time_traditional_for_2d_test_multicfg(
+                task_names=data_task_names,
+                param_name=bundle.param_name,
+                param_values=param_values,
+                refinement_factor=refinement_factor,
+            )
+        return time_traditional_for_2d_test_field(
+            task_name=data_task_name,
             param_name=bundle.param_name,
             param_values=param_values,
-        )
-    else:
-        traditional_timing = time_traditional_for_2d_test_field(
-            task_name=task_name,
-            param_name=bundle.param_name,
-            param_values=param_values,
+            refinement_factor=refinement_factor,
         )
 
-    timing = build_timing_comparison_2d(
+    standard_timing_raw = time_second_order(refinement_factor=1)
+    standard_comparison = build_timing_comparison_2d(
         model_timing=model_timing,
-        traditional_timing=traditional_timing,
+        traditional_timing=standard_timing_raw,
     )
+
+    reference_comparison = None
+    if run_reference_timing:
+        reference_timing_raw = time_second_order(
+            refinement_factor=reference_factor
+        )
+        reference_comparison = build_timing_comparison_2d(
+            model_timing=model_timing,
+            traditional_timing=reference_timing_raw,
+        )
+
+    timing = {
+        **standard_comparison,
+        "timing_definition": {
+            "model": (
+                "遍历测试 DataLoader；包含 CPU 到 device 传输、模型 forward "
+                "和每个 batch 的 CUDA synchronize；不包含反归一化、"
+                "误差计算和文件保存"
+            ),
+            "numerical_standard": (
+                "二阶动力系统 RK4；任务原始 n_steps 和 step_size；"
+                "只包含逐轨道积分"
+            ),
+            "numerical_reference": (
+                "二阶动力系统 RK4；保持相同 lambda_max；"
+                "步长按 reference_factor 细化；只包含逐轨道积分"
+            ),
+        },
+        "model": {
+            "total_seconds": float(model_timing["model_total_seconds"]),
+            "avg_seconds_per_sample": float(
+                model_timing["model_avg_seconds_per_sample"]
+            ),
+            "num_samples": int(model_timing["num_samples"]),
+            "num_fields": int(model_timing["num_fields"]),
+        },
+        "second_order_standard": {
+            **standard_comparison,
+            "refinement_factor": 1,
+        },
+        "second_order_reference": (
+            {
+                **reference_comparison,
+                "refinement_factor": int(reference_factor),
+            }
+            if reference_comparison is not None
+            else None
+        ),
+    }
 
     # ------------------------------------------------------
     # J. 保存结果
@@ -964,8 +1047,23 @@ def main() -> None:
     print(f"Test MSE           : {metrics['mse']:.6e}")
     print(f"Test Relative L2   : {metrics['relative_l2']:.6e}")
     print(f"Model total time   : {timing['model_total_seconds']:.6e} s")
-    print(f"Traditional time   : {timing['traditional_total_seconds']:.6e} s")
-    print(f"Speedup            : {timing['speedup_total']:.3f} x")
+    print(
+        "Second-order std   : "
+        f"{timing['second_order_standard']['traditional_total_seconds']:.6e} s"
+    )
+    print(
+        "Speedup (standard) : "
+        f"{timing['second_order_standard']['speedup_total']:.3f} x"
+    )
+    if timing["second_order_reference"] is not None:
+        print(
+            "Second-order ref   : "
+            f"{timing['second_order_reference']['traditional_total_seconds']:.6e} s"
+        )
+        print(
+            "Speedup (reference): "
+            f"{timing['second_order_reference']['speedup_total']:.3f} x"
+        )
     print(f"Output dir         : {dirs['model_dir']}")
     print("-" * 70)
 

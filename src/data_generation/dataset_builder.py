@@ -11,7 +11,7 @@
 #
 # 依赖关系：
 # - 依赖 sampler.py
-# - 依赖 orbit_solver.py
+# - 依赖 orbit_solver_second_order.py
 # - 依赖 validity.py
 # - 依赖 astrophysical_checks.py
 #
@@ -29,7 +29,10 @@ import numpy as np
 
 from src.common.task_spec import TaskSpec
 from src.data_generation.astrophysical_checks import warn_task_spec_astrophysical_ranges
-from src.data_generation.orbit_solver import InitialState, KerrParams, simulate_one_orbit
+from src.data_generation.orbit_types import InitialState, KerrParams
+from src.data_generation.orbit_solver_second_order import (
+    simulate_one_orbit_second_order,
+)
 from src.data_generation.sampler import build_parameter_samples, count_expected_samples
 from src.data_generation.validity import (
     validate_single_sample_hard_constraints,
@@ -115,6 +118,10 @@ def build_dataset(task_spec: TaskSpec) -> DatasetBuildResult:
 
     lambda_grid_ref: np.ndarray | None = None
 
+    # 记录整个数据集中最差的第一积分约束残差。
+    max_radial_constraint = 0.0
+    max_polar_constraint = 0.0
+
     # ------------------------------------------------------
     # D. 逐个样本处理
     # ------------------------------------------------------
@@ -138,7 +145,7 @@ def build_dataset(task_spec: TaskSpec) -> DatasetBuildResult:
             Q_value = float(full_params["Q"])
 
             # ---------- 数值积分 ----------
-            orbit_result = simulate_one_orbit(
+            orbit_result = simulate_one_orbit_second_order(
                 p=kerr_params,
                 init=init_state,
                 Q=Q_value,
@@ -154,8 +161,19 @@ def build_dataset(task_spec: TaskSpec) -> DatasetBuildResult:
                 if not np.allclose(lambda_grid_ref, current_lambda_grid):
                     raise RuntimeError("不同样本生成出的 lambda_grid 不一致。")
 
+            # ---------- 更新二阶求解器诊断 ----------
+            diagnostics = orbit_result["diagnostics"]
+            max_radial_constraint = max(
+                max_radial_constraint,
+                float(diagnostics.max_radial_constraint_residual),
+            )
+            max_polar_constraint = max(
+                max_polar_constraint,
+                float(diagnostics.max_polar_constraint_residual),
+            )
+
             # ---------- 收集成功样本 ----------
-            successful_vary_params.append(sample_params)
+            successful_vary_params.append(dict(sample_params))
             successful_outputs_xyz.append(orbit_result["xyz"])
             successful_outputs_sph.append(orbit_result["sph"])
 
@@ -174,13 +192,23 @@ def build_dataset(task_spec: TaskSpec) -> DatasetBuildResult:
 
     if len(successful_outputs_xyz) == 0:
         raise RuntimeError("所有样本都生成失败，没有任何成功样本。")
-    
+
     # [N,T,3]
     # 一共有 N 条轨道（成功的轨道数量）；
     # 每条轨道有 T 个离散点（λ方向上的采样点数）；
     # 每个点有 3 个坐标值 (x,y,z)。
     xyz_array = np.stack(successful_outputs_xyz, axis=0)   # [N,T,3]
     sph_array = np.stack(successful_outputs_sph, axis=0)   # [N,T,3]
+
+    # 将求解器来源写入 metadata，保证数据可追溯。
+    task_spec.metadata["orbit_solver"] = "second_order_rk4"
+    task_spec.metadata["orbit_solver_version"] = "v1"
+    task_spec.metadata["dataset_max_radial_constraint_residual"] = (
+        max_radial_constraint
+    )
+    task_spec.metadata["dataset_max_polar_constraint_residual"] = (
+        max_polar_constraint
+    )
 
     result = DatasetBuildResult(
         task_spec=task_spec,

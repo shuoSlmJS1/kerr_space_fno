@@ -27,9 +27,8 @@ import warnings
 from typing import Any
 
 from src.common.task_spec import TaskSpec
-from src.data_generation.orbit_solver import (
-    InitialState,
-    KerrParams,
+from src.data_generation.orbit_types import InitialState, KerrParams
+from src.data_generation.orbit_math import (
     clip_theta,
     outer_horizon_radius,
     polar_potential,
