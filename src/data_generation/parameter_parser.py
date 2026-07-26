@@ -126,7 +126,7 @@ def add_dataset_generation_arguments(parser: argparse.ArgumentParser) -> argpars
         "--vary-params",
         nargs="+",
         type=str,
-        required=True,
+        required=False,
         help=(
             "本次任务中要变化的参数列表。"
             f"允许值：{', '.join(DEFAULT_ALLOWED_VARY_PARAMS)}"
@@ -164,7 +164,7 @@ def add_dataset_generation_arguments(parser: argparse.ArgumentParser) -> argpars
     parser.add_argument("--phi0", type=float, default=DEFAULT_FIXED_PARAMS["phi0"], help="固定的 phi0")
     parser.add_argument("--sign-r", type=int, default=DEFAULT_FIXED_PARAMS["sign_r"], help="固定的 sign_r")
     parser.add_argument("--sign-th", type=int, default=DEFAULT_FIXED_PARAMS["sign_th"], help="固定的 sign_th")
-    
+
     # ------------------------------------------------------
     # D. 样本规模与积分设置
     # ------------------------------------------------------
@@ -172,7 +172,7 @@ def add_dataset_generation_arguments(parser: argparse.ArgumentParser) -> argpars
         "--sample-shape",
         nargs="+",
         type=int,
-        required=True,
+        required=False,
         help=(
             "样本形状。"
             "单参数任务例如：240；双参数任务例如：20 20；"
@@ -189,7 +189,7 @@ def add_dataset_generation_arguments(parser: argparse.ArgumentParser) -> argpars
     parser.add_argument("--train-ratio", type=float, default=0.7, help="训练集比例")
     parser.add_argument("--val-ratio", type=float, default=0.15, help="验证集比例")
     parser.add_argument("--test-ratio", type=float, default=0.15, help="测试集比例")
-    parser.add_argument("--seed", type=int, default=42, help="随机种子")
+    parser.add_argument("--seed", type=int, default=10, help="数据生成与划分随机种子，默认 10")
     parser.add_argument("--config-tag", type=str, default="cfg1", help="固定参数/初始条件配置版本标签，例如 cfg1、cfg2、cfg3",)
 
     # ------------------------------------------------------

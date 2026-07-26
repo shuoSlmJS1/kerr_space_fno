@@ -22,6 +22,7 @@
 # ==========================================================
 from __future__ import annotations
 
+import math
 from dataclasses import dataclass
 from typing import Any
 
@@ -33,7 +34,12 @@ from src.data_generation.orbit_types import InitialState, KerrParams
 from src.data_generation.orbit_solver_second_order import (
     simulate_one_orbit_second_order,
 )
-from src.data_generation.sampler import build_parameter_samples, count_expected_samples
+from src.data_generation.sampler import (
+    build_parameter_samples,
+    build_random_completion_candidates,
+    count_expected_samples,
+    sample_key,
+)
 from src.data_generation.validity import (
     validate_single_sample_hard_constraints,
     validate_task_spec_hard_constraints,
@@ -65,10 +71,16 @@ class DatasetBuildResult:
     # 失败样本
     failed_samples: list[dict[str, Any]]
 
-    # 统计信息
-    requested_samples: int
+    # 生成统计
+    target_success_count: int
+    initial_candidate_count: int
+    max_attempt_count: int
+    attempt_count: int
     success_count: int
     fail_count: int
+    generation_completed: bool
+    used_completion_sampling: bool
+    successful_points_strictly_uniform: bool
     astrophysical_warnings: list[str]
 
 
@@ -80,33 +92,58 @@ def build_dataset(task_spec: TaskSpec) -> DatasetBuildResult:
     """
     根据 TaskSpec 构建完整数据集。
 
-    总流程：
-    1. 任务级硬约束检查
-    2. 任务级现实范围 warning 检查
-    3. 构造参数样本列表
-    4. 逐个样本检查与数值积分
-    5. 收集成功与失败结果
-    6. 打包成 DatasetBuildResult 返回
+    第二阶段生成规则：
+    1. sample_shape 的乘积表示目标成功样本数；
+    2. 第一批候选点使用 sampling_mode 指定的规则网格；
+    3. 初始候选失败后，继续生成新的、不重复的随机候选点；
+    4. 成功数达到目标后停止；
+    5. 最大尝试数为
+       ceil(target_success_count * max_attempt_factor)；
+    6. 达到最大尝试数仍未完成时，返回 incomplete 结果，
+       由保存层保存失败记录后再由入口脚本报错。
     """
     # ------------------------------------------------------
     # A. 任务级检查
     # ------------------------------------------------------
     validate_task_spec_hard_constraints(task_spec)
-    astrophysical_warnings = warn_task_spec_astrophysical_ranges(task_spec)
+    astrophysical_warnings = warn_task_spec_astrophysical_ranges(
+        task_spec
+    )
 
     # ------------------------------------------------------
-    # B. 采样
+    # B. 生成目标和初始候选
     # ------------------------------------------------------
-    parameter_samples = build_parameter_samples(task_spec)
-    requested_samples = count_expected_samples(task_spec)
+    target_success_count = count_expected_samples(task_spec)
+    initial_samples = build_parameter_samples(task_spec)
+    initial_candidate_count = len(initial_samples)
 
-    # 理论上这里二者应一致，若不一致说明采样器逻辑有问题
-    if len(parameter_samples) != requested_samples:
+    if initial_candidate_count != target_success_count:
         raise RuntimeError(
-            "参数采样数量与理论请求数量不一致："
-            f"len(parameter_samples)={len(parameter_samples)}, "
-            f"requested_samples={requested_samples}"
+            "初始参数采样数量与目标成功数不一致："
+            f"initial_candidate_count={initial_candidate_count}, "
+            f"target_success_count={target_success_count}"
         )
+
+    max_attempt_count = int(
+        math.ceil(
+            target_success_count
+            * float(task_spec.max_attempt_factor)
+        )
+    )
+
+    candidate_queue: list[
+        tuple[dict[str, Any], str]
+    ] = [
+        (dict(sample), "initial_grid")
+        for sample in initial_samples
+    ]
+
+    attempted_keys = {
+        sample_key(sample, task_spec.vary_params)
+        for sample in initial_samples
+    }
+
+    completion_rng = np.random.default_rng(task_spec.seed)
 
     # ------------------------------------------------------
     # C. 构建结果容器
@@ -118,14 +155,58 @@ def build_dataset(task_spec: TaskSpec) -> DatasetBuildResult:
 
     lambda_grid_ref: np.ndarray | None = None
 
-    # 记录整个数据集中最差的第一积分约束残差。
     max_radial_constraint = 0.0
     max_polar_constraint = 0.0
 
+    attempt_count = 0
+    used_completion_sampling = False
+
     # ------------------------------------------------------
-    # D. 逐个样本处理
+    # D. 目标成功数驱动生成
     # ------------------------------------------------------
-    for sample_params in parameter_samples:
+    while (
+        len(successful_outputs_xyz) < target_success_count
+        and attempt_count < max_attempt_count
+    ):
+        # 初始网格耗尽后，生成新的补充候选。
+        if not candidate_queue:
+            remaining_attempt_capacity = (
+                max_attempt_count - attempt_count
+            )
+            remaining_success_needed = (
+                target_success_count
+                - len(successful_outputs_xyz)
+            )
+
+            candidate_count = min(
+                remaining_attempt_capacity,
+                remaining_success_needed,
+            )
+
+            if candidate_count <= 0:
+                break
+
+            completion_candidates = (
+                build_random_completion_candidates(
+                    task_spec=task_spec,
+                    candidate_count=candidate_count,
+                    attempted_keys=attempted_keys,
+                    rng=completion_rng,
+                )
+            )
+
+            candidate_queue.extend(
+                (dict(sample), "completion_random")
+                for sample in completion_candidates
+            )
+            used_completion_sampling = True
+
+        sample_params, candidate_source = (
+            candidate_queue.pop(0)
+        )
+        attempt_count += 1
+        stage = "hard_constraint_validation"
+
         try:
             # ---------- 单样本硬约束检查 ----------
             validate_single_sample_hard_constraints(
@@ -134,17 +215,20 @@ def build_dataset(task_spec: TaskSpec) -> DatasetBuildResult:
             )
 
             # ---------- 合并完整参数 ----------
+            stage = "parameter_assembly"
             full_params = merge_sample_and_fixed_params(
                 sample_params=sample_params,
                 fixed_params=task_spec.fixed_params,
             )
 
             # ---------- 构造轨道所需对象 ----------
+            stage = "state_construction"
             kerr_params = build_kerr_params(full_params)
             init_state = build_initial_state(full_params)
             Q_value = float(full_params["Q"])
 
             # ---------- 数值积分 ----------
+            stage = "orbit_integration"
             orbit_result = simulate_one_orbit_second_order(
                 p=kerr_params,
                 init=init_state,
@@ -154,75 +238,169 @@ def build_dataset(task_spec: TaskSpec) -> DatasetBuildResult:
             )
 
             # ---------- 统一 lambda_grid ----------
+            stage = "lambda_grid_validation"
             current_lambda_grid = orbit_result["lambda_grid"]
+
             if lambda_grid_ref is None:
                 lambda_grid_ref = current_lambda_grid
-            else:
-                if not np.allclose(lambda_grid_ref, current_lambda_grid):
-                    raise RuntimeError("不同样本生成出的 lambda_grid 不一致。")
+            elif not np.allclose(
+                lambda_grid_ref,
+                current_lambda_grid,
+            ):
+                raise RuntimeError(
+                    "不同样本生成出的 lambda_grid 不一致。"
+                )
 
-            # ---------- 更新二阶求解器诊断 ----------
+            # ---------- 更新求解器诊断 ----------
+            stage = "solver_diagnostics"
             diagnostics = orbit_result["diagnostics"]
+
             max_radial_constraint = max(
                 max_radial_constraint,
-                float(diagnostics.max_radial_constraint_residual),
+                float(
+                    diagnostics
+                    .max_radial_constraint_residual
+                ),
             )
             max_polar_constraint = max(
                 max_polar_constraint,
-                float(diagnostics.max_polar_constraint_residual),
+                float(
+                    diagnostics
+                    .max_polar_constraint_residual
+                ),
             )
 
             # ---------- 收集成功样本 ----------
-            successful_vary_params.append(dict(sample_params))
-            successful_outputs_xyz.append(orbit_result["xyz"])
-            successful_outputs_sph.append(orbit_result["sph"])
+            stage = "success_collection"
+            successful_vary_params.append(
+                dict(sample_params)
+            )
+            successful_outputs_xyz.append(
+                orbit_result["xyz"]
+            )
+            successful_outputs_sph.append(
+                orbit_result["sph"]
+            )
 
-        except Exception as e:
+        except Exception as error:
             failed_samples.append({
+                "attempt_index": int(attempt_count),
+                "candidate_source": candidate_source,
+                "stage": stage,
                 "vary_params": dict(sample_params),
-                "error_type": type(e).__name__,
-                "error_message": str(e),
+                "error_type": type(error).__name__,
+                "error_message": str(error),
+                "solver": "second_order_rk4",
+                "n_steps": int(task_spec.n_steps),
+                "step_size": float(task_spec.step_size),
             })
 
     # ------------------------------------------------------
-    # E. 构建最终结果对象
+    # E. 最终状态
     # ------------------------------------------------------
-    if lambda_grid_ref is None:
-        raise RuntimeError("所有样本都生成失败，没有得到任何有效 lambda_grid。")
+    success_count = len(successful_outputs_xyz)
+    fail_count = len(failed_samples)
 
-    if len(successful_outputs_xyz) == 0:
-        raise RuntimeError("所有样本都生成失败，没有任何成功样本。")
+    generation_completed = (
+        success_count == target_success_count
+    )
 
-    # [N,T,3]
-    # 一共有 N 条轨道（成功的轨道数量）；
-    # 每条轨道有 T 个离散点（λ方向上的采样点数）；
-    # 每个点有 3 个坐标值 (x,y,z)。
-    xyz_array = np.stack(successful_outputs_xyz, axis=0)   # [N,T,3]
-    sph_array = np.stack(successful_outputs_sph, axis=0)   # [N,T,3]
+    successful_points_strictly_uniform = (
+        not used_completion_sampling
+        and fail_count == 0
+        and success_count == target_success_count
+    )
 
-    # 将求解器来源写入 metadata，保证数据可追溯。
-    task_spec.metadata["orbit_solver"] = "second_order_rk4"
+    if success_count == 0 or lambda_grid_ref is None:
+        raise RuntimeError(
+            "所有参数候选都生成失败，没有得到有效轨道。"
+        )
+
+    xyz_array = np.stack(
+        successful_outputs_xyz,
+        axis=0,
+    )
+    sph_array = np.stack(
+        successful_outputs_sph,
+        axis=0,
+    )
+
+    # ------------------------------------------------------
+    # F. 元数据
+    # ------------------------------------------------------
+    task_spec.metadata["orbit_solver"] = (
+        "second_order_rk4"
+    )
     task_spec.metadata["orbit_solver_version"] = "v1"
-    task_spec.metadata["dataset_max_radial_constraint_residual"] = (
-        max_radial_constraint
-    )
-    task_spec.metadata["dataset_max_polar_constraint_residual"] = (
-        max_polar_constraint
-    )
 
-    result = DatasetBuildResult(
+    task_spec.metadata[
+        "dataset_max_radial_constraint_residual"
+    ] = max_radial_constraint
+
+    task_spec.metadata[
+        "dataset_max_polar_constraint_residual"
+    ] = max_polar_constraint
+
+    task_spec.metadata["generation"] = {
+        "completion_policy": (
+            task_spec.completion_policy
+        ),
+        "target_success_count": int(
+            target_success_count
+        ),
+        "initial_candidate_count": int(
+            initial_candidate_count
+        ),
+        "max_attempt_factor": float(
+            task_spec.max_attempt_factor
+        ),
+        "max_attempt_count": int(
+            max_attempt_count
+        ),
+        "attempt_count": int(attempt_count),
+        "success_count": int(success_count),
+        "fail_count": int(fail_count),
+        "completed": bool(generation_completed),
+        "used_completion_sampling": bool(
+            used_completion_sampling
+        ),
+        "initial_sampling_mode": (
+            task_spec.sampling_mode
+        ),
+        "completion_sampling_mode": (
+            "uniform_random"
+            if used_completion_sampling
+            else None
+        ),
+        "successful_points_strictly_uniform": bool(
+            successful_points_strictly_uniform
+        ),
+        "data_seed": int(task_spec.seed),
+    }
+
+    return DatasetBuildResult(
         task_spec=task_spec,
         lambda_grid=lambda_grid_ref,
         successful_vary_params=successful_vary_params,
         successful_outputs_xyz=xyz_array,
         successful_outputs_sph=sph_array,
         failed_samples=failed_samples,
-        requested_samples=requested_samples,
-        success_count=len(successful_outputs_xyz),
-        fail_count=len(failed_samples),
-        astrophysical_warnings=astrophysical_warnings,
+        target_success_count=target_success_count,
+        initial_candidate_count=initial_candidate_count,
+        max_attempt_count=max_attempt_count,
+        attempt_count=attempt_count,
+        success_count=success_count,
+        fail_count=fail_count,
+        generation_completed=generation_completed,
+        used_completion_sampling=used_completion_sampling,
+        successful_points_strictly_uniform=(
+            successful_points_strictly_uniform
+        ),
+        astrophysical_warnings=(
+            astrophysical_warnings
+        ),
     )
-    return result
+
 
 
 # ==========================================================
@@ -277,15 +455,35 @@ def summarize_build_result(build_result: DatasetBuildResult) -> dict[str, Any]:
     用途：
     - 日志打印
     - 保存到 meta.json 前做中间摘要
+    - 区分目标成功数、实际尝试数与实际成功数
     """
     return {
-        "requested_samples": build_result.requested_samples,
+        "target_success_count": build_result.target_success_count,
+        "initial_candidate_count": build_result.initial_candidate_count,
+        "max_attempt_count": build_result.max_attempt_count,
+        "attempt_count": build_result.attempt_count,
         "success_count": build_result.success_count,
         "fail_count": build_result.fail_count,
-        "success_ratio": (
-            build_result.success_count / build_result.requested_samples
-            if build_result.requested_samples > 0 else 0.0
+        "generation_completed": build_result.generation_completed,
+        "success_ratio_vs_attempts": (
+            build_result.success_count / build_result.attempt_count
+            if build_result.attempt_count > 0
+            else 0.0
+        ),
+        "completion_ratio": (
+            build_result.success_count
+            / build_result.target_success_count
+            if build_result.target_success_count > 0
+            else 0.0
+        ),
+        "used_completion_sampling": (
+            build_result.used_completion_sampling
+        ),
+        "successful_points_strictly_uniform": (
+            build_result.successful_points_strictly_uniform
         ),
         "task_spec": build_result.task_spec.to_dict(),
-        "num_astrophysical_warnings": len(build_result.astrophysical_warnings),
+        "num_astrophysical_warnings": len(
+            build_result.astrophysical_warnings
+        ),
     }

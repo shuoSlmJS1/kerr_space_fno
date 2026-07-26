@@ -151,7 +151,7 @@ class TaskSpec:
     例如：cfg1、cfg2、cfg3
     """
 
-    seed: int = 42
+    seed: int = 10
     """
     随机种子。
     后续用于：
@@ -161,12 +161,27 @@ class TaskSpec:
 
     sampling_mode: str = "grid"
     """
-    采样模式。
+    初始候选参数采样模式。
 
-    当前先支持：
-    - "grid"   : 网格采样
-    后续可扩展：
-    - "random" : 随机采样
+    当前支持：
+    - "grid"：第一批候选点使用规则网格。
+    """
+
+    completion_policy: str = "target_success"
+    """
+    数据生成完成策略。
+
+    target_success 表示：
+    持续尝试新的、不重复的候选参数，
+    直到成功样本数达到 sample_shape 定义的目标数量。
+    """
+
+    max_attempt_factor: float = 1.5
+    """
+    最大尝试次数相对于目标成功样本数的倍数。
+
+    例如目标成功数为 5000 时，
+    最多允许尝试 ceil(5000 * 1.5) = 7500 次。
     """
 
     metadata: dict[str, Any] = field(default_factory=dict)
@@ -194,6 +209,7 @@ class TaskSpec:
         self._validate_sample_shape()
         self._validate_numerical_setup()
         self._validate_split_ratios()
+        self._validate_generation_policy()
 
     def _validate_vary_params(self) -> None:
         """
@@ -296,6 +312,27 @@ class TaskSpec:
                 f"split_ratios 三者之和必须等于 1，当前得到：{self.split_ratios!r}，和为 {s}"
             )
 
+    def _validate_generation_policy(self) -> None:
+        """检查数据生成完成策略与最大尝试倍数。"""
+        if self.completion_policy != "target_success":
+            raise ValueError(
+                "当前只支持 completion_policy='target_success'，"
+                f"当前得到：{self.completion_policy!r}"
+            )
+
+        if not isinstance(self.max_attempt_factor, (int, float)):
+            raise TypeError(
+                "max_attempt_factor 必须是数值，"
+                f"当前得到：{self.max_attempt_factor!r}"
+            )
+
+        if float(self.max_attempt_factor) < 1.0:
+            raise ValueError(
+                "max_attempt_factor 不能小于 1.0，"
+                f"当前得到：{self.max_attempt_factor}"
+            )
+
+
     # ==========================================================
     # 四、辅助属性
     # ==========================================================
@@ -352,5 +389,7 @@ class TaskSpec:
             "split_ratios": self.split_ratios,
             "seed": self.seed,
             "sampling_mode": self.sampling_mode,
+            "completion_policy": self.completion_policy,
+            "max_attempt_factor": float(self.max_attempt_factor),
             "metadata": self.metadata,
         }

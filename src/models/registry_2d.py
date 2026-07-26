@@ -74,29 +74,44 @@ def build_model_name_2d(
     modes2: int,
     width: int,
     depth: int,
+    epochs: int | None = None,
+    extra_tags: list[str] | None = None,
 ) -> str:
     """
-    构造二维模型名。
+    构造二维模型训练运行名。
 
-    说明：
-    - modes1 表示第一个网格方向的 Fourier modes；
-    - modes2 表示第二个网格方向的 Fourier modes；
-    - 对当前 (p, lambda) 任务：
-        modes1 = 参数方向 modes
-        modes2 = lambda 方向 modes
+    基本格式：
+        fno2d_m16x32_w64_d4
 
-    示例：
-        fno2d_m1_16_m2_32_w64_d4
+    如果提供 epochs：
+        fno2d_m16x32_w64_d4_e300
+
+    extra_tags 只用于本次实验真正需要突出显示的变量，例如：
+        ["std", "s27"]
+
+    完整配置仍保存在 run_config.json 中。
     """
     model_type = validate_2d_model_type(model_type)
 
-    return (
-        f"{model_type}"
-        f"_m1_{int(modes1)}"
-        f"_m2_{int(modes2)}"
-        f"_w{int(width)}"
-        f"_d{int(depth)}"
-    )
+    parts = [
+        model_type,
+        f"m{int(modes1)}x{int(modes2)}",
+        f"w{int(width)}",
+        f"d{int(depth)}",
+    ]
+
+    if epochs is not None:
+        if int(epochs) <= 0:
+            raise ValueError("epochs 必须为正整数。")
+        parts.append(f"e{int(epochs)}")
+
+    if extra_tags:
+        for tag in extra_tags:
+            normalized = str(tag).strip().lower()
+            if normalized:
+                parts.append(normalized)
+
+    return "_".join(parts)
 
 
 # ==========================================================

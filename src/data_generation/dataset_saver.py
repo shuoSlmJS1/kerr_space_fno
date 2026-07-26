@@ -114,9 +114,11 @@ def save_built_dataset(build_result: DatasetBuildResult) -> dict[str, Any]:
         dataset_npz_path=str(paths.dataset_npz),
         meta_json_path=str(paths.meta_json),
         failed_json_path=str(paths.failed_samples_json),
-        requested_samples=build_result.requested_samples,
+        target_success_count=build_result.target_success_count,
+        attempt_count=build_result.attempt_count,
         success_count=build_result.success_count,
         fail_count=build_result.fail_count,
+        generation_completed=build_result.generation_completed,
         train_size=len(train_idx),
         val_size=len(val_idx),
         test_size=len(test_idx),
@@ -127,9 +129,19 @@ def save_built_dataset(build_result: DatasetBuildResult) -> dict[str, Any]:
         "dataset_npz_path": str(paths.dataset_npz),
         "meta_json_path": str(paths.meta_json),
         "failed_json_path": str(paths.failed_samples_json),
-        "requested_samples": build_result.requested_samples,
+        "target_success_count": build_result.target_success_count,
+        "initial_candidate_count": build_result.initial_candidate_count,
+        "max_attempt_count": build_result.max_attempt_count,
+        "attempt_count": build_result.attempt_count,
         "success_count": build_result.success_count,
         "fail_count": build_result.fail_count,
+        "generation_completed": build_result.generation_completed,
+        "used_completion_sampling": (
+            build_result.used_completion_sampling
+        ),
+        "successful_points_strictly_uniform": (
+            build_result.successful_points_strictly_uniform
+        ),
         "train_size": len(train_idx),
         "val_size": len(val_idx),
         "test_size": len(test_idx),
@@ -236,13 +248,49 @@ def build_meta_dict(
         "task_name": task_name,
         "task_spec": task_spec.to_dict(),
         "config_tag": task_spec.config_tag,
-        "requested_samples": build_result.requested_samples,
-        "success_count": build_result.success_count,
-        "fail_count": build_result.fail_count,
-        "success_ratio": (
-            build_result.success_count / build_result.requested_samples
-            if build_result.requested_samples > 0 else 0.0
-        ),
+        "generation_status": {
+            "completed": bool(build_result.generation_completed),
+            "completion_policy": task_spec.completion_policy,
+            "target_success_count": int(
+                build_result.target_success_count
+            ),
+            "initial_candidate_count": int(
+                build_result.initial_candidate_count
+            ),
+            "max_attempt_factor": float(
+                task_spec.max_attempt_factor
+            ),
+            "max_attempt_count": int(
+                build_result.max_attempt_count
+            ),
+            "attempt_count": int(
+                build_result.attempt_count
+            ),
+            "success_count": int(
+                build_result.success_count
+            ),
+            "fail_count": int(
+                build_result.fail_count
+            ),
+            "success_ratio_vs_attempts": (
+                build_result.success_count
+                / build_result.attempt_count
+                if build_result.attempt_count > 0
+                else 0.0
+            ),
+            "completion_ratio": (
+                build_result.success_count
+                / build_result.target_success_count
+                if build_result.target_success_count > 0
+                else 0.0
+            ),
+            "used_completion_sampling": bool(
+                build_result.used_completion_sampling
+            ),
+            "successful_points_strictly_uniform": bool(
+                build_result.successful_points_strictly_uniform
+            ),
+        },
         "split": {
             "train_size": int(len(train_idx)),
             "val_size": int(len(val_idx)),
@@ -270,22 +318,27 @@ def print_dataset_save_summary(
     dataset_npz_path: str,
     meta_json_path: str,
     failed_json_path: str,
-    requested_samples: int,
+    target_success_count: int,
+    attempt_count: int,
     success_count: int,
     fail_count: int,
+    generation_completed: bool,
     train_size: int,
     val_size: int,
     test_size: int,
 ) -> None:
-    """
-    打印数据集保存摘要。
-    """
+    """打印数据集保存摘要。"""
     print_section("Dataset generation finished")
     print_kv("task_name", task_name)
-    print_kv("requested_samples", requested_samples)
+    print_kv("target_success_count", target_success_count)
+    print_kv("attempt_count", attempt_count)
     print_kv("success_count", success_count)
     print_kv("fail_count", fail_count)
-    print_kv("train / val / test", f"{train_size} / {val_size} / {test_size}")
+    print_kv("generation_completed", generation_completed)
+    print_kv(
+        "train / val / test",
+        f"{train_size} / {val_size} / {test_size}",
+    )
     print_kv("dataset.npz", dataset_npz_path)
     print_kv("meta.json", meta_json_path)
     print_kv("failed_samples.json", failed_json_path)

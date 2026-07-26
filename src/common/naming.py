@@ -95,124 +95,120 @@ def normalize_param_order(param_names: list[str]) -> list[str]:
 
 def format_float_for_name(value: float, precision: int = 6) -> str:
     """
-    将浮点数格式化为适合放进目录名/文件名的字符串。
-
-    设计目标：
-    - 尽量短
-    - 保留足够信息
-    - 避免目录名里出现多余空格
-    - 保持跨平台文件名安全
-
-    示例：
-    - 0.4    -> "0.4"
-    - 0.7000 -> "0.7"
-    - 1.6000 -> "1.6"
-    - 0.005  -> "0.005"
-
-    注意：
-    - 这里保留小数点，不替换成其他字符；
-    - Windows/Linux 路径都允许普通小数点。
-    """
-    s = f"{value:.{precision}f}".rstrip("0").rstrip(".")
-    return s if s else "0"
-
-
-def format_range_for_name(param_name: str, value_range: tuple[float, float]) -> str:
-    """
-    将单个参数范围格式化为命名片段。
-
-    示例：
-    - ("Q", (1.6, 3.0)) -> "Q1.6_3"
-    - ("a", (0.4, 0.7)) -> "a0.4_0.7"
-    """
-    v_min, v_max = value_range
-    return f"{param_name}{format_float_for_name(v_min)}_{format_float_for_name(v_max)}"
-
-
-def format_sample_shape_for_name(sample_shape: list[int]) -> str:
-    """
-    将 sample_shape 格式化为命名片段。
+    将浮点数格式化为目录名安全字符串。
 
     规则：
-    - [240]      -> "n240"
-    - [20, 20]   -> "n20x20"
-    - [10,12,8]  -> "n10x12x8"
-
-    说明：
-    - 命名时必须保留“维度结构”，不能只写总样本数；
-    - 因为 [240] 和 [15,16] 虽然总数相近，但任务结构完全不同。
-    """
-    return "n" + "x".join(str(x) for x in sample_shape)
-
-
-# ==========================================================
-# 三、TaskSpec 相关命名
-# ==========================================================
-
-def build_vary_part(task_spec: TaskSpec) -> str:
-    """
-    根据 TaskSpec 生成变化参数片段。
+    - 小数点使用 p；
+    - 负号使用 m；
+    - 去掉无意义的尾随 0。
 
     示例：
-    - vary_params = ["Q"]        -> "vary_Q"
-    - vary_params = ["a"]        -> "vary_a"
-    - vary_params = ["Q", "a"]   -> "vary_a_Q"   （按规范顺序）
-    - vary_params = ["E", "Lz"]  -> "vary_E_Lz"
+    - 1.6    -> 1p6
+    - 3.0    -> 3
+    - 0.005  -> 0p005
+    - -0.5   -> m0p5
     """
+    numeric = float(value)
+    sign = "m" if numeric < 0 else ""
+    magnitude = abs(numeric)
+
+    value_text = (
+        f"{magnitude:.{precision}f}"
+        .rstrip("0")
+        .rstrip(".")
+    )
+
+    if not value_text:
+        value_text = "0"
+
+    return sign + value_text.replace(".", "p")
+
+
+def format_range_for_name(
+    param_name: str,
+    value_range: tuple[float, float],
+) -> str:
+    """把参数范围格式化为名称片段，例如 q_1p6-3。"""
+    value_min, value_max = value_range
+
+    return (
+        f"{param_name.lower()}_"
+        f"{format_float_for_name(value_min)}-"
+        f"{format_float_for_name(value_max)}"
+    )
+
+
+def format_sample_shape_for_name(
+    sample_shape: list[int],
+) -> str:
+    """
+    将目标成功样本规格格式化为名称片段。
+
+    单参数：
+        [5000] -> n5000
+
+    多参数：
+        [20, 20] -> n20x20
+    """
+    return "n" + "x".join(str(value) for value in sample_shape)
+
+
+def build_vary_part(task_spec: TaskSpec) -> str:
+    """生成规范化变化参数片段。"""
     ordered = normalize_param_order(task_spec.vary_params)
-    return "vary_" + "_".join(ordered)
+    return "-".join(name.lower() for name in ordered)
 
 
 def build_range_part(task_spec: TaskSpec) -> str:
-    """
-    根据 TaskSpec 生成范围片段。
-
-    示例：
-    - {"Q": (1.6, 3.0)} -> "Q1.6_3"
-    - {"Q": (1.6, 3.0), "a": (0.4, 0.7)} -> "a0.4_0.7__Q1.6_3"
-
-    说明：
-    - 这里也按规范顺序输出；
-    - 多个参数之间用双下划线 "__" 分开，增强可读性。
-    """
+    """生成规范化参数范围片段。"""
     ordered = normalize_param_order(task_spec.vary_params)
 
-    parts = []
-    for p in ordered:
-        parts.append(format_range_for_name(p, task_spec.vary_ranges[p]))
-
-    return "__".join(parts)
+    return "_".join(
+        format_range_for_name(
+            param_name=name,
+            value_range=task_spec.vary_ranges[name],
+        )
+        for name in ordered
+    )
 
 
 def build_task_name(task_spec: TaskSpec) -> str:
     """
-    根据 TaskSpec 生成完整 task_name。
+    根据 TaskSpec 生成第二阶段数据任务名。
 
-    统一格式：
-        vary_<vary_part>__<range_part>__n<sample_shape>__T<n_steps>__<config_tag>
-
-    示例：
-    - Q-only:
-        vary_Q__Q1.6_3__n240__T800__cfg1
-
-    - a-only:
-        vary_a__a0.4_0.7__n240__T800__cfg1
-
-    - QA:
-        vary_a_Q__a0.4_0.7__Q1.6_3__n20x20__T800__cfg1
+    单参数示例：
+        q_1p6-3_n5000_t1200
 
     说明：
-    - task_name 用来唯一标识“数据任务”；
-    - 只要变化参数、范围、样本规格、轨道长度有变化，
-      task_name 就应当变化；
-    - 这样才能保证不同任务的数据与输出不混淆。
+    - n 表示目标成功样本数；
+    - 小数点使用 p；
+    - 不再默认追加 config_tag；
+    - 完整固定参数保存在 meta.json。
     """
     vary_part = build_vary_part(task_spec)
     range_part = build_range_part(task_spec)
-    sample_part = format_sample_shape_for_name(task_spec.sample_shape)
-    time_part = f"T{task_spec.n_steps}"
+    sample_part = format_sample_shape_for_name(
+        task_spec.sample_shape
+    )
+    time_part = f"t{int(task_spec.n_steps)}"
 
-    return f"{vary_part}__{range_part}__{sample_part}__{time_part}__{task_spec.config_tag}"
+    if len(task_spec.vary_params) == 1:
+        parameter_name = task_spec.vary_params[0]
+        value_min, value_max = task_spec.vary_ranges[
+            parameter_name
+        ]
+
+        return (
+            f"{parameter_name.lower()}_"
+            f"{format_float_for_name(value_min)}-"
+            f"{format_float_for_name(value_max)}_"
+            f"{sample_part}_{time_part}"
+        )
+
+    return (
+        f"{vary_part}_{range_part}_"
+        f"{sample_part}_{time_part}"
+    )
 
 
 # ==========================================================

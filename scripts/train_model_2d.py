@@ -40,11 +40,13 @@ from __future__ import annotations
 
 import argparse
 import json
+import random
 import sys
 from pathlib import Path
 from time import perf_counter
 from typing import Any
 
+import numpy as np
 import torch
 import torch.nn as nn
 
@@ -119,7 +121,39 @@ def save_json(obj: dict[str, Any], path: Path) -> None:
 
 
 # ==========================================================
-# 三、指标函数
+# 三、训练随机种子
+# ==========================================================
+
+def set_training_seed(seed: int) -> None:
+    """
+    固定训练阶段的随机种子。
+
+    控制：
+    - Python random；
+    - NumPy；
+    - PyTorch CPU；
+    - PyTorch CUDA。
+
+    注意：
+    完全确定性还会受到 CUDA 算子和运行环境影响，但固定 seed
+    可以显著提高实验可复现性。
+    """
+    seed = int(seed)
+
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed(seed)
+        torch.cuda.manual_seed_all(seed)
+
+    torch.backends.cudnn.benchmark = False
+    torch.backends.cudnn.deterministic = True
+
+
+# ==========================================================
+# 四、指标函数
 # ==========================================================
 
 def mse_loss(pred: torch.Tensor, target: torch.Tensor) -> torch.Tensor:
@@ -510,6 +544,24 @@ def build_parser() -> argparse.ArgumentParser:
     )
 
     parser.add_argument(
+        "--training-seed",
+        type=int,
+        default=27,
+        help="训练阶段随机种子，默认 27。",
+    )
+
+    parser.add_argument(
+        "--name-tags",
+        nargs="*",
+        default=None,
+        help=(
+            "需要显式加入模型运行目录名的可选标签。"
+            "例如：--name-tags normalization seed。"
+            "程序不会自动把全部配置写进名称。"
+        ),
+    )
+
+    parser.add_argument(
         "--print-every",
         type=int,
         default=1,
@@ -545,26 +597,68 @@ def main() -> None:
         effective_task_name = str(args.task_name)
 
     device = str(args.device)
+    training_seed = int(args.training_seed)
+
+    # 必须在模型构造和 DataLoader 使用之前设置。
+    set_training_seed(training_seed)
+
+    requested_name_tags = {
+        str(tag).strip().lower()
+        for tag in (args.name_tags or [])
+        if str(tag).strip()
+    }
+
+    supported_name_tags = {
+        "normalization",
+        "target",
+        "seed",
+        "lr",
+    }
+
+    unknown_name_tags = (
+        requested_name_tags - supported_name_tags
+    )
+    if unknown_name_tags:
+        raise ValueError(
+            "不支持的 --name-tags："
+            f"{sorted(unknown_name_tags)}；"
+            f"当前支持：{sorted(supported_name_tags)}"
+        )
+
+    extra_name_tags: list[str] = []
+
+    if "normalization" in requested_name_tags:
+        normalization_tag = {
+            "standard": "std",
+            "none": "none",
+        }[str(args.normalization)]
+        extra_name_tags.append(normalization_tag)
+
+    if "target" in requested_name_tags:
+        target_tag = {
+            "raw": "raw",
+            "residual_initial": "res",
+        }[str(args.target_transform)]
+        extra_name_tags.append(target_tag)
+
+    if "seed" in requested_name_tags:
+        extra_name_tags.append(f"s{training_seed}")
+
+    if "lr" in requested_name_tags:
+        lr_text = f"{float(args.lr):g}".replace(".", "p")
+        extra_name_tags.append(f"lr{lr_text}")
 
     # ------------------------------------------------------
-    # A. 由 registry_2d 统一生成基础模型名
+    # A. 由 registry_2d 统一生成模型运行名
     # ------------------------------------------------------
-    base_model_name = build_model_name_2d(
+    model_name = build_model_name_2d(
         model_type=str(args.model),
         modes1=int(args.modes_param),
         modes2=int(args.modes_lambda),
         width=int(args.width),
         depth=int(args.depth),
-    )
-
-    # ------------------------------------------------------
-    # B. 给模型名加上实验变换标签，避免覆盖旧结果
-    # ------------------------------------------------------
-    model_name = (
-        f"{base_model_name}"
-        f"_norm-{args.normalization}"
-        f"_target-{args.target_transform}"
-        f"_ref{args.lambda_reference_index}"
+        epochs=int(args.epochs),
+        extra_tags=extra_name_tags,
     )
 
     dirs = get_model_output_dirs(
@@ -639,7 +733,14 @@ def main() -> None:
         "cfg_param_name": args.cfg_param_name,
         "model_name": model_name,
         "model_type": str(args.model),
+        "operator_axes": [
+            bundle.param_name,
+            "lambda",
+        ],
+        "spatial_dimension": 2,
         "device": device,
+        "training_seed": int(training_seed),
+        "name_tags": sorted(requested_name_tags),
         "epochs": int(args.epochs),
         "batch_size": int(args.batch_size),
         "lr": float(args.lr),
@@ -761,6 +862,13 @@ def main() -> None:
         "cfg_param_name": args.cfg_param_name,
         "model_name": model_name,
         "model_type": str(args.model),
+        "operator_axes": [
+            bundle.param_name,
+            "lambda",
+        ],
+        "spatial_dimension": 2,
+        "training_seed": int(training_seed),
+        "name_tags": sorted(requested_name_tags),
         "normalization": str(args.normalization),
         "target_transform": str(args.target_transform),
         "lambda_reference_index": int(args.lambda_reference_index),

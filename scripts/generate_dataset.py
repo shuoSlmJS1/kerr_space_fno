@@ -24,8 +24,9 @@ from __future__ import annotations
 
 import argparse
 import sys
-
 from pathlib import Path
+
+import numpy as np
 # 将项目根目录加入 sys.path，保证可以导入 src.xxx
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
@@ -128,7 +129,8 @@ def main() -> None:
     4. 生成 task_name
     5. 先做 warning 检查并询问用户是否继续
     6. 正式生成数据集
-    7. 保存到统一路径（同路径默认覆盖）
+    7. 无论是否达到目标成功数，都先保存结果与失败日志
+    8. 若生成未完成，则保存后以失败状态退出
     """
     parser = build_parser()
     args = parser.parse_args()
@@ -143,6 +145,21 @@ def main() -> None:
     if args.show_astro_help:
         print(get_astrophysical_range_help_text())
         return
+
+    # 正式生成任务必须提供核心参数。
+    missing_required_args: list[str] = []
+
+    if not args.vary_params:
+        missing_required_args.append("--vary-params")
+
+    if not args.sample_shape:
+        missing_required_args.append("--sample-shape")
+
+    if missing_required_args:
+        parser.error(
+            "正式生成数据集时缺少必要参数："
+            + ", ".join(missing_required_args)
+        )
 
     # ------------------------------------------------------
     # B. 解析 TaskSpec
@@ -186,9 +203,21 @@ def main() -> None:
     print(f"task_name           : {task_name}")
     print(f"vary_params         : {task_spec.vary_params}")
     print(f"vary_ranges         : {task_spec.vary_ranges}")
-    print(f"sample_shape        : {task_spec.sample_shape}")
-    print(f"requested_samples   : {task_spec.total_requested_samples}")
-    print(f"n_steps             : {task_spec.n_steps}")
+    target_success_count = task_spec.total_requested_samples
+    max_attempt_count = int(
+        np.ceil(
+            target_success_count
+            * float(task_spec.max_attempt_factor)
+        )
+    )
+
+    print(f"sample_shape         : {task_spec.sample_shape}")
+    print(f"target_success_count : {target_success_count}")
+    print(f"completion_policy    : {task_spec.completion_policy}")
+    print(f"max_attempt_factor   : {task_spec.max_attempt_factor}")
+    print(f"max_attempt_count    : {max_attempt_count}")
+    print(f"data_seed            : {task_spec.seed}")
+    print(f"n_steps              : {task_spec.n_steps}")
     print(f"step_size           : {task_spec.step_size}")
     print(f"dataset output dir  : {paths.task_dir}")
     print(
@@ -209,7 +238,21 @@ def main() -> None:
     print("Final summary")
     print("=" * 70)
     for k, v in summary.items():
-        print(f"{k:<20s} : {v}")
+        print(f"{k:<35s} : {v}")
+
+    # ------------------------------------------------------
+    # G. 保存后判断任务是否完整
+    # ------------------------------------------------------
+    if not build_result.generation_completed:
+        raise RuntimeError(
+            "数据集生成未达到目标成功样本数。"
+            f"目标成功数={build_result.target_success_count}，"
+            f"实际成功数={build_result.success_count}，"
+            f"实际尝试数={build_result.attempt_count}，"
+            f"最大尝试数={build_result.max_attempt_count}。"
+            "当前成功数据、meta.json 和 failed_samples.json "
+            "均已保存，但该数据集不得作为正式完整数据集使用。"
+        )
 
 
 if __name__ == "__main__":

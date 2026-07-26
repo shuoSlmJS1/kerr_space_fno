@@ -186,7 +186,94 @@ def build_1d_axis(
 
 
 # ==========================================================
-# 四、辅助函数
+# 四、目标成功数补充候选
+# ==========================================================
+
+def sample_key(
+    sample: dict[str, Any],
+    param_order: list[str],
+) -> tuple[str, ...]:
+    """
+    将参数样本转换为稳定、可比较的键。
+
+    使用 float.hex() 保留浮点数的精确二进制值，
+    用于避免重复尝试完全相同的候选点。
+    """
+    return tuple(
+        float(sample[param_name]).hex()
+        for param_name in param_order
+    )
+
+
+def build_random_completion_candidates(
+    task_spec: TaskSpec,
+    candidate_count: int,
+    attempted_keys: set[tuple[str, ...]],
+    rng: np.random.Generator,
+) -> list[dict[str, Any]]:
+    """
+    在原参数范围内生成新的均匀随机候选点。
+
+    用途：
+    - 第一批规则网格出现失败后补充候选；
+    - 只返回尚未尝试过的参数点；
+    - 随机性由外部传入的 rng 控制，保证可复现。
+
+    说明：
+    - 这些补充点通常会使最终成功样本不再是严格规则网格；
+    - 是否发生补样应记录在 meta.json 中。
+    """
+    if candidate_count < 0:
+        raise ValueError(
+            f"candidate_count 不能为负，当前为 {candidate_count}"
+        )
+
+    if candidate_count == 0:
+        return []
+
+    param_order = list(task_spec.vary_params)
+    candidates: list[dict[str, Any]] = []
+
+    # 连续均匀分布下重复概率极低，但仍设置循环上限，
+    # 防止未来离散采样规则造成意外死循环。
+    max_draws = max(candidate_count * 20, 100)
+    draw_count = 0
+
+    while (
+        len(candidates) < candidate_count
+        and draw_count < max_draws
+    ):
+        draw_count += 1
+
+        sample = {
+            param_name: float(
+                rng.uniform(
+                    task_spec.vary_ranges[param_name][0],
+                    task_spec.vary_ranges[param_name][1],
+                )
+            )
+            for param_name in param_order
+        }
+
+        key = sample_key(sample, param_order)
+
+        if key in attempted_keys:
+            continue
+
+        attempted_keys.add(key)
+        candidates.append(sample)
+
+    if len(candidates) != candidate_count:
+        raise RuntimeError(
+            "未能生成足够数量的不重复补充候选点："
+            f"需要 {candidate_count}，实际得到 {len(candidates)}。"
+        )
+
+    return candidates
+
+
+# ==========================================================
+# 五、辅助函数
 # ==========================================================
 
 def count_expected_samples(task_spec: TaskSpec) -> int:
