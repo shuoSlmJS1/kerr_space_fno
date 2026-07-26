@@ -55,6 +55,10 @@ class FNO2dDatasetBundle:
     task_names: list[str] | None = None
     cfg_param_name: str | None = None
 
+    source_task_metas: dict[str, dict[str, Any]] | None = None
+    data_seeds: dict[str, int | None] | None = None
+    generation_statuses: dict[str, dict[str, Any]] | None = None
+
 
 class FNO2dFieldDataset(Dataset):
     """
@@ -97,6 +101,72 @@ def load_raw_task_arrays(task_name: str) -> dict[str, np.ndarray]:
 def load_task_meta(task_name: str) -> dict[str, Any]:
     meta_path = get_task_meta_json_path(task_name)
     return load_json(meta_path)
+
+
+def validate_task_generation_meta(
+    task_name: str,
+    meta: dict[str, Any],
+) -> dict[str, Any]:
+    """
+    检查数据集是否为完整生成结果。
+
+    新版数据集要求：
+    - meta.json 中存在 generation_status；
+    - generation_status.completed 必须为 true。
+
+    对旧数据集：
+    - 若缺少 generation_status，则不立即拒绝；
+    - 返回兼容状态，并标记 status_source='legacy_missing'。
+    """
+    generation_status = meta.get("generation_status")
+
+    if generation_status is None:
+        return {
+            "completed": None,
+            "status_source": "legacy_missing",
+        }
+
+    generation_status = dict(generation_status)
+    completed = generation_status.get("completed")
+
+    if completed is not True:
+        raise ValueError(
+            f"数据任务 {task_name!r} 不是完整数据集："
+            f"generation_status.completed={completed!r}。"
+            "请勿用于正式训练。"
+        )
+
+    generation_status["status_source"] = "meta.json"
+    return generation_status
+
+
+def extract_data_seed(
+    meta: dict[str, Any],
+) -> int | None:
+    """
+    从 meta.json 提取数据生成 seed。
+
+    优先级：
+    1. task_spec.seed
+    2. task_spec.metadata.generation.data_seed
+    3. generation_status.data_seed（兼容未来格式）
+    """
+    task_spec = meta.get("task_spec", {})
+
+    if "seed" in task_spec:
+        return int(task_spec["seed"])
+
+    task_metadata = task_spec.get("metadata", {})
+    generation_metadata = task_metadata.get("generation", {})
+
+    if "data_seed" in generation_metadata:
+        return int(generation_metadata["data_seed"])
+
+    generation_status = meta.get("generation_status", {})
+    if "data_seed" in generation_status:
+        return int(generation_status["data_seed"])
+
+    return None
 
 
 def load_task_vary_params_order(task_name: str) -> list[str]:
@@ -303,6 +373,13 @@ def load_fno2d_dataset_bundle(
     lambda_reference_index: int = 0,
 ) -> FNO2dDatasetBundle:
     """读取单参数任务，并转换为 FNO2d 数据包。"""
+    meta = load_task_meta(task_name)
+    generation_status = validate_task_generation_meta(
+        task_name=task_name,
+        meta=meta,
+    )
+    data_seed = extract_data_seed(meta)
+
     data = load_raw_task_arrays(task_name)
     validate_npz_keys(data)
 
@@ -346,6 +423,15 @@ def load_fno2d_dataset_bundle(
         target_transform_config=target_transform_config,
         task_names=[task_name],
         cfg_param_name=None,
+        source_task_metas={
+            task_name: meta,
+        },
+        data_seeds={
+            task_name: data_seed,
+        },
+        generation_statuses={
+            task_name: generation_status,
+        },
     )
 
 
@@ -381,7 +467,22 @@ def load_fno2d_multicfg_dataset_bundle(
     ref_param_name: str | None = None
     ref_lambda_grid: np.ndarray | None = None
 
+    source_task_metas: dict[str, dict[str, Any]] = {}
+    data_seeds: dict[str, int | None] = {}
+    generation_statuses: dict[str, dict[str, Any]] = {}
+
     for task_name in task_names:
+        meta = load_task_meta(task_name)
+        generation_status = validate_task_generation_meta(
+            task_name=task_name,
+            meta=meta,
+        )
+        data_seed = extract_data_seed(meta)
+
+        source_task_metas[task_name] = meta
+        data_seeds[task_name] = data_seed
+        generation_statuses[task_name] = generation_status
+
         data = load_raw_task_arrays(task_name)
         validate_npz_keys(data)
 
@@ -461,6 +562,9 @@ def load_fno2d_multicfg_dataset_bundle(
         target_transform_config=target_transform_config,
         task_names=list(task_names),
         cfg_param_name=str(cfg_param_name),
+        source_task_metas=source_task_metas,
+        data_seeds=data_seeds,
+        generation_statuses=generation_statuses,
     )
 
 
@@ -596,6 +700,8 @@ def summarize_fno2d_bundle(bundle: FNO2dDatasetBundle) -> dict[str, Any]:
         "cfg_param_name": bundle.cfg_param_name,
         "param_name": bundle.param_name,
         "vary_params_order": bundle.vary_params_order,
+        "data_seeds": bundle.data_seeds,
+        "generation_statuses": bundle.generation_statuses,
         "normalization": bundle.normalization,
         "normalization_stats": summarize_normalization_stats(bundle.normalization_stats),
         "target_transform": bundle.target_transform,

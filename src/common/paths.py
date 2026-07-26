@@ -130,6 +130,44 @@ def get_model_output_dir(task_name: str, model_name: str) -> Path:
     return get_task_output_dir(task_name) / model_name
 
 
+def get_model_run_config_json_path(
+    task_name: str,
+    model_name: str,
+) -> Path:
+    """
+    返回模型运行配置路径。
+
+    统一命名：
+        run_config.json
+
+    该文件记录运行开始前已经确定的信息，
+    其结构应对 FNO2D、FNO3D 等不同维度保持一致。
+    """
+    return get_model_output_dir(
+        task_name,
+        model_name,
+    ) / "run_config.json"
+
+
+def get_model_summary_json_path(
+    task_name: str,
+    model_name: str,
+) -> Path:
+    """
+    返回模型运行总摘要路径。
+
+    统一命名：
+        summary.json
+
+    该文件记录训练、推理和分析结束后得到的核心结果，
+    供跨模型、跨维度实验统一比较。
+    """
+    return get_model_output_dir(
+        task_name,
+        model_name,
+    ) / "summary.json"
+
+
 def get_model_checkpoints_dir(task_name: str, model_name: str) -> Path:
     """
     返回模型 checkpoint 目录。
@@ -324,6 +362,8 @@ class ModelOutputPaths:
     - 训练脚本、推理脚本、分析脚本都可以直接使用
     """
     model_dir: Path
+    run_config_json: Path
+    summary_json: Path
     checkpoints_dir: Path
     logs_dir: Path
     inference_dir: Path
@@ -356,6 +396,14 @@ def build_model_output_paths(task_name: str, model_name: str) -> ModelOutputPath
     """
     return ModelOutputPaths(
         model_dir=get_model_output_dir(task_name, model_name),
+        run_config_json=get_model_run_config_json_path(
+            task_name,
+            model_name,
+        ),
+        summary_json=get_model_summary_json_path(
+            task_name,
+            model_name,
+        ),
         checkpoints_dir=get_model_checkpoints_dir(task_name, model_name),
         logs_dir=get_model_logs_dir(task_name, model_name),
         inference_dir=get_model_inference_dir(task_name, model_name),

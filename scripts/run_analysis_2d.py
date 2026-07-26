@@ -73,7 +73,10 @@ from src.training.fno2d.target_transform_2d import (  # noqa: E402
     inverse_transform_output_field,
 )
 from src.common.io_utils import load_json  # noqa: E402
-from src.common.paths import get_task_meta_json_path  # noqa: E402
+from src.common.paths import (  # noqa: E402
+    get_model_summary_json_path,
+    get_task_meta_json_path,
+)
 from src.inference_analysis.timing import (  # noqa: E402
     build_full_param_dicts_for_timing,
     time_traditional_orbit_generation_from_param_dicts,
@@ -154,7 +157,7 @@ def compute_relative_l2_np(
     """
     if pred.shape != target.shape:
         raise ValueError(
-            f"pred 和 target shape 必须一致，当前 pred={pred.shape}, target={target.shape}"
+            f"pred and target must have identical shapes; current pred={pred.shape}, target={target.shape}"
         )
 
     batch_size = int(pred.shape[0])
@@ -198,9 +201,13 @@ def load_checkpoint_2d(
     加载二维模型 checkpoint。
     """
     if not checkpoint_path.exists():
-        raise FileNotFoundError(f"checkpoint 不存在：{checkpoint_path}")
+        raise FileNotFoundError(f"Checkpoint does not exist: {checkpoint_path}")
 
-    return torch.load(checkpoint_path, map_location=device)
+    return torch.load(
+        checkpoint_path,
+        map_location=device,
+        weights_only=False,
+    )
 
 
 def load_fno2d_checkpoint_model(
@@ -281,15 +288,15 @@ def load_normalization_stats_from_checkpoint(
     dataset_summary = config.get("dataset_summary", None)
     if dataset_summary is None:
         raise KeyError(
-            "checkpoint['config'] 中没有 dataset_summary，"
-            "无法恢复 normalization_stats。"
+            "checkpoint['config'] does not contain dataset_summary; "
+            "normalization statistics cannot be restored."
         )
 
     stats_dict = dataset_summary.get("normalization_stats", None)
     if stats_dict is None:
         raise KeyError(
-            "dataset_summary 中没有 normalization_stats，"
-            "无法恢复 normalization stats。"
+            "dataset_summary does not contain normalization_stats; "
+            "normalization statistics cannot be restored."
         )
 
     return FieldNormalizationStats.from_dict(stats_dict)
@@ -346,8 +353,9 @@ def get_multicfg_source_from_checkpoint(
     if isinstance(task_names, list) and len(task_names) > 1:
         if cfg_param_name is None:
             raise ValueError(
-                "checkpoint config 中存在多个 task_names，但没有 cfg_param_name，"
-                "无法恢复多 cfg 数据。"
+                "The checkpoint configuration contains multiple "
+                "task_names but does not define cfg_param_name; "
+                "multi-configuration data cannot be restored."
             )
         return None, [str(t) for t in task_names], str(cfg_param_name), fallback_task_name
 
@@ -684,8 +692,8 @@ def get_traditional_total_seconds(traditional_timing: Any) -> float:
         return float(traditional_timing.total_seconds)
 
     raise TypeError(
-        "无法从 traditional_timing 中读取 total_seconds，"
-        f"当前类型为 {type(traditional_timing)}"
+        "Unable to read total_seconds from traditional_timing; "
+        f"current type is {type(traditional_timing)}"
     )
 
 
@@ -735,7 +743,7 @@ def build_parser() -> argparse.ArgumentParser:
         "--task-name",
         type=str,
         required=True,
-        help="任务名，例如 vary_Q__Q1.6_3__n2000__T1200__cfg1。",
+        help="Task name, for example q_1p6-3_n2000_t1200.",
     )
 
     parser.add_argument(
@@ -743,8 +751,8 @@ def build_parser() -> argparse.ArgumentParser:
         type=str,
         required=True,
         help=(
-            "二维模型名，例如 "
-            "fno2d_m1_16_m2_32_w64_d4_norm-standard_target-residual_initial_ref0。"
+            "Two-dimensional model run name, for example "
+            "fno2d_m16x32_w64_d4_e300."
         ),
     )
 
@@ -752,29 +760,45 @@ def build_parser() -> argparse.ArgumentParser:
         "--device",
         type=str,
         default="cuda" if torch.cuda.is_available() else "cpu",
-        help="推理设备：cuda 或 cpu。",
+        help="Inference device: cuda or cpu.",
     )
 
     parser.add_argument(
         "--batch-size",
         type=int,
         default=1,
-        help="二维场推理 batch size，第一版通常保持 1。",
+        help=(
+            "Batch size for two-dimensional field inference. "
+            "A value of 1 is normally recommended."
+        ),
     )
 
     parser.add_argument(
         "--reference-factor",
         type=int,
         default=8,
-        help="二阶高精度参考计时的步长细化倍数。",
+        help=(
+            "Step-size refinement factor used for high-accuracy "
+            "second-order reference timing."
+        ),
     )
 
     parser.add_argument(
         "--run-reference-timing",
         action="store_true",
         help=(
-            "额外计算高精度二阶参考计时。默认关闭，"
-            "因为该计算会显著增加分析耗时。"
+            "Also run high-accuracy second-order reference timing. "
+            "Disabled by default because it significantly increases "
+            "analysis time."
+        ),
+    )
+
+    parser.add_argument(
+        "--verbose",
+        action="store_true",
+        help=(
+            "Print the complete test dataset configuration. "
+            "By default, only a concise human-readable summary is shown."
         ),
     )
 
@@ -800,7 +824,9 @@ def main() -> None:
     run_reference_timing = bool(args.run_reference_timing)
 
     if reference_factor < 1:
-        raise ValueError("--reference-factor 必须为正整数。")
+        raise ValueError(
+            "--reference-factor must be a positive integer."
+        )
 
     dirs = get_2d_model_dirs(
         task_name=task_name,
@@ -856,10 +882,32 @@ def main() -> None:
         batch_size=batch_size,
     )
 
-    print("=" * 70)
-    print("Loaded 2D test dataset summary")
-    print("=" * 70)
-    print(json.dumps(bundle_summary, indent=4, ensure_ascii=False))
+    # 默认显示短摘要，完整内容仍保存在分析 JSON 中。
+    if args.verbose:
+        print("=" * 70)
+        print("Complete 2D Test Dataset Summary")
+        print("=" * 70)
+        print(json.dumps(bundle_summary, indent=4, ensure_ascii=False))
+    else:
+        print("=" * 70)
+        print("2D Evaluation Dataset")
+        print("=" * 70)
+        print(f"Task                 : {task_name}")
+        print(f"Model                : {model_name}")
+        print(
+            "Operator axes        : "
+            f"{bundle.param_name}, lambda"
+        )
+        print(
+            "Test parameter points: "
+            f"{bundle.test_field.num_param}"
+        )
+        print(
+            "Lambda points        : "
+            f"{bundle.test_field.num_lambda}"
+        )
+        print(f"Normalization        : {normalization_method}")
+        print(f"Target transform     : {target_transform_method}")
 
     # ------------------------------------------------------
     # D. 恢复模型
@@ -892,10 +940,29 @@ def main() -> None:
     # ------------------------------------------------------
     # G. 在 raw xyz 物理空间计算误差
     # ------------------------------------------------------
-    metrics = compute_metrics_2d(
+    raw_metrics = compute_metrics_2d(
         pred=predictions,
         target=targets,
     )
+
+    # 明确标记：这些指标在原始 xyz 物理空间中计算，
+    # 是正式用于模型评估和跨实验比较的指标。
+    metrics = {
+        "metric_space": "physical_space",
+        "usage": "official_evaluation",
+        "description": (
+            "Metrics computed in raw xyz physical space. These are the "
+            "official metrics used for model evaluation and comparison."
+        ),
+        "test_mse_physical_space": float(
+            raw_metrics["mse"]
+        ),
+        "test_relative_l2_physical_space": float(
+            raw_metrics["relative_l2"]
+        ),
+        "pred_shape": list(raw_metrics["pred_shape"]),
+        "target_shape": list(raw_metrics["target_shape"]),
+    }
 
     # ------------------------------------------------------
     # H. 计时：模型推理
@@ -1036,7 +1103,91 @@ def main() -> None:
     save_json(analysis_summary, summary_path)
 
     # ------------------------------------------------------
-    # K. 打印摘要
+    # K. 更新根级统一 summary.json
+    # ------------------------------------------------------
+    root_summary_path = get_model_summary_json_path(
+        task_name=task_name,
+        model_name=model_name,
+    )
+
+    if root_summary_path.exists():
+        root_summary = load_json(root_summary_path)
+    else:
+        root_summary = {
+            "schema_version": "1.0",
+            "run_completed": True,
+            "run_type": "training_and_evaluation",
+            "experiment_family": "kerr_fno",
+            "model_family": "fno",
+            "task_name": task_name,
+            "model_name": model_name,
+            "spatial_dimension": 2,
+            "metrics": {
+                "model_space": None,
+                "physical_space": None,
+            },
+            "timing": {},
+            "artifacts": {},
+        }
+
+    root_summary.setdefault("metrics", {})
+    root_summary["metrics"]["physical_space"] = {
+        "usage": "official_evaluation",
+        "description": (
+            "Metrics computed in raw xyz physical space. These are the "
+            "official metrics used for model evaluation and comparison."
+        ),
+        "test_mse": float(
+            metrics["test_mse_physical_space"]
+        ),
+        "test_relative_l2": float(
+            metrics["test_relative_l2_physical_space"]
+        ),
+        "pred_shape": list(metrics["pred_shape"]),
+        "target_shape": list(metrics["target_shape"]),
+    }
+
+    root_summary.setdefault("timing", {})
+    root_summary["timing"]["inference"] = {
+        "model_total_seconds": float(
+            timing["model"]["total_seconds"]
+        ),
+        "model_avg_seconds_per_sample": float(
+            timing["model"]["avg_seconds_per_sample"]
+        ),
+        "num_samples": int(
+            timing["model"]["num_samples"]
+        ),
+        "second_order_standard_total_seconds": float(
+            timing["second_order_standard"][
+                "traditional_total_seconds"
+            ]
+        ),
+        "speedup_standard": float(
+            timing["second_order_standard"][
+                "speedup_total"
+            ]
+        ),
+    }
+
+    root_summary.setdefault("artifacts", {})
+    root_summary["artifacts"].update({
+        "predictions": "inference/predictions.npy",
+        "targets": "inference/targets.npy",
+        "inference_metrics": "inference/metrics.json",
+        "inference_timing": "inference/timing.json",
+        "analysis_summary": "analysis/analysis_summary.json",
+    })
+
+    root_summary["evaluation_completed"] = True
+
+    save_json(
+        root_summary,
+        root_summary_path,
+    )
+
+    # ------------------------------------------------------
+    # L. 打印摘要
     # ------------------------------------------------------
     print("-" * 70)
     print("2D inference analysis finished")
@@ -1044,8 +1195,14 @@ def main() -> None:
     print(f"Model name         : {model_name}")
     print(f"Normalization      : {normalization_method}")
     print(f"Target transform   : {target_transform_method}")
-    print(f"Test MSE           : {metrics['mse']:.6e}")
-    print(f"Test Relative L2   : {metrics['relative_l2']:.6e}")
+    print(
+        "Test MSE (physical space, official)         : "
+        f"{metrics['test_mse_physical_space']:.6e}"
+    )
+    print(
+        "Test Relative L2 (physical space, official) : "
+        f"{metrics['test_relative_l2_physical_space']:.6e}"
+    )
     print(f"Model total time   : {timing['model_total_seconds']:.6e} s")
     print(
         "Second-order std   : "
