@@ -24,6 +24,7 @@ from __future__ import annotations
 
 import math
 from dataclasses import dataclass
+from time import perf_counter
 from typing import Any
 
 import numpy as np
@@ -88,7 +89,10 @@ class DatasetBuildResult:
 # 二、主入口
 # ==========================================================
 
-def build_dataset(task_spec: TaskSpec) -> DatasetBuildResult:
+def build_dataset(
+    task_spec: TaskSpec,
+    progress_every: int = 100,
+) -> DatasetBuildResult:
     """
     根据 TaskSpec 构建完整数据集。
 
@@ -160,6 +164,13 @@ def build_dataset(task_spec: TaskSpec) -> DatasetBuildResult:
 
     attempt_count = 0
     used_completion_sampling = False
+
+    if progress_every <= 0:
+        raise ValueError(
+            "progress_every must be a positive integer."
+        )
+
+    generation_start_time = perf_counter()
 
     # ------------------------------------------------------
     # D. 目标成功数驱动生成
@@ -295,6 +306,64 @@ def build_dataset(task_spec: TaskSpec) -> DatasetBuildResult:
                 "step_size": float(task_spec.step_size),
             })
 
+        # 每隔固定次数刷新同一行，避免终端日志不断向上滚动。
+        current_success_count = len(successful_outputs_xyz)
+        current_fail_count = len(failed_samples)
+
+        should_report_progress = (
+            attempt_count % progress_every == 0
+            or current_success_count >= target_success_count
+            or attempt_count >= max_attempt_count
+        )
+
+        if should_report_progress:
+            elapsed_seconds = (
+                perf_counter() - generation_start_time
+            )
+
+            success_rate = (
+                current_success_count / elapsed_seconds
+                if elapsed_seconds > 0.0
+                else 0.0
+            )
+
+            remaining_success_count = max(
+                target_success_count
+                - current_success_count,
+                0,
+            )
+
+            eta_seconds = (
+                remaining_success_count / success_rate
+                if success_rate > 0.0
+                else float("inf")
+            )
+
+            completion_percent = (
+                100.0
+                * current_success_count
+                / target_success_count
+            )
+
+            progress_text = (
+                "Generation progress"
+                f" | success {current_success_count}/{target_success_count}"
+                f" | attempts {attempt_count}"
+                f" | failed {current_fail_count}"
+                f" | {completion_percent:5.1f}%"
+                f" | elapsed {format_duration(elapsed_seconds)}"
+                f" | ETA {format_duration(eta_seconds)}"
+            )
+
+            print(
+                "\r\033[K" + progress_text,
+                end="",
+                flush=True,
+            )
+
+    # 结束进度行，保证后续摘要从新行开始。
+    print()
+
     # ------------------------------------------------------
     # E. 最终状态
     # ------------------------------------------------------
@@ -401,6 +470,28 @@ def build_dataset(task_spec: TaskSpec) -> DatasetBuildResult:
         ),
     )
 
+
+
+def format_duration(seconds: float) -> str:
+    """
+    将秒数格式化为 HH:MM:SS。
+
+    说明：
+    - 该函数只用于终端进度显示；
+    - 无法估计 ETA 时返回 unknown。
+    """
+    if not math.isfinite(seconds) or seconds < 0.0:
+        return "unknown"
+
+    total_seconds = int(round(seconds))
+    hours, remainder = divmod(total_seconds, 3600)
+    minutes, seconds_part = divmod(remainder, 60)
+
+    return (
+        f"{hours:02d}:"
+        f"{minutes:02d}:"
+        f"{seconds_part:02d}"
+    )
 
 
 # ==========================================================
