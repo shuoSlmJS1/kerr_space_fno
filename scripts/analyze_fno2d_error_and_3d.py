@@ -176,19 +176,19 @@ def choose_representatives(
     若角色落在同一轨道上，保留一个轨道但合并角色名称。
     """
     candidate_roles: list[tuple[str, int]] = [
-        ("误差最好", int(np.argmin(relative_l2))),
+        ("Best error", int(np.argmin(relative_l2))),
         (
-            "误差中位",
+            "Median error",
             int(
                 np.argmin(
                     np.abs(relative_l2 - np.median(relative_l2))
                 )
             ),
         ),
-        ("误差最差", int(np.argmax(relative_l2))),
-        ("低Q", nearest_index(Q_sorted, np.percentile(Q_sorted, 10))),
-        ("中Q", nearest_index(Q_sorted, np.percentile(Q_sorted, 50))),
-        ("高Q", nearest_index(Q_sorted, np.percentile(Q_sorted, 90))),
+        ("Worst error", int(np.argmax(relative_l2))),
+        ("Low Q", nearest_index(Q_sorted, np.percentile(Q_sorted, 10))),
+        ("Mid Q", nearest_index(Q_sorted, np.percentile(Q_sorted, 50))),
+        ("High Q", nearest_index(Q_sorted, np.percentile(Q_sorted, 90))),
     ]
 
     merged: dict[int, list[str]] = {}
@@ -223,9 +223,20 @@ def build_interactive_html(
     targets: np.ndarray,
     max_points: int,
     label: str,
+    task_name: str | None = None,
+    model_name: str | None = None,
+    parameter_name: str = "Q",
+    parameter_range_text: str | None = None,
+    experiment_config: dict[str, Any] | None = None,
 ) -> None:
     """
     使用 Plotly 生成一个 HTML 文件。
+
+    设计目标：
+    1. 保留单图 + 下拉菜单切换；
+    2. 每次只展示一条轨道的 truth / prediction；
+    3. 在图中显式展示任务名、模型名、参数信息与当前轨道信息；
+    4. 图例和可见文字尽量使用英文，便于汇报展示。
 
     Plotly 只在生成 HTML 时使用；HTML 本身可独立打开。
     """
@@ -233,11 +244,77 @@ def build_interactive_html(
         import plotly.graph_objects as go
     except ImportError as exc:
         raise RuntimeError(
-            "缺少 plotly。请先运行：pip install plotly"
+            "Plotly is required. Please run: pip install plotly"
         ) from exc
+
+    if len(selected) == 0:
+        raise ValueError("selected must contain at least one trajectory.")
 
     figure = go.Figure()
     buttons = []
+
+    def build_title(case: SelectedTrajectory) -> str:
+        return (
+            f"{label} | {case.role} | "
+            f"{parameter_name}={case.Q:.8f} | "
+            f"Relative L2={case.relative_l2:.6e}"
+        )
+
+    def build_meta_text(case: SelectedTrajectory) -> str:
+        lines = []
+
+        if task_name:
+            lines.append(f"<b>Task:</b> {task_name}")
+        if model_name:
+            lines.append(f"<b>Model:</b> {model_name}")
+
+        config = experiment_config or {}
+
+        if config:
+            lines.append(
+                "<b>Architecture:</b> "
+                f"modes={config.get('modes_param', 'N/A')}"
+                f"x{config.get('modes_lambda', 'N/A')}, "
+                f"width={config.get('width', 'N/A')}, "
+                f"depth={config.get('depth', 'N/A')}, "
+                f"hidden_dim={config.get('hidden_dim', 'N/A')}"
+            )
+            lines.append(
+                "<b>Training:</b> "
+                f"epochs={config.get('epochs', 'N/A')}, "
+                f"best_epoch={config.get('best_epoch', 'N/A')}, "
+                f"normalization={config.get('normalization', 'N/A')}, "
+                f"target={config.get('target_transform', 'N/A')}"
+            )
+            lines.append(
+                "<b>Dataset:</b> "
+                f"total={config.get('total_samples', 'N/A')}, "
+                f"train/val/test="
+                f"{config.get('train_samples', 'N/A')}/"
+                f"{config.get('val_samples', 'N/A')}/"
+                f"{config.get('test_samples', 'N/A')}"
+            )
+            lines.append(
+                "<b>Operator axes:</b> "
+                f"{config.get('operator_axes', 'N/A')} | "
+                f"varying parameter={parameter_name} "
+                f"{parameter_range_text or 'N/A'} | "
+                f"lambda={config.get('lambda_range', 'N/A')} "
+                f"({config.get('lambda_points', 'N/A')} points)"
+            )
+            lines.append(
+                "<b>Seeds:</b> "
+                f"data={config.get('data_seed', 'N/A')}, "
+                f"training={config.get('training_seed', 'N/A')}"
+            )
+
+        lines.append(
+            f"<b>Selected trajectory:</b> {case.role} | "
+            f"{parameter_name}={case.Q:.8f} | "
+            f"Relative L2={case.relative_l2:.6e}"
+        )
+
+        return "<br>".join(lines)
 
     for case_index, case in enumerate(selected):
         target = targets[case.output_position]
@@ -255,11 +332,11 @@ def build_interactive_html(
                 y=target_plot[:, 1],
                 z=target_plot[:, 2],
                 mode="lines",
-                name="数值目标",
+                name="Ground Truth",
                 visible=visible,
-                line={"width": 5},
+                line={"width": 6, "color": "blue"},
                 hovertemplate=(
-                    "目标<br>x=%{x:.5f}<br>y=%{y:.5f}<br>"
+                    "Ground Truth<br>x=%{x:.5f}<br>y=%{y:.5f}<br>"
                     "z=%{z:.5f}<extra></extra>"
                 ),
             )
@@ -270,11 +347,11 @@ def build_interactive_html(
                 y=prediction_plot[:, 1],
                 z=prediction_plot[:, 2],
                 mode="lines",
-                name="FNO预测",
+                name="FNO Prediction",
                 visible=visible,
-                line={"width": 4},
+                line={"width": 5, "color": "red"},
                 hovertemplate=(
-                    "预测<br>x=%{x:.5f}<br>y=%{y:.5f}<br>"
+                    "Prediction<br>x=%{x:.5f}<br>y=%{y:.5f}<br>"
                     "z=%{z:.5f}<extra></extra>"
                 ),
             )
@@ -284,31 +361,49 @@ def build_interactive_html(
         visibility[2 * case_index] = True
         visibility[2 * case_index + 1] = True
 
-        title = (
-            f"{label}：{case.role}；Q={case.Q:.8f}；"
-            f"Relative L2={case.relative_l2:.6e}"
-        )
         buttons.append(
             {
                 "label": (
-                    f"{case.role} | Q={case.Q:.4f} | "
-                    f"误差={case.relative_l2:.3e}"
+                    f"{case.role} | "
+                    f"{parameter_name}={case.Q:.4f} | "
+                    f"RelL2={case.relative_l2:.3e}"
                 ),
                 "method": "update",
                 "args": [
                     {"visible": visibility},
-                    {"title": title},
+                    {
+                        "title": {"text": build_title(case)},
+                        "annotations": [
+                            {
+                                "text": build_meta_text(case),
+                                "xref": "paper",
+                                "yref": "paper",
+                                "x": 0.55,
+                                "y": 0.98,
+                                "xanchor": "left",
+                                "yanchor": "top",
+                                "showarrow": False,
+                                "align": "left",
+                                "font": {"size": 14},
+                                "bordercolor": "black",
+                                "borderwidth": 1,
+                                "borderpad": 6,
+                                "bgcolor": "white",
+                            }
+                        ],
+                    },
                 ],
             }
         )
 
     first = selected[0]
     figure.update_layout(
-        title=(
-            f"{label}：{first.role}；Q={first.Q:.8f}；"
-            f"Relative L2={first.relative_l2:.6e}"
-        ),
+        title={"text": build_title(first)},
         scene={
+            "domain": {
+                "x": [0.0, 0.67],
+                "y": [0.0, 0.94],
+            },
             "xaxis_title": "x",
             "yaxis_title": "y",
             "zaxis_title": "z",
@@ -320,17 +415,115 @@ def build_interactive_html(
                 "direction": "down",
                 "showactive": True,
                 "x": 0.0,
-                "y": 1.12,
+                "y": 1.01,
+                "xanchor": "left",
+                "yanchor": "bottom",
+            }
+        ],
+        annotations=[
+            {
+                "text": build_meta_text(first),
+                "xref": "paper",
+                "yref": "paper",
+                "x": 0.55,
+                "y": 0.98,
+                "xanchor": "left",
+                "yanchor": "top",
+                "showarrow": False,
+                "align": "left",
+                "font": {"size": 14},
+                "bordercolor": "black",
+                "borderwidth": 1,
+                "borderpad": 6,
+                "bgcolor": "white",
             }
         ],
         legend={"orientation": "h", "y": -0.08},
-        margin={"l": 0, "r": 0, "t": 90, "b": 20},
+        margin={"l": 20, "r": 30, "t": 110, "b": 20},
     )
 
     figure.write_html(
         output_path,
         include_plotlyjs=True,
         full_html=True,
+    )
+
+
+def embed_png_sections_in_html(
+    html_path: Path,
+    image_specs: list[tuple[str, Path]],
+) -> None:
+    """
+    将误差 PNG 以 Base64 形式嵌入 Plotly HTML。
+
+    原始 PNG 文件仍然保留，便于单独下载和插入幻灯片。
+    """
+    import base64
+
+    html = html_path.read_text(encoding="utf-8")
+
+    sections: list[str] = [
+        """
+<section style="
+    max-width: 1200px;
+    margin: 32px auto;
+    padding: 0 20px 40px 20px;
+    font-family: Arial, sans-serif;
+">
+<h2 style="margin-bottom: 8px;">Error Analysis</h2>
+<p style="color: #555; margin-top: 0;">
+Static figures are embedded for convenient presentation.
+The original PNG files are also preserved separately.
+</p>
+"""
+    ]
+
+    for title, image_path in image_specs:
+        if not image_path.exists():
+            raise FileNotFoundError(
+                f"Missing image for HTML embedding: {image_path}"
+            )
+
+        encoded = base64.b64encode(
+            image_path.read_bytes()
+        ).decode("ascii")
+
+        sections.append(
+            f"""
+<div style="margin-top: 28px;">
+<h3>{title}</h3>
+<img
+    src="data:image/png;base64,{encoded}"
+    alt="{title}"
+    style="
+        display: block;
+        width: 100%;
+        height: auto;
+        border: 1px solid #ddd;
+    "
+>
+</div>
+"""
+        )
+
+    sections.append("</section>")
+
+    embedded_section = "\n".join(sections)
+
+    if "</body>" not in html:
+        raise RuntimeError(
+            f"HTML closing body tag not found: {html_path}"
+        )
+
+    html = html.replace(
+        "</body>",
+        embedded_section + "\n</body>",
+        1,
+    )
+
+    html_path.write_text(
+        html,
+        encoding="utf-8",
     )
 
 
@@ -351,12 +544,20 @@ def main() -> None:
     predictions_path = inference_dir / "predictions.npy"
     targets_path = inference_dir / "targets_raw_reference.npy"
     metrics_path = inference_dir / "metrics.json"
+    run_config_path = (
+        PROJECT_ROOT
+        / "outputs"
+        / args.task_name
+        / args.model_name
+        / "run_config.json"
+    )
 
     for path in [
         dataset_path,
         predictions_path,
         targets_path,
         metrics_path,
+        run_config_path,
     ]:
         if not path.exists():
             raise FileNotFoundError(f"缺少必要文件：{path}")
@@ -495,8 +696,8 @@ def main() -> None:
     axis = figure.add_subplot(1, 1, 1)
     axis.scatter(Q_sorted, relative_l2, s=18)
     axis.set_xlabel("Q")
-    axis.set_ylabel("逐轨道 Relative L2")
-    axis.set_title(f"{label}：误差随 Q 的变化")
+    axis.set_ylabel("Trajectory Relative L2")
+    axis.set_title(f"{label}: Error versus Q")
     axis.grid(True)
     figure.tight_layout()
     figure.savefig(output_dir / "error_vs_Q.png", dpi=200)
@@ -509,9 +710,9 @@ def main() -> None:
     figure = plt.figure(figsize=(8, 5))
     axis = figure.add_subplot(1, 1, 1)
     axis.plot(quantile_levels, quantile_values, marker="o")
-    axis.set_xlabel("百分位")
-    axis.set_ylabel("逐轨道 Relative L2")
-    axis.set_title(f"{label}：逐轨道误差分位数")
+    axis.set_xlabel("Percentile")
+    axis.set_ylabel("Trajectory Relative L2")
+    axis.set_title(f"{label}: Trajectory Error Quantiles")
     axis.grid(True)
     figure.tight_layout()
     figure.savefig(output_dir / "error_quantiles.png", dpi=200)
@@ -526,13 +727,13 @@ def main() -> None:
             lambda_grid,
             pointwise,
             label=(
-                f"{case.role}，Q={case.Q:.4f}，"
+                f"{case.role}, Q={case.Q:.4f}, "
                 f"RelL2={case.relative_l2:.3e}"
             ),
         )
-    axis.set_xlabel("Mino 参数 λ")
-    axis.set_ylabel("逐点三维距离")
-    axis.set_title(f"{label}：代表轨道逐点误差")
+    axis.set_xlabel("Mino parameter lambda")
+    axis.set_ylabel("Pointwise 3D Distance")
+    axis.set_title(f"{label}: Pointwise Error of Selected Trajectories")
     axis.grid(True)
     axis.legend(fontsize=8)
     figure.tight_layout()
@@ -542,6 +743,82 @@ def main() -> None:
     )
     plt.close(figure)
 
+    run_config = json.loads(
+        run_config_path.read_text(encoding="utf-8")
+    )
+    dataset_summary = run_config.get("dataset_summary", {})
+    test_summary = dataset_summary.get("test", {})
+
+    parameter_name = dataset_summary.get(
+        "param_name",
+        "Q",
+    )
+    parameter_min = test_summary.get("param_min")
+    parameter_max = test_summary.get("param_max")
+
+    parameter_range_text = None
+    if parameter_min is not None and parameter_max is not None:
+        parameter_range_text = (
+            f"[{float(parameter_min):.6f}, "
+            f"{float(parameter_max):.6f}]"
+        )
+
+    model_config = run_config.get("model_config", {})
+    summary_path = (
+        PROJECT_ROOT
+        / "outputs"
+        / args.task_name
+        / args.model_name
+        / "summary.json"
+    )
+    run_summary = json.loads(
+        summary_path.read_text(encoding="utf-8")
+    )
+
+    training_summary = run_summary.get("training", {})
+    train_summary = dataset_summary.get("train", {})
+    val_summary = dataset_summary.get("val", {})
+
+    data_seed = run_config.get(
+        "data_seeds",
+        {},
+    ).get(args.task_name)
+
+    experiment_config = {
+        "modes_param": model_config.get("modes1"),
+        "modes_lambda": model_config.get("modes2"),
+        "width": model_config.get("width"),
+        "depth": model_config.get("depth"),
+        "hidden_dim": model_config.get("hidden_dim"),
+        "epochs": run_config.get("epochs"),
+        "best_epoch": training_summary.get("best_epoch"),
+        "normalization": run_config.get("normalization"),
+        "target_transform": run_config.get("target_transform"),
+        "total_samples": (
+            int(train_summary.get("num_param", 0))
+            + int(val_summary.get("num_param", 0))
+            + int(test_summary.get("num_param", 0))
+        ),
+        "train_samples": train_summary.get("num_param"),
+        "val_samples": val_summary.get("num_param"),
+        "test_samples": test_summary.get("num_param"),
+        "operator_axes": " x ".join(
+            run_config.get("operator_axes", [])
+        ),
+        "lambda_points": test_summary.get("num_lambda"),
+        "lambda_range": (
+            f"[{float(test_summary['lambda_min']):.6f}, "
+            f"{float(test_summary['lambda_max']):.6f}]"
+            if (
+                test_summary.get("lambda_min") is not None
+                and test_summary.get("lambda_max") is not None
+            )
+            else "N/A"
+        ),
+        "data_seed": data_seed,
+        "training_seed": run_config.get("training_seed"),
+    }
+
     build_interactive_html(
         output_path=output_dir / "interactive_3d_comparison.html",
         selected=selected,
@@ -549,6 +826,29 @@ def main() -> None:
         targets=targets,
         max_points=int(args.html_max_points),
         label=label,
+        task_name=args.task_name,
+        model_name=args.model_name,
+        parameter_name=str(parameter_name),
+        parameter_range_text=parameter_range_text,
+        experiment_config=experiment_config,
+    )
+
+    embed_png_sections_in_html(
+        html_path=output_dir / "interactive_3d_comparison.html",
+        image_specs=[
+            (
+                "Trajectory Error versus Q",
+                output_dir / "error_vs_Q.png",
+            ),
+            (
+                "Trajectory Error Quantiles",
+                output_dir / "error_quantiles.png",
+            ),
+            (
+                "Pointwise Error of Selected Trajectories",
+                output_dir / "pointwise_error_selected.png",
+            ),
+        ],
     )
 
     report_lines = [
