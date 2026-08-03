@@ -172,6 +172,33 @@ task when those files are no longer useful.
 Codex should remove its own unnecessary temporary files rather than leaving them
 in the repository.
 
+### New File Boundaries
+
+Creating a new file does not require prior approval only when all of the
+following conditions are met:
+
+- the file is inside the current project workspace
+- the file is directly related to the current task
+- the file does not overwrite an existing file
+- the file name and purpose are clear
+- the file is not an unnecessary backup, duplicate, numbered copy, or temporary
+  artifact
+- the new file is listed in the final task report
+
+Task-specific temporary files may be created without prior approval, but they
+must follow the existing cleanup rules. Editing-tool internal temporary files
+that are automatically removed before the task ends are exempt from the ban on
+parallel copies.
+
+Codex must not use a new file to bypass the requirement to obtain approval
+before modifying an existing file. Formal new files still require approval
+before Git staging or committing. Unnecessary new files and temporary files
+must be removed under the existing cleanup rules.
+
+When an existing file is approved for modification, Codex must edit the original
+path directly. Git history is the recovery mechanism; Codex must not create a
+long-lived backup, replacement copy, numbered copy, or parallel version.
+
 ### Test Artifact Exception
 
 Test artifacts must not be deleted immediately after a test.
@@ -189,31 +216,26 @@ For test inputs, outputs, temporary datasets, logs, and diagnostic files:
 
 ## Operational Boundaries
 
-Codex must not:
+Codex must never:
 
-- connect to the Linux research server
-- use SSH
-- use SCP
-- use SFTP
-- use rsync
-- open a remote shell
-- execute commands on the server
-- upload files to the server
-- overwrite files on the server
-- delete files from the server
-- store server passwords
-- store server credentials
-- store private keys
-- store access tokens
-- access GitHub or another remote Git service unless explicitly requested
-- run `git push`
-- run `git pull`
-- add or modify Git remotes
-- rewrite Git history
+- connect to the Linux research server or another remote server
+- use SSH, SCP, SFTP, rsync, a remote shell, or another remote file-transfer
+  method
+- execute commands on a remote server
+- upload, overwrite, move, delete, or modify files on a remote server
+- store server passwords, server credentials, private keys, or access tokens
+- perform any remote Git operation, including `git pull`, `git push`,
+  `git fetch`, `git clone`, or remote access to GitHub or another Git service
+- add, delete, or modify Git remotes
 - modify files outside this repository
-- modify global system settings
-- modify global Git settings
+- modify global system settings or global/system Git configuration
+- modify the Conda `base` environment, the `fno_wave` environment, another
+  Conda environment, a global Python installation, or system-level software
+  configuration
 - modify unrelated projects
+
+Server upload, server execution, and GitHub pull and push are performed
+manually by the user.
 
 Codex must not run destructive Git commands such as:
 
@@ -226,17 +248,36 @@ Codex must not run destructive Git commands such as:
 - forced push
 - history rewriting commands
 
-Codex may use read-only Git commands, including:
+### Low-Risk Actions That Do Not Require Prior Approval
 
-- `git status`
-- `git diff`
-- `git diff --stat`
-- `git diff --check`
-- `git log`
-- `git show`
-- `git branch`
-- `git ls-files`
-- `git ls-files --eol`
+Codex may directly perform the following low-risk actions without asking the
+user each time:
+
+1. Read files and directories in the current project workspace.
+2. Search code, inspect file contents, and analyze call relationships.
+3. Run read-only commands in the current project workspace.
+4. Create a new file that satisfies every condition in `New File Boundaries`.
+5. Create temporary files needed for the current task, subject to the existing
+   cleanup and test-artifact rules.
+6. Run lightweight, read-only Git commands, including:
+   - `git status`
+   - `git status --short`
+   - `git diff`
+   - `git diff --stat`
+   - `git diff --check`
+   - `git log`
+   - `git show`
+   - `git branch`
+   - `git ls-files`
+   - `git ls-files --eol`
+7. When Windows sandbox Git reports dubious ownership, use a command-scoped
+   `safe.directory` override for this repository only with the read-only Git
+   commands listed above.
+8. Run lightweight local checks that the user has already explicitly approved,
+   while following the existing resource, scope, and test-artifact rules.
+9. Generate deployment manifests, change manifests, publication checklists,
+   candidate implementation plans, and read-only analysis reports, without
+   deploying, uploading, pulling, pushing, or publishing.
 
 ## Current Task Focus
 
@@ -296,7 +337,9 @@ Approved follow-up items must be stored in `FOLLOW_UPS.md`.
 
 ## Change Procedure
 
-For every coding task:
+Low-risk actions listed in `Operational Boundaries` may be performed directly.
+Before modifying an existing file, Codex must have explicit approval for that
+specific modification. For every approved coding task:
 
 1. Read the relevant existing files.
 2. Understand the current behavior and interfaces.
@@ -316,48 +359,66 @@ For every coding task:
 9. Review the final Git diff.
 10. Report the files changed, validation performed, and remaining risks.
 
-Ordinary low-risk changes may be analyzed and implemented without stopping for
-approval after every individual file.
-
-High-impact changes require explicit approval before implementation.
+Ordinary low-risk analysis and new-file creation may proceed without repeated
+approval when they satisfy the stated boundaries. Existing-file modifications
+and all other approval-gated actions require explicit user approval before
+execution.
 
 ## Approval Gates
 
-Explicit user approval is required before:
+Before performing any of the following, Codex must explain the specific plan and
+obtain explicit user approval:
 
-- deleting an existing file
-- deleting a Git-tracked file
-- renaming an existing file
-- moving an existing module
-- changing a public interface
-- changing a command-line interface
-- changing a dataset format
-- changing a checkpoint format
-- changing model input shapes
-- changing model output shapes
-- changing tensor layout conventions
-- changing normalization behavior
-- changing target transformations
-- changing evaluation metrics
-- changing dataset splits
-- changing random seed policy
-- changing experiment naming conventions
-- changing formal experiment definitions
-- adding a dependency
-- removing a dependency
-- upgrading a dependency
-- downgrading a dependency
-- changing Python, PyTorch, CUDA, or core numerical library versions
-- running a large or long-running test
-- staging files with Git
-- committing changes
-- deploying files
-- pushing to a remote repository
+1. Modify the contents of any file that existed before the current task,
+   including any Git-tracked file.
+2. Overwrite any existing file.
+3. Delete, rename, or move any existing file or directory.
+4. Modify multiple existing files through bulk formatting, refactoring,
+   standardized rewriting, or bulk migration.
+5. Perform any local Git write operation, including:
+   - `git add`
+   - `git commit`
+   - `git merge`
+   - `git rebase`
+   - `git cherry-pick`
+   - `git revert`
+   - `git reset`
+   - `git restore`
+   - `git checkout` that changes the worktree, index, or branch state
+   - `git switch` that changes branch state
+   - branch creation, deletion, or renaming
+   - tag creation or deletion
+   - `git stash`
+   - `git clean`
+   - `git rm`
+   - `git mv`
+6. Install, remove, upgrade, or downgrade a dependency.
+7. Modify Python, PyTorch, CUDA, or another package configuration in
+   `fno_codex_local`.
+8. Run a local test that exceeds lightweight local validation but is not
+   absolutely prohibited.
+
+This includes any proposed change to a public interface, command-line
+interface, dataset format, checkpoint format, model input or output shape,
+tensor layout, normalization behavior, target transformation, evaluation metric,
+dataset split, random-seed policy, experiment naming convention, formal
+experiment definition, numerical tolerance, physical constant, solver setting,
+or integration setting.
+
+### Current-Message Approval
+
+When the user explicitly requests a modification to an existing file in the
+current message, that request is approval for that specified modification in
+this task. Codex must not ask again for approval for the same already-approved
+modification.
+
+Codex must explain the reason and obtain new approval if implementation requires
+an additional existing file, an expanded scope, deletion, moving or renaming a
+file, a public-interface change, a dataset-format change, a model-structure
+change, a training-flow change, or an experiment-definition change.
 
 Codex may generate a deployment manifest or publication checklist without prior
-approval.
-
-Generating a manifest is not the same as performing deployment.
+approval. Generating a manifest is not deployment.
 
 ## Research-Code Rules
 
@@ -600,7 +661,14 @@ All deployment actions are performed manually by the user.
 
 ## Git Policy
 
-The user controls all commits and all remote publication.
+The user controls all commits and all remote publication. Remote Git operations
+are prohibited and must be performed manually by the user.
+
+Codex may directly run the lightweight, read-only Git commands listed in
+`Operational Boundaries`. When Git reports dubious ownership inside the Windows
+sandbox, Codex may use a command-scoped `safe.directory` override for this
+repository only with those read-only commands. Codex must not modify global or
+system Git configuration.
 
 After making changes, Codex must:
 
@@ -612,19 +680,9 @@ After making changes, Codex must:
 6. State which validation checks were actually run.
 7. State which validation checks were not run.
 
-When Git reports dubious ownership inside the Windows sandbox, use a
-command-scoped safe.directory override for this repository. Do not modify global
-or system Git configuration.
-
-Codex must not:
-
-- stage files automatically unless explicitly requested
-- commit automatically
-- push automatically
-- add a remote automatically
-- modify a remote automatically
-- pull automatically
-- rewrite history
+All local Git write operations require explicit approval under `Approval Gates`.
+Codex must not stage, commit, alter branches or tags, or otherwise change local
+Git state without that approval.
 
 A commit may be created only after the user explicitly approves the exact
 change set.
