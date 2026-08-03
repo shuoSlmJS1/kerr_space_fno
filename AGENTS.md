@@ -612,6 +612,10 @@ After making changes, Codex must:
 6. State which validation checks were actually run.
 7. State which validation checks were not run.
 
+When Git reports dubious ownership inside the Windows sandbox, use a
+command-scoped safe.directory override for this repository. Do not modify global
+or system Git configuration.
+
 Codex must not:
 
 - stage files automatically unless explicitly requested
