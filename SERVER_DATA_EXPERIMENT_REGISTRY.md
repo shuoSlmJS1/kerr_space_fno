@@ -111,7 +111,31 @@ Latest implementation commit: `dbbb6ac`.
 
 Based on the recorded stage handoff, local, GitHub, and server are synchronized
 at `dbbb6ac`. Server lightweight validation passed: 13 / 13 tests and CLI help.
-No formal real-data baseline result has yet been generated.
+Formal real-data Linear/PCHIP baseline sweep completed on q_1p6-3_n500_t1200 test split for strides 2, 4, 8, 16, and 32.
+
+### Completed Linear/PCHIP baseline sweep
+
+Dataset: `data/tasks/q_1p6-3_n500_t1200/dataset.npz`<br>
+Split: `test`
+
+| Stride | Observed points | Hidden points | Linear Relative L2 | PCHIP Relative L2 | Linear MSE | PCHIP MSE |
+|---:|---:|---:|---:|---:|---:|---:|
+| 2 | 601 | 599 | 1.635318e-04 | 1.706526e-05 | 6.544541e-07 | 7.126903e-09 |
+| 4 | 301 | 899 | 5.499782e-04 | 9.142176e-05 | 7.403059e-06 | 2.045594e-07 |
+| 8 | 151 | 1049 | 2.038428e-03 | 4.779948e-04 | 1.017007e-04 | 5.592154e-06 |
+| 16 | 76 | 1124 | 7.861464e-03 | 2.501225e-03 | 1.512669e-03 | 1.531237e-04 |
+| 32 | 39 | 1161 | 3.054264e-02 | 1.493277e-02 | 2.283004e-02 | 5.457255e-03 |
+
+### Current project recommendations for neural reconstruction
+
+The following are current project decisions and recommendations, not immutable facts:
+
+- Strides 2 and 4 are easy interpolation regimes.
+- Stride 8 is a moderate regime.
+- Stride 16 is the primary planned neural reconstruction comparison regime and the main comparison point.
+- Stride 32 is the high-difficulty comparison regime.
+- Future FNO and ResNet reconstruction experiments should prioritize strides 16 and 32.
+- Stride 32 is retained so that a neural-model advantage can still be evaluated if stride 16 proves too easy.
 
 ## 7. Update Checklist
 
