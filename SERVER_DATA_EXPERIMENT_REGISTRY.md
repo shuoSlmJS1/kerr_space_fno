@@ -137,6 +137,57 @@ The following are current project decisions and recommendations, not immutable f
 - Future FNO and ResNet reconstruction experiments should prioritize strides 16 and 32.
 - Stride 32 is retained so that a neural-model advantage can still be evaluated if stride 16 proves too easy.
 
+### Completed Dilated ResNet1D same-resolution runs
+
+Both runs used `data/tasks/q_1p6-3_n500_t1200/dataset.npz` with the existing
+train / validation / test split, no Q input, train-only reconstruction
+normalization, normalized-space hidden-only MSE training loss, validation raw
+hidden-only overall Relative L2 checkpoint selection, and raw observed-point
+restoration before hidden-only test metrics.
+
+| Stride | Output directory | Best validation hidden Relative L2 | Test raw hidden Relative L2 | Status |
+|---:|---|---:|---:|---|
+| 16 | `outputs/sparse_reconstruction_resnet1d/q500_t1200_stride16_resnet1d_w92_b9_e600_seed42` | 1.931149e-03 | 1.870324e-03 | COMPLETED |
+| 32 | `outputs/sparse_reconstruction_resnet1d/q500_t1200_stride32_resnet1d_w92_b9_e600_seed42` | 1.752349e-03 | 1.693836e-03 | COMPLETED |
+
+Formal configuration shared by both runs, except for stride:
+
+- Model: Dilated ResNet1D with full-trajectory theoretical receptive field.
+- Epochs: 600; batch size: 32; seed: 42.
+- Width: 92; residual blocks: 9; kernel size: 7.
+- Dilation schedule: `[1, 2, 4, 8, 16, 32, 64, 128, 256]`.
+- Theoretical receptive field: 3121; trainable parameters: 1,077,507.
+- Optimizer: AdamW with learning rate `1e-3` and weight decay `1e-4`.
+- Scheduler: ExponentialLR with gamma `0.995`.
+- Checkpoint criterion: validation raw hidden-only overall Relative L2.
+- Q input: excluded.
+
+The epoch-600 train / validation hidden MSE and validation hidden Relative L2
+were `4.016453e-06` / `4.023694e-06` / `1.971923e-03` for stride 16, and
+`3.509473e-06` / `3.539195e-06` / `1.855690e-03` for stride 32.
+
+### Current same-resolution sparse reconstruction comparison
+
+Dataset: `data/tasks/q_1p6-3_n500_t1200/dataset.npz`<br>
+Split: `test`<br>
+Metric: raw hidden-only overall Relative L2
+
+| Model | Stride 16 test hidden RelL2 | Stride 32 test hidden RelL2 |
+|---|---:|---:|
+| Linear | 7.861464e-03 | 3.054264e-02 |
+| PCHIP | 2.501225e-03 | 1.493277e-02 |
+| FNO1D | 1.324286e-03 | 1.829136e-03 |
+| Dilated ResNet1D | 1.870324e-03 | 1.693836e-03 |
+
+On this dataset and frozen single-seed configuration, FNO1D has lower test
+hidden Relative L2 than Dilated ResNet1D at stride 16, while Dilated ResNet1D
+has slightly lower test hidden Relative L2 than FNO1D at stride 32. Both neural
+models substantially outperform PCHIP at stride 32. These are same-resolution
+results from one dataset, one seed, and one frozen architecture/configuration
+per neural model; they do not establish overall model superiority, effective
+use of every point in the theoretical receptive field, or cross-resolution
+generalization.
+
 ## 7. Update Checklist
 
 - Register each new dataset path and its provenance.
