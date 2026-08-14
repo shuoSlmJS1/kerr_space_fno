@@ -166,6 +166,104 @@ The epoch-600 train / validation hidden MSE and validation hidden Relative L2
 were `4.016453e-06` / `4.023694e-06` / `1.971923e-03` for stride 16, and
 `3.509473e-06` / `3.539195e-06` / `1.855690e-03` for stride 32.
 
+### Completed canonical TimesNet1D same-resolution runs
+
+Both runs used `data/tasks/q_1p6-3_n500_t1200/dataset.npz` with the existing
+train / validation / test split, the five-channel input
+`[sparse_x, sparse_y, sparse_z, observed_mask, lambda_coordinate]`, Q excluded,
+train-only reconstruction normalization, normalized-space hidden-only MSE,
+validation raw hidden-only overall Relative L2 checkpoint selection, best
+checkpoint reload before test, and raw observed-point restoration before
+hidden-only metrics.
+
+| Stride | Output directory | Best validation hidden Relative L2 | Test raw hidden Relative L2 | Status |
+|---:|---|---:|---:|---|
+| 16 | `outputs/sparse_reconstruction_timesnet1d/q500_t1200_stride16_timesnet1d_dm80_df96_b2_k2_e600_seed42` | 1.697399e-02 | 1.657611e-02 | COMPLETED |
+| 32 | `outputs/sparse_reconstruction_timesnet1d/q500_t1200_stride32_timesnet1d_dm80_df96_b2_k2_e600_seed42` | 1.542742e-01 | 1.510641e-01 | COMPLETED |
+
+Formal configuration shared by both runs, except for stride:
+
+- Model: canonical TimesNet1D; `d_model=80`, `d_ff=96`, blocks `2`, top-k `2`,
+  and Inception kernels `[1, 3, 5]`.
+- Trainable parameters: `1,077,299`; epochs: 600; batch size: 32; seed: 42.
+- Optimizer: AdamW with learning rate `1e-3` and weight decay `1e-4`.
+- Scheduler: ExponentialLR with gamma `0.995`.
+
+### Canonical TimesNet frequency and spectrum diagnostics
+
+Formal latent-frequency diagnostic outputs are
+`outputs/timesnet_frequency_diagnostics/stride16_test.json` and
+`outputs/timesnet_frequency_diagnostics/stride32_test.json`.
+
+- At stride 16, both TimesBlocks selected `f=1` (period 1200) and `f=3`
+  (period 400) in every test batch.
+- At stride 32, block 0 selected `f=1` (period 1200) and `f=3` (period 400)
+  in every test batch; block 1 selected `f=1` (period 1200) and `f=2`
+  (period 600) in every test batch.
+- Sampling-stride-related periods 16 and 32 were not selected in these
+  canonical latent top-k diagnostics. This does not prove that the observed
+  mask has no influence.
+
+Raw-input spectrum outputs are
+`outputs/timesnet_raw_input_spectrum/stride16_test.json` and
+`outputs/timesnet_raw_input_spectrum/stride32_test.json`.
+
+- The observed-mask channel has strong sampling-related peaks; for stride 16,
+  its dominant mask frequency is `f=75` (period 16). This frequency was not a
+  canonical latent top-k selection.
+- For both strides, normalized lambda has `f=1`, `f=2`, and `f=3` ranked 1,
+  2, and 3, respectively, showing strong ultra-low-frequency spectral content.
+- The trained input projection ranks include `f=1` first and `f=3` second at
+  stride 16; at stride 32 they include `f=1` first, `f=3` second, and `f=2`
+  third. These are diagnostic observations, not causal conclusions.
+
+Projection spectral-contribution outputs are
+`outputs/timesnet_projection_spectral_contributions/stride16_test.json` and
+`outputs/timesnet_projection_spectral_contributions/stride32_test.json`.
+
+| Stride | Frequency | Main projected component-magnitude findings |
+|---:|---:|---|
+| 16 | 1 | lambda `0.796250` |
+| 16 | 2 | lambda `0.728299` |
+| 16 | 3 | lambda `0.277017`; sparse_z `0.256299`; sparse_y `0.240903`; sparse_x `0.220899` |
+| 32 | 1 | lambda `0.845219` |
+| 32 | 2 | lambda `0.780432` |
+| 32 | 3 | lambda `0.352425`; sparse_z `0.268450`; sparse_y `0.218701`; sparse_x `0.149578` |
+
+Lambda strongly dominates projected component magnitude at `f=1` and `f=2`,
+while `f=3` is a mixed lambda plus sparse-xyz component. These fractions compare
+individual complex component magnitudes; they are not additive causal shares of
+the final FFT amplitude.
+
+### Completed lambda-isolated TimesNet period-selection runs
+
+The model is `TimesNetLambdaIsolatedPeriodSelection1D`. Lambda remains one of
+the five inputs and remains in the full prediction latent, Conv2d period
+branches, residual path, and final output. Only period selection changes: the
+first block removes the exact non-bias lambda input-projection contribution from
+its selection signal, and later selection uses a shared-parameter auxiliary
+counterfactual stream. No frequency is hard-coded for suppression and no new
+trainable parameters are introduced. The parameter count remains `1,077,299`.
+All other formal training and evaluation settings are identical to canonical
+TimesNet.
+
+| Stride | Output directory | Best validation hidden Relative L2 | Test raw hidden Relative L2 | Status |
+|---:|---|---:|---:|---|
+| 16 | `outputs/sparse_reconstruction_timesnet_lambda_isolated1d/q500_t1200_stride16_timesnet_lambda_isolated_dm80_df96_b2_k2_e600_seed42` | 8.807591e-03 | 9.231237e-03 | COMPLETED |
+| 32 | `outputs/sparse_reconstruction_timesnet_lambda_isolated1d/q500_t1200_stride32_timesnet_lambda_isolated_dm80_df96_b2_k2_e600_seed42` | 1.716161e-02 | 1.628297e-02 | COMPLETED |
+
+Formal test diagnostics are stored as
+`metrics/test_period_selection_diagnostics.json` inside each run.
+
+- At stride 16, block 0 primarily selected `f=222` (period 5) and `f=147`
+  (period 8); the final smaller batch used `f=297` (period 4). Block 1 selected
+  `f=3` (period 400) and `f=4` (period 300).
+- At stride 32, block 0 selected `f=484` and `f=559`, both mapping to integer
+  period 2. Block 1 selected `f=600` (period 2) and `f=3` (period 400).
+
+These diagnostics establish that lambda isolation materially changed period
+selection. The selected periods are not identified here as physical Kerr periods.
+
 ### Current same-resolution sparse reconstruction comparison
 
 Dataset: `data/tasks/q_1p6-3_n500_t1200/dataset.npz`<br>
@@ -178,15 +276,30 @@ Metric: raw hidden-only overall Relative L2
 | PCHIP | 2.501225e-03 | 1.493277e-02 |
 | FNO1D | 1.324286e-03 | 1.829136e-03 |
 | Dilated ResNet1D | 1.870324e-03 | 1.693836e-03 |
+| Canonical TimesNet1D | 1.657611e-02 | 1.510641e-01 |
+| Lambda-isolated TimesNet1D | 9.231237e-03 | 1.628297e-02 |
 
-On this dataset and frozen single-seed configuration, FNO1D has lower test
-hidden Relative L2 than Dilated ResNet1D at stride 16, while Dilated ResNet1D
-has slightly lower test hidden Relative L2 than FNO1D at stride 32. Both neural
-models substantially outperform PCHIP at stride 32. These are same-resolution
-results from one dataset, one seed, and one frozen architecture/configuration
-per neural model; they do not establish overall model superiority, effective
-use of every point in the theoretical receptive field, or cross-resolution
-generalization.
+On this dataset and frozen single-seed configuration, canonical TimesNet is much
+more sensitive to increased sparsity than FNO1D and Dilated ResNet1D. Canonical
+TimesNet strongly selects ultra-low-frequency periods, lambda contributes
+strongly to projected `f=1` and `f=2` components, and isolating lambda from
+period selection changes selected frequencies and periods while substantially
+improving TimesNet performance. Despite this improvement, lambda-isolated
+TimesNet does not match FNO1D or Dilated ResNet1D in these same-resolution
+experiments.
+
+These results are limited to one dataset, one seed, one frozen neural
+configuration per model, and same-resolution training and evaluation. The
+lambda-isolated second-block selection stream is a shared-parameter
+counterfactual auxiliary stream, not an exact nonlinear lambda decomposition.
+They do not establish that lambda is the sole cause of canonical TimesNet
+failure, that the ablation proves a universal TimesNet flaw, that FNO is
+universally superior, that selected periods are physical Kerr periods, or that
+cross-resolution superiority has been demonstrated.
+
+Same-resolution benchmarking is sufficiently complete to move to
+cross-resolution/generalization experiment design. Further TimesNet tuning is
+deferred unless later evidence specifically requires it.
 
 ## 7. Update Checklist
 
