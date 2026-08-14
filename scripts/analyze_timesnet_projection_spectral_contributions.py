@@ -138,16 +138,42 @@ def aggregate_projection_contributions(
         elif sequence_length != current_length:
             raise ValueError("All model_input batches must have the same sequence length.")
 
-        projected = projection(model_input)
-        manual_projected = functional.linear(model_input, weight, projection.bias)
+        native_projected = projection(model_input)
+        native_manual_projected = functional.linear(
+            model_input,
+            weight,
+            projection.bias,
+        )
         maximum_manual_projection_error = max(
             maximum_manual_projection_error,
-            float((projected - manual_projected).abs().max().detach().cpu()),
+            float(
+                (native_projected - native_manual_projected)
+                .abs()
+                .max()
+                .detach()
+                .cpu()
+            ),
         )
-        input_fft = torch.fft.rfft(model_input, dim=1)
+        # 使用同一 float32 数值表示提升到 float64，避免批量 FFT 算法的 float32 归约差异。
+        diagnostic_input = model_input.to(torch.float64)
+        diagnostic_weight = weight.to(torch.float64)
+        diagnostic_bias = (
+            projection.bias.to(torch.float64)
+            if projection.bias is not None
+            else None
+        )
+        projected = functional.linear(
+            diagnostic_input,
+            diagnostic_weight,
+            diagnostic_bias,
+        )
+        manual_projected = diagnostic_input @ diagnostic_weight.transpose(0, 1)
+        if diagnostic_bias is not None:
+            manual_projected = manual_projected + diagnostic_bias
+        input_fft = torch.fft.rfft(diagnostic_input, dim=1)
         projected_fft = torch.fft.rfft(projected, dim=1)
         manual_fft = torch.fft.rfft(manual_projected, dim=1)
-        channel_fft = input_fft.unsqueeze(-1) * weight.transpose(0, 1).view(
+        channel_fft = input_fft.unsqueeze(-1) * diagnostic_weight.transpose(0, 1).view(
             1, 1, len(EXPECTED_CHANNELS), feature_count
         )
         reconstructed_fft = channel_fft.sum(dim=2)
@@ -163,8 +189,8 @@ def aggregate_projection_contributions(
         if not torch.allclose(reconstructed_fft[:, 1:, :], projected_fft[:, 1:, :], atol=atol, rtol=rtol):
             raise RuntimeError("Channel contributions do not reconstruct the nonzero projected FFT.")
 
-        component_magnitudes = torch.linalg.vector_norm(channel_fft, dim=-1).to(torch.float64)
-        combined_magnitudes = torch.linalg.vector_norm(projected_fft, dim=-1).to(torch.float64)
+        component_magnitudes = torch.linalg.vector_norm(channel_fft, dim=-1)
+        combined_magnitudes = torch.linalg.vector_norm(projected_fft, dim=-1)
         batch_component_sum = component_magnitudes.sum(dim=0).detach().cpu()
         batch_combined_sum = combined_magnitudes.sum(dim=0).detach().cpu()
         component_magnitude_sum = (

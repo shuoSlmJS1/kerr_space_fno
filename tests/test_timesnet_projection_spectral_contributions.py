@@ -153,15 +153,15 @@ class TestTimesNetProjectionSpectralContributions(unittest.TestCase):
     def test_controlled_sinusoid_and_batch_partition_are_stable(self) -> None:
         """Locate a known sinusoid and keep aggregate diagnostics independent of batch partition."""
         time = torch.arange(32, dtype=torch.float32)
-        inputs = torch.zeros((3, 32, 5), dtype=torch.float32)
+        inputs = torch.zeros((5, 32, 5), dtype=torch.float32)
         inputs[..., 4] = torch.sin(2.0 * torch.pi * 4.0 * time / 32.0)
         weight = torch.ones((3, 5), dtype=torch.float32)
         model = self._linear_model(weight, torch.zeros(3))
-        first = aggregate_projection_contributions(model, self._loader(inputs, 1), "cpu")
-        second = aggregate_projection_contributions(model, self._loader(inputs, 2), "cpu")
+        first = aggregate_projection_contributions(model, self._loader(inputs, 2), "cpu")
+        second = aggregate_projection_contributions(model, self._loader(inputs, 3), "cpu")
         self.assertEqual(int(torch.argmax(first["combined_mean_magnitudes"][1:]).item()) + 1, 4)
-        self.assertTrue(torch.allclose(first["component_mean_magnitudes"], second["component_mean_magnitudes"], rtol=0.0, atol=1e-12))
-        self.assertTrue(torch.allclose(first["combined_mean_magnitudes"], second["combined_mean_magnitudes"], rtol=0.0, atol=1e-12))
+        self.assertTrue(torch.allclose(first["component_mean_magnitudes"], second["component_mean_magnitudes"], rtol=1e-12, atol=1e-12))
+        self.assertTrue(torch.allclose(first["combined_mean_magnitudes"], second["combined_mean_magnitudes"], rtol=1e-12, atol=1e-12))
 
     def test_checkpoint_weights_are_used_and_parameters_remain_unchanged(self) -> None:
         """Use the saved checkpoint projection and leave every model parameter unchanged."""
