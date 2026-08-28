@@ -96,6 +96,23 @@ This registry does not reproduce numerical conclusions.
 | `outputs/comparison/queue_a__...` | Width and data-scale Queue A experiments | n500, n1000, n2000, and n5000; n2000 widths 16, 32, 48, and 80; generally d4 and e500 | One per listed directory | Each directory contains common-test JSON files and one dataset snapshot | COMPLETED |
 | `outputs/comparison/queue_a_cross_scale_summary` | Aggregate cross-scale summary directory | Not recorded in this registry | Not recorded in this registry | Not verified here | PENDING VERIFICATION |
 | `outputs/comparison/scale_experiments_2d` | Scale-experiment output directory | Not recorded in this registry | Not recorded in this registry | Not verified here | PENDING VERIFICATION |
+| `outputs/length_dataset_identity_validation/q400_t1200_t1800_t2400_prefix_identity.json` | Strict length-dataset prefix identity validation | q400 T1200 / T1800 / T2400 comparison-only datasets | 0 | `q400_t1200_t1800_t2400_prefix_identity.json` | COMPLETED — EXACT_PREFIX |
+
+### Completed strict length-dataset identity validation
+
+- Output: `outputs/length_dataset_identity_validation/`
+  `q400_t1200_t1800_t2400_prefix_identity.json`.
+- Validator: commit `8a6ee0b` (`add strict length dataset identity validator`).
+- Datasets: `data/tasks/q_1p6007-2p9993_n400_t1200`,
+  `data/tasks/q_1p6007-2p9993_n400_t1800`, and
+  `data/tasks/q_1p6007-2p9993_n400_t2400`.
+- Overall and pair results: `EXACT_PREFIX` for `short_to_medium`,
+  `short_to_long`, and `medium_to_long`.
+- Lambda prefixes and all train/val/test trajectory prefixes are exact; the
+  recorded max/mean absolute differences, RMSE, and Relative L2 values are 0.
+- `historical_t1800_reusable=true`; `t2400_ready_for_future_a1=true`.
+- This validates dataset pairing only. It does not provide T2400 inference
+  performance or the short-input versus long-input-prefix prediction comparison.
 
 ## 6. Current Sparse Reconstruction Stage
 

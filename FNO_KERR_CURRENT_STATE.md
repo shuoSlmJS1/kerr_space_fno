@@ -14,6 +14,7 @@
 | `registry-only` | 数值或结论记录在 `SERVER_DATA_EXPERIMENT_REGISTRY.md`，但快照未嵌入原始结果内容。 |
 | `asset-only` | 快照只确认文件或目录存在，未保存其内容。 |
 | `Git/code-derived` | 可由提交历史或当前代码接口确定，不能替代服务器结果。 |
+| `server-result-verified` | 用户提供的正式服务器结果 artifact 可直接核对其记录的验证结论。 |
 | `human-context` | 来自研究协作历史，不能由服务器资产机械恢复。 |
 | `unknown` | 当前证据不足，不能可靠断言。 |
 
@@ -235,9 +236,33 @@ prediction from short T=1200 input
 first 1200 points of prediction from long T=1800 input
 ```
 
-`compare_length_prefix_predictions_2d.py` 和
-`validate_length_dataset_prefix.py` 存在，但快照未找到其输出。故 short/long
-预测一致性及严格轨迹真值前缀都仍为 `unknown`。
+Stage-2 strict dataset identity validation 已在服务器完成，结果 artifact 为
+`outputs/length_dataset_identity_validation/`
+`q400_t1200_t1800_t2400_prefix_identity.json`，验证器提交为 `8a6ee0b`，证据为
+`server-result-verified`。三个 pair 均为 `EXACT_PREFIX`：
+
+```text
+short_to_medium = EXACT_PREFIX
+short_to_long   = EXACT_PREFIX
+medium_to_long  = EXACT_PREFIX
+```
+
+对每一个 `train`、`val`、`test` split，Q 身份和排序均一致；三个 lambda-prefix
+检查的 `exact_equal=true`，`max_abs_difference=0.0`，
+`mean_abs_difference=0.0`。全部 trajectory-prefix 比较也严格相等，且
+`tolerance_pass=true`、max/mean absolute difference、RMSE、overall `Relative L2`
+与各轨迹 `Relative L2` 统计均为零。全零并列时的
+`worst_trajectory_index` 只是首个被选中的索引，没有额外科学意义。
+
+因此 T1200、T1800、T2400 是经直接验证的 exact-prefix companion datasets；
+`historical_t1800_reusable=true`，`t2400_ready_for_future_a1=true`。历史 T1800
+冻结单次前向协议在原 seen domain 上的差表现不能由 short/long ground-truth
+prefix mismatch 解释。
+
+`compare_length_prefix_predictions_2d.py` 存在，但仍没有已验证输出直接比较
+short-input T1200 prediction 与 long-input T1800 prediction 的前 1200 点。因此
+short/long prediction consistency 仍为 `unknown`；不能将 `1.70` 表述为输入长度
+改变原预测的数值差异。
 
 ### 7.4 受支持与不受支持的结论
 
@@ -339,8 +364,8 @@ spectral contribution 和 lambda-isolated period-selection。
 | current v1 FNO2D common-test 标度 | formal | `snapshot-verified` | 高 | 训练、检查点、独立 common-test 和物理指标完整。 |
 | legacy `experimental_v1` FNO2D | superseded | `snapshot-verified` | 高 | 新正式工作优先 current v1；未被认定为损坏。 |
 | normalization / target-transform 比较 | unknown | `Git/code-derived` | 中 | 有代码演进，缺少完整成对服务器结果。 |
-| T1800 长度外推 | exploratory | `snapshot-verified` | 高 | 一份完整负结果存在，但前缀配对与一致性缺失。 |
-| T2400 长度外推 | unknown | `asset-only` | 高 | 数据存在，结果不存在。 |
+| T1800 长度外推 | exploratory | `snapshot-verified` + `server-result-verified` | 高 | 历史负结果与 exact truth-prefix 配对均已验证；prediction consistency 仍缺失。 |
+| T2400 长度外推 | unknown | `server-result-verified` + `asset-only` | 高 | 数据为 exact-prefix long-domain truth candidate；尚无已验证 inference result。 |
 | Linear/PCHIP sparse sweep | formal | `registry-only` | 中 | 注册表称正式扫掠，结果文件存在但内容未嵌入。 |
 | sparse FNO1D / ResNet | formal | `snapshot-verified` | 高 | 配置、训练摘要、检查点和隐藏点指标均存在。 |
 | canonical TimesNet | formal | `snapshot-verified` | 高 | 已完成的受限配置比较；负结果不等于无效。 |
@@ -355,14 +380,14 @@ spectral contribution 和 lambda-isolated period-selection。
 | 既有工作 | Plan A | Plan B | 正确解释 |
 |---|---|---|---|
 | 常规 FNO2D T1200 拟合/标度 | 不测试 | 不测试 | 固定域、固定网格的 surrogate 比较。 |
-| 历史 T1800 长输入 | 覆盖核心形式 | 不测试 | 冻结、同 `delta_lambda`、更大物理域、一次前向；但不是闭合正式 A1。 |
-| T2400 数据集 | A 的候选资产 | 不测试 | 尚无结果。 |
+| 历史 T1800 长输入 | 覆盖核心形式 | 不测试 | 冻结、同 `delta_lambda`、更大物理域、一次前向；truth-prefix 配对已精确验证，但 prediction consistency 未完成。 |
+| T2400 数据集 | A 的有效长域真值资产 | 不测试 | exact-prefix 配对已验证，尚无 inference result。 |
 | sparse 同分辨率重建 | 不测试 | 不测试 | 观测掩码重建。 |
 | sparse stride16 -> stride32 | 不测试 | 不测试 | 观测密度/掩码分布变化，不是网格密度变化。 |
 | 求解器验证 | A/B 前提 | A/B 前提 | 数值数据可信性，不是泛化实验。 |
 
 Plan A 的历史 T1800 工作应被复用为知识和资产，而不是盲目重做或丢弃；新的
-正式 A1 仍需补齐严格轨迹前缀身份、prefix prediction consistency 和完整输出
+正式 A1 仍需补齐 prefix prediction consistency 和完整输出
 防护。Plan B 尚未完成：当前没有在相同物理 λ 域上改变 `T` / `delta_lambda` /
 离散密度并使用冻结模型评估的实验。
 
@@ -372,7 +397,6 @@ Plan B has not yet been performed.
 
 ## 13. Current unresolved questions
 
-- T1200/T1800/T2400 的严格 trajectory-prefix identity；
 - short-input 预测与 long-input 前缀预测的一致性数值；
 - T2400 是否有未保留的推理结果；
 - 原始 Q-only FNO1D 的服务器数值结果；
@@ -385,14 +409,13 @@ Plan B has not yet been performed.
 
 **当前不应启动新的科学实验，直到本状态文档和实验计划被冻结并经审阅。**
 
-之后先进行 Stage A1：
+Stage-2 strict identity validation 已完成，且三个数据集均为 `EXACT_PREFIX`
+companions。之后先进行 Stage A1：
 
-1. 识别唯一的正式 Q-only FNO2D checkpoint 与 current/selected comparison
-   dataset；
-2. 对 short/long 数据集执行 Stage-2 严格 identity validation；
-3. 判断历史 T1800 资产哪些可复用，哪些缺少必要验证；
-4. 只实现和运行修正后 A1 协议仍缺失的部分；
-5. 审阅 A1 后，才决定 A2 或转入 B1。
-
+1. 使用历史正式 Q-only FNO2D checkpoint/protocol，运行或核对 short-input
+   prediction 与 long-input-prefix prediction consistency；
+2. 记录该比较的 Q 集、输出目录、raw physical-space 指标与完整输出防护；
+3. 审阅该诊断后，才判断历史 T1800 资产的下一步使用方式；
+4. 审阅 A1 后，才决定 A2 或转入 B1。
 Plan B 只在 A1 review 完成后开始，并必须保持“同物理域、不同离散网格”的
 定义，不能与长度外推或 sparse observation-density generalization 混淆。
