@@ -24,6 +24,7 @@ SCRIPT_PATH = PROJECT_ROOT / "scripts" / "evaluate_length_change_prediction_cons
 SPEC = importlib.util.spec_from_file_location("length_change_consistency", SCRIPT_PATH)
 assert SPEC is not None and SPEC.loader is not None
 diagnostic = importlib.util.module_from_spec(SPEC)
+sys.modules[SPEC.name] = diagnostic
 SPEC.loader.exec_module(diagnostic)
 
 
@@ -41,6 +42,24 @@ def _stats() -> FieldNormalizationStats:
         x_std=[1.0, 1.0],
         y_mean=[0.0, 0.0, 0.0],
         y_std=[1.0, 1.0, 1.0],
+    )
+
+
+def _canonical_field(q: np.ndarray, truth: np.ndarray, *, selected_splits: tuple[str, ...] = ("train", "val", "test")):
+    records = [
+        {
+            "source_split": selected_splits[index % len(selected_splits)],
+            "source_index_within_split": index,
+            "source_concatenated_index": index,
+        }
+        for index in range(q.size)
+    ]
+    return diagnostic.build_canonical_q_field(
+        q,
+        truth,
+        np.arange(truth.shape[1], dtype=np.float64),
+        records,
+        selected_splits,
     )
 
 
@@ -103,6 +122,123 @@ class MetricTests(unittest.TestCase):
         self.assertGreater(metrics["global_relative_l2"], 0.0)
         self.assertEqual(metrics["per_q_relative_l2"]["worst_q_index"], 1)
         self.assertEqual(metrics["per_q_relative_l2"]["worst_q_value"], 1.7)
+
+
+class CanonicalOrderingTests(unittest.TestCase):
+    def test_unsorted_source_q_and_truth_become_one_ascending_canonical_field(self) -> None:
+        source_q = np.array([2.0, 1.0, 3.0], dtype=np.float64)
+        source_truth = np.stack(
+            [np.full((2, 3), float(index)) for index in range(3)], axis=0
+        )
+        field = _canonical_field(source_q, source_truth)
+        self.assertTrue(np.array_equal(field.canonical_q, np.array([1.0, 2.0, 3.0])))
+        self.assertTrue(np.array_equal(field.canonical_truth[:, 0, 0], np.array([1.0, 0.0, 2.0])))
+        x_raw, _ = diagnostic.build_raw_field(
+            field.canonical_q, field.lambda_grid, field.canonical_truth
+        )
+        self.assertEqual(x_raw.shape, (1, 3, 2, 2))
+        self.assertTrue(np.all(np.diff(x_raw[0, :, 0, 0]) > 0.0))
+
+    def test_canonical_and_source_permutations_are_inverses_with_identity_metadata(self) -> None:
+        q = np.array([2.0, 1.0, 3.0], dtype=np.float64)
+        truth = np.ones((3, 2, 3), dtype=np.float64)
+        field = _canonical_field(q, truth)
+        self.assertTrue(
+            np.array_equal(
+                field.canonical_to_source_index[field.source_to_canonical_index],
+                np.arange(3),
+            )
+        )
+        self.assertEqual(field.source_records[0]["source_concatenated_index"], 1)
+        self.assertEqual(field.source_records[0]["canonical_model_index"], 0)
+        self.assertEqual(field.source_records[0]["Q"], 1.0)
+
+    def test_metrics_are_invariant_to_source_row_order_after_canonicalization(self) -> None:
+        q_first = np.array([2.0, 1.0, 3.0], dtype=np.float64)
+        truth_first = np.stack(
+            [np.full((2, 3), value) for value in (20.0, 10.0, 30.0)], axis=0
+        )
+        q_second = np.array([3.0, 2.0, 1.0], dtype=np.float64)
+        truth_second = np.stack(
+            [np.full((2, 3), value) for value in (30.0, 20.0, 10.0)], axis=0
+        )
+        first = _canonical_field(q_first, truth_first)
+        second = _canonical_field(q_second, truth_second)
+        first_metrics = diagnostic.compute_comparison_metrics(
+            first.canonical_truth + 1.0,
+            first.canonical_truth,
+            first.canonical_q,
+            denominator_description="shared_truth_raw_float64",
+        )
+        second_metrics = diagnostic.compute_comparison_metrics(
+            second.canonical_truth + 1.0,
+            second.canonical_truth,
+            second.canonical_q,
+            denominator_description="shared_truth_raw_float64",
+        )
+        self.assertEqual(first_metrics, second_metrics)
+
+    def test_unsorted_model_input_is_detectably_different_from_canonical_input(self) -> None:
+        q = np.array([2.0, 1.0, 3.0], dtype=np.float64)
+        truth = np.ones((3, 2, 3), dtype=np.float64)
+        field = _canonical_field(q, truth)
+        raw_x, _ = diagnostic.build_raw_field(q, field.lambda_grid, truth)
+        canonical_x, _ = diagnostic.build_raw_field(
+            field.canonical_q, field.lambda_grid, field.canonical_truth
+        )
+        self.assertFalse(np.array_equal(raw_x, canonical_x))
+        self.assertTrue(np.all(np.diff(canonical_x[0, :, 0, 0]) > 0.0))
+
+    def test_short_and_long_canonical_q_identity_is_required(self) -> None:
+        short = _canonical_field(np.array([2.0, 1.0]), np.ones((2, 2, 3)))
+        long = _canonical_field(np.array([2.0, 1.5]), np.ones((2, 3, 3)))
+        with self.assertRaisesRegex(ValueError, "Q arrays differ"):
+            diagnostic.validate_raw_pair(
+                short.canonical_q,
+                short.canonical_truth,
+                short.lambda_grid,
+                long.canonical_q,
+                long.canonical_truth,
+                long.lambda_grid,
+            )
+
+    def test_shared_short_truth_and_long_prefix_align_after_canonical_mapping(self) -> None:
+        short = _canonical_field(
+            np.array([2.0, 1.0, 3.0]),
+            np.stack([np.full((2, 3), value) for value in (20.0, 10.0, 30.0)]),
+        )
+        long = _canonical_field(
+            np.array([3.0, 2.0, 1.0]),
+            np.stack([np.full((3, 3), value) for value in (30.0, 20.0, 10.0)]),
+        )
+        diagnostic.validate_raw_pair(
+            short.canonical_q,
+            short.canonical_truth,
+            short.lambda_grid,
+            long.canonical_q,
+            long.canonical_truth,
+            long.lambda_grid,
+        )
+        self.assertTrue(
+            np.array_equal(
+                short.canonical_truth,
+                long.canonical_truth[:, : short.lambda_grid.size, :],
+            )
+        )
+
+    def test_split_specific_scope_is_explicitly_diagnostic_only(self) -> None:
+        field = _canonical_field(
+            np.array([2.0, 1.0]),
+            np.ones((2, 2, 3)),
+            selected_splits=("test",),
+        )
+        ordering = diagnostic._ordering_provenance(field, field, "test")
+        self.assertEqual(ordering["evaluation_scope"], "diagnostic_only_split_field")
+        self.assertEqual(
+            ordering["model_input_q_order"],
+            "ascending_Q_within_selected_split_diagnostic_only",
+        )
+        self.assertEqual(ordering["source_split_order"], ["test"])
 
 
 class PairValidationTests(unittest.TestCase):
@@ -186,12 +322,13 @@ class ResultAndOutputTests(unittest.TestCase):
                 checkpoint=checkpoint,
                 pair_validation_path=PROJECT_ROOT / "pair.json",
                 pair_validation=_pair_artifact(),
-                split_policy="test",
+                split_policy="all",
                 device="cpu",
-                short_q=np.array([1.6]),
-                short_truth=short_truth,
-                short_lambda=np.array([0.0, 1.0]),
-                long_lambda=np.array([0.0, 1.0, 2.0]),
+                short_field=_canonical_field(np.array([1.6]), short_truth),
+                long_field=_canonical_field(
+                    np.array([1.6]),
+                    np.concatenate((short_truth, short_truth[:, :1, :]), axis=1),
+                ),
                 short_prediction=short_prediction,
                 long_prediction=long_prediction,
             )
@@ -210,6 +347,9 @@ class ResultAndOutputTests(unittest.TestCase):
         self.assertTrue(result["frozen_inference_only"])
         self.assertFalse(result["autoregressive_rollout"])
         self.assertEqual(result["adaptation"], "none")
+        self.assertEqual(result["ordering"]["evaluation_scope"], "full_q400_canonical_field")
+        self.assertEqual(result["ordering"]["model_input_q_order"], "ascending_Q_full_field")
+        self.assertTrue(result["ordering"]["canonical_q_exact_match_between_short_and_long"])
         json.dumps(result, allow_nan=False)
 
     def test_output_refuses_overwrite_and_writes_only_json(self) -> None:
@@ -235,6 +375,7 @@ class InterfaceSafetyTests(unittest.TestCase):
         self.assertIn("--dataset-pair-validation-json", completed.stdout)
         self.assertIn("--output-json", completed.stdout)
         self.assertIn("--split", completed.stdout)
+        self.assertIn("formal full-Q protocol", completed.stdout)
 
     def test_source_has_no_training_or_large_artifact_output_path(self) -> None:
         source = SCRIPT_PATH.read_text(encoding="utf-8")
@@ -245,6 +386,8 @@ class InterfaceSafetyTests(unittest.TestCase):
         self.assertIn("predict_2d_loader", source)
         self.assertIn("frozen_inference_only", source)
         self.assertIn("autoregressive_rollout", source)
+        self.assertIn("ascending_Q_full_field", source)
+        self.assertIn("canonical_to_source_index", source)
 
     def test_frozen_inference_uses_the_existing_no_grad_predictor_without_feedback(self) -> None:
         inference_source = inspect.getsource(diagnostic.run_frozen_inference)

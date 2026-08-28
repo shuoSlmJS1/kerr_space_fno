@@ -7,6 +7,7 @@ import json
 import platform
 import subprocess
 import sys
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
@@ -67,10 +68,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--split",
         choices=("train", "val", "test", "all"),
-        default="test",
+        default="all",
         help=(
-            "Evaluation split. 'all' concatenates train, val, and test "
-            "without changing the order within any split."
+            "Evaluation scope. 'all' is the formal full-Q protocol: it "
+            "combines train, val, and test source identities, then stably "
+            "sorts Q ascending before model input. Individual splits are "
+            "diagnostic-only and are also sorted internally."
         ),
     )
     parser.add_argument(
@@ -127,6 +130,20 @@ def load_required_pair_validation(path: Path) -> dict[str, Any]:
     return artifact
 
 
+@dataclass(frozen=True)
+class CanonicalQField:
+    """同时保留原始身份顺序与模型所需的 canonical Q 轴。"""
+    source_q: np.ndarray
+    source_truth: np.ndarray
+    lambda_grid: np.ndarray
+    canonical_q: np.ndarray
+    canonical_truth: np.ndarray
+    canonical_to_source_index: np.ndarray
+    source_to_canonical_index: np.ndarray
+    source_records: list[dict[str, Any]]
+    selected_splits: tuple[str, ...]
+
+
 def _load_split(data: dict[str, np.ndarray], split: str) -> tuple[np.ndarray, np.ndarray]:
     """读取一个 split，同时保留原始数组顺序与 float64 真值。"""
     x_key = f"x_{split}"
@@ -142,8 +159,54 @@ def _load_split(data: dict[str, np.ndarray], split: str) -> tuple[np.ndarray, np
     return x, y
 
 
-def load_task_raw_field(task_name: str, split_policy: str) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
-    """加载一个任务的 Q、原始 float64 轨迹和 lambda 网格。"""
+def build_canonical_q_field(
+    source_q: np.ndarray,
+    source_truth: np.ndarray,
+    lambda_grid: np.ndarray,
+    source_records: list[dict[str, Any]],
+    selected_splits: tuple[str, ...],
+) -> CanonicalQField:
+    """稳定排序 Q，并以同一置换重排真值与来源记录。"""
+    q = np.asarray(source_q, dtype=np.float64).reshape(-1)
+    truth = np.asarray(source_truth, dtype=np.float64)
+    lambda_values = np.asarray(lambda_grid, dtype=np.float64).reshape(-1)
+    if truth.ndim != 3 or truth.shape[0] != q.size or truth.shape[2] != 3:
+        raise ValueError("Source Q and raw truth arrays have incompatible shapes.")
+    if truth.shape[1] != lambda_values.size:
+        raise ValueError("Raw truth length does not match lambda grid length.")
+    if len(source_records) != q.size:
+        raise ValueError("Source identity records do not match Q count.")
+    if not np.all(np.isfinite(q)) or not np.all(np.isfinite(truth)):
+        raise ValueError("Selected dataset split contains non-finite values.")
+    canonical_to_source = np.argsort(q, kind="stable").astype(np.int64)
+    canonical_q = q[canonical_to_source]
+    if canonical_q.size > 1 and not np.all(np.diff(canonical_q) > 0.0):
+        raise ValueError("Canonical Q field requires unique strictly ascending Q values.")
+    source_to_canonical = np.empty_like(canonical_to_source)
+    source_to_canonical[canonical_to_source] = np.arange(q.size, dtype=np.int64)
+    if not np.array_equal(canonical_to_source[source_to_canonical], np.arange(q.size)):
+        raise RuntimeError("Q-order permutations are not inverse mappings.")
+    records: list[dict[str, Any]] = []
+    for canonical_index, source_index in enumerate(canonical_to_source):
+        record = dict(source_records[int(source_index)])
+        record["Q"] = float(canonical_q[canonical_index])
+        record["canonical_model_index"] = int(canonical_index)
+        records.append(record)
+    return CanonicalQField(
+        source_q=q,
+        source_truth=truth,
+        lambda_grid=lambda_values,
+        canonical_q=canonical_q,
+        canonical_truth=truth[canonical_to_source],
+        canonical_to_source_index=canonical_to_source,
+        source_to_canonical_index=source_to_canonical,
+        source_records=records,
+        selected_splits=selected_splits,
+    )
+
+
+def load_task_raw_field(task_name: str, split_policy: str) -> CanonicalQField:
+    """加载原始 split 身份，并构造独立的升序 Q 模型输入场。"""
     dataset_path = get_task_dataset_npz_path(task_name)
     if not dataset_path.is_file():
         raise FileNotFoundError(f"Dataset does not exist: {dataset_path}")
@@ -154,10 +217,19 @@ def load_task_raw_field(task_name: str, split_policy: str) -> tuple[np.ndarray, 
     selected_splits = SPLITS if split_policy == "all" else (split_policy,)
     x_parts: list[np.ndarray] = []
     y_parts: list[np.ndarray] = []
+    source_records: list[dict[str, Any]] = []
+    source_offset = 0
     for split in selected_splits:
         x, y = _load_split(data, split)
         x_parts.append(x)
         y_parts.append(y)
+        for index in range(x.shape[0]):
+            source_records.append({
+                "source_split": split,
+                "source_index_within_split": int(index),
+                "source_concatenated_index": int(source_offset + index),
+            })
+        source_offset += int(x.shape[0])
     x_all = np.concatenate(x_parts, axis=0)
     y_all = np.concatenate(y_parts, axis=0)
     if y_all.dtype != np.float64:
@@ -168,10 +240,13 @@ def load_task_raw_field(task_name: str, split_policy: str) -> tuple[np.ndarray, 
         raise ValueError(
             f"Trajectory length={y_all.shape[1]} does not match lambda length={lambda_grid.size}."
         )
-    q_values = np.asarray(x_all[:, 0], dtype=np.float64)
-    if not np.all(np.isfinite(q_values)) or not np.all(np.isfinite(y_all)):
-        raise ValueError("Selected dataset split contains non-finite values.")
-    return q_values, np.asarray(y_all, dtype=np.float64), lambda_grid
+    return build_canonical_q_field(
+        source_q=x_all[:, 0],
+        source_truth=y_all,
+        lambda_grid=lambda_grid,
+        source_records=source_records,
+        selected_splits=selected_splits,
+    )
 
 
 def validate_raw_pair(
@@ -322,11 +397,48 @@ def _git_commit() -> str:
     return completed.stdout.strip()
 
 
-def _split_policy_description(split_policy: str) -> str:
-    """将 split 选择写为明确且可审计的语义。"""
-    if split_policy == "all":
-        return "train_then_val_then_test_preserving_original_order"
-    return f"{split_policy}_split_preserving_original_order"
+def _ordering_provenance(
+    short_field: CanonicalQField,
+    long_field: CanonicalQField,
+    split_policy: str,
+) -> dict[str, Any]:
+    """记录来源身份与 canonical 模型输入顺序之间的可逆映射。"""
+    formal_scope = split_policy == "all"
+    source_identity_order = (
+        "train_then_val_then_test_original_order"
+        if formal_scope
+        else f"{split_policy}_split_original_order"
+    )
+    model_input_q_order = (
+        "ascending_Q_full_field"
+        if formal_scope
+        else "ascending_Q_within_selected_split_diagnostic_only"
+    )
+    return {
+        "evaluation_scope": (
+            "full_q400_canonical_field"
+            if formal_scope
+            else "diagnostic_only_split_field"
+        ),
+        "source_split_order": list(short_field.selected_splits),
+        "source_identity_order": source_identity_order,
+        "model_input_q_order": model_input_q_order,
+        "stable_sort": True,
+        "q_count": int(short_field.canonical_q.size),
+        "canonical_q_exact_match_between_short_and_long": bool(
+            np.array_equal(short_field.canonical_q, long_field.canonical_q)
+        ),
+        "short": {
+            "canonical_to_source_index": short_field.canonical_to_source_index,
+            "source_to_canonical_index": short_field.source_to_canonical_index,
+            "source_records_in_canonical_order": short_field.source_records,
+        },
+        "long": {
+            "canonical_to_source_index": long_field.canonical_to_source_index,
+            "source_to_canonical_index": long_field.source_to_canonical_index,
+            "source_records_in_canonical_order": long_field.source_records,
+        },
+    }
 
 
 def build_result(
@@ -341,14 +453,16 @@ def build_result(
     pair_validation: dict[str, Any],
     split_policy: str,
     device: str,
-    short_q: np.ndarray,
-    short_truth: np.ndarray,
-    short_lambda: np.ndarray,
-    long_lambda: np.ndarray,
+    short_field: CanonicalQField,
+    long_field: CanonicalQField,
     short_prediction: np.ndarray,
     long_prediction: np.ndarray,
 ) -> dict[str, Any]:
     """构建紧凑、可审计且不包含大数组的正式结果。"""
+    short_q = short_field.canonical_q
+    short_truth = short_field.canonical_truth
+    short_lambda = short_field.lambda_grid
+    long_lambda = long_field.lambda_grid
     shared_length = int(short_lambda.size)
     long_prefix_prediction = np.asarray(long_prediction[:, :shared_length, :])
     stats = load_normalization_stats_from_checkpoint(checkpoint)
@@ -374,7 +488,7 @@ def build_result(
             "classification": pair_validation["pair_classification"]["short_to_medium"],
             "historical_t1800_reusable": pair_validation["scientific_reuse"]["historical_t1800_reusable"],
         },
-        "split_policy": _split_policy_description(split_policy),
+        "ordering": _ordering_provenance(short_field, long_field, split_policy),
         "q_count": int(short_q.size),
         "short_length": shared_length,
         "long_length": int(long_lambda.size),
@@ -455,9 +569,16 @@ def main() -> None:
     args = parse_args()
     pair_validation_path = Path(args.dataset_pair_validation_json)
     pair_validation = load_required_pair_validation(pair_validation_path)
-    short_q, short_truth, short_lambda = load_task_raw_field(args.short_task_name, args.split)
-    long_q, long_truth, long_lambda = load_task_raw_field(args.long_task_name, args.split)
-    validate_raw_pair(short_q, short_truth, short_lambda, long_q, long_truth, long_lambda)
+    short_field = load_task_raw_field(args.short_task_name, args.split)
+    long_field = load_task_raw_field(args.long_task_name, args.split)
+    validate_raw_pair(
+        short_field.canonical_q,
+        short_field.canonical_truth,
+        short_field.lambda_grid,
+        long_field.canonical_q,
+        long_field.canonical_truth,
+        long_field.lambda_grid,
+    )
     checkpoint_path = (
         Path(args.checkpoint_path)
         if args.checkpoint_path is not None
@@ -466,10 +587,20 @@ def main() -> None:
     checkpoint = load_checkpoint_2d(checkpoint_path=checkpoint_path, device=str(args.device))
     model = load_fno2d_checkpoint_model(checkpoint=checkpoint, device=str(args.device))
     short_prediction = run_frozen_inference(
-        model, checkpoint, short_q, short_lambda, short_truth, str(args.device)
+        model,
+        checkpoint,
+        short_field.canonical_q,
+        short_field.lambda_grid,
+        short_field.canonical_truth,
+        str(args.device),
     )
     long_prediction = run_frozen_inference(
-        model, checkpoint, long_q, long_lambda, long_truth, str(args.device)
+        model,
+        checkpoint,
+        long_field.canonical_q,
+        long_field.lambda_grid,
+        long_field.canonical_truth,
+        str(args.device),
     )
     result = build_result(
         training_task_name=args.training_task_name,
@@ -482,10 +613,8 @@ def main() -> None:
         pair_validation=pair_validation,
         split_policy=args.split,
         device=str(args.device),
-        short_q=short_q,
-        short_truth=short_truth,
-        short_lambda=short_lambda,
-        long_lambda=long_lambda,
+        short_field=short_field,
+        long_field=long_field,
         short_prediction=short_prediction,
         long_prediction=long_prediction,
     )
