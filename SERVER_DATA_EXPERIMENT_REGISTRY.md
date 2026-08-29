@@ -97,6 +97,7 @@ This registry does not reproduce numerical conclusions.
 | `outputs/comparison/queue_a_cross_scale_summary` | Aggregate cross-scale summary directory | Not recorded in this registry | Not recorded in this registry | Not verified here | PENDING VERIFICATION |
 | `outputs/comparison/scale_experiments_2d` | Scale-experiment output directory | Not recorded in this registry | Not recorded in this registry | Not verified here | PENDING VERIFICATION |
 | `outputs/length_dataset_identity_validation/q400_t1200_t1800_t2400_prefix_identity.json` | Strict length-dataset prefix identity validation | q400 T1200 / T1800 / T2400 comparison-only datasets | 0 | `q400_t1200_t1800_t2400_prefix_identity.json` | COMPLETED — EXACT_PREFIX |
+| `outputs/length_change_prediction_consistency/q400_t1200_t1800_all_canonical_q.json` | Frozen length-change prediction consistency diagnostic | q400 T1200/T1800 exact-prefix comparison-only datasets | 1 frozen FNO2D checkpoint | `q400_t1200_t1800_all_canonical_q.json` | COMPLETED — FORMAL DIAGNOSTIC |
 
 ### Completed strict length-dataset identity validation
 
@@ -114,6 +115,28 @@ This registry does not reproduce numerical conclusions.
 - This validates dataset pairing only. It does not provide T2400 inference
   performance or the short-input versus long-input-prefix prediction comparison.
 
+### Completed formal length-change prediction consistency diagnostic
+
+- Output: `outputs/length_change_prediction_consistency/`
+  `q400_t1200_t1800_all_canonical_q.json`.
+- Diagnostic type: frozen one-shot short-input versus long-input-prefix
+  prediction consistency; evidence: `formal diagnostic`.
+- Training task: `q_1p6-3_n2000_t1200`; model:
+  `fno2d_m16x32_w64_d4_e500`; same frozen `best_model.pt` for both inputs.
+- Short/long tasks: `q_1p6007-2p9993_n400_t1200` and
+  `q_1p6007-2p9993_n400_t1800`; prerequisite artifact:
+  `outputs/length_dataset_identity_validation/`
+  `q400_t1200_t1800_t2400_prefix_identity.json` (`EXACT_PREFIX`).
+- Protocol: full 400-Q canonical ascending-Q field; matching Q/y permutation;
+  shared short raw float64 truth for both truth comparisons; no adaptation,
+  autoregression, teacher forcing, fine-tuning, or checkpoint change.
+- Primary mean-per-Q Relative L2: short vs truth `0.0054274904`; long prefix vs
+  truth `1.7016413755`; long prefix vs short prediction `1.7021071446`.
+- Global Relative L2 in the same order: `0.0071953455`, `1.6991658080`, and
+  `1.6996710240`.
+- Status: `COMPLETED`; evidence: `formal diagnostic`.
+- An earlier scrambled-Q output was superseded as `protocol-debug` because of
+  invalid Q-axis ordering; its metrics are not registered as scientific results.
 ## 6. Current Sparse Reconstruction Stage
 
 The first implementation stage is complete:

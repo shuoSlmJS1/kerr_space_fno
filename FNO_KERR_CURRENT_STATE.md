@@ -223,18 +223,9 @@ test-time adaptation。这一协议属于 `snapshot-verified` 加
 正确表述是：**该特定冻结 FNO2D/domain-extension 协议表现很差，且在长输入
 协议下，原见域前缀相对真值的误差已达到 `RelL2 ≈ 1.70`。**
 
-不能把 1.70 解释为 short-input 与 long-input 前缀预测之间的数值差异。当前
-没有已存活的直接结果来比较：
-
-```text
-prediction from short T=1200 input
-```
-
-与：
-
-```text
-first 1200 points of prediction from long T=1800 input
-```
+表中 `1.70164` 是 long-input prediction 的共享 T1200 前缀相对真值的
+mean-per-Q Relative L2；它不是 short-input prediction 与 long-input-prefix
+prediction 的数值差异。该预测差异现已由下述正式诊断独立给出。
 
 Stage-2 strict dataset identity validation 已在服务器完成，结果 artifact 为
 `outputs/length_dataset_identity_validation/`
@@ -259,12 +250,36 @@ medium_to_long  = EXACT_PREFIX
 冻结单次前向协议在原 seen domain 上的差表现不能由 short/long ground-truth
 prefix mismatch 解释。
 
-`compare_length_prefix_predictions_2d.py` 存在，但仍没有已验证输出直接比较
-short-input T1200 prediction 与 long-input T1800 prediction 的前 1200 点。因此
-short/long prediction consistency 仍为 `unknown`；不能将 `1.70` 表述为输入长度
-改变原预测的数值差异。
+### 7.4 Corrected formal frozen length-change prediction consistency diagnostic
 
-### 7.4 受支持与不受支持的结论
+用户提供的正式服务器结果 artifact 为
+`outputs/length_change_prediction_consistency/`
+`q400_t1200_t1800_all_canonical_q.json`。其角色为 `formal diagnostic`，结果
+证据为 `server-result-verified`：在 Stage-2 `EXACT_PREFIX` 前提成立后，同一冻结
+`best_model.pt` 分别对 T1200 short input 和 T1800 long input 重新执行单次
+前向；Q 使用完整 400 点 canonical ascending-Q field，Q 与 y 使用同一置换。两个
+truth comparison 都使用 short dataset 的 shared raw float64 truth。没有 adaptation、
+autoregressive rollout、teacher forcing 或 fine-tuning。
+
+| 比较 | Global Relative L2 | Mean-per-Q Relative L2 |
+|---|---:|---:|
+| short prediction vs shared truth | 0.0071953455 | 0.0054274904 |
+| long-input prefix prediction vs shared truth | 1.6991658080 | 1.7016413755 |
+| long-input prefix prediction vs short-input prediction | 1.6996710240 | 1.7021071446 |
+
+该正式结果在 mean-per-Q 口径上实质复现了历史临时值约 `0.00542749`、
+`1.701641` 和 `1.702107`。因此 short-input prediction 与 long-input-prefix
+prediction consistency 已不再是 `unknown`：在这一历史冻结 Q-only FNO2D 协议下，
+将 lambda 输入域从 T=1200 延长到 T=1800，会显著改变模型在原共享 T=1200 前缀上
+的预测。由于 Stage-2 truth pairing、canonical Q ordering、同一 checkpoint 的
+fresh inference 与 shared truth 均已满足，这一现象不能由 short/long ground-truth
+prefix mismatch 或 Q-axis scrambling 解释。
+
+该诊断建立现象，不建立机制。它不支持“FNO cannot perform Kerr length
+extrapolation in general”、不支持将原因确定为 FFT frequency-grid change，也不支持
+推广到所有 FNO architectures。T2400 仍没有已验证 inference result。
+
+### 7.5 受支持与不受支持的结论
 
 受支持：该一次冻结模型、同 `delta_lambda`、更大物理 λ 域的 T1800 协议失败，
 并且失败并非只体现在新增尾部。
@@ -277,6 +292,14 @@ FNO cannot perform Kerr length extrapolation in general.
 
 `q_1p6007-2p9993_n400_t2400` 数据集存在，但没有已验证的 T2400 推理结果；
 它不能被写成完成的实验。
+
+### 7.6 FNO2D Q-axis ordering methodological boundary
+
+`Git/code-derived`: in the Q-only FNO2D tensor convention `[B, H, W, C]`, the `H` dimension is the Q parameter-grid/operator axis, the `W` dimension is the lambda axis, and the field channels are `[Q, lambda]`. Spectral convolutions apply the FFT over both spatial/operator dimensions (`H` and `W`); consequently, Q ordering is part of model-input semantics rather than a cosmetic row-order choice. Random NPZ split row order must not be supplied directly as the FNO2D `H` axis.
+
+The required model-input convention is a stable canonical ascending-Q field: apply one permutation to Q and the corresponding y rows, and use the same canonical convention for training, common-test, and length-change evaluation. This does not contradict Stage-2 dataset identity validation. Dataset identity evidence retains each original train/val/test source-row order and does not sort Q, whereas FNO evaluation constructs a separate canonical model-input field after source identity has been preserved and checked.
+
+An early formal consistency execution with invalid scrambled Q-axis ordering is a `protocol-debug artifact`, not scientific model-performance evidence and not a negative scientific result. Its numeric output is intentionally not retained in this document or the registry. The local correction is recorded in Git commit `a68dc2c`; it corrects the formal diagnostic introduced in `97de23d` without changing the Stage-2 raw dataset identity semantics.
 
 ## 8. Sparse reconstruction lineage
 
@@ -364,7 +387,7 @@ spectral contribution 和 lambda-isolated period-selection。
 | current v1 FNO2D common-test 标度 | formal | `snapshot-verified` | 高 | 训练、检查点、独立 common-test 和物理指标完整。 |
 | legacy `experimental_v1` FNO2D | superseded | `snapshot-verified` | 高 | 新正式工作优先 current v1；未被认定为损坏。 |
 | normalization / target-transform 比较 | unknown | `Git/code-derived` | 中 | 有代码演进，缺少完整成对服务器结果。 |
-| T1800 长度外推 | exploratory | `snapshot-verified` + `server-result-verified` | 高 | 历史负结果与 exact truth-prefix 配对均已验证；prediction consistency 仍缺失。 |
+| T1800 长度外推 | exploratory | `snapshot-verified` + `server-result-verified` | 高 | 历史长域结果、exact truth-prefix 配对和 canonical-Q formal prediction-consistency diagnostic 均已记录；机制仍未确定。 |
 | T2400 长度外推 | unknown | `server-result-verified` + `asset-only` | 高 | 数据为 exact-prefix long-domain truth candidate；尚无已验证 inference result。 |
 | Linear/PCHIP sparse sweep | formal | `registry-only` | 中 | 注册表称正式扫掠，结果文件存在但内容未嵌入。 |
 | sparse FNO1D / ResNet | formal | `snapshot-verified` | 高 | 配置、训练摘要、检查点和隐藏点指标均存在。 |
@@ -380,16 +403,18 @@ spectral contribution 和 lambda-isolated period-selection。
 | 既有工作 | Plan A | Plan B | 正确解释 |
 |---|---|---|---|
 | 常规 FNO2D T1200 拟合/标度 | 不测试 | 不测试 | 固定域、固定网格的 surrogate 比较。 |
-| 历史 T1800 长输入 | 覆盖核心形式 | 不测试 | 冻结、同 `delta_lambda`、更大物理域、一次前向；truth-prefix 配对已精确验证，但 prediction consistency 未完成。 |
+| 历史 T1800 长输入 | 覆盖核心形式 | 不测试 | 冻结、同 `delta_lambda`、更大物理域、一次前向；truth-prefix 配对与 canonical-Q formal prediction consistency 均已完成，机制仍未确定。 |
 | T2400 数据集 | A 的有效长域真值资产 | 不测试 | exact-prefix 配对已验证，尚无 inference result。 |
 | sparse 同分辨率重建 | 不测试 | 不测试 | 观测掩码重建。 |
 | sparse stride16 -> stride32 | 不测试 | 不测试 | 观测密度/掩码分布变化，不是网格密度变化。 |
 | 求解器验证 | A/B 前提 | A/B 前提 | 数值数据可信性，不是泛化实验。 |
 
-Plan A 的历史 T1800 工作应被复用为知识和资产，而不是盲目重做或丢弃；新的
-正式 A1 仍需补齐 prefix prediction consistency 和完整输出
-防护。Plan B 尚未完成：当前没有在相同物理 λ 域上改变 `T` / `delta_lambda` /
-离散密度并使用冻结模型评估的实验。
+Plan A 的历史 T1800 工作应被复用为知识和资产，而不是盲目重做或丢弃；Stage-2
+exact-prefix identity 与 canonical-Q formal prediction consistency 均已完成。下一
+A1 决策点不是现象是否存在，而是先进行狭义 failure-mechanism analysis，还是直接
+进行 corrected formal T1800/T2400 one-shot extrapolation evaluation and visualization；
+本文件不替用户选择该方向。Plan B 尚未完成：当前没有在相同物理 λ 域上改变 `T` /
+`delta_lambda` / 离散密度并使用冻结模型评估的实验。
 
 ```text
 Plan B has not yet been performed.
@@ -397,7 +422,7 @@ Plan B has not yet been performed.
 
 ## 13. Current unresolved questions
 
-- short-input 预测与 long-input 前缀预测的一致性数值；
+- 在该冻结历史 Q-only FNO2D 协议下，lambda-domain 长度改变为何会造成如此大的 shared-prefix prediction change；该现象已确认，但机制尚未确定；
 - T2400 是否有未保留的推理结果；
 - 原始 Q-only FNO1D 的服务器数值结果；
 - normalization/target-transform 研究的完整可比证据；
@@ -409,13 +434,14 @@ Plan B has not yet been performed.
 
 **当前不应启动新的科学实验，直到本状态文档和实验计划被冻结并经审阅。**
 
-Stage-2 strict identity validation 已完成，且三个数据集均为 `EXACT_PREFIX`
-companions。之后先进行 Stage A1：
+A1 的以下前提和诊断已完成：
 
-1. 使用历史正式 Q-only FNO2D checkpoint/protocol，运行或核对 short-input
-   prediction 与 long-input-prefix prediction consistency；
-2. 记录该比较的 Q 集、输出目录、raw physical-space 指标与完整输出防护；
-3. 审阅该诊断后，才判断历史 T1800 资产的下一步使用方式；
-4. 审阅 A1 后，才决定 A2 或转入 B1。
-Plan B 只在 A1 review 完成后开始，并必须保持“同物理域、不同离散网格”的
-定义，不能与长度外推或 sparse observation-density generalization 混淆。
+```text
+✓ Stage-2 dataset exact-prefix identity
+✓ formal short-vs-long prediction consistency diagnostic
+```
+
+下一 A1 决策点是：先进行狭义 failure-mechanism analysis，还是直接进行 corrected
+formal T1800/T2400 one-shot extrapolation evaluation and visualization。此文档不选择
+该方向。Plan B 仍未开始；它只在 A1 review 完成后开始，并必须保持“同物理域、不同
+离散网格”的定义，不能与长度外推或 sparse observation-density generalization 混淆。
