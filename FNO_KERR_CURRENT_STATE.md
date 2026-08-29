@@ -277,9 +277,27 @@ prefix mismatch 或 Q-axis scrambling 解释。
 
 该诊断建立现象，不建立机制。它不支持“FNO cannot perform Kerr length
 extrapolation in general”、不支持将原因确定为 FFT frequency-grid change，也不支持
-推广到所有 FNO architectures。T2400 仍没有已验证 inference result。
+推广到所有 FNO architectures。该诊断本身只比较 T1200/T1800；三长度 formal A1
+结果记录在下一节。
 
-### 7.5 受支持与不受支持的结论
+### 7.5 Formal A1 three-length frozen evaluation
+
+用户提供的 formal A1 结果在同一冻结 Q-only FNO2D、full canonical ascending-Q
+field、raw dataset float64 truth 和一次完整前向/长度协议下，已完成 T1200、T1800
+和 T2400 的评估。T1200 是准确的 same-domain baseline；T1800/T2400 都在共享
+T1200 前缀上显著退化：
+
+| 输入长度 | Prefix mean-per-Q Relative L2 | Extrapolation mean-per-Q Relative L2 | Full mean-per-Q Relative L2 |
+|---|---:|---:|---:|
+| T1200 | 0.005427490395002388 | N/A | 0.005427490395002388 |
+| T1800 | 1.7016413755435957 | 2.175171290898468 | 1.8720813646855663 |
+| T2400 | 2.2687772980088625 | 1.827294006317696 | 2.062092417362002 |
+
+T2400 的 shared-prefix 误差高于 T1800。固定物理 lambda-window 指标也显示，误差
+相对于训练边界之外物理距离并不单调。结果建立的是当前冻结协议的 domain-length
+sensitivity 现象，不建立其机制。
+
+### 7.6 受支持与不受支持的结论
 
 受支持：该一次冻结模型、同 `delta_lambda`、更大物理 λ 域的 T1800 协议失败，
 并且失败并非只体现在新增尾部。
@@ -290,16 +308,80 @@ extrapolation in general”、不支持将原因确定为 FFT frequency-grid cha
 FNO cannot perform Kerr length extrapolation in general.
 ```
 
-`q_1p6007-2p9993_n400_t2400` 数据集存在，但没有已验证的 T2400 推理结果；
-它不能被写成完成的实验。
+formal A1 已完成 T2400 的冻结单次推理并确认上述 domain-length sensitivity；它不
+证明机制，也不应被推广为所有 FNO architecture 或一般 Kerr length extrapolation 的
+结论。
 
-### 7.6 FNO2D Q-axis ordering methodological boundary
+### 7.7 FNO2D Q-axis ordering methodological boundary
 
 `Git/code-derived`: in the Q-only FNO2D tensor convention `[B, H, W, C]`, the `H` dimension is the Q parameter-grid/operator axis, the `W` dimension is the lambda axis, and the field channels are `[Q, lambda]`. Spectral convolutions apply the FFT over both spatial/operator dimensions (`H` and `W`); consequently, Q ordering is part of model-input semantics rather than a cosmetic row-order choice. Random NPZ split row order must not be supplied directly as the FNO2D `H` axis.
 
 The required model-input convention is a stable canonical ascending-Q field: apply one permutation to Q and the corresponding y rows, and use the same canonical convention for training, common-test, and length-change evaluation. This does not contradict Stage-2 dataset identity validation. Dataset identity evidence retains each original train/val/test source-row order and does not sort Q, whereas FNO evaluation constructs a separate canonical model-input field after source identity has been preserved and checked.
 
 An early formal consistency execution with invalid scrambled Q-axis ordering is a `protocol-debug artifact`, not scientific model-performance evidence and not a negative scientific result. Its numeric output is intentionally not retained in this document or the registry. The local correction is recorded in Git commit `a68dc2c`; it corrects the formal diagnostic introduced in `97de23d` without changing the Stage-2 raw dataset identity semantics.
+
+### 7.8 Current mechanism hypotheses for FNO2D domain-length sensitivity
+
+#### Established observation
+
+- T1200 same-domain baseline is accurate (`mean_per_q_relative_l2 = 0.00542749`), whereas T1800 and T2400 long inputs strongly degrade the exactly shared T1200 truth prefix; T2400 prefix error is higher than T1800 prefix error.
+- T1800/T2400 lambda-window errors are non-monotonic with physical distance beyond the training boundary.
+- This is a single full-field frozen evaluation, not autoregressive rollout. The observed whole-field and shared-prefix changes therefore do not resemble simple stepwise/autoregressive error accumulation.
+
+#### Overall working hypothesis — not yet experimentally verified
+
+FNO2D performs global spectral operations over the parameter/lambda field. Changing the total physical lambda-domain length changes the global Fourier representation even when the original shared prefix is unchanged. This may alter the physical meaning of retained Fourier mode indices, the physical spectral bandwidth represented by a fixed number of modes, and the coordinate distribution seen by the network. This is a working hypothesis, not an experimentally verified cause.
+
+#### Mechanism candidates — not results
+
+1. **Fourier mode physical-frequency shift.** For physical domain length `L`, mode index `k` corresponds approximately to frequency `k / L`, or angular frequency `omega_k ~ 2*pi*k/L`. When `L ≈ 6 -> 9 -> 12`, the same discrete `k` no longer denotes the same physical frequency. A physical oscillation represented near one mode index during training may therefore shift to another index on a longer domain. This is a mechanism candidate, not a result.
+2. **Fixed-mode physical bandwidth shrinkage.** The FNO2D lambda direction retains a fixed number of Fourier modes. If its maximum retained index is approximately fixed at `K`, then the represented maximum physical frequency behaves approximately as `f_max ~ K / L`. Increasing `L` at fixed `K` reduces the physical-frequency bandwidth of those modes. It is not yet known whether important Kerr trajectory energy lies outside that retained physical bandwidth.
+3. **Global spectral representation changes the shared prefix.** Spectral-layer Fourier coefficients depend on the entire input field, not only its local prefix. Changing `T1200 -> T1800 -> T2400` changes both the complete lambda-domain signal and the Fourier basis; hence the representation used for an exactly identical raw T1200 prefix may change substantially. This directly motivates internal spectral/feature diagnostics, but is not yet isolated from candidates 1 and 2.
+4. **Lambda coordinate extrapolation / normalization shift.** The input channels are `[Q, lambda]`. Longer domains place raw lambda values beyond the T1200 training range; checkpoint normalization may also place normalized lambda outside its training distribution. This coordinate shift may contribute independently or jointly with Fourier effects, but normalization is not established as the cause.
+
+#### Four future diagnostic questions
+
+##### Question 1 — Physical frequency mapping
+
+When `T` changes `1200 -> 1800 -> 2400` at approximately fixed `delta_lambda`, how do the physical frequencies represented by the retained lambda Fourier mode indices change? This is primarily a mathematical/code audit question.
+
+##### Question 2 — Kerr trajectory spectral energy
+
+Where is raw Kerr trajectory spectral energy concentrated along lambda? Determine whether important trajectory energy shifts across discrete mode indices as domain length changes, and whether significant energy lies outside the physical bandwidth represented by the retained modes.
+
+##### Question 3 — Internal spectral representation sensitivity
+
+For the exact same shared T1200 truth prefix, how much do early/internal FNO spectral representations change when the full input field is T1200, T1800, or T2400? The objective is to determine whether strong length sensitivity appears in the first spectral layer or develops deeper in the network.
+
+##### Question 4 — Coordinate-range contribution
+
+How much of the failure is associated with lambda coordinate extrapolation / checkpoint normalization rather than Fourier-domain-length effects? Potential future controlled interventions may compare alternative coordinate representations, but no model modification should begin before the diagnostic audit.
+
+#### A1 versus Plan B conceptual boundary
+
+The hypotheses above concern current A1 domain-length sensitivity:
+
+```text
+physical domain-length change
+approximately fixed delta_lambda
+L changes
+```
+
+They do not claim that this A1 failure contradicts canonical FNO grid-resolution/discretization generalization. Future Plan B instead requires:
+
+```text
+fixed physical lambda domain
+grid density / delta_lambda changes
+L fixed
+```
+
+#### Resume point
+
+Next:
+
+1. perform a read-only mathematical/code audit of lambda-axis Fourier mode scaling, retained physical bandwidth, coordinate normalization, and available internal hooks;
+2. then design minimal mechanism diagnostics;
+3. do not modify or retrain the model before the audit.
 
 ## 8. Sparse reconstruction lineage
 
@@ -387,8 +469,8 @@ spectral contribution 和 lambda-isolated period-selection。
 | current v1 FNO2D common-test 标度 | formal | `snapshot-verified` | 高 | 训练、检查点、独立 common-test 和物理指标完整。 |
 | legacy `experimental_v1` FNO2D | superseded | `snapshot-verified` | 高 | 新正式工作优先 current v1；未被认定为损坏。 |
 | normalization / target-transform 比较 | unknown | `Git/code-derived` | 中 | 有代码演进，缺少完整成对服务器结果。 |
-| T1800 长度外推 | exploratory | `snapshot-verified` + `server-result-verified` | 高 | 历史长域结果、exact truth-prefix 配对和 canonical-Q formal prediction-consistency diagnostic 均已记录；机制仍未确定。 |
-| T2400 长度外推 | unknown | `server-result-verified` + `asset-only` | 高 | 数据为 exact-prefix long-domain truth candidate；尚无已验证 inference result。 |
+| T1800 长度外推 | formal | `snapshot-verified` + `server-result-verified` | 高 | exact truth-prefix、canonical-Q diagnostic 与 formal A1 冻结评估均已记录；机制仍未确定。 |
+| T2400 长度外推 | formal | `server-result-verified` | 高 | exact-prefix long-domain truth 与 formal A1 冻结评估已记录；机制仍未确定。 |
 | Linear/PCHIP sparse sweep | formal | `registry-only` | 中 | 注册表称正式扫掠，结果文件存在但内容未嵌入。 |
 | sparse FNO1D / ResNet | formal | `snapshot-verified` | 高 | 配置、训练摘要、检查点和隐藏点指标均存在。 |
 | canonical TimesNet | formal | `snapshot-verified` | 高 | 已完成的受限配置比较；负结果不等于无效。 |
@@ -403,18 +485,18 @@ spectral contribution 和 lambda-isolated period-selection。
 | 既有工作 | Plan A | Plan B | 正确解释 |
 |---|---|---|---|
 | 常规 FNO2D T1200 拟合/标度 | 不测试 | 不测试 | 固定域、固定网格的 surrogate 比较。 |
-| 历史 T1800 长输入 | 覆盖核心形式 | 不测试 | 冻结、同 `delta_lambda`、更大物理域、一次前向；truth-prefix 配对与 canonical-Q formal prediction consistency 均已完成，机制仍未确定。 |
-| T2400 数据集 | A 的有效长域真值资产 | 不测试 | exact-prefix 配对已验证，尚无 inference result。 |
+| T1800 长输入 | 覆盖核心形式 | 不测试 | 冻结、同 `delta_lambda`、更大物理域、一次前向；truth-prefix、canonical-Q diagnostic 与 formal A1 评估均已完成，机制仍未确定。 |
+| T2400 长输入 | 覆盖核心形式 | 不测试 | exact-prefix 配对与 formal A1 冻结单次评估均已完成；机制仍未确定。 |
 | sparse 同分辨率重建 | 不测试 | 不测试 | 观测掩码重建。 |
 | sparse stride16 -> stride32 | 不测试 | 不测试 | 观测密度/掩码分布变化，不是网格密度变化。 |
 | 求解器验证 | A/B 前提 | A/B 前提 | 数值数据可信性，不是泛化实验。 |
 
 Plan A 的历史 T1800 工作应被复用为知识和资产，而不是盲目重做或丢弃；Stage-2
-exact-prefix identity 与 canonical-Q formal prediction consistency 均已完成。下一
-A1 决策点不是现象是否存在，而是先进行狭义 failure-mechanism analysis，还是直接
-进行 corrected formal T1800/T2400 one-shot extrapolation evaluation and visualization；
-本文件不替用户选择该方向。Plan B 尚未完成：当前没有在相同物理 λ 域上改变 `T` /
-`delta_lambda` / 离散密度并使用冻结模型评估的实验。
+exact-prefix identity、canonical-Q formal prediction consistency 与 formal A1
+T1200/T1800/T2400 evaluation 均已完成。下一 A1 决策点是先进行狭义
+failure-mechanism audit，再设计最小诊断；本文件不选择机制结论或架构改动。Plan B
+尚未完成：当前没有在相同物理 λ 域上改变 `T` / `delta_lambda` / 离散密度并使用
+冻结模型评估的实验。
 
 ```text
 Plan B has not yet been performed.
@@ -423,7 +505,6 @@ Plan B has not yet been performed.
 ## 13. Current unresolved questions
 
 - 在该冻结历史 Q-only FNO2D 协议下，lambda-domain 长度改变为何会造成如此大的 shared-prefix prediction change；该现象已确认，但机制尚未确定；
-- T2400 是否有未保留的推理结果；
 - 原始 Q-only FNO1D 的服务器数值结果；
 - normalization/target-transform 研究的完整可比证据；
 - 三份 sparse cross-stride JSON 的原始数值；
@@ -439,9 +520,11 @@ A1 的以下前提和诊断已完成：
 ```text
 ✓ Stage-2 dataset exact-prefix identity
 ✓ formal short-vs-long prediction consistency diagnostic
+✓ formal A1 T1200/T1800/T2400 frozen evaluation
 ```
 
-下一 A1 决策点是：先进行狭义 failure-mechanism analysis，还是直接进行 corrected
-formal T1800/T2400 one-shot extrapolation evaluation and visualization。此文档不选择
-该方向。Plan B 仍未开始；它只在 A1 review 完成后开始，并必须保持“同物理域、不同
-离散网格”的定义，不能与长度外推或 sparse observation-density generalization 混淆。
+下一 A1 决策点是执行 §7.8 的只读 mathematical/code audit，先检查 lambda-axis
+Fourier mode scaling、retained physical bandwidth、coordinate normalization 与可用的
+internal hooks；之后才设计最小 mechanism diagnostics，且在 audit 前不修改或重训模型。
+Plan B 仍未开始；它只在 A1 review 完成后开始，并必须保持“同物理域、不同离散网格”
+的定义，不能与长度外推或 sparse observation-density generalization 混淆。
