@@ -141,54 +141,124 @@ green  = validated numerical-solver truth over full extended domain
 
 图中必须标明训练边界。颜色表示域角色，不表示不同模型或不同求解器。
 
-## 3. Main Line B — True Grid-Resolution Generalization
+### 2.8 Plan A repair-stage status
 
-### 3.1 定义
-
-Plan B 研究同一连续 Kerr 轨迹在不同离散网格表示上的泛化：
+本节只更新 Plan A 的 repair-stage 状态，不改变 Plan B 的定义或启动条件。
 
 ```text
-same physical lambda domain
-different T
-different delta_lambda
-different discretization density
-frozen checkpoint
+R1 — multi-length training with unchanged architecture
+completed; negative repair result
+
+R2 — domain-conditioned coordinate representation
+completed; partial positive repair signal; insufficient as a full length-extrapolation repair
+
+R3-B1 — physical-frequency-aware spectral parameterization
+completed; strong positive long-domain repair signal; severe T1200 accuracy trade-off
+
+R3 seven-length validation-response diagnostic
+completed; apparent sawtooth reduced mainly because gradient-seen lengths degraded;
+within-range interpolation remains unresolved
+
+decision point: evaluate whether to proceed to R4 — global/local spectral redesign
+R4 — candidate next stage; not started
 ```
 
-概念上：
+R1 表明仅增加若干固定训练长度不足以获得平滑的可变物理域泛化。R2 的
+`[Q, s, ell]` 表示改善长输入共享前缀稳定性，但未改善相对 R0 的真实外推区间精度，
+因而不能替代 R3。R3-B1 以实际物理频率而非离散索引参数化 spectral multiplier，
+并改善了相对 R0 的长域 prefix 与 extrapolation 指标，但严重牺牲 T1200 accuracy；它不是
+完整修复。已完成的同 validation-Q 七长度诊断显示表观离散锯齿幅度变小，但主要原因是
+R3 的 gradient-seen length fidelity 退化；T700/T900/T1100 的 non-gradient validation
+accuracy 没有实质改善。因此 within-range interpolation 仍未解决。下一决策点是评估是否
+进入 R4 global/local spectral redesign；R4 只在此前修复与诊断仍不足时考虑，当前未启动。
+
+T1800/T2400 已在机制与 repair 开发中重复使用，故为 development benchmarks。R1–R4
+设计冻结后，需以未见 Q 和/或未见长域长度的独立 confirmation set 作 paper-level
+confirmation。Plan B 仍是固定物理域、改变离散网格的独立主线，尚未开始。
+
+## 3. Plan B — Fixed-domain λ discretization-resolution generalization
+
+### 3.1 Protocol v1 lock and scientific question
+
+**Plan B Protocol v1 is locked; code implementation has not started.**
+
+Plan B tests a Q-only FNO2D checkpoint trained on the coarse lambda grid and later
+used with completely frozen weights on a finer lambda grid. Kerr physics, initial
+conditions, the independent Q400 evaluation field, and the sampled physical lambda
+interval remain fixed. The only active experimental change is lambda-axis
+discretization:
 
 ```text
-coarse grid: same [0, L], fewer points
-fine grid:   same [0, L], more points
+delta_lambda = 0.005 -> 0.0025
+T            = 1200  -> 2399
 ```
 
-目标是检验：无需重训练，学习到的 surrogate 是否仍能在同一物理 `lambda`
-区间的更细表示上保持准确。
+Plan B does not include Plan A length extrapolation, sparse observation-stride
+experiments, Q resampling, retraining, or fine-tuning.
 
-### 3.2 非 Plan B 的情况
+### 3.2 Fixed independent Q400 evaluation field and coarse anchor
 
-下列情况不构成真正的 Plan B：
+Plan B uses the existing independent offset-grid Q400 comparison field: 400 uniform
+Q-only Kerr trajectories with Q approximately in `[1.6007, 2.9993]`. This grid was
+constructed by a small offset near the original `[1.6, 3.0]` range; it is an
+independent comparison field, not an expansion because the original test-300 set was
+insufficient. Coarse and fine datasets must use exactly the same Q400 identities and
+canonical ordering.
 
-- 物理 `lambda` 域变长的长度外推；
-- sparse interpolation；
-- 保持 `T=1200` 和原 `lambda_grid` 不变、仅把观测 stride 从 16 改为 32；
-- 重新训练、微调或评估时适配归一化。
+**At a fixed independent Q400 evaluation field, only the lambda-axis discretization is changed.** This does not mean that only lambda changes relative to
+the training field: the FNO2D training Q field and the Q400 evaluation field differ.
 
-因此 `train stride16 -> evaluate stride32` 应称为
-`sparse observation-density generalization`，而不是 grid-resolution
-generalization。
+The existing coarse anchor is Q400/T1200:
 
-### 3.3 B1 必需条件
+- `T=1200`, `step_size=0.005`, and `lambda_grid[j] = j * 0.005`;
+- sampled physical interval `[0, 5.995]`;
+- historical frozen baseline global Relative L2 `0.0071953455` and mean-per-Q
+  Relative L2 `0.0054274904`.
 
-正式 B1 前必须具备：
+These baseline values are existing recorded results and are not recomputed by Protocol
+v1.
 
-1. coarse/fine 数据对应相同轨迹身份与固定物理域；
-2. 明确的 `T`、`delta_lambda`、网格包含关系或可审计映射；
-3. 训练 checkpoint 与训练归一化冻结；
-4. 对相同物理位置的 consistency diagnostic；
-5. 明确的 interpolation/restriction 规则，且不能借此泄漏 fine truth；
-6. 后续引入一个合理的 non-Fourier baseline，用于避免把任何差异都归因于
-   Fourier operator。
+### 3.3 Endpoint-fixed fine Plan B grid
+
+Protocol v1 fixes the fine grid as:
+
+- `T=2399`, `step_size=0.0025`, and `lambda_grid[j] = j * 0.0025`;
+- sampled physical interval `[0, 5.995]`;
+- `fine_lambda[::2] == coarse_lambda`.
+
+The coarse grid has 1199 intervals and the fine grid has 2398 intervals, so every
+coarse interval is bisected exactly and the sampled endpoints remain identical.
+
+### 3.4 Controls, exclusions, and truth qualification
+
+The following remain fixed: Q400 identities and ordering; `M`, `a`, `E`, `Lz`, `r0`,
+`theta0`, `phi0`, `sign_r`, `sign_th`; solver equations and turning-point logic; FNO
+architecture and checkpoint; training normalization statistics; and target transform.
+
+Retraining, fine-tuning, fine-grid normalization refitting, Q resampling, replacement
+of failed Q values, and architecture changes are prohibited. `delta_lambda` is the
+sole actively changed variable; the T change follows from the refinement.
+
+Before formal frozen FNO inference, paired numerical truth must be qualified by
+comparing `fine_xyz[:, ::2, :]` with `coarse_xyz`. The later qualification must report
+per-Q Relative L2 and MSE; mean, median, maximum, p95, and p99; failures or anomalies;
+and available turning-point diagnostics. Protocol v1 defines structural validity,
+numerical-consistency metrics, and anomaly reporting, but no numerical pass threshold.
+
+### 3.5 Formal execution order
+
+1. Plan B Protocol v1 lock.
+2. Local implementation.
+3. Unit tests.
+4. Tiny local smoke test.
+5. Bundle code to the server.
+6. Generate full paired Q400/T2399 fine-resolution truth on the server.
+7. Ground-truth coarse/fine consistency qualification.
+8. Only after qualification: frozen FNO inference at T2399.
+9. Compare T1200 versus T2399 resolution-generalization metrics.
+10. Update scientific conclusions and project records.
+
+The current documentation update completes step 1 only.
 
 ## 4. 仍有价值、但不属于 Plan A/B 的现有工作
 
@@ -204,27 +274,34 @@ generalization。
 
 ## 5. Stage ordering
 
-阶段顺序固定为：
+Plan A is paused pending the advisor report. Plan B Protocol v1 is now locked, without
+changing or rewriting Plan A history. The active Plan B sequence is:
 
 ```text
-Documentation / state reconstruction
+Plan B Protocol v1 lock
     ↓
-A1
+local implementation
     ↓
-A1 review
+unit tests
     ↓
-A2 only if justified
+tiny local smoke test
     ↓
-B1
+bundle code to server
     ↓
-B1 review
+paired Q400/T2399 truth generation on server
     ↓
-B2 only if justified
+coarse/fine ground-truth qualification
+    ↓
+frozen T2399 inference only after qualification
+    ↓
+T1200 versus T2399 metric comparison
+    ↓
+scientific interpretation and record update
 ```
 
-Plan A 和 Plan B 不应同时扩张。A1 review 必须先判断历史 `T=1800` 资产、
-前缀身份验证和新的正式协议是否已足以回答问题；只有在该判断完成后，才
-决定 A2 或转入 B1。
+Plan A and Plan B remain scientifically distinct. Plan B must not reuse Plan A
+length-extension assets as if they were fixed-domain refinement data, and it must not
+be conflated with sparse observation-density generalization.
 
 ## 6. 证据与记录要求
 

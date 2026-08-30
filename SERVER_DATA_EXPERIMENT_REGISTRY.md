@@ -72,6 +72,20 @@ Shared metadata facts for this group:
 These are comparison assets and must not be described as primary training
 datasets.
 
+### Planned Plan B paired fine-resolution dataset
+
+This is a planned asset only, not an existing server dataset or output.
+
+| Planned asset | Source coarse asset | Planned Q field | Planned T | Planned step_size | Sampled physical interval | Status | Generation condition |
+| --- | --- | --- | ---: | ---: | --- | --- | --- |
+| Q400/T2399 paired fine-resolution truth; server task/path to be assigned after local implementation | `data/tasks/q_1p6007-2p9993_n400_t1200` | Same independent offset-grid Q400 identities and canonical ordering | 2399 | 0.0025 | `[0, 5.995]` | NOT GENERATED | Full generation occurs on the server only after local implementation and tests. |
+
+The planned grid is `lambda_grid[j] = j * 0.0025`; it is endpoint-fixed to the
+existing Q400/T1200 coarse asset, so `fine_lambda[::2] == coarse_lambda`. Under Plan B
+Protocol v1, all source Kerr parameters, initial conditions, solver equations, and
+turning-point logic remain fixed; the fine asset must not be represented as already
+existing until generation has completed and been registered.
+
 ### Legacy experimental datasets
 
 | Path | Status | Samples | Split | Q range | T | Step | Solver version | Sampling / completion | Intended use | Regeneration needed |
@@ -98,6 +112,11 @@ This registry does not reproduce numerical conclusions.
 | `outputs/comparison/scale_experiments_2d` | Scale-experiment output directory | Not recorded in this registry | Not recorded in this registry | Not verified here | PENDING VERIFICATION |
 | `outputs/length_dataset_identity_validation/q400_t1200_t1800_t2400_prefix_identity.json` | Strict length-dataset prefix identity validation | q400 T1200 / T1800 / T2400 comparison-only datasets | 0 | `q400_t1200_t1800_t2400_prefix_identity.json` | COMPLETED — EXACT_PREFIX |
 | `outputs/length_change_prediction_consistency/q400_t1200_t1800_all_canonical_q.json` | Frozen length-change prediction consistency diagnostic | q400 T1200/T1800 exact-prefix comparison-only datasets | 1 frozen FNO2D checkpoint | `q400_t1200_t1800_all_canonical_q.json` | COMPLETED — FORMAL DIAGNOSTIC |
+| `outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200` | R2 domain-conditioned coordinate training repair | `q_1p6-3_n2000_t1200` strict prefixes only | 1 R2 FNO2D run | `run_config.json`, `summary.json`, `checkpoints/best_model.pt` | COMPLETED — R2 PARTIAL POSITIVE REPAIR SIGNAL |
+| `outputs/formal_a1_length_extrapolation/fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200_best_q400_t1200_t1800_t2400` | Formal R2 A1 frozen length-extrapolation evaluation | q400 exact-prefix T1200/T1800/T2400 comparison-only datasets | 1 frozen R2 checkpoint | `r2_a1_length_extrapolation_summary.json`, `r2_per_q_metrics.csv`, `r2_lambda_window_metrics.csv` | COMPLETED — FORMAL R2 REPAIR EVALUATION |
+| `outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200` | R3-B1 physical-frequency spectral training repair | `q_1p6-3_n2000_t1200` strict prefixes only | 1 R3 FNO2D run | `run_config.json`, `summary.json`, `checkpoints/best_model.pt` | COMPLETED — STRONG LONG-DOMAIN SIGNAL; severe T1200 trade-off |
+| `outputs/formal_a1_length_extrapolation/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200_best_fixed_q400_t1200_t1800_t2400` | Formal R3-B1 A1 frozen length-extrapolation evaluation | q400 exact-prefix T1200/T1800/T2400 comparison-only datasets | 1 frozen R3 checkpoint | `r3_a1_length_extrapolation_summary.json`, `r3_per_q_metrics.csv`, `r3_lambda_window_metrics.csv` | COMPLETED — FORMAL R3 REPAIR EVALUATION |
+| `outputs/r3_validation_length_response/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200_best_epoch77_val_t600-1200` | R3 seven-length validation-response development diagnostic | `q_1p6-3_n2000_t1200` validation Q strict prefixes T600–T1200 | 1 frozen epoch-77 R3 checkpoint | `r3_validation_length_response_summary.json`, `r3_validation_length_response_by_length.csv`, `r3_validation_length_response_per_q.csv` | COMPLETED — DEVELOPMENT DIAGNOSTIC; formal_test_evidence=false |
 
 ### Completed strict length-dataset identity validation
 
@@ -137,6 +156,84 @@ This registry does not reproduce numerical conclusions.
 - Status: `COMPLETED`; evidence: `formal diagnostic`.
 - An earlier scrambled-Q output was superseded as `protocol-debug` because of
   invalid Q-axis ordering; its metrics are not registered as scientific results.
+
+### Completed R2 domain-conditioned coordinate repair
+
+- Training run: `outputs/q_1p6-3_n2000_t1200/`
+  `fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200/`.
+- Selected asset: `checkpoints/best_model.pt`; `status = completed`,
+  `experiment_type = r2_domain_conditioned_coordinate_training`, and
+  `repair_class = INPUT_REPRESENTATION_REPAIR`.
+- Source task: `q_1p6-3_n2000_t1200`; strict prefix training lengths
+  `600, 800, 1000, 1200`; validation/checkpoint-selection lengths
+  `700, 900, 1100, 1200`. T1800/T2400 were excluded from training, normalization,
+  validation, and checkpoint selection.
+- Model input: `[Q, s, ell]`, with `s = lambda / L`, `ell = L / L_ref`,
+  `L = N * delta_lambda`, and `L_ref` the T1200 logical domain length. The standard
+  discrete-index spectral parameterization was unchanged.
+- Training record: `epochs = 500`, `optimizer_steps = 500`,
+  `forward_backward_passes_per_step = 4`, `best_epoch = 118`, and
+  `best_val_selection_score = 0.13257645582780242`.
+- Formal output: `outputs/formal_a1_length_extrapolation/`
+  `fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200_best_q400_t1200_t1800_t2400/`
+  with `r2_a1_length_extrapolation_summary.json`, `r2_per_q_metrics.csv`, and
+  `r2_lambda_window_metrics.csv`.
+- Formal evaluation used the frozen R2 `best_model.pt`, Stage-2 `EXACT_PREFIX`,
+  canonical Q400, raw float64 truth, and one direct forward per T1200/T1800/T2400.
+  Evidence: `server-result-verified`. It is a formal repair evaluation, not evidence
+  that coordinate representation is the sole mechanism or a complete solution.
+
+### Completed R3-B1 physical-frequency-aware spectral repair
+
+- Training run: `outputs/q_1p6-3_n2000_t1200/`
+  `fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200/`.
+  Selected `checkpoints/best_model.pt`: `status = completed`,
+  `experiment_type = r3_physical_frequency_spectral_training`,
+  `repair_class = SPECTRAL_PARAMETERIZATION_REDESIGN`, and `best_epoch = 77`.
+- Source task and prefix protocol match R2: `q_1p6-3_n2000_t1200`; gradient-training
+  lengths `600, 800, 1000, 1200`; validation/checkpoint-selection lengths
+  `700, 900, 1100, 1200`; no T1800/T2400 training, normalization, validation, or
+  checkpoint-selection leakage.
+- R3-B1 retains `[Q, s, ell]` and the global 32-bin FFT branch, but uses
+  `physical_frequency_anchor_interpolation` for `R_k -> R(xi_k)`,
+  `xi_k = k / (N * delta_lambda)`. It does not repair the retained physical bandwidth.
+- Formal output: `outputs/formal_a1_length_extrapolation/`
+  `fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200_best_fixed_q400_t1200_t1800_t2400/`
+  with `r3_a1_length_extrapolation_summary.json`, `r3_per_q_metrics.csv`, and
+  `r3_lambda_window_metrics.csv`. It used Stage-2 `EXACT_PREFIX`, canonical Q400,
+  raw float64 truth, and one frozen forward per T1200/T1800/T2400; evidence is
+  `server-result-verified`.
+- Primary `mean_per_q_relative_l2`: T1200 prefix/full `0.30423661134631347`; T1800
+  prefix/extrapolation/full `0.8345073047219703` / `1.3467645409082092` /
+  `1.0320417147537395`; T2400 prefix/extrapolation/full `0.8909406006838355` /
+  `1.3570231040536689` / `1.1463882703177917`.
+- Provenance note: a legacy `model_config` anchor float32-precision issue was corrected
+  in reconstruction. Canonical float64 `anchor_frequency_values` and state-dict buffers
+  confirmed the existing checkpoint was valid; no retraining was required.
+### Completed R3 seven-length validation-response diagnostic
+
+- Output: `outputs/r3_validation_length_response/`
+  `fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200_best_epoch77_val_t600-1200/`.
+- Frozen asset: the R3-B1 epoch-77 `checkpoints/best_model.pt` from
+  `q_1p6-3_n2000_t1200`; `split = val`, `validation_q_count = 300`, stable ascending-Q,
+  and the same canonical validation-Q identities for every strict prefix T600–T1200.
+- Status: `completed`; `scientific_status = development_diagnostic` and
+  `formal_test_evidence = false`. T700/T900/T1100 were checkpoint-selection validation
+  lengths, not untouched tests. The protocol used seven frozen forwards; no training,
+  adaptation, normalization refit, or autoregression.
+- Model provenance: `[Q, s, ell]`, `s = lambda / L`, `ell = L / L_ref`,
+  `L = N * delta_lambda`, `L_ref = 6.0`, canonical float64 physical-frequency anchors, and
+  unchanged global FFT. `physical_bandwidth_shrinkage_repaired = false`.
+- Primary `mean_per_q_relative_l2`: T600 `0.0723158813794609`, T700
+  `0.4498312050898403`, T800 `0.16855927048223368`, T900 `0.42519888310195797`, T1000
+  `0.32226570803539056`, T1100 `0.44829662581877244`, and T1200
+  `0.3024272828096965`.
+- Descriptive diagnostics: mean/max local interpolation residual `0.2150433844661226` /
+  `0.329393629158993`; gradient-seen/non-gradient-validation means
+  `0.2163920356766954` / `0.4411089046701902`; gap `0.2247168689934948`.
+  Compared with R1, the sawtooth amplitude is smaller, but primarily because
+  gradient-seen lengths degraded; intermediate non-gradient validation accuracy did not
+  materially improve. This does not establish smooth within-range interpolation.
 ## 6. Current Sparse Reconstruction Stage
 
 The first implementation stage is complete:
