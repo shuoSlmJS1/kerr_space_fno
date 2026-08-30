@@ -258,7 +258,9 @@ numerical-consistency metrics, and anomaly reporting, but no numerical pass thre
 9. Compare T1200 versus T2399 resolution-generalization metrics.
 10. Update scientific conclusions and project records.
 
-The current documentation update completes step 1 only.
+Steps 1–4 are complete locally: the paired-Q replay interface, focused unit tests, and a
+two-Q real-solver smoke test passed. The full Q400/T2399 asset is still not generated;
+the next step is to bundle the reviewed code to the server.
 
 ## 4. 仍有价值、但不属于 Plan A/B 的现有工作
 
