@@ -1204,10 +1204,11 @@ Plan B has not yet been performed.
   decision point are retained above.
 - Plan B Protocol v1 is locked with the fixed independent offset-grid Q400 evaluation
   field and endpoint-fixed T1200 -> T2399 refinement (`0.005 -> 0.0025`).
-- No Plan B implementation, paired fine dataset, server generation, frozen inference, or
-  full experiment has started.
-- The exact next action is local implementation followed by unit tests and a tiny local
-  smoke test.
+- Local paired-Q replay implementation, structural-first qualification tests, and a
+  two-Q real-solver smoke test are complete.
+- No full Q400/T2399 paired fine dataset, server generation, frozen inference, or full
+  Plan B experiment has started.
+- The exact next action is to bundle the reviewed code to the server.
 
 ## 13. Current unresolved questions
 

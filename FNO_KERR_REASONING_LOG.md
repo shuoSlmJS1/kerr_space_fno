@@ -765,3 +765,53 @@ The formal order is local implementation, unit tests, and a tiny local smoke tes
 server bundling, paired Q400/T2399 truth generation, coarse/fine ground-truth
 qualification, and only then frozen T2399 inference and T1200-versus-T2399 metric
 comparison. At the time of this record, only Protocol v1 lock is complete.
+
+## Episode 13 — Plan B local paired-replay implementation and tiny solver qualification
+
+### Observation
+
+Protocol v1 required a generation path that replays actual source-Q identities rather
+than using the existing target-success builder, because its random completion policy could
+silently replace a failed Q and break pairing.
+
+### User decision
+
+The user authorized local implementation, focused unit tests, and a tiny real-solver
+smoke test only. Full Q400/T2399 generation, frozen FNO inference, training, server
+execution, and bundling were explicitly out of scope.
+
+### Discriminating implementation
+
+The new narrow interface reads source `x_train/x_val/x_test` Q values without rebuilding a
+range grid or resampling. It preserves split-row order, records raw and stable-sorted-Q
+identity hashes, retains failed Q positions with no replacement, and marks paired
+completeness false if any replay fails. Its checker first requires structural equality of
+Q identities/order, fixed physics and initial conditions, solver provenance, Protocol-v1
+grids, endpoints, and `fine_lambda[::2] == coarse_lambda`; only then does it compute
+shared-node Relative L2 and MSE summaries.
+
+### Result
+
+Seven synthetic unit tests passed: endpoint-fixed grid refinement, Q identity/hash replay,
+Q-mismatch rejection, nonfinite-trajectory rejection before metrics, T2400 rejection,
+common-node metric extraction, and failed-Q non-replacement. A two-Q CPU smoke test with `Q = 1.8, 2.4` generated real second-order
+solver coarse T1200/h=0.005 and replay fine T2399/h=0.0025 truth in a local test-artifact
+directory. All structural checks passed, no Q failed, and mean per-Q Relative L2 at shared
+nodes was `4.7593570648201685e-09`.
+
+### Evidence update
+
+This is local implementation and smoke-test evidence, not formal Q400 solver
+qualification or Plan B model-performance evidence. It supports that the replay and
+structural-first qualification contracts are executable on a small real-solver case.
+
+### What this did NOT prove
+
+The smoke result does not establish Q400-wide numerical consistency, an acceptance
+threshold, absence of sensitivity elsewhere in the Q400 field, or frozen FNO
+cross-resolution performance. The planned Q400/T2399 server asset remains `NOT GENERATED`.
+
+### Next question
+
+Bundle the reviewed code to the server, generate the full paired Q400/T2399 truth there,
+and run the prescribed ground-truth qualification before any frozen FNO inference.

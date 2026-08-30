@@ -86,6 +86,11 @@ Protocol v1, all source Kerr parameters, initial conditions, solver equations, a
 turning-point logic remain fixed; the fine asset must not be represented as already
 existing until generation has completed and been registered.
 
+Local implementation, synthetic unit tests, and a two-Q real-solver smoke test are
+completed development evidence only. They did not generate the planned Q400/T2399 asset,
+do not create a server registry asset, and do not change its `NOT GENERATED` status. The
+next operational step is to bundle the reviewed code to the server.
+
 ### Legacy experimental datasets
 
 | Path | Status | Samples | Split | Q range | T | Step | Solver version | Sampling / completion | Intended use | Regeneration needed |
