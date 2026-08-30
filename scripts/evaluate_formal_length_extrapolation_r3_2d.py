@@ -89,6 +89,16 @@ def _require_lengths(value: Any, name: str) -> tuple[int, ...]:
     return result
 
 
+def _anchor_lists_are_scientifically_equivalent(stored: Sequence[float], canonical: np.ndarray) -> bool:
+    """允许历史 float32 model_config 列表，但要求其与 canonical provenance 等价。"""
+    values = np.asarray(tuple(float(value) for value in stored), dtype=np.float64)
+    if values.shape != canonical.shape:
+        return False
+    scale = max(1.0, float(np.max(np.abs(canonical))))
+    precision = np.finfo(np.float32).eps
+    return bool(np.allclose(values, canonical, rtol=16.0 * precision, atol=16.0 * precision * scale))
+
+
 def validate_r3_checkpoint_provenance(checkpoint: Mapping[str, Any]) -> R3CheckpointProvenance:
     """在模型构造前严格验证 R3-B1 provenance，拒绝 R2、B2 和不完整 checkpoint。"""
     config = _require_mapping(checkpoint.get("config"), "config")
@@ -116,6 +126,9 @@ def validate_r3_checkpoint_provenance(checkpoint: Mapping[str, Any]) -> R3Checkp
     anchor_array = np.asarray(anchors, dtype=np.float64)
     if not np.isclose(anchor_array[0], 0.0) or not np.all(np.diff(anchor_array) > 0.0) or not np.allclose(np.diff(anchor_array), np.diff(anchor_array)[0], rtol=1e-12, atol=1e-14):
         raise ValueError("R3 anchor_frequency_values must be uniformly increasing from zero.")
+    model_anchor_values = model_config.get("anchor_frequencies", ())
+    if not isinstance(model_anchor_values, (list, tuple)) or not _anchor_lists_are_scientifically_equivalent(model_anchor_values, anchor_array):
+        raise ValueError("R3 model_config anchor_frequencies are inconsistent with canonical provenance.")
     lengths = _require_lengths(config.get("train_lengths"), "train_lengths")
     validation = _require_lengths(config.get("validation_lengths"), "validation_lengths")
     delta = float(model_config.get("delta_lambda", np.nan))
@@ -132,11 +145,15 @@ def validate_r3_checkpoint_provenance(checkpoint: Mapping[str, Any]) -> R3Checkp
 
 
 def build_r3_model(checkpoint: Mapping[str, Any], provenance: R3CheckpointProvenance, device: str) -> torch.nn.Module:
-    """以 R3 专用构造器恢复权重，不使用 baseline registry。"""
+    """以 canonical checkpoint provenance 重建 R3 锚点，再加载保存的模型状态。"""
     config = dict(provenance.model_config)
     config.pop("model_type", None)
+    config["anchor_frequencies"] = [float(value) for value in provenance.anchor_frequencies]
     model = build_physical_frequency_fno2d_model(**config).to(device)
     model.load_state_dict(checkpoint["model_state_dict"])
+    expected = torch.as_tensor(provenance.anchor_frequencies, dtype=torch.float64, device=model.anchor_frequencies.device)
+    if not torch.allclose(model.anchor_frequencies, expected, rtol=1e-12, atol=1e-14):
+        raise ValueError("Saved R3 anchor buffer is inconsistent with canonical checkpoint provenance.")
     model.eval()
     return model
 

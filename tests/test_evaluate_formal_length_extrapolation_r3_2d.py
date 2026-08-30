@@ -12,6 +12,9 @@ from pathlib import Path
 from unittest.mock import patch
 
 import numpy as np
+import torch
+
+from scripts.train_model_2d import save_checkpoint_2d
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 SCRIPT_PATH = PROJECT_ROOT / "scripts" / "evaluate_formal_length_extrapolation_r3_2d.py"
@@ -86,6 +89,34 @@ class R3EvaluatorTests(unittest.TestCase):
         self.assertIsNotNone(results["T3"]["extrapolation"])
         self.assertEqual(len(per_q), 6)
         self.assertGreater(len(windows), 0)
+
+    def test_checkpoint_roundtrip_reconstructs_legacy_float32_model_config_anchors(self) -> None:
+        canonical = np.linspace(0.0, 31 / (2 * 0.5), 32, dtype=np.float64)
+        model_config = {"in_dim": 3, "out_dim": 3, "modes1": 16, "modes2": 32, "width": 64, "depth": 4, "hidden_dim": 128, "activation": "gelu", "delta_lambda": 0.5, "anchor_frequencies": canonical.tolist()}
+        model = r3eval.build_physical_frequency_fno2d_model(**model_config).eval()
+        input_field = torch.randn(1, 2, 4, 3)
+        expected_output = model(input_field).detach()
+        payload = checkpoint()
+        config = payload["config"]
+        config["model_config"]["anchor_frequencies"] = canonical.astype(np.float32).astype(np.float64).tolist()  # type: ignore[index]
+        optimizer = torch.optim.AdamW(model.parameters(), lr=1.0e-3)
+        with tempfile.TemporaryDirectory() as directory:
+            paths = [Path(directory) / "best_model.pt", Path(directory) / "last_model.pt"]
+            for path in paths:
+                save_checkpoint_2d(path, model, optimizer, epoch=7, best_val_mse=0.25, config=config)  # type: ignore[arg-type]
+            for path in paths:
+                loaded = torch.load(path, map_location="cpu", weights_only=False)
+                provenance = r3eval.validate_r3_checkpoint_provenance(loaded)
+                restored = r3eval.build_r3_model(loaded, provenance, "cpu")
+                self.assertEqual(len(provenance.anchor_frequencies), 32)
+                self.assertTrue(np.allclose(np.asarray(provenance.anchor_frequencies), canonical, rtol=1e-12, atol=1e-14))
+                self.assertTrue(torch.allclose(restored.anchor_frequencies, torch.from_numpy(canonical), rtol=1e-12, atol=1e-14))
+                self.assertEqual(set(restored.state_dict()), set(model.state_dict()))
+                self.assertTrue(torch.allclose(restored(input_field), expected_output, rtol=1e-6, atol=1e-6))
+            best_config = torch.load(paths[0], map_location="cpu", weights_only=False)["config"]
+            last_config = torch.load(paths[1], map_location="cpu", weights_only=False)["config"]
+            self.assertEqual(best_config["model_config"], last_config["model_config"])
+            self.assertEqual(best_config["anchor_frequency_values"], last_config["anchor_frequency_values"])
 
     def test_output_writer_refuses_overwrite_and_writes_only_three_files(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

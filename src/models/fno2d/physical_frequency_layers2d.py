@@ -16,14 +16,23 @@ class PhysicalFrequencySpectralConv2d(nn.Module):
             raise ValueError("Spectral dimensions must be positive.")
         if not float(delta_lambda) > 0.0:
             raise ValueError("delta_lambda must be positive.")
-        anchors = torch.as_tensor(anchor_frequencies, dtype=torch.float64).reshape(-1)
+        source_anchors = torch.as_tensor(anchor_frequencies).reshape(-1)
+        anchors = source_anchors.to(dtype=torch.float64)
         if anchors.numel() != modes2 or anchors.numel() < 2:
             raise ValueError("Anchor count must equal modes2 and be at least two.")
         if not torch.isclose(anchors[0], torch.zeros((), dtype=anchors.dtype)):
             raise ValueError("First physical-frequency anchor must be zero.")
         steps = anchors[1:] - anchors[:-1]
-        if torch.any(steps <= 0) or not torch.allclose(steps, steps[0], rtol=1e-12, atol=1e-14):
-            raise ValueError("Physical-frequency anchors must be uniformly increasing.")
+        if torch.any(steps <= 0):
+            raise ValueError("Physical-frequency anchors must be strictly increasing.")
+        expected_spacing = (anchors[-1] - anchors[0]) / float(anchors.numel() - 1)
+        source_dtype = source_anchors.dtype if source_anchors.is_floating_point() else torch.float64
+        precision = torch.finfo(source_dtype).eps
+        scale = max(1.0, float(torch.max(torch.abs(anchors)).item()), float(torch.abs(expected_spacing).item()))
+        spacing_atol = 16.0 * precision * scale
+        spacing_rtol = 16.0 * precision
+        if not torch.allclose(steps, torch.full_like(steps, expected_spacing), rtol=spacing_rtol, atol=spacing_atol):
+            raise ValueError("Physical-frequency anchors must be uniformly spaced.")
         self.in_channels, self.out_channels = int(in_channels), int(out_channels)
         self.modes1, self.modes2 = int(modes1), int(modes2)
         self.delta_lambda = float(delta_lambda)

@@ -69,7 +69,7 @@ def summarize_physical_frequency_fno2d_config(**config: Any) -> dict[str, Any]:
     """生成 checkpoint 可恢复的 R3 专用模型配置。"""
     result = {key: value for key, value in config.items() if key != "anchor_frequencies"}
     result["model_type"] = "fno2d_physical_frequency"
-    result["anchor_frequencies"] = [float(value) for value in torch.as_tensor(config["anchor_frequencies"]).reshape(-1).tolist()]
+    result["anchor_frequencies"] = [float(value) for value in torch.as_tensor(config["anchor_frequencies"], dtype=torch.float64).reshape(-1).tolist()]
     return result
 
 

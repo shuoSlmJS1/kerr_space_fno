@@ -47,6 +47,23 @@ class PhysicalFrequencyLayerTests(unittest.TestCase):
         self.assertEqual(complex(midpoint.item()), complex(3.0 + 4.0j))
         self.assertEqual(complex(negative.item()), complex(8.0 + 9.0j))
 
+    def test_anchor_validator_accepts_float32_roundtrip_and_rejects_malformed_grids(self) -> None:
+        canonical = np.linspace(0.0, 31 / (600 * 0.005), 32, dtype=np.float64)
+        float32_roundtrip = canonical.astype(np.float32).tolist()
+        PhysicalFrequencySpectralConv2d(1, 1, 1, 32, delta_lambda=0.005, anchor_frequencies=float32_roundtrip)
+        duplicate = canonical.copy()
+        duplicate[8] = duplicate[7]
+        with self.assertRaisesRegex(ValueError, "strictly increasing"):
+            PhysicalFrequencySpectralConv2d(1, 1, 1, 32, delta_lambda=0.005, anchor_frequencies=duplicate)
+        nonmonotonic = canonical.copy()
+        nonmonotonic[8] = nonmonotonic[7] - 0.1
+        with self.assertRaisesRegex(ValueError, "strictly increasing"):
+            PhysicalFrequencySpectralConv2d(1, 1, 1, 32, delta_lambda=0.005, anchor_frequencies=nonmonotonic)
+        nonuniform = canonical.copy()
+        nonuniform[16] += 1.0e-3
+        with self.assertRaisesRegex(ValueError, "uniformly spaced"):
+            PhysicalFrequencySpectralConv2d(1, 1, 1, 32, delta_lambda=0.005, anchor_frequencies=nonuniform)
+
     def test_fixed_discrete_policy_support_and_gradients(self) -> None:
         layer = PhysicalFrequencySpectralConv2d(2, 2, 2, 4, delta_lambda=0.5, anchor_frequencies=torch.linspace(0.0, 0.5, 4, dtype=torch.float64))
         self.assertEqual(layer.validate_runtime_support(16).numel(), 4)
@@ -106,6 +123,7 @@ class R3TrainingProtocolTests(unittest.TestCase):
         self.assertFalse(config["physical_bandwidth_shrinkage_repaired"])
         self.assertTrue(config["global_fft_structure_unchanged"])
         self.assertFalse(config["hypernetwork"])
+        self.assertTrue(np.array_equal(np.asarray(config["model_config"]["anchor_frequencies"], dtype=np.float64), anchors()))
 
     def test_cli_has_no_long_domain_arguments_and_help(self) -> None:
         args = r3.parse_args(["--task-name", "q_source"])
