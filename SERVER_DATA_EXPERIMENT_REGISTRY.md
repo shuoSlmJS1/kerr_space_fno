@@ -72,24 +72,29 @@ Shared metadata facts for this group:
 These are comparison assets and must not be described as primary training
 datasets.
 
-### Planned Plan B paired fine-resolution dataset
+### Completed Plan B paired fine-resolution dataset
 
-This is a planned asset only, not an existing server dataset or output.
-
-| Planned asset | Source coarse asset | Planned Q field | Planned T | Planned step_size | Sampled physical interval | Status | Generation condition |
+| Existing asset | Source coarse asset | Q field | T | step_size | Sampled physical interval | Status | Pairing / solver result |
 | --- | --- | --- | ---: | ---: | --- | --- | --- |
-| Q400/T2399 paired fine-resolution truth; server task/path to be assigned after local implementation | `data/tasks/q_1p6007-2p9993_n400_t1200` | Same independent offset-grid Q400 identities and canonical ordering | 2399 | 0.0025 | `[0, 5.995]` | NOT GENERATED | Full generation occurs on the server only after local implementation and tests. |
+| `data/tasks/q_1p6007-2p9993_n400_t2399_plan_b_v1` | `data/tasks/q_1p6007-2p9993_n400_t1200` | Same independent offset-grid Q400 identities and canonical ordering | 2399 | 0.0025 | `[0, 5.995]` | COMPLETED — EXISTING SERVER ASSET | 400/400 success; 0 failures; paired completeness `True`; endpoint-fixed `fine_lambda[::2] == coarse_lambda`. |
 
-The planned grid is `lambda_grid[j] = j * 0.0025`; it is endpoint-fixed to the
-existing Q400/T1200 coarse asset, so `fine_lambda[::2] == coarse_lambda`. Under Plan B
-Protocol v1, all source Kerr parameters, initial conditions, solver equations, and
-turning-point logic remain fixed; the fine asset must not be represented as already
-existing until generation has completed and been registered.
+The fine grid is `lambda_grid[j] = j * 0.0025`, endpoint-fixed to Q400/T1200. All
+Protocol-v1 physics, initial conditions, solver equations, and turning-point logic were
+held fixed. Ground-truth qualification is
+`outputs/plan_b_q400_t1200_to_t2399/ground_truth_consistency.json`: `structural_valid=true`,
+zero coarse/fine failed samples, shared-node Relative L2 mean
+`5.218413681635546e-09`, median `5.095788550601654e-09`, max
+`6.894048665372391e-09`, p95 `6.692889855076337e-09`, and p99
+`6.8532082659278876e-09`.
 
-Local implementation, synthetic unit tests, and a two-Q real-solver smoke test are
-completed development evidence only. They did not generate the planned Q400/T2399 asset,
-do not create a server registry asset, and do not change its `NOT GENERATED` status. The
-next operational step is to bundle the reviewed code to the server.
+### Planned Plan B matched fine-training dataset
+
+| Planned asset | Alignment requirement | T | step_size | Sampled physical interval | Status |
+| --- | --- | ---: | ---: | --- | --- |
+| Original-n2000-aligned T2399 training dataset; path to be assigned | Original n2000 Q candidate identities and split semantics, fixed Kerr physics/initial conditions; Q400 is evaluation-only | 2399 | 0.0025 | `[0, 5.995]` | PLANNED — NOT GENERATED |
+
+This planned training asset must not be described as existing. It supports the pending
+matched T2399-model native-fine and frozen reverse T2399->T1200 Plan B arm.
 
 ### Legacy experimental datasets
 
@@ -117,6 +122,8 @@ This registry does not reproduce numerical conclusions.
 | `outputs/comparison/scale_experiments_2d` | Scale-experiment output directory | Not recorded in this registry | Not recorded in this registry | Not verified here | PENDING VERIFICATION |
 | `outputs/length_dataset_identity_validation/q400_t1200_t1800_t2400_prefix_identity.json` | Strict length-dataset prefix identity validation | q400 T1200 / T1800 / T2400 comparison-only datasets | 0 | `q400_t1200_t1800_t2400_prefix_identity.json` | COMPLETED — EXACT_PREFIX |
 | `outputs/length_change_prediction_consistency/q400_t1200_t1800_all_canonical_q.json` | Frozen length-change prediction consistency diagnostic | q400 T1200/T1800 exact-prefix comparison-only datasets | 1 frozen FNO2D checkpoint | `q400_t1200_t1800_all_canonical_q.json` | COMPLETED — FORMAL DIAGNOSTIC |
+| `outputs/plan_b_q400_t1200_to_t2399/ground_truth_consistency.json` | Plan B endpoint-fixed paired truth qualification | Q400 T1200/T2399 paired fixed-domain fields | 0 | `ground_truth_consistency.json` | COMPLETED — structural_valid=true; shared-node truth mismatch at about 1e-9 Relative L2 |
+| `outputs/plan_b_q400_t1200_to_t2399/frozen_fno_resolution_generalization` | Plan B historical-T1200 frozen coarse-to-fine FNO2D evaluation | Independent Q400 T1200/T2399 fixed-domain paired fields | Historical baseline checkpoint only | `metrics.json`, `experiment_summary.json`, raw prediction `.npy` | COMPLETED — modest coarse-to-fine degradation; reverse arm pending |
 | `outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200` | R2 domain-conditioned coordinate training repair | `q_1p6-3_n2000_t1200` strict prefixes only | 1 R2 FNO2D run | `run_config.json`, `summary.json`, `checkpoints/best_model.pt` | COMPLETED — R2 PARTIAL POSITIVE REPAIR SIGNAL |
 | `outputs/formal_a1_length_extrapolation/fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200_best_q400_t1200_t1800_t2400` | Formal R2 A1 frozen length-extrapolation evaluation | q400 exact-prefix T1200/T1800/T2400 comparison-only datasets | 1 frozen R2 checkpoint | `r2_a1_length_extrapolation_summary.json`, `r2_per_q_metrics.csv`, `r2_lambda_window_metrics.csv` | COMPLETED — FORMAL R2 REPAIR EVALUATION |
 | `outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200` | R3-B1 physical-frequency spectral training repair | `q_1p6-3_n2000_t1200` strict prefixes only | 1 R3 FNO2D run | `run_config.json`, `summary.json`, `checkpoints/best_model.pt` | COMPLETED — STRONG LONG-DOMAIN SIGNAL; severe T1200 trade-off |

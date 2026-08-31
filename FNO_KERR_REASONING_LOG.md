@@ -815,3 +815,121 @@ cross-resolution performance. The planned Q400/T2399 server asset remains `NOT G
 
 Bundle the reviewed code to the server, generate the full paired Q400/T2399 truth there,
 and run the prescribed ground-truth qualification before any frozen FNO inference.
+
+## Episode 14 — Plan B completed frozen coarse-to-fine resolution generalization
+
+### Observation
+
+User-provided formal server-result evidence reports completion of the endpoint-fixed
+independent-Q400 Plan B arm. The local checkout used for this documentation update does
+not contain the referenced server JSON files, so their paths and exact values are recorded
+as user-reported formal result provenance rather than re-derived locally:
+`outputs/plan_b_q400_t1200_to_t2399/ground_truth_consistency.json` and
+`outputs/plan_b_q400_t1200_to_t2399/frozen_fno_resolution_generalization/metrics.json`.
+
+The completed paired fine asset is
+`data/tasks/q_1p6007-2p9993_n400_t2399_plan_b_v1`, paired to
+`data/tasks/q_1p6007-2p9993_n400_t1200`. It retains the Q400 identities/order, sampled
+interval `[0, 5.995]`, and endpoint relation `fine_lambda[::2] == coarse_lambda` while
+changing only `T=1200, h=0.005` to `T=2399, h=0.0025`.
+
+### User decision
+
+The user reported that paired truth generation completed with 400/400 successes, zero
+failures, paired completeness `True`, and `structural_valid=True`. The user further froze
+the interpretation boundary: record the completed T1200-model -> T2399-evaluation arm,
+but do not start a broader resolution sweep, multi-parameter QA, T2399 training, or the
+reverse T2399-model -> T1200 experiment in this stage.
+
+The user selected the next discriminating design: construct a matched T2399 training
+dataset aligned to the original n2000 training Q candidates and split semantics, never use
+Q400 for training, retain the baseline FNO2D architecture (`modes1=16`, `modes2=32`,
+`width=64`, `depth=4`) and protocol wherever code facts permit, then evaluate native
+T2399 and frozen reverse T2399->T1200 on the same independent Q400 field.
+
+### Measured evidence
+
+Paired ground truth compared `fine_xyz[:, ::2, :]` against `coarse_xyz`. Relative L2
+mean/median/max/p95/p99 were `5.218413681635546e-09`,
+`5.095788550601654e-09`, `6.894048665372391e-09`,
+`6.692889855076337e-09`, and `6.8532082659278876e-09`; MSE
+mean/median/max/p95/p99 were `6.951265864772155e-16`,
+`6.458674596505792e-16`, `1.2733836202732828e-15`,
+`1.1889406467703567e-15`, and `1.255802623132453e-15`. The distribution is concentrated,
+with no hidden large-Q anomaly reported.
+
+The frozen checkpoint was the original baseline only:
+`outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/checkpoints/best_model.pt`.
+No Plan A R1/R2/R3 repaired checkpoint, retraining, fine-tuning, normalization refit, or
+adaptation was used. Native coarse raw-xyz global MSE / global Relative L2 /
+mean-per-Q Relative L2 were `0.0012590598691126999` /
+`0.007195345500573474` / `0.005427490395002388`. Fine full-grid primary values were
+`0.0014630064962514512` / `0.007756728427546919` / `0.006257048792878679`; fine
+common-node diagnostic values were `0.0016669064017779927` /
+`0.008279117934318694` / `0.006793341748433332`.
+
+For per-Q Relative L2, coarse median/p95/p99/max were
+`0.00423478303876504`, `0.01093169026389112`, `0.022334344948613975`, and
+`0.06534649935265367`; fine full-grid values were `0.005189180096032416`,
+`0.011404593362521268`, `0.022006157951293282`, and `0.0662060075938115`; fine
+common-node values were `0.0055552606977529355`, `0.012537290722076497`,
+`0.023640856005393975`, and `0.0670052711640239`. Worst Q for all three views was
+`1.6007`.
+
+The saved-prediction discretization diagnostic used
+`D_i = ||pred_fine_common - pred_coarse||_2 / ||truth_coarse||_2`. Its global/mean/
+median/p95/p99/max were `3.008818547630e-03`, `3.003436179404e-03`,
+`2.909109598286e-03`, `3.702832683988e-03`, `3.961805595476e-03`, and
+`4.044745297005e-03`; worst Q was `1.62173157895`.
+
+### AI-assisted interpretation
+
+The truth mismatch is about the `1e-9` Relative L2 scale, many orders below the FNO
+prediction errors in this Q400/T1200<->T2399 comparison. It is therefore a negligible
+numerical-truth confounder for this experiment, while not establishing a general theorem
+about the solver at arbitrary Kerr parameters or resolutions.
+
+The full-grid global Relative L2 changes from `0.0071953455` to `0.0077567284` (about
++7.8%), and mean-per-Q Relative L2 from `0.0054274904` to `0.0062570488` (about +15.3%).
+P95 rises only slightly; P99, maximum, and the worst-Q location remain broadly stable.
+Thus the appropriate conclusion is: **prediction accuracy remains in the same error scale
+under 2x endpoint-preserving grid refinement, with moderate degradation rather than
+catastrophic failure.** This is strong coarse-to-fine discretization-resolution
+generalization for this historical Q-only FNO2D checkpoint, fixed Q400 field, and fixed
+sampled lambda interval.
+
+The approximately `3e-3` prediction shift proves that the finite-grid output is not
+exactly resolution invariant. It does not, however, justify treating `3e-3 / 7.2e-3` as a
+literal fraction of model error caused by resolution: norms alone do not provide an
+additive decomposition of error vectors.
+
+### Why this is interesting
+
+The result sharply contrasts with Plan A direct physical-domain length extrapolation:
+Plan A changed the sampled lambda domain and showed large length sensitivity, whereas
+Plan B holds `[0, 5.995]` fixed and has only modest frozen coarse-to-fine degradation.
+This contrast supports a bounded robustness statement about discretization change, not a
+claim that the architecture is universally invariant or that the Plan A mechanisms have
+been disproved.
+
+### What this did NOT prove
+
+The completed arm does not demonstrate exact finite-grid invariance, universal
+resolution invariance, all-Kerr-task robustness, bidirectional resolution generalization,
+or a causal percentage attribution of resolution to model error. It also does not validate
+the reverse T2399-trained model, its native T2399 performance, or any wider resolution
+sweep.
+
+### Next discriminating experiment
+
+The required next scientific comparison is the matched bidirectional matrix:
+
+| Training resolution | Test T1200 | Test T2399 |
+| --- | --- | --- |
+| T1200 model | Native coarse baseline completed | Coarse-to-fine completed |
+| T2399 model | Frozen reverse fine-to-coarse pending | Native fine pending |
+
+Only after the T2399 model has been trained on an original-n2000-aligned fine training
+field and frozen evaluation has completed on both independent Q400 resolutions can the
+project claim evidence about both directions. Broader resolution sweeps and multi-
+parameter QA remain deferred pending advisor discussion.
