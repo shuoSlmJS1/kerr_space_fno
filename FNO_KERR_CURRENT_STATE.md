@@ -1162,6 +1162,7 @@ spectral contribution 和 lambda-isolated period-selection。
 | T2400 长度外推 | formal | `server-result-verified` | 高 | exact-prefix long-domain truth 与 formal A1 冻结评估已记录；机制仍未确定。 |
 | R3-B1 physical-frequency spectral repair | formal repair | `server-result-verified` | 高 | 长域 prefix/extrapolation 均较 R0 改善，但 T1200 精度严重退化；为 development evidence，非完整修复。 |
 | R3 seven-length validation response | development diagnostic | `server-result-verified` | 高 | 同一 validation-Q 的离散长度响应仍显著；锯齿幅度变小主要来自 gradient-seen 长度退化，而非中间长度显著改善。 |
+| Plan B T1200/T2399 bidirectional resolution core | formal | `server-result-verified` + `human-context` provenance | 高 | Fixed-Q400 paired truth is qualified at about `1e-9` Relative L2; both frozen transfer directions retain native-scale accuracy with modest degradation. |
 | Linear/PCHIP sparse sweep | formal | `registry-only` | 中 | 注册表称正式扫掠，结果文件存在但内容未嵌入。 |
 | sparse FNO1D / ResNet | formal | `snapshot-verified` | 高 | 配置、训练摘要、检查点和隐藏点指标均存在。 |
 | canonical TimesNet | formal | `snapshot-verified` | 高 | 已完成的受限配置比较；负结果不等于无效。 |
@@ -1209,13 +1210,22 @@ gradient-seen 长度的 fidelity 退化，而非中间 non-gradient validation l
 - Fine common-node global/mean-per-Q Relative L2 are `0.008279117934318694` /
   `0.006793341748433332`. The corresponding prediction discretization shift has global
   Relative L2 `3.008818547630e-03` and worst Q `1.62173157895`.
-- The exact next action is matched T2399 training-data preparation, T2399 model training,
-  and frozen T2399->T1200 reverse evaluation; no broader resolution sweep or multi-
-  parameter QA is currently authorized.
+- The matched T2399 workflow and theta2399 training are complete under the original-n2000
+  split/physics contract; theta2399 selected best epoch 500 and used newly fitted T2399
+  train-split standard normalization, not numerical reuse of T1200 statistics.
+- Theta2399 native T2399 global/mean-per-Q Relative L2 are `0.007256035373512494` /
+  `0.005506914674547638`; frozen reverse T1200 values are `0.007619677632647374` /
+  `0.006087018417501273`, i.e. about +5.0% / +10.5% relative degradation without a new
+  catastrophic Q region.
+- The complete 2x2 matrix supports bidirectional practical fixed-domain resolution
+  generalization between T1200 and T2399. This contrasts with Plan A, where increasing T
+  extended the physical lambda domain and frozen length extrapolation failed severely.
+  Plan B bidirectional core is complete; no broader resolution sweep or multi-parameter QA
+  is currently authorized.
 
 ## 13. Current unresolved questions
 
-- Plan B 的 matched T2399 training dataset 是否能在严格复用 original-n2000 Q candidate identities、split semantics 和物理控制的前提下建立，并使 frozen T2399->T1200 reverse arm 与已完成 coarse->fine arm 对称可比；
+- Plan B 仅在 endpoint-preserving 的 T1200/T2399 pair 上完成双向验证；是否值得开展更宽的 resolution-range sweep 仍应由 advisor feedback 决定，而不是自动启动的新实验；
 - 在 R3-B1 已完成的七长度开发诊断之后，R4 所针对的 global FFT / whole-domain coupling 是否能在同时保持 T1200 fidelity 与长域 robustness 的条件下减弱残余长度敏感性；
 - 在该冻结历史 Q-only FNO2D 协议下，候选机制 1–4 的量化相对贡献，以及何种 mechanism-driven repair 能带来可靠的 direct one-shot length extrapolation；
 - 原始 Q-only FNO1D 的服务器数值结果；
@@ -1250,9 +1260,10 @@ validation-response diagnostic 现已完成：表观锯齿减小主要是 gradie
 只有合理修复路径反复失败后，才能在已测试条件下讨论当前架构/训练
 表述是否缺乏可靠 Kerr 长度外推；当前不作这种结论。
 
-Plan A is paused pending the advisor report. Plan B has completed only the historical
-T1200-model -> T2399-evaluation direction on the fixed Q400 field; it remains
-fixed-domain discretization refinement and must not be conflated with Plan A length
-extrapolation or sparse observation-density generalization. Bidirectional resolution
-generalization is not yet demonstrated: the matched T2399-model -> T1200-evaluation arm
-and its native-T2399 reference are the next required evidence.
+Plan A is paused pending the advisor report. Plan B bidirectional core is complete on
+fixed Q400 and endpoint-fixed `[0, 5.995]`: theta1200->T2399 and theta2399->T1200 both
+retain native-scale raw-xyz accuracy with moderate degradation. This supports practical
+bidirectional resolution generalization for the tested pair, not exact, universal, or
+arbitrary-resolution invariance and not QA/multi-parameter generalization. The next
+project decision is an advisor report and, only if approved, an optional broader
+resolution-range sweep or later QA extension.

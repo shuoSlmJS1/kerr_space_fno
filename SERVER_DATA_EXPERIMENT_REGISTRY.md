@@ -87,14 +87,17 @@ zero coarse/fine failed samples, shared-node Relative L2 mean
 `6.894048665372391e-09`, p95 `6.692889855076337e-09`, and p99
 `6.8532082659278876e-09`.
 
-### Planned Plan B matched fine-training dataset
+### Completed Plan B matched fine-training dataset
 
-| Planned asset | Alignment requirement | T | step_size | Sampled physical interval | Status |
-| --- | --- | ---: | ---: | --- | --- |
-| Original-n2000-aligned T2399 training dataset; path to be assigned | Original n2000 Q candidate identities and split semantics, fixed Kerr physics/initial conditions; Q400 is evaluation-only | 2399 | 0.0025 | `[0, 5.995]` | PLANNED — NOT GENERATED |
+| Existing asset | Source asset | Alignment requirement | T | step_size | Sampled physical interval | Status |
+| --- | --- | --- | ---: | ---: | --- | --- |
+| `data/tasks/q_1p6-3_n2000_t2399_plan_b_matched_v1` | `data/tasks/q_1p6-3_n2000_t1200` | Exact original-n2000 Q values, split membership, and row ordering; fixed Kerr physics/initial conditions and solver provenance; Q400 remains evaluation-only | 2399 | 0.0025 | `[0, 5.995]` | COMPLETED — EXISTING SERVER ASSET |
 
-This planned training asset must not be described as existing. It supports the pending
-matched T2399-model native-fine and frozen reverse T2399->T1200 Plan B arm.
+The matched T2399 training task was completed for the reverse arm by replaying the source
+T1200 n2000 split identities. `matched_dataset_complete = True`; source identifier is
+`q_1p6-3_n2000_t1200`. Confirmed server absolute paths are
+`/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6-3_n2000_t1200` and
+`/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6-3_n2000_t2399_plan_b_matched_v1`.
 
 ### Legacy experimental datasets
 
@@ -123,12 +126,27 @@ This registry does not reproduce numerical conclusions.
 | `outputs/length_dataset_identity_validation/q400_t1200_t1800_t2400_prefix_identity.json` | Strict length-dataset prefix identity validation | q400 T1200 / T1800 / T2400 comparison-only datasets | 0 | `q400_t1200_t1800_t2400_prefix_identity.json` | COMPLETED — EXACT_PREFIX |
 | `outputs/length_change_prediction_consistency/q400_t1200_t1800_all_canonical_q.json` | Frozen length-change prediction consistency diagnostic | q400 T1200/T1800 exact-prefix comparison-only datasets | 1 frozen FNO2D checkpoint | `q400_t1200_t1800_all_canonical_q.json` | COMPLETED — FORMAL DIAGNOSTIC |
 | `outputs/plan_b_q400_t1200_to_t2399/ground_truth_consistency.json` | Plan B endpoint-fixed paired truth qualification | Q400 T1200/T2399 paired fixed-domain fields | 0 | `ground_truth_consistency.json` | COMPLETED — structural_valid=true; shared-node truth mismatch at about 1e-9 Relative L2 |
-| `outputs/plan_b_q400_t1200_to_t2399/frozen_fno_resolution_generalization` | Plan B historical-T1200 frozen coarse-to-fine FNO2D evaluation | Independent Q400 T1200/T2399 fixed-domain paired fields | Historical baseline checkpoint only | `metrics.json`, `experiment_summary.json`, raw prediction `.npy` | COMPLETED — modest coarse-to-fine degradation; reverse arm pending |
+| `outputs/plan_b_q400_t1200_to_t2399/frozen_fno_resolution_generalization` | Plan B historical-T1200 frozen coarse-to-fine FNO2D evaluation | Independent Q400 T1200/T2399 fixed-domain paired fields | Historical baseline checkpoint only | `metrics.json`, `experiment_summary.json`, raw prediction `.npy` | COMPLETED — modest coarse-to-fine degradation; contributes the theta1200 matrix row |
+| `outputs/plan_b_bidirectional_t1200_t2399` | Plan B bidirectional fixed-domain resolution core | Independent Q400 T1200/T2399 paired fields plus matched original-n2000 T2399 training task | Historical theta1200 and theta2399 `training/checkpoints/best_model.pt` | `bidirectional_resolution_matrix.json`, `experiment_summary.json`, `workflow_state.json` | COMPLETED — 2x2 bidirectional matrix assembled |
+| `outputs/plan_b_bidirectional_t1200_t2399/theta2399_q400_evaluation` | Theta2399 native-fine and frozen reverse Q400 evaluation | Same independent Q400 identities/order at T2399 and T1200 | Frozen theta2399 `training/checkpoints/best_model.pt` | `metrics.json`, `experiment_summary.json`, native/reverse raw-xyz prediction `.npy` | COMPLETED — native T2399 and frozen T2399->T1200 arms |
 | `outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200` | R2 domain-conditioned coordinate training repair | `q_1p6-3_n2000_t1200` strict prefixes only | 1 R2 FNO2D run | `run_config.json`, `summary.json`, `checkpoints/best_model.pt` | COMPLETED — R2 PARTIAL POSITIVE REPAIR SIGNAL |
 | `outputs/formal_a1_length_extrapolation/fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200_best_q400_t1200_t1800_t2400` | Formal R2 A1 frozen length-extrapolation evaluation | q400 exact-prefix T1200/T1800/T2400 comparison-only datasets | 1 frozen R2 checkpoint | `r2_a1_length_extrapolation_summary.json`, `r2_per_q_metrics.csv`, `r2_lambda_window_metrics.csv` | COMPLETED — FORMAL R2 REPAIR EVALUATION |
 | `outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200` | R3-B1 physical-frequency spectral training repair | `q_1p6-3_n2000_t1200` strict prefixes only | 1 R3 FNO2D run | `run_config.json`, `summary.json`, `checkpoints/best_model.pt` | COMPLETED — STRONG LONG-DOMAIN SIGNAL; severe T1200 trade-off |
 | `outputs/formal_a1_length_extrapolation/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200_best_fixed_q400_t1200_t1800_t2400` | Formal R3-B1 A1 frozen length-extrapolation evaluation | q400 exact-prefix T1200/T1800/T2400 comparison-only datasets | 1 frozen R3 checkpoint | `r3_a1_length_extrapolation_summary.json`, `r3_per_q_metrics.csv`, `r3_lambda_window_metrics.csv` | COMPLETED — FORMAL R3 REPAIR EVALUATION |
 | `outputs/r3_validation_length_response/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200_best_epoch77_val_t600-1200` | R3 seven-length validation-response development diagnostic | `q_1p6-3_n2000_t1200` validation Q strict prefixes T600–T1200 | 1 frozen epoch-77 R3 checkpoint | `r3_validation_length_response_summary.json`, `r3_validation_length_response_by_length.csv`, `r3_validation_length_response_per_q.csv` | COMPLETED — DEVELOPMENT DIAGNOSTIC; formal_test_evidence=false |
+### Completed Plan B theta2399 training artifacts
+
+- Training directory: `outputs/plan_b_bidirectional_t1200_t2399/training`.
+- Best checkpoint: `outputs/plan_b_bidirectional_t1200_t2399/training/checkpoints/best_model.pt`.
+- Last checkpoint: `outputs/plan_b_bidirectional_t1200_t2399/training/checkpoints/last_model.pt`.
+- Run configuration: `outputs/plan_b_bidirectional_t1200_t2399/training/run_config.json`.
+- Training history: `outputs/plan_b_bidirectional_t1200_t2399/training/train_history.json`.
+- Training summary: `outputs/plan_b_bidirectional_t1200_t2399/training/train_summary.json`.
+
+The theta2399 training task selected best epoch `500`. Its model-space best validation MSE,
+test MSE, and test Relative L2 are `0.00045836385106667876`, `0.000446074060164392`, and
+`0.020454108715057373`, respectively. These are training-task model-space metrics and are
+not interchangeable with the independent-Q400 raw-physical-xyz native/reverse metrics.
 
 ### Completed strict length-dataset identity validation
 

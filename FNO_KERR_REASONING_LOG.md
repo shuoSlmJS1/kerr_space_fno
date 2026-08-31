@@ -933,3 +933,94 @@ Only after the T2399 model has been trained on an original-n2000-aligned fine tr
 field and frozen evaluation has completed on both independent Q400 resolutions can the
 project claim evidence about both directions. Broader resolution sweeps and multi-
 parameter QA remain deferred pending advisor discussion.
+
+## Episode 15 — Plan B bidirectional fixed-domain resolution generalization
+
+### Observation
+
+User-provided formal server-result evidence completes the second arm of Protocol v1. A
+matched theta2399 model, trained on the original-n2000 T2399 replay and frozen thereafter,
+was evaluated on the same independent paired Q400/T2399 and Q400/T1200 fields. The confirmed
+server matched dataset is `data/tasks/q_1p6-3_n2000_t2399_plan_b_matched_v1`, and the best
+checkpoint is `outputs/plan_b_bidirectional_t1200_t2399/training/checkpoints/best_model.pt`.
+
+### User decision and matched-training controls
+
+The user required exact replay of source `q_1p6-3_n2000_t1200`: 1400/300/300 train/val/test
+Q rows, source seed 10, Q range `[1.6, 3.0]`, 2000/2000 successful uniform grid points, and
+no completion sampling. The original float64 split SHA256 values are train
+`19568b3ebb25494faa0f769874d3aa02c0e32bae325e7c968308ffe297e964ea`, validation
+`065795c3ac45c8fbf52e8e3c115c0daeb57b476609f73499dc9f9cd420e54275`, and test
+`c67d057aba98eb080c374280524751deb44d752a58425f3dfff5b4dbcc377e80`.
+
+The matched T2399 task preserves those exact Q values, split membership, row ordering,
+physics, initial conditions, solver provenance, and sampled interval `[0, 5.995]`. Only
+T1200/h=0.005 changes to T2399/h=0.0025. Q400 is evaluation-only, never a substitute
+training field. The user also fixed the current boundary: no additional resolution sweep or
+QA work starts before advisor feedback.
+
+### Measured evidence
+
+The historical theta1200 row is native T1200 global/mean-per-Q Relative L2
+`0.007195345500573474` / `0.005427490395002388` and frozen T2399
+`0.007756728427546919` / `0.006257048792878679`. Its coarse-to-fine global and mean-per-Q
+degradation are about +7.8% and +15.3% respectively.
+
+Theta2399 used the same `fno2d_m16x32_w64_d4_e500` FNO2D/training protocol as the historical
+baseline and selected best epoch 500, but fitted new standard normalization statistics from
+its T2399 training split. Its native T2399 global MSE / global RelL2 / mean-per-Q RelL2 are
+`0.0012802295993175293` / `0.007256035373512494` / `0.005506914674547638`; frozen reverse
+T1200 values are `0.00141194010010074` / `0.007619677632647374` /
+`0.006087018417501273`. Its fine-to-coarse global and mean-per-Q degradation are about
++5.0% and +10.5%. The worst Q remains `1.6007` in both theta2399 views.
+
+The full global Relative L2 matrix is:
+
+| Training resolution | Test T1200 | Test T2399 |
+| --- | ---: | ---: |
+| theta1200 | `0.007195345500573474` | `0.007756728427546919` |
+| theta2399 | `0.007619677632647374` | `0.007256035373512494` |
+
+The full mean-per-Q Relative L2 matrix is:
+
+| Training resolution | Test T1200 | Test T2399 |
+| --- | ---: | ---: |
+| theta1200 | `0.005427490395002388` | `0.006257048792878679` |
+| theta2399 | `0.006087018417501273` | `0.005506914674547638` |
+
+The two native global RelL2 values differ by only about 0.84%, providing an important
+native-quality control for the directional transfer comparison. The pre-existing Q400
+paired-truth mismatch is about `1e-9` Relative L2, whereas the prediction-only common-node
+discretization shift is about `3e-3` Relative L2. The latter is measurable but does not
+permit a causal decomposition of model-error norms.
+
+### AI-assisted interpretation
+
+Both frozen directions remain in the same raw-xyz error scale with moderate rather than
+catastrophic degradation. The evidence therefore supports strong practical bidirectional
+discretization-resolution generalization for this Q-only Kerr task, fixed independent Q400
+field, and endpoint-fixed `[0, 5.995]` interval. Fine-to-coarse is slightly more stable than
+coarse-to-fine for this measured pair, but that is descriptive rather than a general
+directional law. The prediction shift shows that the finite-grid model output is not exactly
+resolution invariant.
+
+### Why this is important
+
+Plan A kept h=0.005 while increasing T and thereby extending the physical lambda domain; its
+frozen predictions failed severely. Plan B instead keeps the sampled interval fixed and
+changes only discretization. The sharp contrast demonstrates that changing T alone is not
+the scientific cause of the Plan A failure: physical-domain extension and fixed-domain
+resolution change have materially different behavior in the current experiment.
+
+### What this did NOT prove
+
+The result does not establish exact or universal resolution invariance, arbitrary-resolution
+generalization, identical behavior for all Kerr parameter families, a complete resolution
+range, QA/multi-parameter generalization, or a universal theory contrasting all FNO domain
+extensions with all discretization changes.
+
+### Next question
+
+Plan B bidirectional core is complete at T1200/T2399. The remaining scientific decision is
+whether advisor feedback warrants an additional resolution-range sweep or a later
+multi-parameter extension; neither starts automatically.
