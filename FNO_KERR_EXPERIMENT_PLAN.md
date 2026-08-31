@@ -174,13 +174,14 @@ accuracy 没有实质改善。因此 within-range interpolation 仍未解决。�
 
 T1800/T2400 已在机制与 repair 开发中重复使用，故为 development benchmarks。R1–R4
 设计冻结后，需以未见 Q 和/或未见长域长度的独立 confirmation set 作 paper-level
-confirmation。Plan B 仍是固定物理域、改变离散网格的独立主线；其 coarse-to-fine arm 已完成，reverse arm 仍待进行。
+confirmation。Plan B 仍是固定物理域、改变离散网格的独立主线；其 T1200/T2399
+bidirectional core experiment 已完成。
 
 ## 3. Plan B — Fixed-domain λ discretization-resolution generalization
 
 ### 3.1 Protocol v1 lock and scientific question
 
-**Plan B Protocol v1 coarse-to-fine arm is complete; the reverse fine-to-coarse arm is not yet started.**
+**Plan B Protocol v1 bidirectional core experiment is complete.**
 
 Plan B tests a Q-only FNO2D checkpoint trained on the coarse lambda grid and later
 used with completely frozen weights on a finer lambda grid. Kerr physics, initial
@@ -194,7 +195,10 @@ T            = 1200  -> 2399
 ```
 
 Plan B does not include Plan A length extrapolation, sparse observation-stride
-experiments, Q resampling, retraining, or fine-tuning.
+experiments, Q resampling, or fine-tuning during either frozen evaluation. The historical
+T1200-to-T2399 arm uses the existing T1200 checkpoint. The reverse arm trains one new
+matched T2399 model under the historical training contract, then freezes it for native
+T2399 and reverse T1200 evaluation.
 
 ### 3.2 Fixed independent Q400 evaluation field and coarse anchor
 
@@ -288,27 +292,55 @@ median/p95/p99/max `3.008818547630e-03`, `3.003436179404e-03`,
 prediction shift, not exact resolution invariance. It must not be divided by model-error
 norms and interpreted as a literal causal error fraction.
 
-### 3.6 Formal execution order and bidirectional next stage
+### 3.6 Completed bidirectional core experiment
 
-The completed arm establishes: **the historical T1200 Q-only FNO2D checkpoint has strong
-coarse-to-fine discretization-resolution generalization from T1200 to T2399 on this fixed
-Q400 field and sampled lambda interval, with modest degradation.** It does not establish
-universal or exact resolution invariance.
+The reverse workflow replayed the historical `q_1p6-3_n2000_t1200` train/val/test Q
+identities (`1400/300/300`) at T2399. It preserved split membership and row ordering,
+Kerr physics, initial conditions, solver provenance, and sampled interval `[0, 5.995]`;
+only `T=1200, h=0.005 -> T=2399, h=0.0025` changed. The reference float64 split hashes
+were verified as train `19568b3ebb25494faa0f769874d3aa02c0e32bae325e7c968308ffe297e964ea`,
+val `065795c3ac45c8fbf52e8e3c115c0daeb57b476609f73499dc9f9cd420e54275`, and test
+`c67d057aba98eb080c374280524751deb44d752a58425f3dfff5b4dbcc377e80`. The new T2399
+run retained the historical FNO2D architecture and training protocol (`modes1=16`,
+`modes2=32`, `width=64`, `depth=4`, `hidden_dim=128`, 500 epochs, batch size 1,
+AdamW `lr=0.001`, weight decay `0.0001`, ExponentialLR gamma `0.995`, seed 27,
+raw target) while fitting new standard normalization statistics from its T2399 train split.
+Its selected `theta2399` checkpoint is at best epoch 500. Confirmed server assets are the
+matched dataset `data/tasks/q_1p6-3_n2000_t2399_plan_b_matched_v1` and best checkpoint
+`outputs/plan_b_bidirectional_t1200_t2399/training/checkpoints/best_model.pt`.
 
-| Training resolution | Test T1200 | Test T2399 |
-| --- | --- | --- |
-| T1200 model | Native coarse baseline | Completed coarse-to-fine arm |
-| T2399 model | Reverse fine-to-coarse pending | Native fine baseline pending |
+The final raw-physical-xyz bidirectional matrix on the same independent canonical Q400
+field is:
 
-Next, generate a new T2399 training dataset aligned with the original n2000 training Q
-candidate identities and split semantics, fixed Kerr physics/initial conditions and sampled
-interval `[0, 5.995]`; only `T=1200, h=0.005 -> T=2399, h=0.0025` may change. The Q400
-assets remain independent evaluation fields and must not be used for training. Train a
-matched FNO2D with `modes1=16`, `modes2=32`, `width=64`, and `depth=4`, retaining the
-original training protocol wherever code facts permit; train-only normalization fitting is
-valid for this new training run. Then evaluate frozen native T2399 and reverse T2399->T1200
-on the same independent Q400 field. Do not begin a broader resolution sweep or multi-
-parameter QA before this bidirectional matrix is complete.
+| Training resolution | Test T1200 global / mean-per-Q RelL2 | Test T2399 global / mean-per-Q RelL2 |
+| --- | ---: | ---: |
+| theta1200 | `0.007195345500573474` / `0.005427490395002388` | `0.007756728427546919` / `0.006257048792878679` |
+| theta2399 | `0.007619677632647374` / `0.006087018417501273` | `0.007256035373512494` / `0.005506914674547638` |
+
+For theta2399, native T2399 global MSE / median / p95 / p99 / max / worst Q are
+`0.0012802295993175293` / `0.004328815950702992` / `0.0110422433361251` /
+`0.02243743389232602` / `0.06535316077390892` / `1.6007`; frozen reverse T1200 values
+are `0.00141194010010074` / `0.00489727091154475` / `0.011171987590380765` /
+`0.023026487275733983` / `0.06457926846083467` / `1.6007`.
+
+The coarse-to-fine global / mean-per-Q Relative L2 degradations are approximately +7.8% /
++15.3%; fine-to-coarse degradations are approximately +5.0% / +10.5%. Neither direction
+creates a new catastrophic Q region; worst Q remains `1.6007`. Native global accuracy is
+closely matched (`0.0071953` for theta1200 versus `0.0072560` for theta2399, about 0.84%
+apart), strengthening the directional comparison. Thus the appropriate conclusion is:
+**under this fixed-Q400, fixed-interval Q-only Kerr protocol, FNO2D demonstrates strong
+practical bidirectional frozen discretization-resolution generalization between T1200 and
+T2399, with moderate degradation rather than exact finite-grid invariance.**
+
+The existing `pred_fine[:, ::2, :]` versus `pred_coarse` shift remains a necessary
+qualification: global/mean/median/p95/p99/max are `3.008818547630e-03`,
+`3.003436179404e-03`, `2.909109598286e-03`, `3.702832683988e-03`,
+`3.961805595476e-03`, and `4.044745297005e-03`; worst Q is `1.62173157895`. This
+excludes exact output invariance but does not provide a causal error decomposition.
+
+Only T1200 and T2399 have been tested bidirectionally. A broader resolution-range sweep
+is optional future work; QA/multi-parameter extension remains deferred pending advisor
+feedback.
 
 ## 4. 仍有价值、但不属于 Plan A/B 的现有工作
 
@@ -324,9 +356,9 @@ parameter QA before this bidirectional matrix is complete.
 
 ## 5. Stage ordering
 
-Plan A is paused pending the advisor report. Plan B coarse-to-fine Protocol v1 is
-complete without rewriting Plan A history. The next Plan B stage is the matched-T2399
-training and frozen reverse T2399->T1200 evaluation defined in Section 3.6.
+Plan A is paused pending the advisor report. Plan B Protocol v1 bidirectional core is
+complete without rewriting Plan A history. The next decision is reporting to the advisor
+and whether a broader resolution-range sweep or QA/multi-parameter extension is justified.
 
 Plan A and Plan B remain scientifically distinct. Plan B must not reuse Plan A
 length-extension assets as if they were fixed-domain refinement data, and it must not
