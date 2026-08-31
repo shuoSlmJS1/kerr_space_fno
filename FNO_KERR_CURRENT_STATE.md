@@ -1190,28 +1190,32 @@ T1200/T1800/T2400 evaluation、§7.8 的 M1–M4 机制诊断，以及 R1/R2 rep
 seven-length validation-response diagnostic 已完成：表观锯齿幅度减小主要来自
 gradient-seen 长度的 fidelity 退化，而非中间 non-gradient validation lengths 的实质改善。
 当前 A1 决策点是评估是否进入 R4 global/local spectral redesign；R4 仍为候选性后续
-方案，尚未开始。本文件不预先宣告长度外推不可能。Plan B 尚未
-完成：当前没有在相同物理 λ 域上改变 `T` / `delta_lambda` / 离散密度并使用冻结模型
-评估的实验。
-
-```text
-Plan B has not yet been performed.
-```
+方案，尚未开始。本文件不预先宣告长度外推不可能。
 
 ### Plan B Protocol v1 current status
 
 - Plan A is paused pending the advisor report; its historical results and current R4
   decision point are retained above.
-- Plan B Protocol v1 is locked with the fixed independent offset-grid Q400 evaluation
-  field and endpoint-fixed T1200 -> T2399 refinement (`0.005 -> 0.0025`).
-- Local paired-Q replay implementation, structural-first qualification tests, and a
-  two-Q real-solver smoke test are complete.
-- No full Q400/T2399 paired fine dataset, server generation, frozen inference, or full
-  Plan B experiment has started.
-- The exact next action is to bundle the reviewed code to the server.
+- Plan B coarse-to-fine is complete on the fixed independent Q400 field: the paired
+  Q400/T2399 truth has 400/400 successes, zero failures, paired completeness `True`, and
+  structural qualification `True` against Q400/T1200 at shared nodes.
+- Shared-node numerical-truth Relative L2 mean/median/max are
+  `5.218413681635546e-09` / `5.095788550601654e-09` /
+  `6.894048665372391e-09`; this is negligible relative to model error in this experiment.
+- The historical T1200 Q-only checkpoint produced native coarse global/mean-per-Q
+  Relative L2 `0.007195345500573474` / `0.005427490395002388` and fine full-grid values
+  `0.007756728427546919` / `0.006257048792878679`: moderate +7.8% / +15.3% degradation,
+  not catastrophic failure.
+- Fine common-node global/mean-per-Q Relative L2 are `0.008279117934318694` /
+  `0.006793341748433332`. The corresponding prediction discretization shift has global
+  Relative L2 `3.008818547630e-03` and worst Q `1.62173157895`.
+- The exact next action is matched T2399 training-data preparation, T2399 model training,
+  and frozen T2399->T1200 reverse evaluation; no broader resolution sweep or multi-
+  parameter QA is currently authorized.
 
 ## 13. Current unresolved questions
 
+- Plan B 的 matched T2399 training dataset 是否能在严格复用 original-n2000 Q candidate identities、split semantics 和物理控制的前提下建立，并使 frozen T2399->T1200 reverse arm 与已完成 coarse->fine arm 对称可比；
 - 在 R3-B1 已完成的七长度开发诊断之后，R4 所针对的 global FFT / whole-domain coupling 是否能在同时保持 T1200 fidelity 与长域 robustness 的条件下减弱残余长度敏感性；
 - 在该冻结历史 Q-only FNO2D 协议下，候选机制 1–4 的量化相对贡献，以及何种 mechanism-driven repair 能带来可靠的 direct one-shot length extrapolation；
 - 原始 Q-only FNO1D 的服务器数值结果；
@@ -1246,8 +1250,9 @@ validation-response diagnostic 现已完成：表观锯齿减小主要是 gradie
 只有合理修复路径反复失败后，才能在已测试条件下讨论当前架构/训练
 表述是否缺乏可靠 Kerr 长度外推；当前不作这种结论。
 
-Plan A is paused pending the advisor report. Plan B Protocol v1 is locked but has no
-implementation, data generation, server experiment, or frozen inference yet. Its exact
-next step is local implementation, unit tests, and a tiny local smoke test; Plan B remains
+Plan A is paused pending the advisor report. Plan B has completed only the historical
+T1200-model -> T2399-evaluation direction on the fixed Q400 field; it remains
 fixed-domain discretization refinement and must not be conflated with Plan A length
-extrapolation or sparse observation-density generalization.
+extrapolation or sparse observation-density generalization. Bidirectional resolution
+generalization is not yet demonstrated: the matched T2399-model -> T1200-evaluation arm
+and its native-T2399 reference are the next required evidence.

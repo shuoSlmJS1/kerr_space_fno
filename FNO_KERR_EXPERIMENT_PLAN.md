@@ -174,13 +174,13 @@ accuracy 没有实质改善。因此 within-range interpolation 仍未解决。�
 
 T1800/T2400 已在机制与 repair 开发中重复使用，故为 development benchmarks。R1–R4
 设计冻结后，需以未见 Q 和/或未见长域长度的独立 confirmation set 作 paper-level
-confirmation。Plan B 仍是固定物理域、改变离散网格的独立主线，尚未开始。
+confirmation。Plan B 仍是固定物理域、改变离散网格的独立主线；其 coarse-to-fine arm 已完成，reverse arm 仍待进行。
 
 ## 3. Plan B — Fixed-domain λ discretization-resolution generalization
 
 ### 3.1 Protocol v1 lock and scientific question
 
-**Plan B Protocol v1 is locked; code implementation has not started.**
+**Plan B Protocol v1 coarse-to-fine arm is complete; the reverse fine-to-coarse arm is not yet started.**
 
 Plan B tests a Q-only FNO2D checkpoint trained on the coarse lambda grid and later
 used with completely frozen weights on a finer lambda grid. Kerr physics, initial
@@ -245,22 +245,70 @@ per-Q Relative L2 and MSE; mean, median, maximum, p95, and p99; failures or anom
 and available turning-point diagnostics. Protocol v1 defines structural validity,
 numerical-consistency metrics, and anomaly reporting, but no numerical pass threshold.
 
-### 3.5 Formal execution order
+### 3.5 Completed coarse-to-fine evidence
 
-1. Plan B Protocol v1 lock.
-2. Local implementation.
-3. Unit tests.
-4. Tiny local smoke test.
-5. Bundle code to the server.
-6. Generate full paired Q400/T2399 fine-resolution truth on the server.
-7. Ground-truth coarse/fine consistency qualification.
-8. Only after qualification: frozen FNO inference at T2399.
-9. Compare T1200 versus T2399 resolution-generalization metrics.
-10. Update scientific conclusions and project records.
+The formal server assets are `data/tasks/q_1p6007-2p9993_n400_t1200` and the paired
+`data/tasks/q_1p6007-2p9993_n400_t2399_plan_b_v1`. The fine field preserves the same
+400 independent offset-grid Q identities/order, has 400/400 solver successes, zero
+failures, paired completeness `True`, and `fine_lambda[::2] == coarse_lambda`.
 
-Steps 1–4 are complete locally: the paired-Q replay interface, focused unit tests, and a
-two-Q real-solver smoke test passed. The full Q400/T2399 asset is still not generated;
-the next step is to bundle the reviewed code to the server.
+The paired qualification at
+`outputs/plan_b_q400_t1200_to_t2399/ground_truth_consistency.json` is structurally
+valid with zero coarse/fine failures. Its shared-node Relative L2 mean/median/max/p95/p99
+are `5.218413681635546e-09`, `5.095788550601654e-09`,
+`6.894048665372391e-09`, `6.692889855076337e-09`, and
+`6.8532082659278876e-09`; corresponding MSE summaries are
+`6.951265864772155e-16`, `6.458674596505792e-16`,
+`1.2733836202732828e-15`, `1.1889406467703567e-15`, and
+`1.255802623132453e-15`. This supports treating numerical-truth inconsistency as a
+negligible confounder for this fixed Q400 comparison, not as a universal solver theorem.
+
+The frozen evaluator used only the historical T1200 Q-only baseline checkpoint
+`outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/checkpoints/best_model.pt`;
+no Plan A R1/R2/R3 repaired checkpoint, retraining, fine-tuning, normalization refit, or
+adaptation was used. Raw-xyz results are recorded at
+`outputs/plan_b_q400_t1200_to_t2399/frozen_fno_resolution_generalization/metrics.json`:
+
+| Evaluation arm | Global MSE | Global Relative L2 | Mean-per-Q Relative L2 | Median / P95 / P99 / max | Worst Q |
+| --- | ---: | ---: | ---: | --- | ---: |
+| Native coarse T1200 | 0.0012590598691126999 | 0.007195345500573474 | 0.005427490395002388 | 0.00423478303876504 / 0.01093169026389112 / 0.022334344948613975 / 0.06534649935265367 | 1.6007 |
+| Fine T2399 full grid (primary) | 0.0014630064962514512 | 0.007756728427546919 | 0.006257048792878679 | 0.005189180096032416 / 0.011404593362521268 / 0.022006157951293282 / 0.0662060075938115 | 1.6007 |
+| Fine T2399 common nodes (diagnostic) | 0.0016669064017779927 | 0.008279117934318694 | 0.006793341748433332 | 0.0055552606977529355 / 0.012537290722076497 / 0.023640856005393975 / 0.0670052711640239 | 1.6007 |
+
+Fine full-grid error remains in the same scale under endpoint-preserving 2x refinement,
+with moderate rather than catastrophic degradation: global Relative L2 changes by about
++7.8% and mean-per-Q Relative L2 by about +15.3%. P95 changes only slightly, P99 and
+maximum remain broadly stable, and no new catastrophic Q region appears.
+
+The saved-prediction diagnostic `pred_fine[:, ::2, :]` versus `pred_coarse`, using
+`D_i = ||pred_fine_common - pred_coarse||_2 / ||truth_coarse||_2`, has global/mean/
+median/p95/p99/max `3.008818547630e-03`, `3.003436179404e-03`,
+`2.909109598286e-03`, `3.702832683988e-03`, `3.961805595476e-03`, and
+`4.044745297005e-03`; worst Q is `1.62173157895`. This is a measurable finite-grid
+prediction shift, not exact resolution invariance. It must not be divided by model-error
+norms and interpreted as a literal causal error fraction.
+
+### 3.6 Formal execution order and bidirectional next stage
+
+The completed arm establishes: **the historical T1200 Q-only FNO2D checkpoint has strong
+coarse-to-fine discretization-resolution generalization from T1200 to T2399 on this fixed
+Q400 field and sampled lambda interval, with modest degradation.** It does not establish
+universal or exact resolution invariance.
+
+| Training resolution | Test T1200 | Test T2399 |
+| --- | --- | --- |
+| T1200 model | Native coarse baseline | Completed coarse-to-fine arm |
+| T2399 model | Reverse fine-to-coarse pending | Native fine baseline pending |
+
+Next, generate a new T2399 training dataset aligned with the original n2000 training Q
+candidate identities and split semantics, fixed Kerr physics/initial conditions and sampled
+interval `[0, 5.995]`; only `T=1200, h=0.005 -> T=2399, h=0.0025` may change. The Q400
+assets remain independent evaluation fields and must not be used for training. Train a
+matched FNO2D with `modes1=16`, `modes2=32`, `width=64`, and `depth=4`, retaining the
+original training protocol wherever code facts permit; train-only normalization fitting is
+valid for this new training run. Then evaluate frozen native T2399 and reverse T2399->T1200
+on the same independent Q400 field. Do not begin a broader resolution sweep or multi-
+parameter QA before this bidirectional matrix is complete.
 
 ## 4. 仍有价值、但不属于 Plan A/B 的现有工作
 
@@ -276,30 +324,9 @@ the next step is to bundle the reviewed code to the server.
 
 ## 5. Stage ordering
 
-Plan A is paused pending the advisor report. Plan B Protocol v1 is now locked, without
-changing or rewriting Plan A history. The active Plan B sequence is:
-
-```text
-Plan B Protocol v1 lock
-    ↓
-local implementation
-    ↓
-unit tests
-    ↓
-tiny local smoke test
-    ↓
-bundle code to server
-    ↓
-paired Q400/T2399 truth generation on server
-    ↓
-coarse/fine ground-truth qualification
-    ↓
-frozen T2399 inference only after qualification
-    ↓
-T1200 versus T2399 metric comparison
-    ↓
-scientific interpretation and record update
-```
+Plan A is paused pending the advisor report. Plan B coarse-to-fine Protocol v1 is
+complete without rewriting Plan A history. The next Plan B stage is the matched-T2399
+training and frozen reverse T2399->T1200 evaluation defined in Section 3.6.
 
 Plan A and Plan B remain scientifically distinct. Plan B must not reuse Plan A
 length-extension assets as if they were fixed-domain refinement data, and it must not
