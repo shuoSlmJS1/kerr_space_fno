@@ -98,7 +98,10 @@ An intentionally opened Remote SSH Codex session operates directly in:
 
 `/home/shanjinshuo/fno_kerr/kerr_project`
 
-Within a user-approved locked protocol, Remote SSH Codex may:
+For a user-approved project task/action, Remote SSH Codex may perform the applicable
+operations below, subject to existing approval gates. Scientific runs additionally
+require compliance with the locked protocol; protocol approval alone does not authorize
+launching all planned experiments.
 
 - read formal server data and provenance
 - modify the server repository code
@@ -109,6 +112,34 @@ Within a user-approved locked protocol, Remote SSH Codex may:
 
 Remote SSH Codex must not independently alter the scientific protocol, use server
 credentials outside the established session, or perform remote Git publication.
+
+### Research Server Runtime
+
+- The research server has four NVIDIA GeForce RTX 4090 GPUs at host indices 0-3.
+- The FNO-Kerr server Conda environment is `fno_srv`, located at
+  `/home/shanjinshuo/miniconda3/envs/fno_srv`. Project Python/PyTorch workloads on
+  the server must explicitly use this environment; do not assume the default shell
+  has activated it. Normal activation and use for approved project work do not require
+  maintenance approval; environment changes follow
+  `System, Conda, Network, and SSH Boundaries`.
+- This is a shared server. Before every authorized GPU workload, inspect current
+  GPU visibility, memory usage, utilization, and compute processes. Never assume
+  that an idle GPU is permanently allocated to this project, and never terminate,
+  modify, or interfere with another user's processes.
+  Follow `Shared Server Safety Boundary` for resource inspection and conflict avoidance.
+- For formal experiment runs, record the selected host GPU and
+  `CUDA_VISIBLE_DEVICES` mapping. Distinguish host GPU indices from process-local
+  CUDA indices: selecting host GPU 1 alone makes it process-local `cuda:0`.
+- A GPU query failing inside a restricted execution context is not sufficient
+  evidence that the server GPU or driver is broken. Cross-check available read-only
+  hardware and runtime evidence before drawing that conclusion.
+- The historical depth, extended-epoch, Queue A, and width experiment scripts default
+  to host GPU 1 unless `GPU_ID` is overridden. The remembered "GPU 0 primary /
+  GPU 1-3 auxiliary" arrangement is not independently verified; it is a
+  user-provided operating convention, not a confirmed allocation.
+- Do not infer DDP/DataParallel support from the presence of multiple GPUs.
+  Converting a single-GPU experiment to multi-GPU/DDP execution requires explicit
+  user approval because it may affect benchmark semantics.
 
 ## Language Rules
 
@@ -214,6 +245,10 @@ following conditions are met:
   artifact
 - the new file is listed in the final task report
 
+In Remote SSH mode, an explicitly approved FNO-Kerr workflow may also create its
+authorized new artifacts in registered project-owned data/output locations, subject
+to `Shared Server Safety Boundary` and all existing artifact/provenance protections.
+
 Task-specific temporary files may be created without prior approval, but they
 must follow the existing cleanup rules. Editing-tool internal temporary files
 that are automatically removed before the task ends are exempt from the ban on
@@ -247,20 +282,41 @@ separately opened Remote SSH Codex session.
 
 ### Remote SSH Protocol Boundary
 
-When operating in the intentionally opened Remote SSH workspace, Codex may perform the
-server actions listed in `Local and Remote Codex Roles` only within an explicitly
-user-approved locked protocol. It must hard-stop and report a protocol-impacting issue
-rather than choosing a scientific change itself.
+In the intentionally opened Remote SSH workspace, distinguish these authorizations:
+
+- **Scientific protocol approval** defines the experiment: architecture, data,
+  training budget, normalization, metrics, evaluation, and related scientific choices.
+  A locked protocol does not itself authorize launching every run it describes.
+- **Project execution approval** authorizes a specific project task/action within the
+  accepted task scope and, where applicable, the locked protocol: implementing benchmark
+  code, running tests, launching a specifically approved training run, generating an
+  approved artifact, or updating project documentation. Normal repository code/document
+  work is project execution, not non-project maintenance. Existing low-risk permissions
+  and action-specific approval gates continue to apply.
+- **Maintenance approval** covers non-project/runtime maintenance: Codex runtime state,
+  user-scoped permissions, environment maintenance, or explicitly identified user-owned
+  runtime/configuration objects. It requires a specifically approved maintenance task,
+  remains subject to the filesystem and system boundaries below, and does not authorize
+  scientific protocol changes.
+
+Scientific execution requires both project execution approval and compliance with the
+locked protocol. Codex must hard-stop and report a protocol-impacting issue rather than
+choosing a scientific change itself. Phase-I formal runs still require explicit approval.
 
 Codex must never:
 
 - store server passwords, server credentials, private keys, or access tokens
 - add, delete, or modify Git remotes
-- modify files outside this repository
+- modify files outside this repository except for registered FNO-Kerr asset locations
+  within an authorized workflow or narrowly identified paths under the current user's
+  Codex/runtime state for an explicitly approved maintenance task; any additional path
+  requires a separate task-specific exception satisfying every restriction in
+  `Filesystem Write Scope`, not general permission to write in the user's home
 - modify global system settings or global/system Git configuration
-- modify the Conda `base` environment, the `fno_wave` environment, another
-  Conda environment, a global Python installation, or system-level software
-  configuration
+- modify any Conda environment other than `fno_srv`, including `base`, `fno_wave`,
+  and other users' environments, or modify a global Python installation or system-level
+  software configuration; the project environment `fno_srv` follows the specific maintenance
+  requirements in `System, Conda, Network, and SSH Boundaries`
 - modify unrelated projects
 
 Codex must not automatically push, force-push, pull, fetch, clone, or otherwise publish
@@ -277,6 +333,128 @@ Codex must not run destructive Git commands such as:
 - forced branch deletion
 - forced push
 - history rewriting commands
+
+### Shared Server Safety Boundary
+
+#### Scope and Protocol Independence
+
+These rules govern execution safety on the shared research server. They do not
+authorize changes to model architecture, training budget, batch size, seed, dataset
+definition, normalization, evaluation protocol, or Benchmark Protocol v1. Resource
+shortages or safety constraints may cause a run to stop or wait; they must never
+silently change the scientific protocol. Existing stricter scientific, Git, deletion,
+overwrite, provenance, and destructive-operation rules remain in force. Approval
+requirements below do not override an existing prohibition or grant administrator
+authority.
+
+#### Other Users' Files and Private Data
+
+Remote Codex must not enter, enumerate, scan, read, copy, move, modify, or delete
+another user's home directory, project directory, private storage, or private files,
+even if Unix permissions allow access. System permission to read something does not
+constitute project authorization to read it. Do not broadly search `/home` or unrelated
+storage when known project paths are sufficient.
+
+#### Other Users' Processes
+
+Remote Codex must never kill, signal, suspend, attach to, debug, restart, renice, or
+otherwise interfere with another user's process. It must not inspect that process's
+memory, environment variables, file descriptors, or private command arguments.
+For shared-resource conflict avoidance, inspect only the minimum normally visible,
+unprivileged metadata necessary to identify resource ownership or GPU occupancy.
+This exception does not authorize access to private process data or file contents.
+
+#### GPU Conflict Avoidance
+
+Before every authorized GPU workload:
+
+1. Check current GPU visibility.
+2. Inspect memory usage, utilization, and compute-process occupancy.
+3. Determine ownership only to the minimum extent necessary.
+4. Avoid GPUs already carrying another user's compute workload.
+5. If availability or ownership is ambiguous, stop and report rather than guessing.
+
+Never evict or interfere with another user's GPU workload. An idle GPU is not a
+permanent allocation, and historical defaults such as `GPU_ID=1` do not constitute
+allocation. Follow `Research Server Runtime` for host/process-local GPU mapping.
+Do not convert a single-GPU run to DDP, DataParallel, or other multi-GPU execution
+without explicit approval. Resource pressure must not silently change batch size,
+training budget, or other locked benchmark settings.
+
+#### Filesystem Write Scope
+
+Normal autonomous write scope is limited to:
+
+1. The FNO-Kerr repository for the currently authorized task.
+2. Project-owned data/output locations explicitly registered for the authorized
+   FNO-Kerr workflow.
+3. Narrowly identified files under the current user's Codex/runtime state, only for
+   an explicitly approved maintenance task.
+
+Writing elsewhere is outside normal autonomous scope and requires an explicit reason
+and explicit user approval of a separate task-specific exception identifying the exact
+paths and operations.
+Such an exception cannot override protections for other users, system configuration,
+registered assets, destructive operations, Git, or scientific protocol, or any existing
+absolute prohibition. It is not general permission to write elsewhere in the user's
+home directory. An allowed location does not itself authorize file
+modification, overwrite, deletion, cleanup, recursive changes, environment changes,
+or Git operations; existing approval gates still apply. Registered project assets
+retain all provenance and no-overwrite protections. Resolve symlinks when relevant
+so that a repository path cannot be used to escape this boundary.
+
+#### Destructive Operations
+
+Do not perform broad or ambiguous destructive operations, including broad `rm -rf`,
+filesystem-wide cleanup, unapproved `git clean`, or recursive `chmod`/`chown` outside
+a narrowly verified target. Do not delete registered datasets, checkpoints, outputs,
+or provenance records. Preserve all existing stricter Git and destructive-operation
+rules; an approved path or task is not blanket cleanup permission.
+
+#### System, Conda, Network, and SSH Boundaries
+
+Unless an existing higher-priority rule explicitly permits the action and the user
+has also given task-specific approval, Remote Codex must not:
+
+- use `sudo`;
+- modify `/etc`;
+- modify systemd units or restart system services;
+- modify NVIDIA drivers or global CUDA configuration;
+- modify kernel/sysctl settings;
+- modify firewall or routing;
+- create or expose new listening network services, including loopback listeners;
+- change server-wide proxy or SSH configuration;
+- install or remove system packages;
+- modify shared/global Python installations;
+- modify another user's Conda environment;
+- upgrade, rebuild, delete, or materially modify `fno_srv`;
+- modify another user's SSH configuration or sockets;
+- read SSH private keys, tokens, authentication payloads, or secrets.
+
+User approval alone does not override an existing absolute prohibition or grant
+administrator privileges.
+
+`fno_srv` is the normal project execution environment. Activation and normal use for
+approved project work are allowed without maintenance approval. Upgrading, rebuilding,
+deleting, changing dependencies, or otherwise materially modifying it requires a
+specifically approved environment-maintenance task, including any necessary narrowly
+scoped filesystem exception. Such approval must still comply with all stricter
+dependency and system rules; project execution approval alone does not authorize these
+changes.
+
+Existing stricter prohibitions on system/global changes, other users' private data,
+and unrelated environments still apply. The existing user-scoped Remote SSH and proxy
+mechanism may be used as already configured; do not silently convert it into a
+system-wide configuration.
+
+#### Minimum Necessary Inspection
+
+Prefer known repository paths, registered project assets, and targeted metadata
+queries. Do not broadly scan `/home`, `/tmp`, all process state, mounted storage, or
+unrelated directories unless a specific approved task genuinely requires it. Any such
+inspection must still respect the other-user privacy and process boundaries above.
+Security or resource checks must return only information necessary for the current
+decision and avoid exposing unrelated user information.
 
 ### Low-Risk Actions That Do Not Require Prior Approval
 
@@ -528,6 +706,11 @@ Codex must stop and ask the user rather than guessing.
 Formal server datasets belong in `data/tasks/`. Formal checkpoints, metrics, predictions,
 logs, and experiment summaries belong in `outputs/`. Do not overwrite a formal asset;
 hard-stop on provenance mismatch, and never record a planned asset as existing.
+
+A registry entry establishes asset identity, location, and provenance. It does not
+itself authorize migration, overwrite, deletion, regeneration, or a change to the
+canonical `data/tasks/` and `outputs/` conventions. Registered locations remain subject
+to these conventions and all existing asset protections.
 
 Update the four long-lived research records only when a protocol is locked or formally
 changed, a formal dataset/checkpoint/output is generated, a formal stage completes, a
@@ -811,7 +994,11 @@ Do not hide incomplete validation.
 - Preserve reproducibility.
 - Ask before high-impact changes.
 - Do not guess about scientific assumptions.
-- Do not modify remote systems.
+- Perform only authorized Remote SSH repository/project operations or maintenance of
+  narrowly identified paths under the current user's Codex/runtime state for an
+  explicitly approved maintenance task. Any other maintenance target requires the
+  separate task-specific exception defined in `Filesystem Write Scope`; server-level
+  configuration changes remain prohibited under `Operational Boundaries`.
 - Do not commit or publish without approval.
 - Report actual validation honestly.
 - Record only user-approved follow-up ideas.
