@@ -1024,3 +1024,157 @@ extensions with all discretization changes.
 Plan B bidirectional core is complete at T1200/T2399. The remaining scientific decision is
 whether advisor feedback warrants an additional resolution-range sweep or a later
 multi-parameter extension; neither starts automatically.
+
+## Episode 16 — Cross-model resolution Benchmark Protocol v1
+
+### Observation
+
+The completed FNO2D Plan B evidence establishes useful bidirectional fixed-domain
+resolution behavior for one architecture, but cannot by itself answer whether FNO is more
+resolution-robust than other model families or whether the Kerr task is simply easy for all
+models under endpoint-preserving refinement. The preceding architecture audit found that
+existing Dilated ResNet and TimesNet checkpoints are sparse-trajectory reconstruction
+models with `[sparse_xyz, observed_mask, lambda]` inputs and excluded Q, not Q-only
+`[Q, lambda] -> xyz` models. Their historical results therefore cannot be reused as native
+Plan B baselines.
+
+### User decisions
+
+The user froze Benchmark Protocol v1 as a new post-Plan-B comparison stage. Track A uses
+trajectory-wise direct regression with exactly `[Q_broadcast, lambda] -> xyz`, T1200/T2399
+matched n2000 training tasks, and the independent canonical Q400 field for all evaluation.
+The initial evaluation levels are endpoint-fixed T1200/T2399/T3598/T4797; no automatic 6x,
+8x, QA, data scaling, training, or server run is authorized.
+
+The Phase-I model set is BiLSTM, Dilated ResNet, canonical TimesNet, encoder-only
+Transformer, FNO1D, and DeepONet. Phase I is a controlled approximately-1.1M-parameter
+comparison with an accepted `0.9M--1.3M` band, not an exact-parameter contest. Each model
+will have exactly two formal training runs, at T1200 and T2399, followed by frozen 2x4
+Q400 evaluation. The user further fixed a separate Track B: FNO1D-small versus
+FNO2D-small for formulation, and FNO2D-small versus existing 16.8M FNO2D-large for
+capacity. Lambda-isolated TimesNet remains a diagnostic ablation, not the main TimesNet
+baseline.
+
+### AI-assisted design rationale
+
+Same task and same information are the primary fairness controls. This is why Track A
+uses Q plus the actual lambda coordinate for every trajectory model and restricts DeepONet
+branch/trunk inputs to the equivalent Q/lambda information. Comparable small-model capacity
+is the next control; it reduces the approximately 15.6x parameter gap between historical
+1.08M sparse ResNet/TimesNet variants and 16.8M FNO2D-large without forcing unnatural exact
+architectures.
+
+FNO1D bridges Track A and Track B because it is trajectory-wise like the direct baselines
+but operator-like in formulation. FNO2D-small is needed because comparison with
+FNO2D-large alone would confound joint Q-field learning with capacity. Selective Phase-III
+scaling is preferred to immediately enlarging every model: first establish controlled
+small-model evidence, then scale only the strongest two or three non-FNO candidates if the
+scientific question remains open.
+
+The existing Dilated ResNet receptive-field calculation motivates a controlled envelope.
+With kernel 7, 11 residual blocks, and dilations through 1024, the current block formula
+produces `RF=12349`, greater than the predeclared 8x `T_max=9593`. Thus Phase-I's 1x--4x
+comparison will not be confounded by an intentionally too-short ResNet view, while finite
+receptive field remains a future explanatory hypothesis. Canonical TimesNet is retained
+because runtime FFT selection, period folding, and period-grid convolutions may have a
+resolution-sensitive inductive bias; the lambda-isolated model answers a different
+mechanism question. Transformer must report quadratic attention memory/time scaling rather
+than treating feasibility as an unmeasured implementation detail.
+
+### Pre-registered hypotheses
+
+The following are hypotheses, not results:
+
+- operator/spectral models may show smaller frozen resolution degradation than conventional sequence models;
+- the controlled Dilated ResNet may still reveal finite-receptive-field effects at wider ranges;
+- TimesNet runtime FFT bins and period folding may be more discretization-sensitive than FNO;
+- Transformer may reach `O(T^2)` compute limits before accuracy is limiting;
+- FNO1D and DeepONet may be more robust than non-operator trajectory models;
+- FNO2D may gain from joint Q-axis field learning relative to FNO1D; and
+- some FNO2D-large performance may be capacity-driven rather than formulation-driven.
+
+### What this does NOT prove
+
+This protocol lock does not prove FNO superiority, TimesNet or Transformer weakness,
+ResNet receptive-field causality, an operator-learning advantage, any cross-model ranking,
+or a valid resolution range. It creates no task-aligned baseline implementation, parameter
+count, checkpoint, data asset, training result, inference result, or compute measurement.
+Historical sparse reconstruction metrics remain valid for their original task but are not
+cross-model Plan B evidence.
+
+### Next question
+
+The next exact work item is task-aligned model implementation plus capacity matching, then
+local unit and smoke tests. Only after those contracts are verified may a unified server
+workflow execute the Phase-I two-training-run-per-model matrix. Phase II, selective scaling,
+QA, and wider resolution levels remain later decisions rather than automatic work.
+
+## Episode 17 — Plan B completed endpoint-fixed 1x--4x resolution range
+
+### Observation
+
+**Measured server evidence supplied by the user:** the unified FNO-only range workflow
+completed on the independent canonical Q400 field at endpoint-fixed T1200/T2399/T3598/T4797.
+It replayed the paired Q400 field through `400/400`, completed generation, structural and
+numerical qualification, frozen evaluation, and matrix assembly without a hard-stop. The
+new truth assets are `data/tasks/q_1p6007-2p9993_n400_t3598_plan_b_range_v1` and
+`data/tasks/q_1p6007-2p9993_n400_t4797_plan_b_range_v1`; the output root is
+`outputs/plan_b_resolution_range_t1200_t2399_t3598_t4797` and the matrix is
+`resolution_range_matrix.json` beneath that root. No additional numerical-truth summary is
+inferred beyond the confirmed workflow completion.
+
+The measured global Relative L2 matrix is:
+
+| Training model | T1200 | T2399 | T3598 | T4797 |
+| --- | ---: | ---: | ---: | ---: |
+| theta1200 | `0.007195345500573474` | `0.007756728427546919` | `0.008098130243693246` | `0.008292316031400246` |
+| theta2399 | `0.007619677632647374` | `0.007256035373512494` | `0.0073153850467772156` | `0.007378147022109385` |
+
+The corresponding mean-per-Q Relative L2 matrix is:
+
+| Training model | T1200 | T2399 | T3598 | T4797 |
+| --- | ---: | ---: | ---: | ---: |
+| theta1200 | `0.005427490395002388` | `0.006257048792878679` | `0.006736322137146906` | `0.006999674680921897` |
+| theta2399 | `0.006087018417501273` | `0.005506914674547638` | `0.005601255905072378` | `0.005701483116388768` |
+
+### User decisions and controls
+
+The user retained the fixed independent Q400 identities/order, Kerr physics, initial
+conditions, and sampled interval `[0, 5.995]`. R3 uses `T=3598`, `h=0.005/3`; R4 uses
+`T=4797`, `h=0.00125`. The only intended variable is lambda-axis discretization. The user
+also fixed that 6x/8x are conditional future experiments rather than an automatic extension,
+and that the next active stage is the already locked Cross-model Benchmark Protocol v1.
+
+### AI-assisted interpretation
+
+Relative to native T1200, theta1200 global / mean-per-Q Relative L2 changes by approximately
+`+7.8% / +15.3%` at T2399, `+12.5% / +24.1%` at T3598, and `+15.2% / +29.0%` at T4797.
+The observed curve is smooth through the tested 4x refinement and has no threshold-like
+collapse. Relative to native T2399, theta2399 changes only approximately `+0.82% / +1.71%`
+at T3598 and `+1.68% / +3.53%` at T4797. Theta2399 has lower raw global Relative L2 than
+theta1200 at both T3598 and T4797. These measurements support the bounded interpretation
+that finer-resolution training improves robustness to the still-finer tested grids in this
+Q-only Kerr setting.
+
+This extends the completed bidirectional pair into a tested range. It also sharpens the
+Plan A contrast: Plan A kept step size fixed while extending the physical lambda domain and
+showed severe frozen length-extrapolation failure; Plan B holds the sampled interval fixed
+and remains stable through the tested discretization refinements. Thus, in this experiment,
+FNO2D is substantially more robust to fixed-domain discretization change than to
+physical-domain-length extension.
+
+### What this did NOT prove
+
+The evidence does not establish exact finite-grid invariance, arbitrary-resolution
+generalization, T4797 as a final boundary, universal Kerr behavior, QA/multi-parameter
+robustness, or causal proof that training resolution alone explains every observed
+improvement. The earlier common-node prediction discretization shift of
+`3.008818547630e-03` remains relevant: practical robustness is not exact output invariance.
+
+### Next question
+
+The FNO-only Plan B core is complete through the tested R1--R4 range. The next discriminating
+question is cross-model: under locked Benchmark Protocol v1, do task-aligned trajectory
+models and operator models exhibit comparable native accuracy, frozen resolution robustness,
+and computational cost? The next work item remains task-aligned model implementation plus
+capacity matching; no benchmark model training or wider sweep is implied by this record.

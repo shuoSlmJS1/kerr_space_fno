@@ -1220,12 +1220,20 @@ gradient-seen 长度的 fidelity 退化，而非中间 non-gradient validation l
 - The complete 2x2 matrix supports bidirectional practical fixed-domain resolution
   generalization between T1200 and T2399. This contrasts with Plan A, where increasing T
   extended the physical lambda domain and frozen length extrapolation failed severely.
-  Plan B bidirectional core is complete; no broader resolution sweep or multi-parameter QA
-  is currently authorized.
+- The completed endpoint-fixed R1--R4 range matrix is recorded at
+  `outputs/plan_b_resolution_range_t1200_t2399_t3598_t4797/resolution_range_matrix.json`.
+  Theta1200 global / mean-per-Q Relative L2 changes smoothly from its native T1200 values
+  to `0.008292316031400246` / `0.006999674680921897` at T4797 (+15.2% / +29.0%).
+  Theta2399 is nearly flat toward finer grids: T3598 and T4797 global changes relative to
+  native T2399 are about +0.82% and +1.68%, respectively. Neither observation establishes
+  exact or arbitrary-resolution invariance.
+- The FNO-only Plan B protocol, bidirectional core, and tested 1x--4x range stage are
+  complete. Cross-model Benchmark Protocol v1 is the locked next stage; no multi-parameter
+  QA is currently authorized.
 
 ## 13. Current unresolved questions
 
-- Plan B 仅在 endpoint-preserving 的 T1200/T2399 pair 上完成双向验证；是否值得开展更宽的 resolution-range sweep 仍应由 advisor feedback 决定，而不是自动启动的新实验；
+- Plan B FNO range evidence beyond the bidirectional-core summary must retain verified asset provenance; Benchmark Protocol v1 fixes the next cross-model comparison at R1--R4, while 6x/8x remain conditional rather than automatic;
 - 在 R3-B1 已完成的七长度开发诊断之后，R4 所针对的 global FFT / whole-domain coupling 是否能在同时保持 T1200 fidelity 与长域 robustness 的条件下减弱残余长度敏感性；
 - 在该冻结历史 Q-only FNO2D 协议下，候选机制 1–4 的量化相对贡献，以及何种 mechanism-driven repair 能带来可靠的 direct one-shot length extrapolation；
 - 原始 Q-only FNO1D 的服务器数值结果；
@@ -1260,10 +1268,31 @@ validation-response diagnostic 现已完成：表观锯齿减小主要是 gradie
 只有合理修复路径反复失败后，才能在已测试条件下讨论当前架构/训练
 表述是否缺乏可靠 Kerr 长度外推；当前不作这种结论。
 
-Plan A is paused pending the advisor report. Plan B bidirectional core is complete on
-fixed Q400 and endpoint-fixed `[0, 5.995]`: theta1200->T2399 and theta2399->T1200 both
-retain native-scale raw-xyz accuracy with moderate degradation. This supports practical
-bidirectional resolution generalization for the tested pair, not exact, universal, or
-arbitrary-resolution invariance and not QA/multi-parameter generalization. The next
-project decision is an advisor report and, only if approved, an optional broader
-resolution-range sweep or later QA extension.
+Plan A is paused pending the advisor report. Plan B FNO-only work is complete on fixed Q400
+and endpoint-fixed `[0, 5.995]`: the bidirectional T1200/T2399 core and the R1--R4
+T1200/T2399/T3598/T4797 range matrix retain native-scale raw-xyz accuracy without a
+threshold-like collapse through the tested 4x refinement. This supports practical tested-range
+resolution generalization, not exact, universal, or arbitrary-resolution invariance and not
+QA/multi-parameter generalization. The next project execution step is task-aligned cross-model
+implementation plus capacity matching; broader 6x/8x expansion and QA remain conditional later
+decisions.
+
+## 15. Cross-model Benchmark Protocol v1 current status
+
+The Plan B FNO bidirectional and resolution-range stage is complete as the recorded
+predecessor to the next benchmark decision. Its completed FNO evidence remains separate
+from Plan A physical-domain extension and from sparse observation-density experiments.
+
+**Cross-model Benchmark Protocol v1 is now locked.** No task-aligned traditional or
+operator baseline implementation, capacity-matching search, baseline checkpoint, dataset
+regeneration, training run, frozen inference, or server benchmark execution has started.
+
+The protocol fixes the original n2000 T1200/T2399 matched training data and independent
+Q400 endpoint-fixed evaluation field. Phase I will compare trajectory-wise BiLSTM, Dilated
+ResNet, canonical TimesNet, encoder-only Transformer, FNO1D, and DeepONet at approximately
+1.1M parameters. Track B separately studies FNO1D-small, FNO2D-small, and existing
+16.8M FNO2D-large; it is a formulation/capacity study rather than a general leaderboard.
+
+The exact next step is **task-aligned model implementation plus capacity matching**, followed
+by local unit and smoke tests. No Phase-I or Phase-II experiment is authorized by this
+status update alone.
