@@ -338,9 +338,40 @@ qualification: global/mean/median/p95/p99/max are `3.008818547630e-03`,
 `3.961805595476e-03`, and `4.044745297005e-03`; worst Q is `1.62173157895`. This
 excludes exact output invariance but does not provide a causal error decomposition.
 
-Only T1200 and T2399 have been tested bidirectionally. A broader resolution-range sweep
-is optional future work; QA/multi-parameter extension remains deferred pending advisor
-feedback.
+### 3.7 Completed FNO-only endpoint-fixed resolution-range sweep
+
+The FNO-only range workflow is complete on the same independent offset-grid Q400 field,
+with the sampled physical interval fixed at `[0, 5.995]`. In addition to the completed
+R1/R2 assets, confirmed server evaluation-truth assets are
+`data/tasks/q_1p6007-2p9993_n400_t3598_plan_b_range_v1` (R3: `T=3598`,
+`h=0.005/3`) and `data/tasks/q_1p6007-2p9993_n400_t4797_plan_b_range_v1`
+(R4: `T=4797`, `h=0.00125`). The unified workflow completed exact Q400 replay
+(`400/400`), truth generation, structural/numerical qualification, frozen evaluation, and
+matrix assembly without a hard-stop. Its output root is
+`outputs/plan_b_resolution_range_t1200_t2399_t3598_t4797`; the machine-readable matrix is
+`outputs/plan_b_resolution_range_t1200_t2399_t3598_t4797/resolution_range_matrix.json`.
+No unrecorded numerical qualification summary is inferred here.
+
+| Training model | T1200 global / mean-per-Q RelL2 | T2399 global / mean-per-Q RelL2 | T3598 global / mean-per-Q RelL2 | T4797 global / mean-per-Q RelL2 |
+| --- | ---: | ---: | ---: | ---: |
+| theta1200 | `0.007195345500573474` / `0.005427490395002388` | `0.007756728427546919` / `0.006257048792878679` | `0.008098130243693246` / `0.006736322137146906` | `0.008292316031400246` / `0.006999674680921897` |
+| theta2399 | `0.007619677632647374` / `0.006087018417501273` | `0.007256035373512494` / `0.005506914674547638` | `0.0073153850467772156` / `0.005601255905072378` | `0.007378147022109385` / `0.005701483116388768` |
+
+Relative to native T1200, theta1200 global / mean-per-Q degradation is approximately
+`+7.8% / +15.3%` at R2, `+12.5% / +24.1%` at R3, and `+15.2% / +29.0%` at R4. Its error
+therefore rises smoothly through 4x endpoint-fixed refinement, without a threshold-like
+collapse. Relative to native T2399, theta2399 changes by only about `+0.82% / +1.71%` at
+T3598 and `+1.68% / +3.53%` at T4797 (global / mean-per-Q); the existing reverse T1200
+arm is `+5.0% / +10.5%`. Theta2399 has lower raw global Relative L2 than theta1200 at
+T3598 and T4797.
+
+The evidence supports practical fixed-domain resolution robustness through the tested R4
+(`T=4797`, 4x relative to T1200) and supports the narrower observation that finer-resolution
+training improves transfer to the still-finer tested grids in this Q-only Kerr setting. It
+does not establish exact or arbitrary-resolution invariance, a final resolution boundary,
+universal Kerr behavior, or a causal proof that training resolution alone explains the
+improvement. The pre-registered 6x/8x levels remain conditional future work, and
+QA/multi-parameter extension remains deferred pending advisor feedback.
 
 ## 4. 仍有价值、但不属于 Plan A/B 的现有工作
 
@@ -356,9 +387,7 @@ feedback.
 
 ## 5. Stage ordering
 
-Plan A is paused pending the advisor report. Plan B Protocol v1 bidirectional core is
-complete without rewriting Plan A history. The next decision is reporting to the advisor
-and whether a broader resolution-range sweep or QA/multi-parameter extension is justified.
+Plan A is paused pending the advisor report. Plan B FNO bidirectional and resolution-range work is the completed predecessor to the locked cross-model Benchmark Protocol v1, without rewriting Plan A history. The next execution decision is task-aligned benchmark-model implementation and capacity matching; QA/multi-parameter expansion remains deferred.
 
 Plan A and Plan B remain scientifically distinct. Plan B must not reuse Plan A
 length-extension assets as if they were fixed-domain refinement data, and it must not
@@ -376,3 +405,129 @@ be conflated with sparse observation-density generalization.
 
 没有直接结果文件的叙述必须降低证据等级，而不能通过重复引用注册表文本
 提升为正式数值结论。
+
+## 7. Plan B follow-on — Cross-model resolution Benchmark Protocol v1
+
+### 7.1 Status and scientific question
+
+**Benchmark Protocol v1 is locked. Implementation has not started.** This post-Plan-B stage compares conventional sequence models and operator-learning models at fixed Kerr Q-only trajectory prediction. It does not alter Plan A, prior Plan B evidence, or the distinction between physical-domain length extrapolation and fixed-domain discretization change.
+
+The task is `Q -> xyz(lambda)`. Compare: (1) native prediction accuracy; (2) frozen cross-resolution generalization; (3) resolution-transfer degradation; and (4) computational cost. Training Q remains in `[1.6, 3.0]`; the sampled lambda interval remains `[0, 5.995]`; only `T` and `delta_lambda` change. Kerr physics, initial conditions, and evaluation-Q identities do not change. This is not Plan A physical-domain-length extrapolation.
+
+### 7.2 Fixed data and evaluation protocol
+
+Training reuses the original Q-only n2000 task and matched endpoint-fixed T2399 replay. Both retain exact original Q split identities, split membership, Q row ordering, Kerr physics, and initial conditions.
+
+| Training resolution | Dataset basis | Split sizes | T | delta_lambda | Sampled interval |
+| --- | --- | ---: | ---: | ---: | --- |
+| T1200 | `q_1p6-3_n2000_t1200` | 1400 / 300 / 300 | 1200 | 0.005 | `[0, 5.995]` |
+| T2399 | matched original-n2000 replay | 1400 / 300 / 300 | 2399 | 0.0025 | `[0, 5.995]` |
+
+All models use the independent offset-grid Q400 evaluation field in canonical order.
+
+| Level | T | delta_lambda | Relative to T1200 |
+| --- | ---: | ---: | ---: |
+| R1 | 1200 | 0.005 | 1x |
+| R2 | 2399 | 0.0025 | 2x |
+| R3 | 3598 | `0.005 / 3` | 3x |
+| R4 | 4797 | 0.00125 | 4x |
+
+Every grid preserves `lambda_max = 5.995`. Six-fold (`T=7195`) and eight-fold (`T=9593`) refinements are conditional future experiments only, considered only if 1x--4x does not reveal a clear resolution boundary.
+
+### 7.3 Track A — trajectory-wise direct benchmark
+
+Track A is the primary fair comparison layer. Every model receives exactly the same information for one trajectory:
+
+```text
+[Q_broadcast, lambda] : [B, T, 2] -> [B, T, 3] : xyz
+```
+
+DeepONet may implement the same information through branch input `Q` and trunk input `lambda`, but must not receive additional trajectory, mask, or physics inputs. The formal Track A model set is Bidirectional LSTM, Dilated ResNet, canonical TimesNet, encoder-only Transformer, FNO1D, and DeepONet.
+
+Phase I uses controlled small models with approximately `1.1M` trainable parameters. The accepted band is `0.9M--1.3M`; exact equality to the last parameter is not required. Fairness priority is: same task/information, reasonable architecture, then comparable parameter scale. Architectures must not be distorted solely to force exact parameter counts.
+
+| Model | Protocol-v1 architecture boundary |
+| --- | --- |
+| Bidirectional LSTM | Two-layer bidirectional LSTM; trajectory-wise `[Q, lambda] -> xyz`; hidden size is searched only to enter the Phase-I parameter band. Causal-only restrictions are not used because this is full-function regression. |
+| Dilated ResNet | Kernel size 7; 11 residual blocks; dilation schedule `[1,2,4,8,16,32,64,128,256,512,1024]`; width is searched only to enter the parameter band. Under the current block definition, `RF=12349`, exceeding the predeclared 8x envelope `T_max=9593`. |
+| canonical TimesNet | Retains runtime FFT, top-k period selection, period folding, and period-grid convolutions; receives task-aligned `[Q, lambda] -> xyz`. The existing approximately 1.08M configuration is preferred unless a minimal adjustment is needed to enter the band. Lambda-isolated TimesNet remains a future diagnostic, not the primary baseline. |
+| Transformer | Encoder-only full-sequence regression with Q plus actual lambda coordinate. Learned positional embeddings tied to a fixed T are prohibited. Dimensions, layers, and heads are searched only to enter the parameter band; `O(T^2)` memory/time scaling must be reported. |
+| FNO1D | Trajectory-wise spectral/operator model with `[Q_broadcast, lambda] -> xyz`; initial candidate is modes 32, width 64, depth 4, with a minimal adjustment only if needed to enter the band. |
+| DeepONet | Branch receives Q, trunk receives lambda query coordinates, and predicts all xyz components. Branch/trunk widths, depths, and latent dimension are searched only to enter the parameter band. |
+
+The ResNet receptive-field statement is a pre-registered hypothesis boundary, not an experimental conclusion. Protocol v1 deliberately sets `RF=12349 > T_max=9593` so failure through the planned envelope cannot be attributed merely to inability to see the complete trajectory.
+
+### 7.4 Track B — FNO formulation and capacity study
+
+Track B is not a general model leaderboard. It separates trajectory-wise versus joint Q-field formulation, and formulation from capacity:
+
+1. `FNO1D-small` at approximately 1.1M parameters;
+2. `FNO2D-small` at approximately 1.1M parameters; and
+3. existing `FNO2D-large` at 16,802,755 parameters.
+
+Existing FNO2D-large is `modes1=16`, `modes2=32`, `width=64`, `depth=4`, and `hidden_dim=128`. `FNO1D-small` versus `FNO2D-small` studies per-trajectory learning versus joint `Q x lambda` field learning at similar capacity. `FNO2D-small` versus existing FNO2D-large studies capacity effects. FNO1D bridges Tracks A and B; no transitive ranking of all models follows from this formulation ablation.
+
+### 7.5 Unified training, matrix, and metrics
+
+Unless a documented architecture-specific optimization issue requires a transparent deviation, every Track A run uses:
+
+```text
+epochs = 500
+batch_size = 32
+optimizer = AdamW
+learning_rate = 1e-3
+weight_decay = 1e-4
+scheduler = ExponentialLR
+scheduler_gamma = 0.995
+seed = 27
+normalization = standard, fit on the relevant training-resolution train split
+target_transform = raw
+training_loss = normalized-space MSE
+checkpoint_selection = validation MSE
+```
+
+Track-A batch size does not copy FNO2D-large batch size 1: a Track-A sample is one trajectory, whereas an FNO2D sample is an entire Q-field. Any required architecture-specific optimization deviation must state its reason and preserve both the Protocol-v1 result and failure fact.
+
+Each Track-A model trains exactly two checkpoints (T1200 and T2399), then freezes each one before evaluating all four Q400 resolutions:
+
+| Train / Test | T1200 | T2399 | T3598 | T4797 |
+| --- | ---: | ---: | ---: | ---: |
+| T1200-trained | native | cross | cross | cross |
+| T2399-trained | reverse | native | cross | cross |
+
+| ID | Model | Parameter scale | Training resolutions | Test resolutions | New training runs |
+| --- | --- | ---: | --- | --- | ---: |
+| A1 | BiLSTM | ~1.1M | 1200 / 2399 | 1200 / 2399 / 3598 / 4797 | 2 |
+| A2 | Dilated ResNet | ~1.1M | 1200 / 2399 | same | 2 |
+| A3 | canonical TimesNet | ~1.1M | 1200 / 2399 | same | 2 |
+| A4 | Transformer encoder | ~1.1M | 1200 / 2399 | same | 2 |
+| A5 | FNO1D | ~1.1M | 1200 / 2399 | same | 2 |
+| A6 | DeepONet | ~1.1M | 1200 / 2399 | same | 2 |
+
+Phase I therefore contains 12 new formal training runs. Phase II consists of FNO1D-small versus FNO2D-small (two new FNO2D-small training runs) and FNO2D-small versus existing FNO2D-large (no new large-model training run). Phase III is selective scaling only: after Phase I, scale only the strongest two or three non-FNO models toward approximately 16.8M if necessary, and consider n2000 to n5000 or optionally n10000 only if scientifically necessary. The full model x capacity x dataset matrix is prohibited.
+
+Every completed evaluation reports three distinct dimensions:
+
+| Dimension | Required measurements | Question |
+| --- | --- | --- |
+| Absolute accuracy | global Relative L2 (primary), global MSE, mean-per-Q Relative L2, median, p95, p99, max, worst Q | Which model predicts most accurately? |
+| Resolution robustness | `R(T)=E(T)/E(native)` and `DeltaE(T)=E(T)-E(native)` | Which model degrades least under a resolution change? |
+| Computational cost | trainable parameters, peak GPU memory, training wall-clock time, frozen inference time | What compute is required for observed accuracy/robustness? |
+
+Absolute accuracy and resolution robustness must never be conflated.
+
+### 7.6 Pre-registered hypotheses and progression
+
+The following are hypotheses, not measured conclusions:
+
+- H1: operator/spectral models may exhibit smaller frozen resolution degradation than conventional sequence models;
+- H2: Dilated ResNet robustness may depend on finite receptive field, controlled here by `RF=12349 > T_max=9593`;
+- H3: runtime FFT-bin selection and period folding may make TimesNet more discretization sensitive than FNO;
+- H4: Transformer may face `O(T^2)` memory/time limits before accuracy becomes limiting;
+- H5: FNO1D and DeepONet may show stronger native cross-resolution robustness than non-operator trajectory models;
+- H6: FNO2D may gain accuracy or robustness from joint Q-axis field learning relative to trajectory-wise FNO1D; and
+- H7: part of existing FNO2D-large performance may reflect 16.8M capacity rather than only formulation or operator bias.
+
+The intended progression is: (1) Benchmark Protocol v1 documentation lock (current step); (2) task-aligned model implementation; (3) capacity matching; (4) local unit and smoke tests; (5) one unified server workflow; (6) Phase-I 12 training runs plus frozen 2x4 evaluation; (7) analysis of accuracy, robustness, and compute; (8) Phase-II FNO formulation/capacity study; (9) decision on Phase-III selective scaling; and (10) advisor review before QA or larger expansion.
+
+No model implementation, training, data generation, or baseline result is created by this documentation lock.

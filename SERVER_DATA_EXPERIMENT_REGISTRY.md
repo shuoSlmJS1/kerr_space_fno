@@ -87,6 +87,18 @@ zero coarse/fine failed samples, shared-node Relative L2 mean
 `6.894048665372391e-09`, p95 `6.692889855076337e-09`, and p99
 `6.8532082659278876e-09`.
 
+### Completed Plan B endpoint-fixed resolution-range datasets
+
+| Existing asset | Source coarse asset | Q field | T | step_size | Sampled physical interval | Status | Pairing / workflow result |
+| --- | --- | --- | ---: | ---: | --- | --- | --- |
+| `data/tasks/q_1p6007-2p9993_n400_t3598_plan_b_range_v1` | `data/tasks/q_1p6007-2p9993_n400_t1200` | Same independent offset-grid Q400 identities and canonical ordering | 3598 | `0.005 / 3` | `[0, 5.995]` | COMPLETED — EXISTING SERVER ASSET | Endpoint-fixed R3; paired refinement replay reached `400/400`; unified qualification and frozen-evaluation workflow completed without a hard-stop. |
+| `data/tasks/q_1p6007-2p9993_n400_t4797_plan_b_range_v1` | `data/tasks/q_1p6007-2p9993_n400_t1200` | Same independent offset-grid Q400 identities and canonical ordering | 4797 | 0.00125 | `[0, 5.995]` | COMPLETED — EXISTING SERVER ASSET | Endpoint-fixed R4; paired refinement replay reached `400/400`; unified qualification and frozen-evaluation workflow completed without a hard-stop. |
+
+The server range workflow completed the ordered stages generation -> structural/numerical
+qualification -> frozen evaluation -> matrix assembly for R1/R2/R3/R4. This registry has
+no directly captured per-resolution numerical-truth qualification summary beyond that
+confirmed completion status and therefore does not manufacture mean or percentile values.
+
 ### Completed Plan B matched fine-training dataset
 
 | Existing asset | Source asset | Alignment requirement | T | step_size | Sampled physical interval | Status |
@@ -129,6 +141,7 @@ This registry does not reproduce numerical conclusions.
 | `outputs/plan_b_q400_t1200_to_t2399/frozen_fno_resolution_generalization` | Plan B historical-T1200 frozen coarse-to-fine FNO2D evaluation | Independent Q400 T1200/T2399 fixed-domain paired fields | Historical baseline checkpoint only | `metrics.json`, `experiment_summary.json`, raw prediction `.npy` | COMPLETED — modest coarse-to-fine degradation; contributes the theta1200 matrix row |
 | `outputs/plan_b_bidirectional_t1200_t2399` | Plan B bidirectional fixed-domain resolution core | Independent Q400 T1200/T2399 paired fields plus matched original-n2000 T2399 training task | Historical theta1200 and theta2399 `training/checkpoints/best_model.pt` | `bidirectional_resolution_matrix.json`, `experiment_summary.json`, `workflow_state.json` | COMPLETED — 2x2 bidirectional matrix assembled |
 | `outputs/plan_b_bidirectional_t1200_t2399/theta2399_q400_evaluation` | Theta2399 native-fine and frozen reverse Q400 evaluation | Same independent Q400 identities/order at T2399 and T1200 | Frozen theta2399 `training/checkpoints/best_model.pt` | `metrics.json`, `experiment_summary.json`, native/reverse raw-xyz prediction `.npy` | COMPLETED — native T2399 and frozen T2399->T1200 arms |
+| `outputs/plan_b_resolution_range_t1200_t2399_t3598_t4797` | Plan B endpoint-fixed 1x--4x FNO-only range sweep | Q400 T1200/T2399/T3598/T4797 paired fixed-domain fields | Frozen theta1200 and theta2399 checkpoints | `resolution_range_matrix.json`, `experiment_summary.json`, `workflow_state.json`, per-cell metrics/predictions | COMPLETED — R1/R2/R3/R4 matrix assembled; T3598 and T4797 truth/evaluation cells completed |
 | `outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200` | R2 domain-conditioned coordinate training repair | `q_1p6-3_n2000_t1200` strict prefixes only | 1 R2 FNO2D run | `run_config.json`, `summary.json`, `checkpoints/best_model.pt` | COMPLETED — R2 PARTIAL POSITIVE REPAIR SIGNAL |
 | `outputs/formal_a1_length_extrapolation/fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200_best_q400_t1200_t1800_t2400` | Formal R2 A1 frozen length-extrapolation evaluation | q400 exact-prefix T1200/T1800/T2400 comparison-only datasets | 1 frozen R2 checkpoint | `r2_a1_length_extrapolation_summary.json`, `r2_per_q_metrics.csv`, `r2_lambda_window_metrics.csv` | COMPLETED — FORMAL R2 REPAIR EVALUATION |
 | `outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200` | R3-B1 physical-frequency spectral training repair | `q_1p6-3_n2000_t1200` strict prefixes only | 1 R3 FNO2D run | `run_config.json`, `summary.json`, `checkpoints/best_model.pt` | COMPLETED — STRONG LONG-DOMAIN SIGNAL; severe T1200 trade-off |
@@ -147,6 +160,16 @@ The theta2399 training task selected best epoch `500`. Its model-space best vali
 test MSE, and test Relative L2 are `0.00045836385106667876`, `0.000446074060164392`, and
 `0.020454108715057373`, respectively. These are training-task model-space metrics and are
 not interchangeable with the independent-Q400 raw-physical-xyz native/reverse metrics.
+
+### Completed theta2399 Q400 and bidirectional provenance
+
+- Bidirectional matrix: `outputs/plan_b_bidirectional_t1200_t2399/bidirectional_resolution_matrix.json`.
+- Experiment summary and workflow state: `outputs/plan_b_bidirectional_t1200_t2399/experiment_summary.json` and
+  `outputs/plan_b_bidirectional_t1200_t2399/workflow_state.json`.
+- Q400 evaluation directory and metrics: `outputs/plan_b_bidirectional_t1200_t2399/theta2399_q400_evaluation` and
+  `outputs/plan_b_bidirectional_t1200_t2399/theta2399_q400_evaluation/metrics.json`.
+- Raw-physical-xyz predictions: `outputs/plan_b_bidirectional_t1200_t2399/theta2399_q400_evaluation/theta2399_native_t2399_prediction_raw_xyz.npy` and
+  `outputs/plan_b_bidirectional_t1200_t2399/theta2399_q400_evaluation/theta2399_reverse_t1200_prediction_raw_xyz.npy`.
 
 ### Completed strict length-dataset identity validation
 
@@ -491,3 +514,23 @@ Version 1 was built on 2026-08-04 from:
 This version does not claim that every numerical result has been re-audited.
 
 PASS — registry draft ready for user review
+
+## 9. Planned cross-model Benchmark Protocol v1
+
+This is a planned-work index, not an asset registration. Benchmark Protocol v1 creates no
+new dataset, checkpoint, output, or result in this update.
+
+| Planned work | Reused recorded basis | Status | Asset boundary |
+| --- | --- | --- | --- |
+| Phase-I Track-A task-aligned models: BiLSTM, Dilated ResNet, canonical TimesNet, Transformer encoder, FNO1D, DeepONet | `data/tasks/q_1p6-3_n2000_t1200`; matched `data/tasks/q_1p6-3_n2000_t2399_plan_b_matched_v1`; independent Q400 endpoint-fixed evaluation family | PLANNED / NOT IMPLEMENTED; NOT TRAINED | No baseline checkpoint or model-specific output exists yet. |
+| Phase-II FNO formulation/capacity study | Phase-I FNO1D-small; existing FNO2D-large Plan B assets; future FNO2D-small matched data | PLANNED / NOT TRAINED | Existing FNO2D-large outputs are reusable evidence; FNO2D-small is not yet an asset. |
+| Phase-III selective scaling | Phase-I/II results only after review | CONDITIONAL FUTURE / NOT STARTED | No selected model, capacity-scaled checkpoint, or expanded n5000/n10000 run is registered. |
+
+All planned Phase-I models must reuse the original-n2000 T1200/T2399 matched training
+identities and the independent canonical Q400 evaluation identities. The first evaluation
+set is endpoint-fixed R1/R2/R3/R4 at T1200/T2399/T3598/T4797. The existing FNO range assets
+for R3 and R4 are `data/tasks/q_1p6007-2p9993_n400_t3598_plan_b_range_v1` and
+`data/tasks/q_1p6007-2p9993_n400_t4797_plan_b_range_v1`; their confirmed status does not
+register any future baseline checkpoint or evaluation as existing. No future baseline may be
+described as generated, trained, or evaluated before its own provenance and output paths are
+registered.
