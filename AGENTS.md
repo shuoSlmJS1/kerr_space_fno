@@ -4,9 +4,11 @@
 
 This repository contains the source code for the Kerr spacetime FNO research project.
 
-The local repository is the code-development workspace used with Codex.
+The local repository is the code-development workspace used with Codex. A Remote SSH
+Codex session works directly in the corresponding server repository. Their distinct
+execution boundaries are defined in `Local and Remote Codex Roles` below.
 
-The Linux research server is used separately for:
+The Linux research server provides:
 
 - full dataset generation
 - formal model training
@@ -17,9 +19,7 @@ The Linux research server is used separately for:
 - model checkpoints
 - experiment logs
 
-Codex must operate only inside this local repository.
 
-Codex must not directly operate the Linux research server.
 
 ## Primary Objective
 
@@ -35,6 +35,26 @@ The priorities are:
 
 Codex must not perform broad refactoring, unrelated optimization, or speculative
 redesign unless explicitly requested.
+
+## Project Authority and Scientific Records
+
+The four long-lived research Markdown files are the project-semantic authority:
+
+1. `FNO_KERR_EXPERIMENT_PLAN.md` is the highest-priority record of locked experiment
+   protocols. Codex must not modify a locked protocol without explicit user approval.
+2. `FNO_KERR_CURRENT_STATE.md` records the current research state, completed evidence,
+   and active next step.
+3. `SERVER_DATA_EXPERIMENT_REGISTRY.md` is the authoritative index of server datasets,
+   checkpoints, outputs, and provenance. Planned assets and existing assets must always
+   be distinguished.
+4. `FNO_KERR_REASONING_LOG.md` records observations, candidate explanations,
+   discriminating experiments, and changes in evidence strength. It must distinguish
+   user decisions, measured experimental facts, and AI-assisted interpretation.
+
+The active research stage is **Cross-model Benchmark Protocol v1**. Plan A, the FNO-only
+Plan B bidirectional core, and the Plan B range through T4797 are complete. The only
+current formal next step is `task-aligned model implementation + capacity matching`.
+Do not start the Phase-I formal training runs without user approval.
 
 ## Repository Scope
 
@@ -55,7 +75,7 @@ The local repository may not contain:
 
 Codex must not assume that server-only data or resources exist locally.
 
-## Local and Server Roles
+## Local and Remote Codex Roles
 
 ### Local Codex Workspace
 
@@ -68,18 +88,27 @@ The local workspace is used for:
 - preparing deployment manifests
 - preparing code for later GitHub publication
 
-### Linux Research Server
+Local Codex must not assume that formal server datasets or checkpoints are available
+locally, must not treat synthetic or tiny smoke results as formal scientific evidence,
+and must not initiate a remote connection or file transfer.
 
-The Linux research server is used for:
+### Remote SSH Codex Workspace
 
-- formal dataset generation
-- full-scale training
-- full-scale inference
-- large experiment queues
-- multi-GPU execution
-- final server-side validation
+An intentionally opened Remote SSH Codex session operates directly in:
 
-The user performs all server operations manually.
+`/home/shanjinshuo/fno_kerr/kerr_project`
+
+Within a user-approved locked protocol, Remote SSH Codex may:
+
+- read formal server data and provenance
+- modify the server repository code
+- run unit and regression tests
+- use GPUs and `tmux`
+- generate formal data, train models, run frozen evaluation, and resume defined workflows
+- read and summarize formal JSON and result assets
+
+Remote SSH Codex must not independently alter the scientific protocol, use server
+credentials outside the established session, or perform remote Git publication.
 
 ## Language Rules
 
@@ -201,31 +230,31 @@ long-lived backup, replacement copy, numbered copy, or parallel version.
 
 ### Test Artifact Exception
 
-Test artifacts must not be deleted immediately after a test.
-
-For test inputs, outputs, temporary datasets, logs, and diagnostic files:
-
-1. Keep them after the test finishes.
-2. Report the actual test results to the user.
-3. Allow the user to inspect or evaluate the results.
-4. Wait for explicit user approval.
-5. After approval, delete temporary test data and outputs that are no longer
-   required.
-6. Preserve only code, fixtures, test cases, or results that the user approves
-   as part of the project.
+Local synthetic, smoke, and temporary test inputs, outputs, datasets, logs, diagnostics,
+checkpoints, and predictions must be deleted automatically after the test unless the user
+explicitly requests their preservation. Permanent test code and fixtures remain tracked
+project assets; formal server artifacts belong only in the server locations below.
 
 ## Operational Boundaries
 
+### Local-mode Remote Boundary
+
+When operating in the local workspace, Codex must never connect to the Linux research
+server or another remote server; use SSH, SCP, SFTP, rsync, a remote shell, or remote
+file transfer; execute remote commands; or upload, overwrite, move, delete, or modify
+server files. Server actions from a local session are performed by the user or by a
+separately opened Remote SSH Codex session.
+
+### Remote SSH Protocol Boundary
+
+When operating in the intentionally opened Remote SSH workspace, Codex may perform the
+server actions listed in `Local and Remote Codex Roles` only within an explicitly
+user-approved locked protocol. It must hard-stop and report a protocol-impacting issue
+rather than choosing a scientific change itself.
+
 Codex must never:
 
-- connect to the Linux research server or another remote server
-- use SSH, SCP, SFTP, rsync, a remote shell, or another remote file-transfer
-  method
-- execute commands on a remote server
-- upload, overwrite, move, delete, or modify files on a remote server
 - store server passwords, server credentials, private keys, or access tokens
-- perform any remote Git operation, including `git pull`, `git push`,
-  `git fetch`, `git clone`, or remote access to GitHub or another Git service
 - add, delete, or modify Git remotes
 - modify files outside this repository
 - modify global system settings or global/system Git configuration
@@ -234,8 +263,9 @@ Codex must never:
   configuration
 - modify unrelated projects
 
-Server upload, server execution, and GitHub pull and push are performed
-manually by the user.
+Codex must not automatically push, force-push, pull, fetch, clone, or otherwise publish
+through Git. Any remote Git action requires separate explicit user approval and is not
+part of ordinary Local or Remote SSH Codex operation.
 
 Codex must not run destructive Git commands such as:
 
@@ -294,6 +324,29 @@ Codex must not interrupt an unfinished task to implement:
 
 If a new idea appears while the current task is unfinished, Codex must not
 implement it immediately.
+
+## Scientific Protocol Gate
+
+Codex may autonomously resolve clear engineering issues that do not change experiment
+semantics, including import, path, shape, logging, checkpoint-loading, and resume bugs.
+
+Codex must stop and report before changing or deciding any of the following:
+
+- dataset identities, splits, Q range, Q ordering, lambda grid, T, or step size
+- Kerr physics, initial conditions, solver semantics, normalization, or target transform
+- model architecture, capacity-matching rule, training budget, evaluation metric, or
+  checkpoint-selection policy
+- resolution set, addition or removal of a formal experiment, or protocol changes made
+  in response to observed results
+
+In particular, Codex must not respond to poor model performance by silently retuning,
+rearchitecting, scaling a model, or adding experiments until it obtains a better result.
+
+The default workflow is: `Protocol lock -> implementation -> unit tests -> tiny smoke ->
+formal server workflow -> result summary -> scientific interpretation -> record update`.
+Formal workflows should be unified and resumable, typically `generation -> qualification
+-> training/evaluation -> summary`; reuse completed assets rather than rerunning them
+without purpose.
 
 ## Follow-up Idea Policy
 
@@ -470,6 +523,18 @@ When uncertain about:
 
 Codex must stop and ask the user rather than guessing.
 
+## Artifact and Record Rules
+
+Formal server datasets belong in `data/tasks/`. Formal checkpoints, metrics, predictions,
+logs, and experiment summaries belong in `outputs/`. Do not overwrite a formal asset;
+hard-stop on provenance mismatch, and never record a planned asset as existing.
+
+Update the four long-lived research records only when a protocol is locked or formally
+changed, a formal dataset/checkpoint/output is generated, a formal stage completes, a
+scientific interpretation changes, or the active next stage changes. Do not mechanically
+update them for ordinary unit tests, tiny smoke tests, internal refactors, or engineering
+bug fixes with no scientific meaning.
+
 ## Local Conda Environment Policy
 
 The dedicated local Codex Conda environment is:
@@ -582,15 +647,9 @@ Before a nontrivial local test, Codex must briefly state:
 - the approximate expected duration
 - which temporary files may be created
 
-After testing:
-
-1. Keep temporary test inputs, outputs, logs, and diagnostic files.
-2. Report the actual results to the user.
-3. Clearly distinguish local validation from formal server validation.
-4. Wait for the user to evaluate and approve the result.
-5. After approval, retain approved project code and approved permanent tests.
-6. Remove temporary test data, logs, outputs, and diagnostics that are no longer
-   needed.
+After local testing, clearly distinguish local validation from formal server validation
+and automatically remove temporary local test artifacts unless the user explicitly asks
+to preserve them. Retain approved project code and permanent tests.
 
 Codex must never claim that the following passed unless they were actually run
 in the corresponding environment:
@@ -649,20 +708,19 @@ Commands that the user may manually run on the server after deployment.
 Dependency, environment, path, or compatibility changes that require manual
 review.
 
-Codex must not:
-
-- connect to the server
-- upload files
-- overwrite server files
-- remove server files
-- execute server commands
-
-All deployment actions are performed manually by the user.
+Local Codex may prepare a deployment manifest but must not connect to or modify the
+server. Remote SSH Codex may directly apply approved repository changes and run approved
+server validation within a locked protocol; it must still not publish through remote Git
+without explicit user approval.
 
 ## Git Policy
 
-The user controls all commits and all remote publication. Remote Git operations
-are prohibited and must be performed manually by the user.
+The user controls all commits and publication. Commit messages should directly describe
+the research or engineering stage and must not use Conventional Commit prefixes such as
+`feat:`, `fix:`, `docs:`, or `refactor:`. Before a commit, inspect `git status`, the
+relevant diff, and `git diff --check`. Do not automatically push or force-push, and do not
+independently rebase or rewrite history; any history rewrite requires explicit user
+approval and an archive reference first.
 
 Codex may directly run the lightweight, read-only Git commands listed in
 `Operational Boundaries`. When Git reports dubious ownership inside the Windows
