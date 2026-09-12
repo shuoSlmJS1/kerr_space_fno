@@ -1027,6 +1027,11 @@ multi-parameter extension; neither starts automatically.
 
 ## Episode 16 — Cross-model resolution Benchmark Protocol v1
 
+Historical terminology note (2026-09-12): this episode preserves the original design
+reasoning. Its FNO2D-large `16.8M` and approximately `15.6x` parameter-gap statements use
+ordinary PyTorch `tensor_numel`, not the primary matching unit now approved in Episode 18.
+The small-model band is now interpreted in `real_scalar_parameter_count` units.
+
 ### Observation
 
 The completed FNO2D Plan B evidence establishes useful bidirectional fixed-domain
@@ -1178,3 +1183,77 @@ question is cross-model: under locked Benchmark Protocol v1, do task-aligned tra
 models and operator models exhibit comparable native accuracy, frozen resolution robustness,
 and computational cost? The next work item remains task-aligned model implementation plus
 capacity matching; no benchmark model training or wider sweep is implied by this record.
+
+## Episode 18 — Approved cross-model capacity-counting clarification (2026-09-12)
+
+### Observation and measured audit facts
+
+The accepted read-only CPU audit found that the same ordinary PyTorch `numel()` reporting
+convention counts different storage representations differently: FNO2D uses native complex
+Parameters, whereas FNO1D stores real/imaginary components as separate real Parameters.
+The audit used existing model classes with only the specified configurations, filtered
+`requires_grad=True`, and verified shared-Parameter deduplication and frozen exclusion.
+It performed no model forward/backward, training, checkpoint read/write, or capacity search.
+
+With input2/output3, FNO2D-large (modes1=16, modes2=32, width=64, depth=4, hidden_dim=128)
+has `16,777,216` native complex elements plus `25,539` real elements: `tensor_numel` is
+`16,802,755`, while counting complex elements twice gives `33,579,971` real scalar
+parameter coordinates. The audited FNO1D modes32/width64/depth4, ResNet width84/11-block,
+and TimesNet dm80/df96/2-block candidates have equal counts under both measures:
+`1,069,763`, `1,096,119`, and `1,077,059`, respectively. Exact supporting configurations
+and counts are recorded in Current State section 15.1.
+
+### Why the original terminology was insufficient
+
+A native complex element contains real and imaginary coordinates; splitting it into two
+real Parameters should not change a model's reported matching scale. Conversely, multiplying
+the existing FNO1D `numel()` by two would count its already-separated components twice.
+TimesNet's FFT creates complex intermediates, not additional trainable Parameters.
+
+The audit also identified a semantic limitation: inverse real FFTs ignore certain imaginary
+coordinates, including DC components. Thus the proposed audit name `real_scalar_dof` could
+be mistaken for exact effective functional degrees of freedom, which the counting formula
+does not establish. This is a distinction between nominal parameter coordinates and
+functional redundancy, not a reason to alter the existing models or their checkpoints.
+
+### User-approved scientific clarification
+
+The user approved `real_scalar_parameter_count` as the primary cross-model matching metric:
+count each registered trainable real element as 1 and each native complex element as 2,
+using only `requires_grad=True` Parameters. Its meaning is the nominal number of registered
+trainable real scalar parameter coordinates, not exact effective functional degrees of
+freedom. Do not subtract FFT/DC-coordinate redundancies or any other architecture-specific
+functional redundancies. Report `tensor_numel` secondarily; storage bytes are diagnostic only.
+
+The Track-A and Track-B small-model target remains approximately 1.1M with the accepted
+0.9M--1.3M band, now explicitly in `real_scalar_parameter_count` units. The three audited
+small candidates remain valid candidates and must not be changed solely because of this
+clarification; this does not formally lock previously provisional configurations.
+
+Historical FNO2D-large retains both `16,802,755 tensor_numel` (approximately 16.80M) and
+`33,579,971 real_scalar_parameter_count` (approximately 33.58M). Historical 16.8M terminology
+is preserved as the old tensor-element count, not used as the primary matching quantity.
+The former approximately-15.6x comparison in Episode 16 is likewise historical tensor-count
+arithmetic, not a real-scalar capacity ratio.
+
+If Phase III is later executed specifically to capacity-match existing FNO2D-large, the
+selected non-FNO target is approximately `33.58M real_scalar_parameter_count`, not 16.8M.
+The user explicitly approved this target clarification; it is not an autonomous AI scaling
+decision. Phase III is considered only after Phase-I results, only the strongest selected
+two or three non-FNO models are candidates, and no large-model training starts without
+explicit execution approval.
+
+### Interpretation and limits
+
+The approved convention removes the native-complex versus split-real storage discrepancy
+from nominal capacity matching. It does not prove equal effective function-space dimension,
+expressivity, optimizer behavior, compute cost, or scientific performance across models.
+Same task/information and reasonable architecture remain higher fairness priorities.
+The counting-unit, DOF-terminology, and conditional Phase-III target ambiguities are resolved
+by the user's decisions, not by new performance evidence. No historical asset is altered.
+
+### Next authorized boundary
+
+This stage updates protocol records only. Task-aligned implementation and subsequent
+capacity matching remain the next execution work; no model-code change, missing-model
+capacity search, training, or inference is authorized by this record update.

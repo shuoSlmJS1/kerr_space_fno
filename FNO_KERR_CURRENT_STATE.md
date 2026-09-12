@@ -1283,16 +1283,62 @@ The Plan B FNO bidirectional and resolution-range stage is complete as the recor
 predecessor to the next benchmark decision. Its completed FNO evidence remains separate
 from Plan A physical-domain extension and from sparse observation-density experiments.
 
-**Cross-model Benchmark Protocol v1 is now locked.** No task-aligned traditional or
+**Cross-model Benchmark Protocol v1 is locked, including the capacity-counting
+clarification approved on 2026-09-12.** The read-only CPU capacity audit is complete.
+No task-aligned traditional or
 operator baseline implementation, capacity-matching search, baseline checkpoint, dataset
 regeneration, training run, frozen inference, or server benchmark execution has started.
 
 The protocol fixes the original n2000 T1200/T2399 matched training data and independent
 Q400 endpoint-fixed evaluation field. Phase I will compare trajectory-wise BiLSTM, Dilated
 ResNet, canonical TimesNet, encoder-only Transformer, FNO1D, and DeepONet at approximately
-1.1M parameters. Track B separately studies FNO1D-small, FNO2D-small, and existing
-16.8M FNO2D-large; it is a formulation/capacity study rather than a general leaderboard.
+`1.1M real_scalar_parameter_count`, with the accepted `0.9M--1.3M` band in that unit.
+Track B applies the same small-model target/band to FNO1D-small and FNO2D-small, and
+retains existing FNO2D-large at `33,579,971 real_scalar_parameter_count` (approximately
+33.58M), historically `16,802,755 tensor_numel` (approximately 16.80M). It is a
+formulation/capacity study rather than a general leaderboard.
 
 The exact next step is **task-aligned model implementation plus capacity matching**, followed
-by local unit and smoke tests. No Phase-I or Phase-II experiment is authorized by this
+by local unit and smoke tests. No Phase-I, Phase-II, or Phase-III experiment is authorized by this
 status update alone.
+
+### 15.1 Accepted capacity audit and approved counting convention
+
+**Measured audit facts, accepted by the user:** the preceding audit instantiated only
+the specified existing classes/configurations in `fno_srv` on CPU and counted trainable
+parameters in memory. It executed no model forward/backward, optimizer, training,
+checkpoint read/write, or saved-code generation. A small in-memory check verified real
+and complex counting, frozen-parameter exclusion, and shared-Parameter deduplication.
+These are architecture-counting facts, not benchmark performance or checkpoint revalidation.
+
+All four counted configurations use input2/output3:
+
+| Audited architecture/configuration | Native complex elements | Real elements | `tensor_numel` | `real_scalar_parameter_count` |
+| --- | ---: | ---: | ---: | ---: |
+| FNO2D-large: modes1=16, modes2=32, width=64, depth=4, hidden_dim=128 | 16,777,216 | 25,539 | 16,802,755 | 33,579,971 |
+| FNO1D candidate: modes=32, width=64, depth=4 | 0 | 1,069,763 | 1,069,763 | 1,069,763 |
+| ResNet candidate: width=84, 11 blocks, kernel=7, dilations 1 through 1024 by powers of two | 0 | 1,096,119 | 1,096,119 | 1,096,119 |
+| TimesNet candidate: d_model=80, d_ff=96, 2 blocks, top_k=2, kernels=(1,3,5), dropout=0 | 0 | 1,077,059 | 1,077,059 | 1,077,059 |
+
+FNO2D stores native complex Parameters. FNO1D registers separate real and imaginary
+float Parameters, so its ordinary `numel()` already counts both components. ResNet and
+TimesNet have purely real-valued Parameters; runtime FFT operations do not add Parameters.
+All three small candidates remain in the approved band and must not be changed merely
+because of the counting clarification. They remain candidates, not newly locked models.
+
+**New user-approved protocol clarification:** `real_scalar_parameter_count` is primary
+for all cross-model capacity matching. For `requires_grad=True` Parameters, real elements
+count as 1 and native complex elements as 2. This is the nominal number of registered
+trainable real scalar parameter coordinates, not exact effective functional degrees of
+freedom. Do not subtract FFT/DC-coordinate or other architecture-specific functional
+redundancies. Report `tensor_numel` secondarily; parameter bytes are diagnostic only.
+The provisional audit label `real_scalar_dof` is replaced by this authoritative name and
+meaning; the measured numerical counts do not change. See Experiment Plan section 7.3.1.
+
+**Historical terminology and Phase III:** retain historical FNO2D-large 16.8M references
+as `tensor_numel`, never as the primary cross-model matching quantity. If Phase III is
+later executed to match that model's capacity, the selected non-FNO target is approximately
+`33.58M real_scalar_parameter_count`. Phase III remains conditional on Phase-I results,
+limited to the strongest selected two or three non-FNO models, and requires explicit
+approval before any large-model training. Historical models/checkpoints remain unchanged;
+this record update starts no implementation, missing-model search, training, or inference.

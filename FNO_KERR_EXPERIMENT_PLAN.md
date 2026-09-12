@@ -444,7 +444,7 @@ Track A is the primary fair comparison layer. Every model receives exactly the s
 
 DeepONet may implement the same information through branch input `Q` and trunk input `lambda`, but must not receive additional trajectory, mask, or physics inputs. The formal Track A model set is Bidirectional LSTM, Dilated ResNet, canonical TimesNet, encoder-only Transformer, FNO1D, and DeepONet.
 
-Phase I uses controlled small models with approximately `1.1M` trainable parameters. The accepted band is `0.9M--1.3M`; exact equality to the last parameter is not required. Fairness priority is: same task/information, reasonable architecture, then comparable parameter scale. Architectures must not be distorted solely to force exact parameter counts.
+Phase I uses controlled small models with target `real_scalar_parameter_count` approximately `1.1M`. The accepted band is `0.9M--1.3M` in that same unit; exact equality to the last parameter is not required. Fairness priority is: same task/information, reasonable architecture, then comparable parameter scale. Architectures must not be distorted solely to force exact parameter counts.
 
 | Model | Protocol-v1 architecture boundary |
 | --- | --- |
@@ -457,15 +457,52 @@ Phase I uses controlled small models with approximately `1.1M` trainable paramet
 
 The ResNet receptive-field statement is a pre-registered hypothesis boundary, not an experimental conclusion. Protocol v1 deliberately sets `RF=12349 > T_max=9593` so failure through the planned envelope cannot be attributed merely to inability to see the complete trajectory.
 
+#### 7.3.1 Approved capacity-counting clarification (2026-09-12)
+
+**User-approved protocol clarification:** all cross-model capacity matching uses
+`real_scalar_parameter_count` as the primary quantity. Count only registered trainable
+parameters (`requires_grad=True`), counting each real-valued element as 1 and each native
+complex-valued element as 2. Count a shared Parameter only once, as in
+`model.parameters()`; exclude frozen parameters and buffers.
+
+```text
+real_scalar_parameter_count = sum(p.numel() * (2 if p.is_complex() else 1)
+                                  for p in model.parameters() if p.requires_grad)
+tensor_numel = sum(p.numel() for p in model.parameters() if p.requires_grad)
+```
+
+The primary metric means the nominal number of registered trainable real scalar
+parameter coordinates, not exact effective functional degrees of freedom. Do not subtract
+FFT/DC-coordinate redundancies or other architecture-specific functional redundancies.
+Always also report `tensor_numel`; parameter storage bytes are an optional diagnostic,
+not a capacity-matching criterion. Purely real-valued parameters, including separately
+registered real/imaginary components, give equal counts; native complex Parameters may
+make the two counts differ.
+
+The `0.9M--1.3M` band and approximately `1.1M` target apply to both Track A and Track B
+small models in units of `real_scalar_parameter_count`. The accepted CPU audit found
+FNO1D modes32/width64/depth4 at `1,069,763`, ResNet width84/11 blocks at `1,096,119`, and
+TimesNet dm80/df96/2 blocks at `1,077,059`, all with input2/output3. These remain valid
+candidates; do not change them merely because of this clarification. Audit acceptance
+does not lock additional architecture choices or establish task-aligned implementation
+completion. This clarification authorizes no new model search or experiment execution.
+
 ### 7.4 Track B — FNO formulation and capacity study
 
 Track B is not a general model leaderboard. It separates trajectory-wise versus joint Q-field formulation, and formulation from capacity:
 
-1. `FNO1D-small` at approximately 1.1M parameters;
-2. `FNO2D-small` at approximately 1.1M parameters; and
-3. existing `FNO2D-large` at 16,802,755 parameters.
+1. `FNO1D-small` at approximately `1.1M real_scalar_parameter_count`;
+2. `FNO2D-small` at approximately `1.1M real_scalar_parameter_count`; and
+3. existing `FNO2D-large` with `real_scalar_parameter_count = 33,579,971` (approximately
+   `33.58M`) and `tensor_numel = 16,802,755` (approximately `16.80M`).
 
 Existing FNO2D-large is `modes1=16`, `modes2=32`, `width=64`, `depth=4`, and `hidden_dim=128`. `FNO1D-small` versus `FNO2D-small` studies per-trajectory learning versus joint `Q x lambda` field learning at similar capacity. `FNO2D-small` versus existing FNO2D-large studies capacity effects. FNO1D bridges Tracks A and B; no transitive ranking of all models follows from this formulation ablation.
+
+The accepted architecture-only CPU audit used input2/output3 and counted `16,777,216`
+native complex elements plus `25,539` real elements. Historical `16.8M` references to
+this model denote ordinary PyTorch `tensor_numel`, not the primary matching quantity.
+The historical architecture and checkpoints remain unchanged. FNO2D-small must satisfy
+the real-scalar band, not a `tensor_numel` band.
 
 ### 7.5 Unified training, matrix, and metrics
 
@@ -495,7 +532,7 @@ Each Track-A model trains exactly two checkpoints (T1200 and T2399), then freeze
 | T1200-trained | native | cross | cross | cross |
 | T2399-trained | reverse | native | cross | cross |
 
-| ID | Model | Parameter scale | Training resolutions | Test resolutions | New training runs |
+| ID | Model | Real scalar parameter count target | Training resolutions | Test resolutions | New training runs |
 | --- | --- | ---: | --- | --- | ---: |
 | A1 | BiLSTM | ~1.1M | 1200 / 2399 | 1200 / 2399 / 3598 / 4797 | 2 |
 | A2 | Dilated ResNet | ~1.1M | 1200 / 2399 | same | 2 |
@@ -504,7 +541,7 @@ Each Track-A model trains exactly two checkpoints (T1200 and T2399), then freeze
 | A5 | FNO1D | ~1.1M | 1200 / 2399 | same | 2 |
 | A6 | DeepONet | ~1.1M | 1200 / 2399 | same | 2 |
 
-Phase I therefore contains 12 new formal training runs. Phase II consists of FNO1D-small versus FNO2D-small (two new FNO2D-small training runs) and FNO2D-small versus existing FNO2D-large (no new large-model training run). Phase III is selective scaling only: after Phase I, scale only the strongest two or three non-FNO models toward approximately 16.8M if necessary, and consider n2000 to n5000 or optionally n10000 only if scientifically necessary. The full model x capacity x dataset matrix is prohibited.
+Phase I therefore contains 12 new formal training runs. Phase II consists of FNO1D-small versus FNO2D-small (two new FNO2D-small training runs) and FNO2D-small versus existing FNO2D-large (no new large-model training run). Phase III is selective scaling only, considered after Phase-I results: only the strongest two or three selected non-FNO models are candidates. If later executed specifically as a capacity-matched comparison against existing FNO2D-large, their target is approximately `33.58M real_scalar_parameter_count`, not `16.8M`. The earlier approximately-16.8M wording used the historical FNO2D `tensor_numel` scale and is not the primary cross-model matching target. No Phase-III or other large-model training begins without explicit execution approval; this clarification grants none. Consider n2000 to n5000 or optionally n10000 only if scientifically necessary. The full model x capacity x dataset matrix is prohibited.
 
 Every completed evaluation reports three distinct dimensions:
 
@@ -512,7 +549,7 @@ Every completed evaluation reports three distinct dimensions:
 | --- | --- | --- |
 | Absolute accuracy | global Relative L2 (primary), global MSE, mean-per-Q Relative L2, median, p95, p99, max, worst Q | Which model predicts most accurately? |
 | Resolution robustness | `R(T)=E(T)/E(native)` and `DeltaE(T)=E(T)-E(native)` | Which model degrades least under a resolution change? |
-| Computational cost | trainable parameters, peak GPU memory, training wall-clock time, frozen inference time | What compute is required for observed accuracy/robustness? |
+| Computational cost | `real_scalar_parameter_count` (primary capacity), `tensor_numel` (secondary), optional parameter storage bytes, peak GPU memory, training wall-clock time, frozen inference time | What compute is required for observed accuracy/robustness? |
 
 Absolute accuracy and resolution robustness must never be conflated.
 
@@ -526,7 +563,7 @@ The following are hypotheses, not measured conclusions:
 - H4: Transformer may face `O(T^2)` memory/time limits before accuracy becomes limiting;
 - H5: FNO1D and DeepONet may show stronger native cross-resolution robustness than non-operator trajectory models;
 - H6: FNO2D may gain accuracy or robustness from joint Q-axis field learning relative to trajectory-wise FNO1D; and
-- H7: part of existing FNO2D-large performance may reflect 16.8M capacity rather than only formulation or operator bias.
+- H7: part of existing FNO2D-large performance may reflect its `33.58M real_scalar_parameter_count` (historically `16.8M tensor_numel`) rather than only formulation or operator bias.
 
 The intended progression is: (1) Benchmark Protocol v1 documentation lock (current step); (2) task-aligned model implementation; (3) capacity matching; (4) local unit and smoke tests; (5) one unified server workflow; (6) Phase-I 12 training runs plus frozen 2x4 evaluation; (7) analysis of accuracy, robustness, and compute; (8) Phase-II FNO formulation/capacity study; (9) decision on Phase-III selective scaling; and (10) advisor review before QA or larger expansion.
 
