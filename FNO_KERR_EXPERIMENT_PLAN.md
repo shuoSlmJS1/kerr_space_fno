@@ -410,7 +410,7 @@ be conflated with sparse observation-density generalization.
 
 ### 7.1 Status and scientific question
 
-**Benchmark Protocol v1 is locked. Implementation has not started.** This post-Plan-B stage compares conventional sequence models and operator-learning models at fixed Kerr Q-only trajectory prediction. It does not alter Plan A, prior Plan B evidence, or the distinction between physical-domain length extrapolation and fixed-domain discretization change.
+**Benchmark Protocol v1 is locked. Track A implementation and CPU contract validation are complete (2026-09-12); formal training is not authorized by this update.** This post-Plan-B stage compares conventional sequence models and operator-learning models at fixed Kerr Q-only trajectory prediction. It does not alter Plan A, prior Plan B evidence, or the distinction between physical-domain length extrapolation and fixed-domain discretization change.
 
 The task is `Q -> xyz(lambda)`. Compare: (1) native prediction accuracy; (2) frozen cross-resolution generalization; (3) resolution-transfer degradation; and (4) computational cost. Training Q remains in `[1.6, 3.0]`; the sampled lambda interval remains `[0, 5.995]`; only `T` and `delta_lambda` change. Kerr physics, initial conditions, and evaluation-Q identities do not change. This is not Plan A physical-domain-length extrapolation.
 
@@ -486,6 +486,36 @@ TimesNet dm80/df96/2 blocks at `1,077,059`, all with input2/output3. These remai
 candidates; do not change them merely because of this clarification. Audit acceptance
 does not lock additional architecture choices or establish task-aligned implementation
 completion. This clarification authorizes no new model search or experiment execution.
+
+#### 7.3.2 Track A implementation instantiation (2026-09-12)
+
+The user authorized task-aligned implementation and capacity matching within the locked
+boundaries. `src/models/benchmark_track_a.py` instantiates the following configurations;
+dimensions were selected for nominal capacity, without performance-based tuning.
+
+| Model | Implemented configuration | real_scalar_parameter_count | tensor_numel |
+| --- | --- | ---: | ---: |
+| BiLSTM | Two bidirectional layers, hidden size 184, dropout 0, linear xyz head | 1,093,331 | 1,093,331 |
+| Dilated ResNet | width84, kernel7, 11 blocks, locked dilation schedule and RF12349 | 1,096,119 | 1,096,119 |
+| canonical TimesNet | dm80, df96, 2 blocks, top-k2, kernels1/3/5, dropout 0 | 1,077,059 | 1,077,059 |
+| Transformer | dm192, 6 heads, 2 independently initialized encoder layers, feedforward 1024, ReLU, post-norm, dropout 0.1 | 1,088,003 | 1,088,003 |
+| FNO1D | modes32, width64, depth4, existing GELU core | 1,069,763 | 1,069,763 |
+| DeepONet | Q branch and lambda trunk: four hidden layers each, width384, tanh, latent128; branch output3x128, trunk output128, xyz biases | 1,085,699 | 1,085,699 |
+
+The existing three candidate counts are unchanged. Transformer retains standard full
+attention and no fixed-T positional embedding; DeepONet receives only the same normalized
+Q/actual-lambda coordinates as the other models. None of these configurations was selected
+from formal accuracy results. The metric retains its nominal-coordinate meaning.
+
+`scripts/run_benchmark_track_a.py` provides inspection, individually approved training,
+and frozen evaluation through common data, normalization, optimizer and metric paths.
+Validation keeps original split row order. Frozen evaluation keeps canonical Q400 order
+and batch 32 (final batch 16), preserving canonical TimesNet's batch-shared top-k behavior.
+Changing batching to accommodate memory pressure is not an automatic implementation option.
+See `BENCHMARK_TRACK_A_WORKFLOW.md` for exact checkpoint/provenance and timing scopes.
+These details instantiate the accepted task; they do not alter section 7.5 training defaults,
+data/split identities, normalization, metrics or evaluation resolutions. Formal GPU resource
+feasibility and compute/accuracy remain unmeasured. Phase I still requires explicit approval.
 
 ### 7.4 Track B — FNO formulation and capacity study
 
@@ -565,6 +595,8 @@ The following are hypotheses, not measured conclusions:
 - H6: FNO2D may gain accuracy or robustness from joint Q-axis field learning relative to trajectory-wise FNO1D; and
 - H7: part of existing FNO2D-large performance may reflect its `33.58M real_scalar_parameter_count` (historically `16.8M tensor_numel`) rather than only formulation or operator bias.
 
-The intended progression is: (1) Benchmark Protocol v1 documentation lock (current step); (2) task-aligned model implementation; (3) capacity matching; (4) local unit and smoke tests; (5) one unified server workflow; (6) Phase-I 12 training runs plus frozen 2x4 evaluation; (7) analysis of accuracy, robustness, and compute; (8) Phase-II FNO formulation/capacity study; (9) decision on Phase-III selective scaling; and (10) advisor review before QA or larger expansion.
+The intended progression is: (1) Benchmark Protocol v1 documentation lock; (2) task-aligned model implementation; (3) capacity matching; (4) local unit and smoke tests; (5) one unified server workflow; (6) Phase-I 12 training runs plus frozen 2x4 evaluation; (7) analysis of accuracy, robustness, and compute; (8) Phase-II FNO formulation/capacity study; (9) decision on Phase-III selective scaling; and (10) advisor review before QA or larger expansion. Steps 1--5 now have implemented infrastructure and CPU validation; GPU feasibility remains to be checked before formal execution. Step 6 has not started and requires explicit approval.
 
-No model implementation, training, data generation, or baseline result is created by this documentation lock.
+The original documentation lock created no model implementation, training, data generation,
+or baseline result. The subsequently authorized implementation is recorded in section7.3.2;
+formal baseline training and results remain outstanding.

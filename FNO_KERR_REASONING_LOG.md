@@ -1257,3 +1257,53 @@ by the user's decisions, not by new performance evidence. No historical asset is
 This stage updates protocol records only. Task-aligned implementation and subsequent
 capacity matching remain the next execution work; no model-code change, missing-model
 capacity search, training, or inference is authorized by this record update.
+
+## Episode 19 — Track A task alignment and unified workflow implementation (2026-09-12)
+
+### Authorized implementation and observed facts
+
+The user subsequently authorized Track A implementation, nominal capacity matching and
+unit/synthetic smoke tests, explicitly excluding formal Phase I training. All six
+builders now use the locked direct Q/actual-lambda task and satisfy the real-scalar band.
+Measured counts and full configurations are recorded in Experiment Plan 7.3.2 and Current
+State 15.2. Existing FNO1D/ResNet/TimesNet candidate counts were reproduced exactly.
+No configuration was selected using formal accuracy, training outcomes or extra data.
+
+The implementation passed 16 focused CPU tests and 42 existing regression tests. Each
+model completed one small synthetic epoch/checkpoint roundtrip; the Transformer resume
+test reproduced continuous two-epoch synthetic training exactly. A separate test confirmed
+that best weights survive a worse final epoch. Frozen evaluation tests restored checkpoint
+statistics without refitting and retained Q identities and native-resolution routing.
+Real registered asset reads confirmed matched historical training split hashes and all
+four canonical Q400 grids. No new formal artifact or experiment result was produced.
+
+### Engineering choices within the accepted protocol
+
+- Reuse the actual ResNet class with the explicit 11-block schedule, avoiding the older
+  sparse factory's nine-block limit. The core and RF formula remain unchanged.
+- Reuse canonical TimesNet with input 2/output 3, including batch-shared runtime top-k.
+  Fixed canonical Q order and evaluation batch 32 are explicit because batch composition
+  affects its frequency discovery; no lambda-isolated substitution or period redesign.
+- Reuse existing field-normalization routines through a singleton dimension, preserving
+  channel statistics, epsilon and float32 model input behavior. Keep float64 source Q,
+  lambda and raw truth separate from normalized training tensors.
+- Use a conventional two-layer bidirectional LSTM, standard encoder-only Transformer,
+  and Q-branch/lambda-trunk DeepONet; dimensions instantiate nominal capacity constraints.
+  No masks, trajectory observations, autoregression or extra features are introduced.
+- Existing generic checkpoint helpers overwrite fixed paths. A dedicated benchmark
+  schema uses exclusive writes, immutable recovery checkpoints, source/data hashes and
+  stored normalization/RNG/optimizer/scheduler state. Recovery cadence 25 does not change
+  every-epoch validation selection; the best model is exported only after completion.
+- Reuse the Plan B raw-xyz metric implementation, with generic ratios/differences measured
+  against the frozen checkpoint's own native resolution. CUDA timing synchronization and
+  peak allocated-memory reporting are prepared; no formal cost numbers are measured.
+
+### Interpretation and remaining gate
+
+CPU tests establish implementation contracts and small synthetic workflow consistency,
+not model quality, cross-resolution generalization or full-batch GPU feasibility.
+Transformer retains standard quadratic attention, so resource feasibility at formal T
+remains an empirical preflight question. A failure requires reporting, not an unapproved
+attention, batch-size or budget change. No Protocol-impacting issue was discovered in the
+completed checks. The next step is review of this implementation for explicit Phase I
+execution approval, with required GPU/resource checks before any authorized launch.

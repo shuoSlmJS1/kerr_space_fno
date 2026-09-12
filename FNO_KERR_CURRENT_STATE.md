@@ -1273,9 +1273,10 @@ and endpoint-fixed `[0, 5.995]`: the bidirectional T1200/T2399 core and the R1--
 T1200/T2399/T3598/T4797 range matrix retain native-scale raw-xyz accuracy without a
 threshold-like collapse through the tested 4x refinement. This supports practical tested-range
 resolution generalization, not exact, universal, or arbitrary-resolution invariance and not
-QA/multi-parameter generalization. The next project execution step is task-aligned cross-model
-implementation plus capacity matching; broader 6x/8x expansion and QA remain conditional later
-decisions.
+QA/multi-parameter generalization. Task-aligned cross-model implementation plus capacity
+matching is now complete with CPU validation, as recorded in section 15.2. The next step is
+implementation review for explicit Phase I execution approval; formal execution remains
+gated. Broader 6x/8x expansion and QA remain conditional later decisions.
 
 ## 15. Cross-model Benchmark Protocol v1 current status
 
@@ -1284,10 +1285,10 @@ predecessor to the next benchmark decision. Its completed FNO evidence remains s
 from Plan A physical-domain extension and from sparse observation-density experiments.
 
 **Cross-model Benchmark Protocol v1 is locked, including the capacity-counting
-clarification approved on 2026-09-12.** The read-only CPU capacity audit is complete.
-No task-aligned traditional or
-operator baseline implementation, capacity-matching search, baseline checkpoint, dataset
-regeneration, training run, frozen inference, or server benchmark execution has started.
+clarification approved on 2026-09-12.** The read-only CPU capacity audit and the subsequent
+user-authorized Track A implementation/capacity matching are complete. The unified workflow
+has passed CPU unit/synthetic smoke validation. No formal baseline checkpoint, dataset
+regeneration, Phase I training, formal frozen inference, or compute benchmark has been produced.
 
 The protocol fixes the original n2000 T1200/T2399 matched training data and independent
 Q400 endpoint-fixed evaluation field. Phase I will compare trajectory-wise BiLSTM, Dilated
@@ -1298,9 +1299,10 @@ retains existing FNO2D-large at `33,579,971 real_scalar_parameter_count` (approx
 33.58M), historically `16,802,755 tensor_numel` (approximately 16.80M). It is a
 formulation/capacity study rather than a general leaderboard.
 
-The exact next step is **task-aligned model implementation plus capacity matching**, followed
-by local unit and smoke tests. No Phase-I, Phase-II, or Phase-III experiment is authorized by this
-status update alone.
+The exact next step is **review the completed Track A implementation for Phase I execution
+approval**. Before any subsequently approved GPU run, check shared-server availability and
+full-resolution resource feasibility without changing locked settings. No Phase-I, Phase-II,
+or Phase-III experiment is authorized by this status update alone.
 
 ### 15.1 Accepted capacity audit and approved counting convention
 
@@ -1342,3 +1344,50 @@ later executed to match that model's capacity, the selected non-FNO target is ap
 limited to the strongest selected two or three non-FNO models, and requires explicit
 approval before any large-model training. Historical models/checkpoints remain unchanged;
 this record update starts no implementation, missing-model search, training, or inference.
+
+### 15.2 Completed Track A implementation and CPU validation (2026-09-12)
+
+This is the later user-authorized implementation task, distinct from the preceding
+read-only audit and capacity-definition record update. Six direct `[B,T,2] -> [B,T,3]`
+builders, a unified trajectory loader/normalizer, common training loop, immutable
+checkpoint/resume path and frozen four-resolution evaluator are implemented. The existing
+ResNet, canonical TimesNet and FNO1D cores remain unchanged. Exact configuration/count
+instantiations are in Experiment Plan section 7.3.2; operational usage is in
+`BENCHMARK_TRACK_A_WORKFLOW.md`.
+
+Measured final builder counts (`real_scalar_parameter_count == tensor_numel` for these
+six implementations) are BiLSTM 1,093,331; ResNet 1,096,119; TimesNet 1,077,059;
+Transformer 1,088,003; FNO1D 1,069,763; DeepONet 1,085,699. All satisfy the approved band.
+The new three models use hidden184/two-layer BiLSTM, dm192/two-layer/six-head/ff1024
+Transformer, and four-hidden-layer width384 branch/trunk DeepONet with latent128.
+
+Actual validation completed in `fno_srv`, single-thread CPU:
+
+- 16 focused tests passed: six builders, small-input forward/backward, one synthetic
+  epoch and checkpoint roundtrip for every model, exact complex/frozen/shared counting,
+  ResNet RF, TimesNet canonical behavior, Transformer coordinate/attention contract,
+  DeepONet information/query contract, loader order, train-only normalization, restored
+  statistics, best-weight retention, deterministic interrupted/continuous training,
+  frozen evaluator routing and refusal gates.
+- 42 existing ResNet/TimesNet/FNO sparse and Plan B evaluator regression tests passed.
+- FNO1D single-trajectory forwards accepted T1200/T2399/T3598/T4797. These shape tests
+  do not establish full-batch GPU feasibility, Q400 accuracy or formal compute cost.
+- Read-only loading of both registered training assets verified the historical Q split
+  hashes and 1400/300/300 counts. All four registered evaluation assets passed the new
+  grid/pairing checks and yielded 400 canonical trajectories, ending at lambda 5.995.
+- The inspection entry point reported all six exact counts and the planned 12-run /
+  48-evaluation-cell matrix without executing it. All temporary smoke artifacts were
+  automatically cleaned; no new formal asset is registered.
+
+Training remains fixed at 500 epochs/batch 32/seed 27 with the locked AdamW/ExponentialLR
+settings. Every epoch participates in validation-MSE selection; immutable recovery
+checkpoints are saved every 25 epochs and at completion, retaining best-so-far weights.
+Frozen evaluation restores fitted statistics and uses raw-xyz Plan B metrics with
+robustness relative to each checkpoint's native T. Timing, peak GPU allocated memory,
+capacity, source/data hashes and host/local CUDA mapping recording are implemented.
+
+No Protocol-impacting issue was found in completed implementation/CPU checks. Formal
+Transformer and other-model GPU feasibility at the locked batch size remains unmeasured;
+resource failure must stop rather than trigger silent batch/attention/budget changes.
+No formal Phase I/II/III run, new dataset, model ranking or scientific accuracy result
+is claimed. Registry is unchanged because no durable formal asset was produced.
