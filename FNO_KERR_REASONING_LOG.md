@@ -1353,3 +1353,49 @@ numerical/workflow correctness, not accuracy or a formal benchmark result. No fo
 run, dataset regeneration or registry update occurred. The correction resolves the
 identified blocker; the next formal task remains only FNO1D Wave 1 after required
 execution preflight, with no architecture, optimizer, budget or evaluation change.
+
+## Episode 21 — First formal Track A wave: FNO1D (2026-09-12)
+
+### Authorization and measured facts
+
+After accepting the benchmark precision correction, the user explicitly resumed only
+FNO1D T1200/T2399 and their four-resolution frozen evaluations. Both runs completed all
+500 epochs at source HEAD `3335b3b197cf8b7d7a302d900a51af37a25d2144` with a clean
+preflight, float64 train-only statistics and the unchanged float32 training path. They
+ran concurrently on independent host GPU1/GPU2, without DDP or parameter/budget changes.
+No interruption, resume or compute conflict occurred. Best epochs were 499 and 459;
+validation normalized MSE was 1.0671552748438747e-7 and 9.817391306417752e-8, respectively.
+
+| Train / evaluate | T1200 | T2399 | T3598 | T4797 |
+| --- | ---: | ---: | ---: | ---: |
+| 1200 | 0.000304676590517 | 0.00260773956864 | 0.00346591077718 | 0.00389546647459 |
+| 2399 | 0.00262195772641 | 0.000295562198528 | 0.000891773304135 | 0.00130651011794 |
+
+The table is measured global raw-xyz Relative L2 on the same canonical Q400. Native
+normalization was restored, never refitted on evaluation data. Each training process
+was followed immediately by its own frozen best-checkpoint evaluation. All eight
+prediction arrays reproduced the stored raw metrics exactly in a read-only CPU check.
+Artifact paths, hashes and full distributions are in Registry 9.1 and Current State 15.5.
+
+### Interpretation, separated from measurements
+
+Native errors are similar in magnitude (about 3e-4). Cross-resolution transfer increases
+error relative to each model's small native baseline: T1200-to-T2399 is about 8.56x,
+while T2399-to-T1200 is about 8.87x. T1200-to-T4797 is about 12.79x, and
+T2399-to-T4797 about 4.42x. Relative degradation and absolute error remain distinct:
+these ratios alone do not establish poor absolute accuracy or cross-model superiority.
+At higher evaluation resolutions the T2399-trained model has lower absolute error in
+this seed27 pair. No causal mechanism or seed robustness is established by this wave.
+
+Worst-Q locations were Q=2.9993 except the T1200-trained model at T3598/T4797, where
+Q=2.9256894736842103 was worst. These distribution facts do not authorize extra data,
+retuning, longer training or a different model. No six-model conclusion is available:
+only FNO1D has formal results. Historical Plan B results were not altered.
+
+### Next recommendation and execution boundary
+
+The next suggested wave is the already locked Dilated ResNet at T1200/T2399, each
+followed by all four frozen Q400 evaluations, to add a conventional convolutional
+comparison under the same task and budget. This is a recommendation requiring explicit
+user authorization, not a ranking, new architecture choice or permission to launch.
+No other model or Phase II/III experiment was executed in this task.

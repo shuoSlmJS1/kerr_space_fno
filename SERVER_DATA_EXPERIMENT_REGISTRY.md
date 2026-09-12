@@ -517,12 +517,12 @@ PASS — registry draft ready for user review
 
 ## 9. Planned cross-model Benchmark Protocol v1
 
-This is a planned-work index, not an asset registration. Benchmark Protocol v1 creates no
-new dataset, checkpoint, output, or result in this update.
+The initial planned-work index below is retained with current status. Completed formal
+Wave-1 assets are registered separately in section 9.1; no new dataset was generated.
 
 | Planned work | Reused recorded basis | Status | Asset boundary |
 | --- | --- | --- | --- |
-| Phase-I Track-A task-aligned models: BiLSTM, Dilated ResNet, canonical TimesNet, Transformer encoder, FNO1D, DeepONet | `data/tasks/q_1p6-3_n2000_t1200`; matched `data/tasks/q_1p6-3_n2000_t2399_plan_b_matched_v1`; independent Q400 endpoint-fixed evaluation family | PLANNED / NOT IMPLEMENTED; NOT TRAINED | No baseline checkpoint or model-specific output exists yet. |
+| Phase-I Track-A task-aligned models: BiLSTM, Dilated ResNet, canonical TimesNet, Transformer encoder, FNO1D, DeepONet | `data/tasks/q_1p6-3_n2000_t1200`; matched `data/tasks/q_1p6-3_n2000_t2399_plan_b_matched_v1`; independent Q400 endpoint-fixed evaluation family | IMPLEMENTED; FNO1D WAVE 1 COMPLETED; other five models NOT TRAINED | Only the FNO1D assets in section 9.1 exist as formal Track A outputs. |
 | Phase-II FNO formulation/capacity study | Phase-I FNO1D-small; existing FNO2D-large Plan B assets; future FNO2D-small matched data | PLANNED / NOT TRAINED | Existing FNO2D-large outputs are reusable evidence; FNO2D-small is not yet an asset. |
 | Phase-III selective scaling | Phase-I/II results only after review | CONDITIONAL FUTURE / NOT STARTED | No selected model, capacity-scaled checkpoint, or expanded n5000/n10000 run is registered. |
 
@@ -534,3 +534,50 @@ for R3 and R4 are `data/tasks/q_1p6007-2p9993_n400_t3598_plan_b_range_v1` and
 register any future baseline checkpoint or evaluation as existing. No future baseline may be
 described as generated, trained, or evaluated before its own provenance and output paths are
 registered.
+
+### 9.1 Completed Phase I Wave 1 — FNO1D (2026-09-12)
+
+These are existing formal assets, not planned or smoke outputs. Source HEAD:
+`3335b3b197cf8b7d7a302d900a51af37a25d2144`; branch
+`codex/clean-research-history-20260905`; clean Git preflight. Exact source/data/meta hashes,
+environment, capacity and GPU mapping are embedded in the run/evaluation metadata.
+
+| Existing path | Status | Contents / identity |
+| --- | --- | --- |
+| `outputs/benchmark_track_a_v1/phase_i_wave1_fno1d_20260912/train_t1200` | COMPLETED — 500 epochs | FNO1D modes32/width64/depth4/GELU; n2000/T1200 original split; best epoch499; host GPU1/local cuda:0 |
+| `outputs/benchmark_track_a_v1/phase_i_wave1_fno1d_20260912/train_t2399` | COMPLETED — 500 epochs | Same locked FNO1D; matched n2000/T2399 split; best epoch459; host GPU2/local cuda:0 |
+| `outputs/benchmark_track_a_v1/phase_i_wave1_fno1d_20260912/eval_t1200` | COMPLETED — 4 frozen cells | T1200 best checkpoint evaluated on canonical Q400 T1200/T2399/T3598/T4797 |
+| `outputs/benchmark_track_a_v1/phase_i_wave1_fno1d_20260912/eval_t2399` | COMPLETED — 4 frozen cells | T2399 best checkpoint evaluated on the same four canonical Q400 datasets |
+| `outputs/benchmark_track_a_v1/phase_i_wave1_fno1d_20260912/wave_summary.json` | COMPLETED — verified aggregate | Both training summaries, eight metric cells, native robustness, normalization, paths and verification status |
+| `outputs/benchmark_track_a_v1/phase_i_wave1_fno1d_20260912/wave_execution.json` | EXISTING — execution manifest | Authorized scope, clean source HEAD, independent single-GPU mapping; train/evaluation logs are alongside it |
+
+Each training directory preserves `run.json`, `summary.json`, `best_model.pt` and twenty
+immutable `epoch_0025.pt` through `epoch_0500.pt` recovery checkpoints. Normalization
+statistics remain binary64 in checkpoint state; actual training is float32. History and
+optimizer/scheduler/RNG state are retained in recovery checkpoints. Each evaluation
+directory preserves `matrix.json`, `metrics_t<T>.json` and `prediction_t<T>.npz` for all
+four T values. No historical dataset/checkpoint/output was overwritten or regenerated.
+
+Best checkpoint SHA256:
+
+- T1200: `11ccbebf1d0fd68c57d0895685adeb7d1386da723242ee8271b18286ebbb7ff1`.
+- T2399: `1b226b5f62d2f931401a8aefe3794d0b95234acbed0c4b20a6b9c483852eb1f1`.
+
+| Train T | Host GPU / local CUDA | Epochs | Best epoch | Best validation normalized MSE | Training seconds | Peak allocated bytes |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| 1200 | 1 / cuda:0 | 500 | 499 | 1.067155274843875e-07 | 518.085670201 | 194066944 |
+| 2399 | 2 / cuda:0 | 500 | 459 | 9.817391306417752e-08 | 594.374222904 | 357028352 |
+
+Measured global raw-xyz Relative L2:
+
+| Train / evaluate | T1200 | T2399 | T3598 | T4797 |
+| --- | ---: | ---: | ---: | ---: |
+| 1200 | 0.000304676590517 | 0.00260773956864 | 0.00346591077718 | 0.00389546647459 |
+| 2399 | 0.00262195772641 | 0.000295562198528 | 0.000891773304135 | 0.00130651011794 |
+
+Full raw MSE, per-Q mean/median/p95/p99/max/worst-Q, native ratios/deltas, inference
+wall times and peak allocated memory are in the per-cell metrics/matrices and wave
+summary. All eight prediction metrics were recomputed exactly on CPU after completion;
+Q/lambda ordering, normalization and selected checkpoint hashes were verified. No
+interruption/resume or Protocol-impacting issue occurred. This registers only FNO1D:
+the other five Phase-I models remain untrained, and Phase II/III remain unexecuted.

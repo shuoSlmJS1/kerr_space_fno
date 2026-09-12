@@ -1465,3 +1465,82 @@ this correction. Exact next step: review the correction, satisfy the clean-Git/p
 asset preconditions and recheck live GPU occupancy before executing only the previously
 selected FNO1D T1200/T2399 Wave 1 with unchanged locked settings and frozen Q400 evaluation.
 The current correction task explicitly excludes all formal launches; none occurred.
+
+### 15.5 Phase I Wave 1 completed: FNO1D only (2026-09-12)
+
+**Measured formal execution:** both explicitly authorized FNO1D runs completed 500 epochs
+and each selected frozen best checkpoint completed all four canonical Q400 evaluations.
+Execution source HEAD was `3335b3b197cf8b7d7a302d900a51af37a25d2144` on
+`codex/clean-research-history-20260905`, with a clean working tree before launch.
+Dataset/meta hashes, matched training split identities and canonical evaluation ordering
+passed fresh preflight. Float64 statistics from section 15.4 were preserved exactly;
+model/training computation remained float32. Both parameter counts are 1,069,763.
+All locked model, optimizer, seed27, batch32, epoch budget and metric settings were unchanged.
+
+Runs overlapped as independent single-GPU jobs in `fno_srv`: T1200 used host GPU1 with
+`CUDA_VISIBLE_DEVICES=1`, T2399 host GPU2 with `CUDA_VISIBLE_DEVICES=2`; each used local
+`cuda:0`. Preflight found no compute occupancy. A restricted-context query failed, but
+an approved server-context query and each workflow preflight succeeded. No GPU eviction,
+DDP, DataParallel, interruption, resume or protocol adaptation occurred. Each evaluation
+started immediately after its training process exited successfully. Both GPUs were
+released after completion.
+
+| Train T | Host GPU / local CUDA | Epochs | Best epoch | Best validation normalized MSE | Training seconds | Peak allocated bytes |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| 1200 | 1 / cuda:0 | 500 | 499 | 1.067155274843875e-07 | 518.085670201 | 194066944 |
+| 2399 | 2 / cuda:0 | 500 | 459 | 9.817391306417752e-08 | 594.374222904 | 357028352 |
+
+Training seconds cover the train/validation loop and intermediate checkpoint I/O;
+peak memory is PyTorch allocated memory, not total driver-reserved memory. Concurrent
+single-GPU scheduling and first-call overhead should be considered when comparing timings.
+
+Measured global raw-xyz Relative L2 matrix:
+
+| Train / evaluate | T1200 | T2399 | T3598 | T4797 |
+| --- | ---: | ---: | ---: | ---: |
+| 1200 | 0.000304676590517 | 0.00260773956864 | 0.00346591077718 | 0.00389546647459 |
+| 2399 | 0.00262195772641 | 0.000295562198528 | 0.000891773304135 | 0.00130651011794 |
+
+Ratios to each checkpoint's own native resolution (not percentage changes):
+
+| Train / evaluate | T1200 | T2399 | T3598 | T4797 |
+| --- | ---: | ---: | ---: | ---: |
+| 1200 | 1 | 8.55904146 | 11.3757042 | 12.7855785 |
+| 2399 | 8.87108615 | 1 | 3.01721028 | 4.4204236 |
+
+Locked secondary raw-xyz metrics:
+
+| Train T | Eval T | Raw MSE | Mean per-Q Relative L2 | Median | p95 | p99 | Max | Worst Q |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 1200 | 1200 | 2.25746617e-06 | 0.0002843872729 | 0.000244090353 | 0.0004848330842 | 0.000847524564 | 0.001169221036 | 2.9993 |
+| 1200 | 2399 | 0.0001653550699 | 0.002603446782 | 0.002603789433 | 0.002728263168 | 0.002765232744 | 0.002795991132 | 2.9993 |
+| 1200 | 3598 | 0.0002920827073 | 0.003459969361 | 0.00346973536 | 0.00359406896 | 0.003629333735 | 0.003632023406 | 2.925689474 |
+| 1200 | 4797 | 0.0003689614862 | 0.003888705123 | 0.003902780797 | 0.004028054796 | 0.004063759803 | 0.004066081582 | 2.925689474 |
+| 2399 | 1200 | 0.0001671838982 | 0.002618651896 | 0.002623173739 | 0.002672501269 | 0.002787929339 | 0.003085410926 | 2.9993 |
+| 2399 | 2399 | 2.124158199e-06 | 0.0002649471085 | 0.0002116112218 | 0.0004687934782 | 0.0009134353424 | 0.001332340146 | 2.9993 |
+| 2399 | 3598 | 1.933659597e-05 | 0.0008866829688 | 0.0008713084325 | 0.001027986912 | 0.001153449113 | 0.0015122493 | 2.9993 |
+| 2399 | 4797 | 4.150377954e-05 | 0.001301834678 | 0.001295153692 | 0.001434481542 | 0.001479887171 | 0.001766987425 | 2.9993 |
+
+Formal root: `outputs/benchmark_track_a_v1/phase_i_wave1_fno1d_20260912`.
+Each `train_t1200/` and `train_t2399/` contains `run.json`, 20 immutable epoch checkpoints
+through `epoch_0500.pt`, `best_model.pt` and `summary.json`. Checkpoints retain normalization,
+optimizer/scheduler/RNG, history and best-so-far state. Each `eval_t*/` contains four
+prediction archives, four metrics files and `matrix.json` with normalization and native
+robustness. Root execution manifest, train/evaluation logs and `wave_summary.json` are
+preserved. Registry section 9.1 indexes these completed assets.
+
+Post-run read-only CPU verification confirmed selection over all 500 history entries,
+best-weight/checkpoint hashes, source/data provenance, exact stored normalization,
+all eight saved Q/lambda arrays and recomputed raw metrics. Recomputed metrics matched
+saved values exactly. No smoke assets were retained. No Protocol-impacting issue or
+training/evaluation failure occurred; no source-code change was needed during execution.
+
+**Interpretation boundary:** native errors are about 3e-4; cross-resolution errors are
+larger relative to those small native baselines. T2399 training yields lower absolute
+errors at T3598/T4797 than T1200 training in this fixed seed27 pair. These are FNO1D-only
+observations, not six-model rankings or general superiority claims. Phase I has completed
+2 of 12 training runs and 8 of 48 evaluation cells. No other model has been formally run.
+
+**Exact next recommendation (not execution approval):** Phase I Wave 2, the locked
+Dilated ResNet at T1200 and T2399, each followed by all four frozen Q400 evaluations,
+subject to explicit user authorization and fresh preflight. Do not launch it automatically.
