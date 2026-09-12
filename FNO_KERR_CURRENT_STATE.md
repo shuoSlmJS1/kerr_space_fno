@@ -1299,10 +1299,11 @@ retains existing FNO2D-large at `33,579,971 real_scalar_parameter_count` (approx
 33.58M), historically `16,802,755 tensor_numel` (approximately 16.80M). It is a
 formulation/capacity study rather than a general leaderboard.
 
-The exact next step is **review the completed Track A implementation for Phase I execution
-approval**. Before any subsequently approved GPU run, check shared-server availability and
-full-resolution resource feasibility without changing locked settings. No Phase-I, Phase-II,
-or Phase-III experiment is authorized by this status update alone.
+The exact next step is **obtain explicit execution approval for a specific Phase I run**.
+The accepted GPU feasibility gate and corrected GPU preflight have cleared the identified
+technical blockers (section 15.3). Recheck current shared-server GPU availability before
+every subsequently approved workload. No Phase-I, Phase-II, or Phase-III experiment is
+authorized by this status update alone.
 
 ### 15.1 Accepted capacity audit and approved counting convention
 
@@ -1386,8 +1387,32 @@ Frozen evaluation restores fitted statistics and uses raw-xyz Plan B metrics wit
 robustness relative to each checkpoint's native T. Timing, peak GPU allocated memory,
 capacity, source/data hashes and host/local CUDA mapping recording are implemented.
 
-No Protocol-impacting issue was found in completed implementation/CPU checks. Formal
-Transformer and other-model GPU feasibility at the locked batch size remains unmeasured;
-resource failure must stop rather than trigger silent batch/attention/budget changes.
+No Protocol-impacting issue was found in completed implementation/CPU checks. At that
+implementation stage, Transformer and other-model GPU feasibility at the locked batch
+size remained unmeasured; the subsequent accepted gate is recorded in section 15.3.
+Resource failure must stop rather than trigger silent batch/attention/budget changes.
 No formal Phase I/II/III run, new dataset, model ranking or scientific accuracy result
 is claimed. Registry is unchanged because no durable formal asset was produced.
+
+### 15.3 Pre-Phase-I technical blocker cleared (2026-09-12)
+
+**User-accepted preceding GPU feasibility evidence:** all six locked models passed one
+batch32 float32 training step at T1200 and T2399, and batch32 forward-only checks at T3598
+and T4797 on the RTX 4090 server. No OOM or Protocol-impacting issue occurred. These are
+feasibility checks, not formal training, accuracy results or compute benchmarks.
+
+The remaining ordinary engineering blocker was the unified GPU preflight treating any
+nonzero memory usage as ambiguous occupancy. It now queries only the selected host GPU:
+reliably empty compute-process metadata permits AVAILABLE despite graphics/system
+residency; any compute process, including this user's other jobs, causes OCCUPIED.
+Unreliable queries, malformed metadata or unresolved CUDA visibility cause UNKNOWN and
+stop execution. No PID, username or graphics-memory baseline is hard-coded. Restricted
+query failures require rechecking through the established approved server execution
+context and are not interpreted as proof of hardware/driver failure.
+
+Twelve focused mocked preflight tests passed. A subsequent read-only real-server check
+returned AVAILABLE on an idle GPU with nonzero graphics/system residency and no compute
+processes, without creating a model, training tensor or training step. The identified
+Phase-I technical blocker is cleared. Long-run stability is not established by these
+checks, and availability remains dynamic. Formal Phase I execution still requires
+explicit task-specific approval. No new formal asset was produced or registered.

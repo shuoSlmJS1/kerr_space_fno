@@ -1,6 +1,9 @@
 """Unified Track A training, immutable checkpoints, and frozen resolution evaluation."""
 
+import csv
+import io
 import json
+import math
 import os
 import random
 import subprocess
@@ -33,40 +36,64 @@ def synchronize(device):
         torch.cuda.synchronize(device)
 
 
+class GPUPreflightError(RuntimeError):
+    def __init__(self, status, message):
+        self.status = status
+        super().__init__(f"GPU preflight {status}: {message}")
+
+
 def inspect_device(device, host_gpu=None):
     """只查询必要资源元数据；绝不驱逐任务或自动更换 GPU。"""
     if str(device) == "cpu":
         return {"device": "cpu", "host_gpu": None, "CUDA_VISIBLE_DEVICES": os.environ.get("CUDA_VISIBLE_DEVICES")}
     mapping = os.environ.get("CUDA_VISIBLE_DEVICES")
-    if str(device) != "cuda:0" or host_gpu not in range(4) or mapping != str(host_gpu):
+    if str(device) != "cuda:0" or type(host_gpu) is not int or host_gpu not in range(4) or mapping != str(host_gpu):
         raise ValueError("Use one explicit host GPU and matching CUDA_VISIBLE_DEVICES; local device must be cuda:0.")
     try:
-        inventory = subprocess.check_output([
-            "nvidia-smi", "--query-gpu=index,uuid,name,memory.used,utilization.gpu", "--format=csv,noheader,nounits"
-        ], text=True)
-        rows = [row.split(", ") for row in inventory.strip().splitlines()]
-        selected = next(row for row in rows if int(row[0]) == host_gpu)
-        occupancy = subprocess.check_output([
-            "nvidia-smi", "--query-compute-apps=gpu_uuid,pid", "--format=csv,noheader,nounits"
-        ], text=True)
-        own_count = 0
-        for row in occupancy.strip().splitlines():
-            uuid, pid = [value.strip() for value in row.split(",")]
-            if uuid == selected[1]:
-                if Path(f"/proc/{int(pid)}").stat().st_uid != os.getuid():
-                    raise RuntimeError("Selected GPU carries another user's compute workload; stop.")
-                own_count += 1
-        memory, utilization = float(selected[3]), float(selected[4])
-        if own_count == 0 and (memory > 0 or utilization > 0):
-            raise RuntimeError("GPU activity ownership is ambiguous; stop for review.")
-    except (OSError, ValueError, StopIteration, subprocess.SubprocessError) as error:
-        raise RuntimeError("GPU visibility/ownership could not be established. Query failure does not prove a broken GPU/driver.") from error
-    if not torch.cuda.is_available() or torch.cuda.device_count() != 1:
-        raise RuntimeError("Expected exactly one visible CUDA device; stop.")
+        def query(fields):
+            output = subprocess.check_output([
+                "nvidia-smi", f"--id={host_gpu}", fields, "--format=csv,noheader,nounits"
+            ], text=True, stderr=subprocess.PIPE, timeout=10)
+            return [[value.strip() for value in row] for row in
+                    csv.reader(io.StringIO(output), strict=True, skipinitialspace=True) if row]
+
+        rows = query("--query-gpu=index,uuid,name,memory.used,memory.free,utilization.gpu")
+        if len(rows) != 1 or len(rows[0]) != 6:
+            raise ValueError("Expected one complete selected-GPU inventory row.")
+        selected = rows[0]
+        if int(selected[0]) != host_gpu or not selected[1].startswith("GPU-") or not selected[2]:
+            raise ValueError("Selected host GPU identity could not be established.")
+        memory, free_memory, utilization = map(float, selected[3:])
+        if (not all(math.isfinite(value) for value in (memory, free_memory, utilization))
+                or min(memory, free_memory) < 0 or not 0 <= utilization <= 100):
+            raise ValueError("Invalid selected-GPU diagnostic metadata.")
+        occupancy = query("--query-compute-apps=gpu_uuid,pid")
+        for row in occupancy:
+            if len(row) != 2 or row[0] != selected[1] or int(row[1]) <= 0:
+                raise ValueError("Compute-process metadata is ambiguous.")
+    except (OSError, ValueError, csv.Error, subprocess.SubprocessError) as error:
+        raise GPUPreflightError("UNKNOWN", "GPU metadata could not be determined reliably. "
+                                "A restricted-context query failure does not prove a broken GPU/driver. "
+                                "Recheck through the established approved server execution context; "
+                                "do not launch a workload until preflight succeeds.") from error
+    # 所有既有计算任务均视为占用，包括本用户任务；无需读取其 UID 或私有进程数据。
+    if occupancy:
+        raise GPUPreflightError("OCCUPIED", "Selected GPU already has a compute workload; "
+                                "this includes other jobs owned by the current user.")
+    # 非零显存可能是图形/系统常驻分配；明确空的计算进程列表才是此处的空闲依据。
+    try:
+        cuda_visible = torch.cuda.is_available() and torch.cuda.device_count() == 1
+    except RuntimeError as error:
+        raise GPUPreflightError("UNKNOWN", "CUDA visibility query failed in this execution context; "
+                                "recheck in the approved server context before launching.") from error
+    if not cuda_visible:
+        raise GPUPreflightError("UNKNOWN", "Expected exactly one visible CUDA device in this execution context; "
+                                "recheck in the approved server context before launching.")
     return {"device": "cuda:0", "host_gpu": host_gpu, "CUDA_VISIBLE_DEVICES": mapping,
             "gpu_uuid": selected[1], "gpu_name": selected[2],
-            "preflight_memory_used_mib": memory, "preflight_utilization_percent": utilization,
-            "own_compute_process_count": own_count}
+            "preflight_status": "AVAILABLE", "preflight_memory_used_mib": memory,
+            "preflight_memory_free_mib": free_memory, "preflight_utilization_percent": utilization,
+            "compute_process_count": 0, "own_compute_process_count": 0}
 
 
 def source_provenance():
