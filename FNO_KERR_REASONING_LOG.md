@@ -1307,3 +1307,49 @@ remains an empirical preflight question. A failure requires reporting, not an un
 attention, batch-size or budget change. No Protocol-impacting issue was discovered in the
 completed checks. The next step is review of this implementation for explicit Phase I
 execution approval, with required GPU/resource checks before any authorized launch.
+
+## Episode 20 — Benchmark normalization reduction precision (2026-09-12)
+
+### Observed preflight facts
+
+The first authorized FNO1D wave stopped before formal training. Both authoritative
+training assets retained identical Q train identities/order, but the initial shared
+float32 reduction gave Q means 2.3031082153320312 (T1200) and 2.2984538078308105 (T2399).
+Because Q is repeated equally along lambda, changing only T cannot change its population
+mean or std mathematically. On the same float32 samples, float64 accumulation gave
+Q mean 2.2996668343884603 at both resolutions. This isolated accumulation precision
+from dataset/split identity; no model-performance evidence was involved.
+
+### User-approved correction and implementation reasoning
+
+The user approved float64 statistics for the new Benchmark Protocol v1 normalization,
+without changing the definition of standard normalization. The original Episode 19
+reuse decision is superseded only for benchmark statistics fitting: a benchmark-local
+helper handles all channels with explicit float64 mean/std reductions and preserves
+binary64 statistics in Python float lists and serialized checkpoint/JSON state. No
+Q-specific formula or special case is introduced. The old float32 fitting samples,
+reduction axes, train-only boundary, population std and epsilon semantics stay fixed.
+Only application casts statistics to the existing float32 model/training path.
+
+Changing the shared historical fitter would alter old workflows, so that utility and
+all historical assets/results remain untouched. Frozen evaluation restores statistics;
+it never estimates new statistics from evaluation data. This is a numerical-accuracy
+correction before any formal benchmark checkpoint, not a new normalization method or
+an adjustment selected in response to model performance.
+
+### Validation evidence and limits
+
+Both real train splits passed independent float64 reference checks and exact JSON/
+checkpoint statistics roundtrips. Corrected Q std values are 0.4036297106003588 and
+0.4036297106003346 (difference about 2.42e-14); all corrected channel values are recorded
+in Current State 15.4. Different lambda std values are legitimate for distinct discrete
+grids with shared endpoints. The xyz statistics also need not be equal across grids.
+
+All 35 focused/benchmark regression tests passed on single-thread CPU in `fno_srv`,
+including float32 forward/backward/loss application, train-only fitting, epsilon and
+population std, historical fitting isolation, checkpoint/resume and frozen no-refit
+evaluation. Temporary smoke artifacts were automatically cleaned. These establish
+numerical/workflow correctness, not accuracy or a formal benchmark result. No formal
+run, dataset regeneration or registry update occurred. The correction resolves the
+identified blocker; the next formal task remains only FNO1D Wave 1 after required
+execution preflight, with no architecture, optimizer, budget or evaluation change.

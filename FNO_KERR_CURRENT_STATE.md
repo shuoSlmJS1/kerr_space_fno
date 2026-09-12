@@ -1416,3 +1416,52 @@ processes, without creating a model, training tensor or training step. The ident
 Phase-I technical blocker is cleared. Long-run stability is not established by these
 checks, and availability remains dynamic. Formal Phase I execution still requires
 explicit task-specific approval. No new formal asset was produced or registered.
+
+### 15.4 Benchmark normalization precision corrected before Wave 1 (2026-09-12)
+
+The user authorized FNO1D T1200/T2399 as the first formal wave, but preflight stopped
+before either run started: identical training Q identities/order produced means
+2.3031082153320312 and 2.2984538078308105 when broadcast over different T. The reused
+historical utility reduced float32 arrays in float32 and returned float32 statistics.
+This was a numerical reduction error, not a dataset/split mismatch or a formal result.
+
+The user approved an implementation precision correction for the new benchmark.
+`src/training/benchmark_data.py` now uses one benchmark-only float64 mean/std helper
+for all input/target channels and stores Python binary64 floats without rounding the
+results to float32. Train-only fitting, the existing float32 fitting samples, singleton
+field dimension/reduction axes, population std and epsilon floor remain unchanged.
+Application continues through the existing float32 routines; the model/training path
+and all locked architecture/optimizer/budget choices remain unchanged. Historical FNO2D
+code, statistics, checkpoints and Plan B measurements were not modified.
+
+Measured corrected train-split statistics (channel order: Q, lambda and x, y, z):
+
+| Statistic | T1200 | T2399 |
+| --- | --- | --- |
+| Q mean | 2.2996668343884603 | 2.2996668343884603 |
+| Q std | 0.4036297106003588 | 0.4036297106003346 |
+| lambda mean | 2.997499999998448 | 2.9975000000233667 |
+| lambda std | 1.7320502057030378 | 1.731328969136984 |
+| xyz mean | [0.43491985321362087, 0.6950095646262856, 0.06759557962227183] | [0.43404488239845457, 0.6937072882100679, 0.06709012931480061] |
+| xyz std | [5.459666332244433, 5.92913775929884, 2.706993031810956] | [5.458868460312532, 5.929368119088435, 2.7069120598758984] |
+
+CPU validation in `fno_srv` loaded both authoritative assets and verified unchanged
+1400/300/300 splits and matching Q hashes/order. All channels matched independent
+per-channel float64 references with `rtol=atol=1e-12`; Q statistics agreed across T at
+that tolerance. Lambda endpoints remain [0, 5.995], but the discrete population std
+legitimately differs with sample spacing/count. xyz statistics need not match across T.
+JSON and checkpoint serialization restored exactly the stored statistics; normalization
+still returned identical float32 tensors after restoration.
+
+All 35 benchmark CPU tests passed (7 new precision tests, 16 workflow/model regressions,
+12 mocked GPU-preflight tests). These include train-only fitting, population std/epsilon,
+historical normalization behavior isolation, six-model synthetic checkpoint smoke tests,
+deterministic resume and four-resolution frozen evaluation without refitting. Temporary
+test artifacts were automatically removed. No formal training/evaluation, new dataset,
+checkpoint asset or registry entry was produced.
+
+The normalization blocker is resolved with no remaining Protocol-impacting issue from
+this correction. Exact next step: review the correction, satisfy the clean-Git/protocol/
+asset preconditions and recheck live GPU occupancy before executing only the previously
+selected FNO1D T1200/T2399 Wave 1 with unchanged locked settings and frozen Q400 evaluation.
+The current correction task explicitly excludes all formal launches; none occurred.

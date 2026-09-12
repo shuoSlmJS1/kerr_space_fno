@@ -16,7 +16,7 @@ from src.data_generation.plan_b_paired import (
 )
 from src.training.fno1d.input_builder_1d import build_fno1d_input_array
 from src.training.fno2d.normalization_2d import (
-    FieldNormalizationStats, compute_field_normalization_stats,
+    FieldNormalizationStats, validate_field_array,
     normalize_input_field, normalize_output_field, denormalize_output_field,
 )
 
@@ -115,10 +115,23 @@ class Trajectories(Dataset):
         return torch.from_numpy(x), torch.from_numpy(y)
 
 
+def _benchmark_channel_mean_std(array, eps):
+    # 仅新 benchmark 使用 float64 归约；历史 FNO2D 统计路径保持不变。
+    validate_field_array(array, name="array")
+    mean = np.mean(array, axis=(0, 1, 2), dtype=np.float64)
+    std = np.std(array, axis=(0, 1, 2), dtype=np.float64, ddof=0)
+    return mean.tolist(), np.maximum(std, eps).tolist()
+
+
 def fit_normalization(train: Trajectories):
-    # 增加单例场维度，仅复用既有逐通道统计；不会混入 val/test。
-    return compute_field_normalization_stats(
-        train.raw_input()[None], train.xyz.astype(np.float32)[None], method="standard"
+    # 保留既有 float32 样本及单例场维度、统计轴和 epsilon；只拟合 train。
+    # Python float 列表保留 float64 统计精度，应用时才沿用 float32 运算。
+    eps = 1e-8
+    x_mean, x_std = _benchmark_channel_mean_std(train.raw_input()[None], eps)
+    y_mean, y_std = _benchmark_channel_mean_std(train.xyz.astype(np.float32)[None], eps)
+    return FieldNormalizationStats(
+        method="standard", x_mean=x_mean, x_std=x_std,
+        y_mean=y_mean, y_std=y_std, eps=eps,
     )
 
 

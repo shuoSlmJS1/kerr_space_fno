@@ -553,6 +553,17 @@ training_loss = normalized-space MSE
 checkpoint_selection = validation MSE
 ```
 
+**Approved benchmark precision clarification (2026-09-12):** new Benchmark Protocol v1
+normalization mean/std reductions must use float64 accumulation and preserve float64
+statistics in serialized state. Track A retains the existing float32 samples used for
+fitting, reduction axes `(0, 1, 2)` after adding the singleton field dimension, train-only
+fitting, population std (`ddof=0`), and `max(std, 1e-8)` epsilon floor. All input/target
+channels use the same precision rule. Statistics are cast only for the existing float32
+application path; model parameters, inputs, forward/backward and losses remain float32.
+Frozen evaluation restores stored statistics without refitting. This corrects numerical
+accuracy of standard normalization, not its mathematical definition; historical FNO2D
+normalization code, statistics, checkpoints and Plan B results remain unchanged.
+
 Track-A batch size does not copy FNO2D-large batch size 1: a Track-A sample is one trajectory, whereas an FNO2D sample is an entire Q-field. Any required architecture-specific optimization deviation must state its reason and preserve both the Protocol-v1 result and failure fact.
 
 Each Track-A model trains exactly two checkpoints (T1200 and T2399), then freezes each one before evaluating all four Q400 resolutions:
