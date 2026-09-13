@@ -1288,8 +1288,8 @@ from Plan A physical-domain extension and from sparse observation-density experi
 clarification approved on 2026-09-12.** The read-only CPU capacity audit and the subsequent
 user-authorized Track A implementation/capacity matching are complete. The unified workflow
 has passed CPU and GPU feasibility validation. Completed-experiment audits now confirm
-Phase I Waves 1--3 (FNO1D, ResNet, canonical TimesNet): 6/12 formal trainings and 24/48
-frozen evaluation cells are complete. See sections 15.5--15.7 for measured evidence;
+Phase I Waves 1--4 (FNO1D, ResNet, canonical TimesNet, BiLSTM): 8/12 formal trainings and
+32/48 frozen evaluation cells are complete. See sections 15.5--15.8 for measured evidence;
 Phase I is not complete, and no dataset was regenerated.
 
 The protocol fixes the original n2000 T1200/T2399 matched training data and independent
@@ -1301,8 +1301,8 @@ retains existing FNO2D-large at `33,579,971 real_scalar_parameter_count` (approx
 33.58M), historically `16,802,755 tensor_numel` (approximately 16.80M). It is a
 formulation/capacity study rather than a general leaderboard.
 
-The exact next step is **obtain explicit execution approval for Phase I Wave 4: locked
-BiLSTM at T1200/T2399, followed by four frozen Q400 evaluations per checkpoint**.
+The exact next step is **obtain explicit execution approval for Phase I Wave 5: locked
+full-attention Transformer at T1200/T2399, followed by four frozen Q400 evaluations per checkpoint**.
 The accepted GPU feasibility gate and corrected GPU preflight have cleared the identified
 technical blockers (section 15.3). Recheck current shared-server GPU availability before
 every subsequently approved workload. No Phase-I, Phase-II, or Phase-III experiment is
@@ -1828,3 +1828,173 @@ The exact next recommended action is Phase I Wave 4: the locked two-layer BiLSTM
 T1200/T2399 with the unchanged 500-epoch protocol, each followed by the same four frozen
 Q400 evaluations. This requires fresh explicit user execution approval and GPU/data/Git
 preflight; it is not authorized or launched by this analysis.
+
+### 15.8 Phase I Wave 4 completed and audited: BiLSTM (2026-09-13)
+
+Execution and clean analysis HEAD: `ff7ea434c718f3545c134b831462acd2574b5010`;
+branch `codex/clean-research-history-20260905`. The user authorized completed-experiment
+analysis after both independent background workflows reported COMPLETE. This analysis
+launched no training or inference and regenerated no predictions.
+
+Both histories span epochs 1--500; both train exits and both frozen-evaluation exits
+have returncode 0, and both workflow completion markers exist. All eight frozen cells
+and twenty recovery checkpoints per training are present. No failure or resume event is
+recorded; successful train/evaluation logs contain result JSON without extra error text.
+The 70/77/86 files of Waves 1/2/3 match the Wave-4 preflight hashes. All 86 Wave-4 files
+were retained unchanged during this audit.
+
+Single-thread fno_srv CPU recomputation used saved predictions and authoritative float64
+truth with independent sum-of-squares formulas, unchanged epsilon 1e-12 and per-Q
+summaries. All 64 scalar comparisons across eight cells passed rtol=1e-12, atol=1e-14;
+maximum absolute discrepancy was 2.6645352591003757e-15. Q/lambda arrays, dataset/split
+provenance, source hashes, per-cell versus matrix metrics, native ratios/deltas, checkpoint
+history prefixes, minimum-validation selection and selected best weights were verified.
+
+Verified BiLSTM: input2/output3, two bidirectional LSTM layers, hidden size184, dropout0,
+linear xyz output head, no autoregressive decoding or teacher forcing; both
+real_scalar_parameter_count and tensor_numel are 1,093,331. Locked batch32/500 epochs,
+AdamW lr1e-3/weight_decay1e-4, ExponentialLR gamma0.995 and seed27 were unchanged.
+Normalization was fitted only to the corresponding training-resolution train split.
+Stored float64 statistics match fresh fitting and an independent float64 reference;
+restoration and float32 sample/model application were verified. Frozen evaluation restores
+these statistics without refitting, preserves canonical Q400 order and uses batch32
+(final batch16). BEST is selected by minimum validation normalized MSE over 500 epochs.
+
+Measured training facts:
+
+| Train T | Final epoch | Best epoch | Best validation normalized MSE | Final validation normalized MSE | Training seconds | Peak allocated bytes | Host GPU / CUDA_VISIBLE_DEVICES / local CUDA |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 1200 | 500 | 485 | 7.13191132794e-7 | 0.00000143270845153 | 3967.26292164 | 1598493696 | 1 / 1 / cuda:0 |
+| 2399 | 500 | 477 | 0.00000106106260167 | 0.00000125360207676 | 6333.22000560 | 3126256128 | 2 / 2 / cuda:0 |
+
+The runs overlapped as independent single-GPU jobs in fno_srv with one CPU thread per
+job and no DDP/DataParallel. Training wall time includes training, validation and intermediate
+checkpoint I/O, excluding setup and final publication. Memory is peak PyTorch allocated
+memory, not driver-reserved memory. Server-local training exit times were 2026-09-13
+13:13:59.919 and 13:53:27.923; evaluation exit times were 13:14:15.426 and 13:53:44.111
+(Asia/Shanghai, UTC+8). No training interruption or deterministic resume is recorded.
+
+Measured global raw-xyz Relative L2:
+
+| Train / Evaluate | T1200 | T2399 | T3598 | T4797 |
+| --- | --- | --- | --- | --- |
+| 1200 | 0.000816636194451 | 0.301107365739 | 0.407211841622 | 0.461684118895 |
+| 2399 | 0.202826791462 | 0.000990420666357 | 0.0840668719669 | 0.125443720656 |
+
+Native-relative ratios E(T)/E(native):
+
+| Train / Evaluate | T1200 | T2399 | T3598 | T4797 |
+| --- | --- | --- | --- | --- |
+| 1200 | 1 | 368.716654717 | 498.645350756 | 565.348587329 |
+| 2399 | 204.788529108 | 1 | 84.8799654758 | 126.657010417 |
+
+Absolute differences E(T)-E(native), in Relative-L2 units:
+
+| Train / Evaluate | T1200 | T2399 | T3598 | T4797 |
+| --- | --- | --- | --- | --- |
+| 1200 | 0 | 0.300290729544 | 0.406395205427 | 0.460867482700 |
+| 2399 | 0.201836370795 | 0 | 0.0830764513005 | 0.124453299989 |
+
+Secondary raw-xyz metrics:
+
+| Train T | Eval T | Raw MSE | Mean per-Q Relative L2 | Median | p95 | p99 | Max | Worst Q |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 1200 | 1200 | 0.0000162181131437 | 0.000778574732617 | 0.000704506042145 | 0.00124699913737 | 0.00208232948512 | 0.00247749155695 | 1.60070000000 |
+| 1200 | 2399 | 2.20461034169 | 0.298631251284 | 0.294252365851 | 0.340250518003 | 0.345309760811 | 0.346466010826 | 2.99930000000 |
+| 1200 | 3598 | 4.03191980855 | 0.404080429949 | 0.397358514714 | 0.461199872663 | 0.474468209205 | 0.475474870785 | 2.97125789474 |
+| 1200 | 4797 | 5.18265100174 | 0.458048565691 | 0.448877963267 | 0.530246927112 | 0.540653188190 | 0.544019471103 | 2.98527894737 |
+| 2399 | 1200 | 1.00044615149 | 0.202911709501 | 0.200863389400 | 0.216186326533 | 0.221210262284 | 0.222444901232 | 1.60070000000 |
+| 2399 | 2399 | 0.0000238522014812 | 0.000919996934727 | 0.000808047423105 | 0.00146860139180 | 0.00293745882919 | 0.00358556526606 | 2.99930000000 |
+| 2399 | 3598 | 0.171838654943 | 0.0840870149891 | 0.0834341377894 | 0.0896883292503 | 0.0910830773843 | 0.0920836338691 | 1.60070000000 |
+| 2399 | 4797 | 0.382613197609 | 0.125483403518 | 0.124508274505 | 0.133754115276 | 0.135160461232 | 0.136413973157 | 1.60070000000 |
+
+Provisional four-model global Relative-L2 comparison:
+
+| Model / Train T | T1200 | T2399 | T3598 | T4797 |
+| --- | --- | --- | --- | --- |
+| FNO1D / 1200 | 0.000304676590517 | 0.00260773956864 | 0.00346591077718 | 0.00389546647459 |
+| ResNet / 1200 | 0.000875793115919 | 1.23641878184 | 1.15185604926 | 1.10103131103 |
+| TimesNet / 1200 | 0.00157254951507 | 0.00383845963700 | 0.00491844356093 | 0.00546934598239 |
+| BiLSTM / 1200 | 0.000816636194451 | 0.301107365739 | 0.407211841622 | 0.461684118895 |
+| FNO1D / 2399 | 0.00262195772641 | 0.000295562198528 | 0.000891773304135 | 0.00130651011794 |
+| ResNet / 2399 | 1.08073931383 | 0.000624316666496 | 1.03557683005 | 1.03118762782 |
+| TimesNet / 2399 | 0.00326309006262 | 0.00165634091327 | 0.00194255174312 | 0.00222717317039 |
+| BiLSTM / 2399 | 0.202826791462 | 0.000990420666357 | 0.0840668719669 | 0.125443720656 |
+
+Native-relative ratios, separate from absolute accuracy:
+
+| Model / Train T | T1200 | T2399 | T3598 | T4797 |
+| --- | --- | --- | --- | --- |
+| FNO1D / 1200 | 1 | 8.55904145513 | 11.3757042223 | 12.7855785309 |
+| ResNet / 1200 | 1 | 1411.77038203 | 1315.21477884 | 1257.18196572 |
+| TimesNet / 1200 | 1 | 2.44091496020 | 3.12768756328 | 3.47801193537 |
+| BiLSTM / 1200 | 1 | 368.716654717 | 498.645350756 | 565.348587329 |
+| FNO1D / 2399 | 8.87108615200 | 1 | 3.01721028121 | 4.42042360102 |
+| ResNet / 2399 | 1731.07554520 | 1 | 1658.73648041 | 1651.70607026 |
+| TimesNet / 2399 | 1.97005944638 | 1 | 1.17279705377 | 1.34463452091 |
+| BiLSTM / 2399 | 204.788529108 | 1 | 84.8799654758 | 126.657010417 |
+
+Measured training resources:
+
+| Model | Train T | Training seconds | Peak allocated bytes |
+| --- | --- | --- | --- |
+| FNO1D | 1200 | 518.085670201 | 194066944 |
+| FNO1D | 2399 | 594.374222904 | 357028352 |
+| ResNet | 1200 | 8828.08704151 | 1216906240 |
+| ResNet | 2399 | 10006.3546170 | 2259363328 |
+| TimesNet | 1200 | 710.514718014 | 484014592 |
+| TimesNet | 2399 | 1404.66065574 | 1064739328 |
+| BiLSTM | 1200 | 3967.26292164 | 1598493696 |
+| BiLSTM | 2399 | 6333.22000560 | 3126256128 |
+
+**Measured BiLSTM behavior:** T1200-to-T2399/T3598/T4797 errors are
+0.301107/0.407212/0.461684, versus native 0.000816636: a large native/off-native gap,
+followed by monotonic growth over the three sampled finer grids. T2399-to-T1200 gives
+0.202827 (204.79x native), while T2399-to-T3598/T4797 gives 0.0840669/0.125444
+(84.88x/126.66x native). Coarse/fine transfer is asymmetric. T2399 training improves
+finer-grid absolute errors and native-relative ratios relative to T1200 training,
+although its native error is higher (0.000990421). Thus native accuracy and resolution
+robustness move separately in this pair; better transfer does not imply better native fit.
+
+Worst Q for T1200 training is 1.6007/2.9993/2.971257894736842/2.985278947368421 across
+T1200/T2399/T3598/T4797. For T2399 training it is 1.6007/2.9993/1.6007/1.6007.
+These are saved distribution facts, not authorization to change data or retune.
+
+**Provisional four-model comparison:** FNO1D has lower absolute errors than BiLSTM in
+all eight corresponding cells. BiLSTM has lower native errors than TimesNet at both
+training resolutions but much higher off-native errors and ratios. Relative to ResNet,
+BiLSTM has slightly lower native error at T1200 and higher native error at T2399;
+all six BiLSTM off-native errors and ratios are lower than ResNet's. BiLSTM's off-native
+ratios exceed those of both FNO1D and TimesNet. TimesNet's smaller ratios than FNO1D
+continue to require its larger native baseline to be reported alongside absolute errors.
+BiLSTM training time is above FNO1D/TimesNet and below ResNet at each T, while its peak
+allocated training memory exceeds all three previously measured models at each T.
+
+**Interpretation and hypothesis boundary:** accurate native regression coexists with
+substantial resolution sensitivity in this BiLSTM pair. The sampled errors show a large
+native/off-native gap, not uniformly smooth low-error transfer. This does not establish
+continuity between grids or a causal role for recurrence or bidirectionality; no such
+mechanism is isolated by these saved outputs. All comparisons are descriptive under one
+locked seed27/protocol, not a final model ranking, an architecture-only causal claim or
+evidence of seed robustness. Preregistered hypotheses remain unchanged and will be
+revisited after all six models complete.
+
+Formal root: `outputs/benchmark_track_a_v1/phase_i_wave4_bilstm_20260913`.
+`train_t1200/` and `train_t2399/` each retain run.json, summary.json, best_model.pt
+and twenty immutable epoch_0025.pt through epoch_0500.pt recovery checkpoints with
+normalization, histories, optimizer/scheduler/RNG and best-so-far weights.
+`eval_t1200/` and `eval_t2399/` each retain matrix.json and four metrics_t<T>.json /
+prediction_t<T>.npz pairs. The root retains wave_execution.json, run_workflow.py,
+launch/start/exit/completion records and durable logs; no separate wave-summary JSON
+is claimed.
+Registry 9.4 indexes identities and selected checkpoint hashes; Reasoning Log Episode 24
+records the evidence/interpretation boundary. No Protocol-impacting issue or ordinary
+execution error was found. No scientific protocol, dataset or historical result changed.
+
+Phase I is incomplete: four of six models, 8/12 formal trainings and 32/48 frozen
+evaluation cells are complete. Transformer and DeepONet remain untrained in Phase I.
+The exact next recommendation is Phase I Wave 5: the locked encoder-only full-attention
+Transformer (d_model192, 6 heads, 2 layers, feedforward1024, dropout0.1;
+1,088,003 real scalar parameters), trained separately at T1200/T2399 for 500 epochs,
+each followed by four frozen Q400 evaluations. Fresh explicit execution approval and
+Git/data/GPU preflight are required. This analysis does not authorize or launch Wave 5.

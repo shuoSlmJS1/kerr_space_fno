@@ -727,3 +727,83 @@ ResNet it has higher native error but much lower cross-resolution error. These o
 are provisional and do not rank all six models or identify FFT period-selection causality.
 Selected-period diagnostics were not recorded. Phase I is 6/12 trainings and 24/48 cells
 complete; no BiLSTM/Transformer/DeepONet formal asset is registered here.
+
+### 9.4 Completed Phase I Wave 4 — BiLSTM (2026-09-13)
+
+Execution and clean analysis HEAD: `ff7ea434c718f3545c134b831462acd2574b5010`;
+branch `codex/clean-research-history-20260905`. The user authorized completed-experiment
+analysis after both independent background workflows reported COMPLETE. This analysis
+launched no training or inference and regenerated no predictions.
+
+| Existing path | Status / contents |
+| --- | --- |
+| `outputs/benchmark_track_a_v1/phase_i_wave4_bilstm_20260913/train_t1200` | COMPLETED: epoch500; best epoch485; host GPU1/local cuda:0 |
+| `outputs/benchmark_track_a_v1/phase_i_wave4_bilstm_20260913/train_t2399` | COMPLETED: epoch500; best epoch477; host GPU2/local cuda:0 |
+| `outputs/benchmark_track_a_v1/phase_i_wave4_bilstm_20260913/eval_t1200` | COMPLETED: frozen BEST at Q400 T1200/T2399/T3598/T4797 |
+| `outputs/benchmark_track_a_v1/phase_i_wave4_bilstm_20260913/eval_t2399` | COMPLETED: frozen BEST at Q400 T1200/T2399/T3598/T4797 |
+| `outputs/benchmark_track_a_v1/phase_i_wave4_bilstm_20260913/wave_execution.json` | EXISTING: scope, source/data hashes, normalization and prior-wave hashes |
+| `outputs/benchmark_track_a_v1/phase_i_wave4_bilstm_20260913/run_workflow.py` | EXISTING: detached authorized BiLSTM train-to-evaluation workflow |
+
+Formal root: `outputs/benchmark_track_a_v1/phase_i_wave4_bilstm_20260913`.
+`train_t1200/` and `train_t2399/` each retain run.json, summary.json, best_model.pt
+and twenty immutable epoch_0025.pt through epoch_0500.pt recovery checkpoints with
+normalization, histories, optimizer/scheduler/RNG and best-so-far weights.
+`eval_t1200/` and `eval_t2399/` each retain matrix.json and four metrics_t<T>.json /
+prediction_t<T>.npz pairs. The root retains wave_execution.json, run_workflow.py,
+launch/start/exit/completion records and durable logs; no separate wave-summary JSON
+is claimed.
+
+Verified BiLSTM: input2/output3, two bidirectional LSTM layers, hidden size184, dropout0,
+linear xyz output head, no autoregressive decoding or teacher forcing; both
+real_scalar_parameter_count and tensor_numel are 1,093,331. Locked batch32/500 epochs,
+AdamW lr1e-3/weight_decay1e-4, ExponentialLR gamma0.995 and seed27 were unchanged.
+Normalization was fitted only to the corresponding training-resolution train split.
+Stored float64 statistics match fresh fitting and an independent float64 reference;
+restoration and float32 sample/model application were verified. Frozen evaluation restores
+these statistics without refitting, preserves canonical Q400 order and uses batch32
+(final batch16). BEST is selected by minimum validation normalized MSE over 500 epochs.
+
+Best checkpoint SHA256:
+
+- T1200: `c4ca47bae8d068137685cbdb5cca853a85a210e5c610b84c81c821d4148c8fd6`.
+- T2399: `ab47bfadf48bfb4efc8570bd32ca75d2e4482adc47c981863dd468150f8450f7`.
+
+| Train T | Final epoch | Best epoch | Best validation normalized MSE | Final validation normalized MSE | Training seconds | Peak allocated bytes | Host GPU / CUDA_VISIBLE_DEVICES / local CUDA |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 1200 | 500 | 485 | 7.13191132794e-7 | 0.00000143270845153 | 3967.26292164 | 1598493696 | 1 / 1 / cuda:0 |
+| 2399 | 500 | 477 | 0.00000106106260167 | 0.00000125360207676 | 6333.22000560 | 3126256128 | 2 / 2 / cuda:0 |
+
+Measured global raw-xyz Relative L2:
+
+| Train / Evaluate | T1200 | T2399 | T3598 | T4797 |
+| --- | --- | --- | --- | --- |
+| 1200 | 0.000816636194451 | 0.301107365739 | 0.407211841622 | 0.461684118895 |
+| 2399 | 0.202826791462 | 0.000990420666357 | 0.0840668719669 | 0.125443720656 |
+
+Native-relative global-error ratios:
+
+| Train / Evaluate | T1200 | T2399 | T3598 | T4797 |
+| --- | --- | --- | --- | --- |
+| 1200 | 1 | 368.716654717 | 498.645350756 | 565.348587329 |
+| 2399 | 204.788529108 | 1 | 84.8799654758 | 126.657010417 |
+
+Both histories span epochs 1--500; both train exits and both frozen-evaluation exits
+have returncode 0, and both workflow completion markers exist. All eight frozen cells
+and twenty recovery checkpoints per training are present. No failure or resume event is
+recorded; successful train/evaluation logs contain result JSON without extra error text.
+The 70/77/86 files of Waves 1/2/3 match the Wave-4 preflight hashes. All 86 Wave-4 files
+were retained unchanged during this audit.
+
+Single-thread fno_srv CPU recomputation used saved predictions and authoritative float64
+truth with independent sum-of-squares formulas, unchanged epsilon 1e-12 and per-Q
+summaries. All 64 scalar comparisons across eight cells passed rtol=1e-12, atol=1e-14;
+maximum absolute discrepancy was 2.6645352591003757e-15. Q/lambda arrays, dataset/split
+provenance, source hashes, per-cell versus matrix metrics, native ratios/deltas, checkpoint
+history prefixes, minimum-validation selection and selected best weights were verified.
+
+Full secondary metrics/worst Q, deltas and provisional four-model/resource comparison
+are in Current State 15.8 and the saved per-cell metrics/matrices. BiLSTM has a large
+native/off-native gap; T2399 training improves finer-grid transfer despite higher native
+error. This is a measured single-seed comparison, not recurrence/bidirectionality causality
+or a final ranking. No Protocol-impacting issue or execution error was found. Phase I
+has completed 8/12 trainings and 32/48 cells; no Transformer/DeepONet asset is registered here.
