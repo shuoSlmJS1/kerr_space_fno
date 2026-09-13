@@ -646,3 +646,84 @@ Provisional comparison only: ResNet has higher native errors and much larger off
 errors/ratios than FNO1D in this single locked seed27 comparison. Training time and
 peak allocated memory were also higher (see Current State 15.6); this is not a six-model
 ranking or architecture-only causal claim. Four other Track A models remain untrained.
+
+### 9.3 Completed Phase I Wave 3 — canonical TimesNet (2026-09-13)
+
+Existing formal assets verified after independent background completion. Execution and
+analysis HEAD: `d8b190ed982e09b42784ccd7178e1c8b001d3a39`; branch
+`codex/clean-research-history-20260905`. Both Git preflights were clean.
+
+| Existing path | Status / contents |
+| --- | --- |
+| `outputs/benchmark_track_a_v1/phase_i_wave3_timesnet_20260913/train_t1200` | COMPLETED: 500 epochs; best epoch492; host GPU1/local cuda:0 |
+| `outputs/benchmark_track_a_v1/phase_i_wave3_timesnet_20260913/train_t2399` | COMPLETED: 500 epochs; best epoch486; host GPU2/local cuda:0 |
+| `outputs/benchmark_track_a_v1/phase_i_wave3_timesnet_20260913/eval_t1200` | COMPLETED: frozen BEST at Q400 T1200/T2399/T3598/T4797 |
+| `outputs/benchmark_track_a_v1/phase_i_wave3_timesnet_20260913/eval_t2399` | COMPLETED: frozen BEST at Q400 T1200/T2399/T3598/T4797 |
+| `outputs/benchmark_track_a_v1/phase_i_wave3_timesnet_20260913/wave_execution.json` | EXISTING: scope, configuration, source hashes and prior-wave file hashes |
+| `outputs/benchmark_track_a_v1/phase_i_wave3_timesnet_20260913/run_workflow.py` | EXISTING: detached train-to-evaluation workflow, restricted to authorized TimesNet pair |
+
+Each training directory preserves run.json, summary.json, best_model.pt and twenty
+immutable epoch_0025.pt through epoch_0500.pt recovery checkpoints, including fitted
+normalization, optimizer/scheduler/RNG, full history and best-so-far weights.
+Each evaluation directory preserves matrix.json plus metrics_t<T>.json and
+prediction_t<T>.npz for all four canonical resolutions. Root launch_t<T>.json,
+workflow_t<T>_start.json, train/evaluate start/exit records, workflow_t<T>_complete.json
+and corresponding logs establish successful independent execution. There are 86 retained
+files; no separate wave-summary JSON is claimed.
+
+Verified configuration: input2/output3, d_model80, d_ff96, two TimesNet blocks, top-k2,
+kernels(1,3,5), dropout0, and real_scalar_parameter_count == tensor_numel == 1,077,059.
+The saved-source implementation uses canonical runtime FFT discovery, batch-shared top-k,
+1D-to-2D period folding and Inception Conv2d processing, not the lambda-isolated variant.
+Locked AdamW/ExponentialLR defaults, batch32, seed27 and 500 epochs were unchanged.
+Train-only float64 statistics match fresh fitting and an independent float64 reference;
+checkpoint restoration and float32 model/sample application were verified. Frozen evaluation
+restored the same statistics without refitting and retained canonical Q400 order with
+batch32 (final batch16).
+
+Best checkpoint SHA256:
+
+- T1200: `3b69a9408dc7f3a60b9746a26ecf8c53ba0f9a91bb21839ca793abd897a73ea4`.
+- T2399: `9beec9fdf4b3359619039dc8004b667e3e416036db978fcbe62c92f27e656794`.
+
+| Train T | Final epoch | Best epoch | Best validation normalized MSE | Final validation normalized MSE | Training seconds | Peak allocated bytes | Host GPU / CUDA_VISIBLE_DEVICES / local CUDA |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 1200 | 500 | 492 | 0.00000267102036256 | 0.00000311175996406 | 710.514718014 | 484014592 | 1 / 1 / cuda:0 |
+| 2399 | 500 | 486 | 0.00000290461068592 | 0.0000207157540475 | 1404.66065574 | 1064739328 | 2 / 2 / cuda:0 |
+
+Measured global raw-xyz Relative L2:
+
+| Train / Evaluate | T1200 | T2399 | T3598 | T4797 |
+| --- | --- | --- | --- | --- |
+| 1200 | 0.00157254951507 | 0.00383845963700 | 0.00491844356093 | 0.00546934598239 |
+| 2399 | 0.00326309006262 | 0.00165634091327 | 0.00194255174312 | 0.00222717317039 |
+
+Native-relative global-error ratios:
+
+| Train / Evaluate | T1200 | T2399 | T3598 | T4797 |
+| --- | --- | --- | --- | --- |
+| 1200 | 1 | 2.44091496020 | 3.12768756328 | 3.47801193537 |
+| 2399 | 1.97005944638 | 1 | 1.17279705377 | 1.34463452091 |
+
+Both training histories contain epochs 1--500, both train exits and both automatic
+evaluation exits have returncode 0, and both workflow completion markers exist. All eight
+frozen cells and twenty immutable recovery checkpoints per run are present; no failure or
+resume event is recorded. Logs contain successful result JSON without extra error text.
+All 70 Wave-1 and 77 Wave-2 file hashes match the Wave-3 launch manifest.
+The 86 Wave-3 files were retained unchanged during this read-only result audit.
+
+Single-thread CPU recomputation from saved predictions and authoritative float64 truth
+used independent sum-of-squares formulas, metric epsilon 1e-12, and unchanged per-Q
+summaries. All 64 scalar comparisons across eight cells passed rtol=1e-12, atol=1e-14;
+maximum absolute discrepancy was 6.938893903907228e-18. Saved Q/lambda arrays, dataset/
+split provenance, source hashes, per-cell versus matrix metrics, native ratios/deltas,
+checkpoint history prefixes, and minimum-validation best-weight selection were verified.
+No predictions were regenerated and no output asset was created by this analysis.
+
+Full secondary metrics, worst Q, deltas and provisional three-model/compute comparison
+are in Current State 15.7 and the saved per-cell metrics/matrices. TimesNet has higher
+absolute error than FNO1D in all eight cells but smaller off-native ratios; compared with
+ResNet it has higher native error but much lower cross-resolution error. These observations
+are provisional and do not rank all six models or identify FFT period-selection causality.
+Selected-period diagnostics were not recorded. Phase I is 6/12 trainings and 24/48 cells
+complete; no BiLSTM/Transformer/DeepONet formal asset is registered here.

@@ -1287,8 +1287,10 @@ from Plan A physical-domain extension and from sparse observation-density experi
 **Cross-model Benchmark Protocol v1 is locked, including the capacity-counting
 clarification approved on 2026-09-12.** The read-only CPU capacity audit and the subsequent
 user-authorized Track A implementation/capacity matching are complete. The unified workflow
-has passed CPU unit/synthetic smoke validation. No formal baseline checkpoint, dataset
-regeneration, Phase I training, formal frozen inference, or compute benchmark has been produced.
+has passed CPU and GPU feasibility validation. Completed-experiment audits now confirm
+Phase I Waves 1--3 (FNO1D, ResNet, canonical TimesNet): 6/12 formal trainings and 24/48
+frozen evaluation cells are complete. See sections 15.5--15.7 for measured evidence;
+Phase I is not complete, and no dataset was regenerated.
 
 The protocol fixes the original n2000 T1200/T2399 matched training data and independent
 Q400 endpoint-fixed evaluation field. Phase I will compare trajectory-wise BiLSTM, Dilated
@@ -1299,7 +1301,8 @@ retains existing FNO2D-large at `33,579,971 real_scalar_parameter_count` (approx
 33.58M), historically `16,802,755 tensor_numel` (approximately 16.80M). It is a
 formulation/capacity study rather than a general leaderboard.
 
-The exact next step is **obtain explicit execution approval for a specific Phase I run**.
+The exact next step is **obtain explicit execution approval for Phase I Wave 4: locked
+BiLSTM at T1200/T2399, followed by four frozen Q400 evaluations per checkpoint**.
 The accepted GPU feasibility gate and corrected GPU preflight have cleared the identified
 technical blockers (section 15.3). Recheck current shared-server GPU availability before
 every subsequently approved workload. No Phase-I, Phase-II, or Phase-III experiment is
@@ -1666,3 +1669,162 @@ evaluation cells, involving only FNO1D and ResNet; Phase I is not complete.
 **Exact next recommendation, requiring explicit approval:** Phase I Wave 3, canonical
 TimesNet at T1200 and T2399 with the locked configuration, followed by the same four
 frozen Q400 evaluations per checkpoint. Do not launch it from this analysis task.
+
+### 15.7 Phase I Wave 3 completed and audited: canonical TimesNet (2026-09-13)
+
+**Completed-experiment analysis only:** launch and analysis HEAD
+`d8b190ed982e09b42784ccd7178e1c8b001d3a39`, branch
+`codex/clean-research-history-20260905`; analysis began with a clean worktree.
+The user authorized analysis after the independent background workflows completed.
+No new training or inference was launched.
+
+Both training histories contain epochs 1--500, both train exits and both automatic
+evaluation exits have returncode 0, and both workflow completion markers exist. All eight
+frozen cells and twenty immutable recovery checkpoints per run are present; no failure or
+resume event is recorded. Logs contain successful result JSON without extra error text.
+All 70 Wave-1 and 77 Wave-2 file hashes match the Wave-3 launch manifest.
+The 86 Wave-3 files were retained unchanged during this read-only result audit.
+
+Single-thread CPU recomputation from saved predictions and authoritative float64 truth
+used independent sum-of-squares formulas, metric epsilon 1e-12, and unchanged per-Q
+summaries. All 64 scalar comparisons across eight cells passed rtol=1e-12, atol=1e-14;
+maximum absolute discrepancy was 6.938893903907228e-18. Saved Q/lambda arrays, dataset/
+split provenance, source hashes, per-cell versus matrix metrics, native ratios/deltas,
+checkpoint history prefixes, and minimum-validation best-weight selection were verified.
+No predictions were regenerated and no output asset was created by this analysis.
+
+Verified configuration: input2/output3, d_model80, d_ff96, two TimesNet blocks, top-k2,
+kernels(1,3,5), dropout0, and real_scalar_parameter_count == tensor_numel == 1,077,059.
+The saved-source implementation uses canonical runtime FFT discovery, batch-shared top-k,
+1D-to-2D period folding and Inception Conv2d processing, not the lambda-isolated variant.
+Locked AdamW/ExponentialLR defaults, batch32, seed27 and 500 epochs were unchanged.
+Train-only float64 statistics match fresh fitting and an independent float64 reference;
+checkpoint restoration and float32 model/sample application were verified. Frozen evaluation
+restored the same statistics without refitting and retained canonical Q400 order with
+batch32 (final batch16).
+
+Measured training facts (checkpoint selection is best validation normalized MSE):
+
+| Train T | Final epoch | Best epoch | Best validation normalized MSE | Final validation normalized MSE | Training seconds | Peak allocated bytes | Host GPU / CUDA_VISIBLE_DEVICES / local CUDA |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 1200 | 500 | 492 | 0.00000267102036256 | 0.00000311175996406 | 710.514718014 | 484014592 | 1 / 1 / cuda:0 |
+| 2399 | 500 | 486 | 0.00000290461068592 | 0.0000207157540475 | 1404.66065574 | 1064739328 | 2 / 2 / cuda:0 |
+
+The jobs ran concurrently in fno_srv on independent host GPU1/GPU2, each mapped to
+local cuda:0, with one CPU thread per job and no DDP/DataParallel. Training timing
+includes training/validation and intermediate checkpoint I/O, excluding setup and final
+publication; memory is peak PyTorch allocated memory, not driver-reserved memory.
+Server-local training exits were 2026-09-13 11:10:57.828 and 11:22:33.911 (Asia/Shanghai,
+UTC+8); automatic evaluation exits were 11:11:10.005 and 11:22:47.533. No interruption
+or deterministic resume is recorded.
+
+Measured global raw-xyz Relative L2:
+
+| Train / Evaluate | T1200 | T2399 | T3598 | T4797 |
+| --- | --- | --- | --- | --- |
+| 1200 | 0.00157254951507 | 0.00383845963700 | 0.00491844356093 | 0.00546934598239 |
+| 2399 | 0.00326309006262 | 0.00165634091327 | 0.00194255174312 | 0.00222717317039 |
+
+Native-relative ratios E(T)/E(native):
+
+| Train / Evaluate | T1200 | T2399 | T3598 | T4797 |
+| --- | --- | --- | --- | --- |
+| 1200 | 1 | 2.44091496020 | 3.12768756328 | 3.47801193537 |
+| 2399 | 1.97005944638 | 1 | 1.17279705377 | 1.34463452091 |
+
+Absolute differences E(T)-E(native), in Relative-L2 units:
+
+| Train / Evaluate | T1200 | T2399 | T3598 | T4797 |
+| --- | --- | --- | --- | --- |
+| 1200 | 0 | 0.00226591012193 | 0.00334589404586 | 0.00389679646732 |
+| 2399 | 0.00160674914935 | 0 | 0.000286210829847 | 0.000570832257114 |
+
+Secondary raw-xyz metrics:
+
+| Train T | Eval T | Raw MSE | Mean per-Q Relative L2 | Median | p95 | p99 | Max | Worst Q |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 1200 | 1200 | 0.0000601383813689 | 0.00153469216087 | 0.00140370420590 | 0.00214969534904 | 0.00339726414691 | 0.00423489882457 | 1.60070000000 |
+| 1200 | 2399 | 0.000358263890587 | 0.00383541709453 | 0.00377024816039 | 0.00423142640514 | 0.00517009910991 | 0.00551466680845 | 2.99930000000 |
+| 1200 | 3598 | 0.000588201967492 | 0.00491623111573 | 0.00486697282492 | 0.00523337903721 | 0.00603610126498 | 0.00650369902271 | 2.99930000000 |
+| 1200 | 4797 | 0.000727332320773 | 0.00546689386583 | 0.00542579879309 | 0.00576656653309 | 0.00657121809908 | 0.00700374785913 | 2.99930000000 |
+| 2399 | 1200 | 0.000258941224931 | 0.00326300233217 | 0.00316613222167 | 0.00367160052029 | 0.00435489895843 | 0.00527965545520 | 1.60070000000 |
+| 2399 | 2399 | 0.0000667096313206 | 0.00161514183394 | 0.00144970182406 | 0.00240257544817 | 0.00356272181451 | 0.00457629423077 | 1.60070000000 |
+| 2399 | 3598 | 0.0000917521563882 | 0.00191664934523 | 0.00179377130406 | 0.00262825554465 | 0.00381754564758 | 0.00468343235222 | 1.60070000000 |
+| 2399 | 4797 | 0.000120606319740 | 0.00221034020322 | 0.00211150355395 | 0.00285317465978 | 0.00399196365951 | 0.00480846155562 | 1.60070000000 |
+
+Provisional three-model comparison, same 2x4 layout:
+
+| Model / Train T | T1200 | T2399 | T3598 | T4797 |
+| --- | --- | --- | --- | --- |
+| FNO1D / 1200 | 0.000304676590517 | 0.00260773956864 | 0.00346591077718 | 0.00389546647459 |
+| ResNet / 1200 | 0.000875793115919 | 1.23641878184 | 1.15185604926 | 1.10103131103 |
+| TimesNet / 1200 | 0.00157254951507 | 0.00383845963700 | 0.00491844356093 | 0.00546934598239 |
+| FNO1D / 2399 | 0.00262195772641 | 0.000295562198528 | 0.000891773304135 | 0.00130651011794 |
+| ResNet / 2399 | 1.08073931383 | 0.000624316666496 | 1.03557683005 | 1.03118762782 |
+| TimesNet / 2399 | 0.00326309006262 | 0.00165634091327 | 0.00194255174312 | 0.00222717317039 |
+
+Native-relative ratios, separate from absolute accuracy:
+
+| Model / Train T | T1200 | T2399 | T3598 | T4797 |
+| --- | --- | --- | --- | --- |
+| FNO1D / 1200 | 1 | 8.55904145513 | 11.3757042223 | 12.7855785309 |
+| ResNet / 1200 | 1 | 1411.77038203 | 1315.21477884 | 1257.18196572 |
+| TimesNet / 1200 | 1 | 2.44091496020 | 3.12768756328 | 3.47801193537 |
+| FNO1D / 2399 | 8.87108615200 | 1 | 3.01721028121 | 4.42042360102 |
+| ResNet / 2399 | 1731.07554520 | 1 | 1658.73648041 | 1651.70607026 |
+| TimesNet / 2399 | 1.97005944638 | 1 | 1.17279705377 | 1.34463452091 |
+
+Measured training resources:
+
+| Model | Train T | Training seconds | Peak allocated bytes |
+| --- | --- | --- | --- |
+| FNO1D | 1200 | 518.085670201 | 194066944 |
+| FNO1D | 2399 | 594.374222904 | 357028352 |
+| ResNet | 1200 | 8828.08704151 | 1216906240 |
+| ResNet | 2399 | 10006.3546170 | 2259363328 |
+| TimesNet | 1200 | 710.514718014 | 484014592 |
+| TimesNet | 2399 | 1404.66065574 | 1064739328 |
+
+**Measured facts:** TimesNet T1200-to-finer errors increase monotonically over the three
+sampled finer grids, from 0.00383846 to 0.00546935 (2.44--3.48x native), without the
+order-one off-native errors seen in ResNet. T2399-to-T1200 gives 0.00326309 (1.97x native);
+T2399-to-T3598/T4797 gives 0.00194255/0.00222717 (1.17x/1.34x native).
+T2399 training lowers finer-grid absolute errors and native-relative ratios compared with
+T1200 training, although its native error is slightly higher. Worst Q for T1200 training
+moves from 1.6007 at native T to 2.9993 at all finer grids; T2399 training has worst Q
+1.6007 at all four grids. Final T2399 validation MSE exceeds its best validation MSE;
+frozen results correctly use epoch486, not epoch500.
+
+**Provisional three-model interpretation:** FNO1D has lower absolute global errors than
+TimesNet in all eight corresponding cells. TimesNet has lower native-relative ratios
+than FNO1D at all six off-native cells, partly reflecting its larger native baseline;
+this must not be reported as better absolute accuracy. ResNet has lower native error
+than TimesNet but substantially higher off-native error and degradation ratios.
+TimesNet measured training time and peak allocated memory lie above FNO1D and below
+ResNet at each training resolution. These are descriptive single-seed27/protocol facts,
+not a final six-model ranking or an architecture-only causal explanation.
+
+**TimesNet mechanism/hypothesis boundary:** the sampled curves show gradual, directionally
+asymmetric degradation rather than the abrupt large native/off-native gap seen in ResNet.
+This does not establish stability at unmeasured resolutions. Selected-period/frequency
+diagnostics were not recorded in the formal workflow. The source exposes a diagnostic
+method, but it was not invoked here; no causal claim about FFT period selection is
+supported by these saved outputs. Preregistered hypotheses remain unchanged and await
+the complete six-model comparison.
+
+Formal root: `outputs/benchmark_track_a_v1/phase_i_wave3_timesnet_20260913`.
+`train_t1200/` and `train_t2399/` contain run/summary JSON, best checkpoints and
+recovery checkpoints through epoch0500; `eval_t1200/` and `eval_t2399/` each contain
+four prediction archives, four metrics JSON files and a matrix. The root retains the
+execution manifest, detached workflow script, launch/start/exit/completion records and
+logs. Registry 9.3 records identities and best-checkpoint hashes.
+
+No Protocol-impacting issue or ordinary execution error was found. Phase I is incomplete:
+6/12 formal trainings and 24/48 evaluation cells are complete, covering FNO1D, ResNet and
+TimesNet. BiLSTM, Transformer and DeepONet remain untrained in Phase I.
+
+The exact next recommended action is Phase I Wave 4: the locked two-layer BiLSTM
+(hidden size 184, dropout 0, 1,093,331 real scalar parameters), trained separately at
+T1200/T2399 with the unchanged 500-epoch protocol, each followed by the same four frozen
+Q400 evaluations. This requires fresh explicit user execution approval and GPU/data/Git
+preflight; it is not authorized or launched by this analysis.
