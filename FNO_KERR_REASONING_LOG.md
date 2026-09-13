@@ -1720,3 +1720,58 @@ Transformer (d_model192, 6 heads, 2 layers, feedforward1024, dropout0.1;
 1,088,003 real scalar parameters), trained separately at T1200/T2399 for 500 epochs,
 each followed by four frozen Q400 evaluations. Fresh explicit execution approval and
 Git/data/GPU preflight are required. This analysis does not authorize or launch Wave 5.
+
+## Episode 25 — Completed Transformer Wave 5: recovery and accuracy/stability separation (2026-09-13)
+
+**User decisions and measured recovery facts:** the user authorized deterministic recovery
+of interrupted T1200 from epoch225, preserving the original run and failure evidence.
+The original zero-byte epoch250 was relocated, not deleted, with original inode/mtime/size
+retained; the old zero-byte train exit also remains. Disk pressure is a strong suspect
+only; no direct ENOSPC evidence establishes the interruption cause. Existing resume
+restored optimizer/scheduler/RNG/history/best/normalization/time as well as model weights.
+T1200 continued epochs226--500; T2399 was neither retrained nor modified.
+
+Completed-experiment checks confirm both 500-epoch histories, correct minimum-validation
+BEST selection, readable checkpoints and eight completed frozen cells. Best epochs/MSE:
+T1200 497 / 0.0007080648296202222; T2399 447 / 0.0010557607871790728.
+All 64 independent CPU scalar metric checks passed; no predictions were regenerated.
+No protocol/model/normalization changes were needed. Current State 15.9 contains exact
+training/resource and secondary-metric tables; Registry 9.5 indexes assets and recovery.
+T1200's 1178.4295090762898 training seconds include retained pre-resume plus resumed
+epochs, excluding downtime and unretained interrupted work; T2399 records
+3290.3889330159873 seconds without a recorded interruption.
+
+**Measured global raw-xyz Relative L2:**
+
+| Model / Train T | T1200 | T2399 | T3598 | T4797 |
+| --- | --- | --- | --- | --- |
+| Transformer / 1200 | 0.0260434167938 | 0.0258818293776 | 0.0258283335681 | 0.0258016567159 |
+| Transformer / 2399 | 0.0326034228820 | 0.0322528599217 | 0.0321367027735 | 0.0320788022689 |
+
+**Measured native-relative ratios:**
+
+| Model / Train T | T1200 | T2399 | T3598 | T4797 |
+| --- | --- | --- | --- | --- |
+| Transformer / 1200 | 1.00000000000 | 0.993795460194 | 0.991741359154 | 0.990717036868 |
+| Transformer / 2399 | 1.01086920544 | 1.00000000000 | 0.996398547341 | 0.994603342053 |
+
+**Provisional interpretation:** Transformer has a larger native error than all four
+previous models, but little error variation on the sampled resolution grids. T1200-to-finer
+errors decrease slightly; T2399-to-coarser increases slightly and T2399-to-finer decreases
+slightly. T2399 training has higher absolute error than T1200 training at every grid.
+Thus relative stability and absolute accuracy are separate properties here. Ratios near
+one on a large error baseline do not establish an accurately learned resolution-invariant
+operator. Worst Q remains fixed across evaluation grids within each checkpoint, but shifts
+from Q2.9677526315789473 for T1200 training to Q1.6217315789473685 for T2399 training.
+
+FNO1D and TimesNet have lower errors in all eight corresponding cells. ResNet and BiLSTM
+have lower native errors but higher off-native errors. Transformer's small ratios therefore
+must be presented with absolute errors, not as a standalone superiority claim. This
+single-seed locked comparison cannot attribute differences to attention, recurrence or
+other architecture mechanisms alone. No final ranking or preregistered-hypothesis change
+follows; revisit the accuracy/stability distinction after the sixth model completes.
+
+**Next gate:** 5/6 models, 10/12 formal trainings and 40/48 frozen cells are complete;
+Phase I is not complete. Proceed only to Wave 6 DeepONet preparation. Formal DeepONet
+launch still requires explicit execution approval and fresh Git/data/GPU preflight.
+This analysis started no workload and changed no checkpoint, prediction or recovery file.

@@ -807,3 +807,50 @@ native/off-native gap; T2399 training improves finer-grid transfer despite highe
 error. This is a measured single-seed comparison, not recurrence/bidirectionality causality
 or a final ranking. No Protocol-impacting issue or execution error was found. Phase I
 has completed 8/12 trainings and 32/48 cells; no Transformer/DeepONet asset is registered here.
+
+### 9.5 Completed Phase I Wave 5 — Transformer and T1200 recovery (2026-09-13)
+
+Existing formal root: outputs/benchmark_track_a_v1/phase_i_wave5_transformer_20260913.
+Original execution source HEAD: 1a6f244e7914aaa3e029da991b1da111dd7f2c32.
+Both trainings reached epoch500 and all eight frozen evaluations completed.
+Relative paths below are under this root; none is a planned or smoke asset.
+
+| Path | Preserved formal contents |
+| --- | --- |
+| train_t1200/; train_t2399/ | run.json, summary.json, best_model.pt; twenty valid epoch_0025.pt through epoch_0500.pt per run, including history, normalization, optimizer/scheduler/RNG and best state |
+| eval_t1200/; eval_t2399/ | matrix.json; metrics_t<T>.json and prediction_t<T>.npz for T1200/T2399/T3598/T4797 |
+| wave_execution.json; run_workflow.py | Original launch/source/dataset/protected-prior-asset provenance and workflow |
+| resume_t1200_from_epoch0225_20260913/ | recovery_manifest.json, evidence_relocation_completed.json, run_resume_workflow.py, launch/start records, train_exit.json, evaluate_exit.json, workflow_complete.json, early_resume_validation.json and logs |
+| workflow_t1200_complete.json; workflow_t2399_complete.json | Completed workflow markers; T1200 references the recovery attempt |
+
+Best checkpoint SHA256:
+
+| Train T | Best epoch | Best validation normalized MSE | best_model.pt SHA256 |
+| --- | --- | --- | --- |
+| 1200 | 497 | 0.0007080648296202222 | d3c62d0ff2936553719a7312d09796cb6eafb3d4e9ad7367c7a111ac56e43b84 |
+| 2399 | 447 | 0.0010557607871790728 | 51dc8ebb0f2db278bac0d044416d1937039bde105da754eba59327ad8d9a6852 |
+
+T1200 resumed from the unchanged train_t1200/epoch_0225.pt:
+SHA256 1b759bfb19ebc519c51d44243866b288fabdb5b650a0c92dd5fc6f06429dc3de.
+The original damaged epoch250 remains at
+resume_t1200_from_epoch0225_20260913/failure_artifacts/epoch_0250.zero_byte.original_20260913T143409_731829.pt.
+Its size0, inode17711782 and mtime1789281249731829000ns were preserved.
+The original root train_t1200_exit.json is still zero bytes and is not a success record.
+Use recovery train_exit.json/evaluate_exit.json (both returncode0); the replacement
+train_t1200/epoch_0250.pt is valid. This is continuation of the original scientific run,
+not a new run. Disk pressure remains a strong suspect without direct ENOSPC evidence.
+
+Measured global raw-xyz Relative L2:
+
+| Model / Train T | T1200 | T2399 | T3598 | T4797 |
+| --- | --- | --- | --- | --- |
+| Transformer / 1200 | 0.0260434167938 | 0.0258818293776 | 0.0258283335681 | 0.0258016567159 |
+| Transformer / 2399 | 0.0326034228820 | 0.0322528599217 | 0.0321367027735 | 0.0320788022689 |
+
+Current State 15.9 records training resources, normalization/history verification, secondary
+metrics, worst Q, native-relative ratios and provisional five-model comparison.
+All eight cells passed independent CPU metric recomputation; all forty periodic
+checkpoints load. All 319 prior-wave files match launch hashes; all 60 recovery-protected
+original Wave-5 files remain unchanged. No new invalid formal artifact was found.
+Phase I is incomplete: 5/6 models, 10/12 trainings, 40/48 evaluation cells.
+Next: Wave 6 DeepONet preparation only; no DeepONet formal asset is registered here.

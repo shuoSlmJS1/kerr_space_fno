@@ -1288,8 +1288,8 @@ from Plan A physical-domain extension and from sparse observation-density experi
 clarification approved on 2026-09-12.** The read-only CPU capacity audit and the subsequent
 user-authorized Track A implementation/capacity matching are complete. The unified workflow
 has passed CPU and GPU feasibility validation. Completed-experiment audits now confirm
-Phase I Waves 1--4 (FNO1D, ResNet, canonical TimesNet, BiLSTM): 8/12 formal trainings and
-32/48 frozen evaluation cells are complete. See sections 15.5--15.8 for measured evidence;
+Phase I Waves 1--5 (FNO1D, ResNet, canonical TimesNet, BiLSTM, Transformer): 10/12 formal
+trainings and 40/48 frozen evaluation cells are complete. See sections 15.5--15.9 for measured evidence;
 Phase I is not complete, and no dataset was regenerated.
 
 The protocol fixes the original n2000 T1200/T2399 matched training data and independent
@@ -1301,8 +1301,8 @@ retains existing FNO2D-large at `33,579,971 real_scalar_parameter_count` (approx
 33.58M), historically `16,802,755 tensor_numel` (approximately 16.80M). It is a
 formulation/capacity study rather than a general leaderboard.
 
-The exact next step is **obtain explicit execution approval for Phase I Wave 5: locked
-full-attention Transformer at T1200/T2399, followed by four frozen Q400 evaluations per checkpoint**.
+The exact next step is **Phase I Wave 6 DeepONet preparation**; its T1200/T2399 formal
+workflows and four frozen Q400 evaluations per checkpoint require fresh explicit launch approval.
 The accepted GPU feasibility gate and corrected GPU preflight have cleared the identified
 technical blockers (section 15.3). Recheck current shared-server GPU availability before
 every subsequently approved workload. No Phase-I, Phase-II, or Phase-III experiment is
@@ -1998,3 +1998,114 @@ Transformer (d_model192, 6 heads, 2 layers, feedforward1024, dropout0.1;
 1,088,003 real scalar parameters), trained separately at T1200/T2399 for 500 epochs,
 each followed by four frozen Q400 evaluations. Fresh explicit execution approval and
 Git/data/GPU preflight are required. This analysis does not authorize or launch Wave 5.
+
+### 15.9 Completed Transformer Wave 5 and T1200 recovery (2026-09-13)
+
+**Measured audit facts:** both original formal runs completed 500 epochs and all eight
+frozen BEST evaluation cells are readable and complete. Training/evaluation return codes
+are zero; the T1200 recovery scheduler/training processes have ended. All forty periodic
+checkpoints load, histories continuously cover epochs 1--500 with consistent prefixes,
+and BEST weights/epoch match minimum validation MSE. The approved full-attention
+Transformer remains input2/output3, d_model192, 6 heads, 2 encoder layers, FF1024,
+ReLU/post-norm/dropout0.1, no fixed learned positional embedding, and
+1,088,003 for both real_scalar_parameter_count and tensor_numel.
+Dataset/split/Q/lambda identities, train-only float64 statistics and float32 model/training
+semantics were verified; frozen evaluation restores statistics without refitting.
+The locked 500-epoch/batch32/AdamW/lr1e-3/weight_decay1e-4/ExponentialLR0.995/seed27
+protocol and normalized-MSE selection remain unchanged.
+
+**Interruption and recovery:** the original T1200 attempt stopped after its last valid
+epoch225 checkpoint (best epoch216, validation MSE 0.0014663963640729586).
+Disk pressure is a strong suspect, not a confirmed cause: no direct ENOSPC evidence exists.
+The existing deterministic resume restored model, optimizer, scheduler, RNG, history,
+best state, normalization and accumulated training time in the same train_t1200 run,
+continuing at epoch226 rather than restarting. Final optimizer step22000 and scheduler
+epoch500 are consistent. The recovery's saved early validation confirms the unchanged
+epoch1--225 prefix and finite resumed losses through epoch250.
+
+The original zero-byte epoch250 was moved with its inode, mtime and zero-byte state
+preserved into the explicitly recorded failure artifact (Registry 9.5); it was not treated
+as a checkpoint. The new epoch250 is valid. The original zero-byte train_t1200_exit.json
+also remains incident evidence; successful resumed exits are in the recovery directory.
+No new invalid/truncated formal checkpoint, prediction or metric was found. Known empty
+logs and preserved incident objects are distinguished from new failures.
+All 319 prior-wave files match the Wave-5 launch manifest, and all 60 original files
+protected by the recovery manifest, including completed T2399 assets, remain unchanged.
+
+| Train T | Final epoch | Best epoch | Best validation MSE | Final validation MSE | Training seconds | Peak allocated bytes | Host GPU / CVD / local |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 1200 | 500 | 497 | 0.0007080648296202222 | 0.0008866541630898913 | 1178.4295090762898 | 1541890560 | 1 / 1 / cuda:0 |
+| 2399 | 500 | 447 | 0.0010557607871790728 | 0.0012035555532202125 | 3290.3889330159873 | 3009843712 | 2 / 2 / cuda:0 |
+
+T1200 training/evaluation finished at 17:08:48 / 17:09:02 Asia/Shanghai on 2026-09-13;
+T2399 finished at 15:19:17 / 15:19:32. T2399 has no recorded interruption/resume.
+T1200 training time is the retained epoch1--225 time plus resumed epochs226--500;
+it excludes downtime and unretained work after epoch225 from the interrupted attempt.
+It must not be described as total incident elapsed time or total consumed compute.
+
+**Global raw-xyz Relative L2, provisional five-model comparison:**
+
+| Model / Train T | T1200 | T2399 | T3598 | T4797 |
+| --- | --- | --- | --- | --- |
+| FNO1D / 1200 | 0.000304676590517 | 0.00260773956864 | 0.00346591077718 | 0.00389546647459 |
+| FNO1D / 2399 | 0.00262195772641 | 0.000295562198528 | 0.000891773304135 | 0.00130651011794 |
+| ResNet / 1200 | 0.000875793115919 | 1.23641878184 | 1.15185604926 | 1.10103131103 |
+| ResNet / 2399 | 1.08073931383 | 0.000624316666496 | 1.03557683005 | 1.03118762782 |
+| TimesNet / 1200 | 0.00157254951507 | 0.00383845963700 | 0.00491844356093 | 0.00546934598239 |
+| TimesNet / 2399 | 0.00326309006262 | 0.00165634091327 | 0.00194255174312 | 0.00222717317039 |
+| BiLSTM / 1200 | 0.000816636194451 | 0.301107365739 | 0.407211841622 | 0.461684118895 |
+| BiLSTM / 2399 | 0.202826791462 | 0.000990420666357 | 0.0840668719669 | 0.125443720656 |
+| Transformer / 1200 | 0.0260434167938 | 0.0258818293776 | 0.0258283335681 | 0.0258016567159 |
+| Transformer / 2399 | 0.0326034228820 | 0.0322528599217 | 0.0321367027735 | 0.0320788022689 |
+
+**Transformer native-relative ratios E(T_eval)/E(T_native):**
+
+| Model / Train T | T1200 | T2399 | T3598 | T4797 |
+| --- | --- | --- | --- | --- |
+| Transformer / 1200 | 1.00000000000 | 0.993795460194 | 0.991741359154 | 0.990717036868 |
+| Transformer / 2399 | 1.01086920544 | 1.00000000000 | 0.996398547341 | 0.994603342053 |
+
+**Transformer secondary metrics from saved predictions:**
+
+| Train / Eval T | Raw MSE | Mean per-Q Relative L2 | Median | p95 | p99 | Max | Worst Q (index) |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 1200 / 1200 | 0.0164944940853 | 0.0259193282086 | 0.0259230880232 | 0.0281276869530 | 0.0283716130975 | 0.0283838595346 | 2.9677526315789473 (390) |
+| 1200 / 2399 | 0.0162884223260 | 0.0257596895292 | 0.0257434293734 | 0.0279736557085 | 0.0282207275868 | 0.0282325580472 | 2.9677526315789473 (390) |
+| 1200 / 3598 | 0.0162204859682 | 0.0257068450129 | 0.0256838834274 | 0.0279228309452 | 0.0281706072531 | 0.0281824556332 | 2.9677526315789473 (390) |
+| 1200 / 4797 | 0.0161866612632 | 0.0256804971292 | 0.0256546105069 | 0.0278973841020 | 0.0281456801663 | 0.0281574850707 | 2.9677526315789473 (390) |
+| 2399 / 1200 | 0.0258505311434 | 0.0326588590903 | 0.0323698688378 | 0.0350934090847 | 0.0357806779920 | 0.0358032190748 | 1.6217315789473685 (6) |
+| 2399 / 2399 | 0.0252944675694 | 0.0323045334017 | 0.0320327793167 | 0.0345950797370 | 0.0352593315628 | 0.0352825534747 | 1.6217315789473685 (6) |
+| 2399 / 3598 | 0.0251115615866 | 0.0321871162786 | 0.0319207705781 | 0.0344308947549 | 0.0350874680764 | 0.0351111491384 | 1.6217315789473685 (6) |
+| 2399 / 4797 | 0.0250206381430 | 0.0321285838635 | 0.0318647167980 | 0.0343491710536 | 0.0350018591540 | 0.0350257399846 | 1.6217315789473685 (6) |
+
+Independent single-thread fno_srv CPU sum-of-squares recomputation from saved predictions
+and authoritative float64 truth passed all 64 scalar comparisons (rtol1e-12, atol1e-14;
+maximum absolute discrepancy 2.7755575615628914e-17). No predictions were regenerated.
+
+**Measured patterns and provisional interpretation:** Transformer native errors exceed
+those of the other four completed models. Its sampled errors decrease slightly toward
+finer grids for both checkpoints; T2399-to-T1200 increases only by a factor of 1.010869.
+Small native-relative variation coexists with a much larger absolute error baseline:
+this is not evidence of accurate resolution invariance. T2399 training does not improve
+absolute error over T1200 training in any of the four evaluated grids. FNO1D and TimesNet
+have lower absolute errors in all eight corresponding cells; BiLSTM and ResNet have lower
+native errors but higher off-native errors. Transformer worst Q stays fixed across grids
+for each checkpoint, but differs between the two training resolutions.
+
+Recorded Transformer training time is above FNO1D/TimesNet and below BiLSTM/ResNet at
+each T, with the recovery accounting limitation above. Its peak allocated memory is
+above FNO1D/ResNet/TimesNet and below BiLSTM at each T (prior resource tables: 15.8).
+These are single-seed descriptive comparisons, not a final ranking or an architecture/
+attention-backend causal explanation. Hypotheses remain unchanged; the distinction
+between native accuracy and relative stability remains to be revisited after six models.
+
+Formal root: outputs/benchmark_track_a_v1/phase_i_wave5_transformer_20260913.
+Registry 9.5 identifies training, evaluation and recovery artifacts; Reasoning Log
+Episode 25 records the interpretation boundary. No Protocol-impacting issue was found.
+The interrupted T1200 attempt is the recorded ordinary infrastructure incident;
+this analysis launched no training or evaluation and changed no formal asset.
+
+Phase I now has **5/6 models, 10/12 trainings and 40/48 frozen evaluation cells** complete.
+The exact next step is **Wave 6 DeepONet preparation**, followed by fresh explicit
+launch authorization and Git/data/GPU preflight before any T1200/T2399 formal workflow.
+DeepONet has not been started; this analysis does not authorize it.
