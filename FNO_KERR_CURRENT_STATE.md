@@ -1544,3 +1544,125 @@ observations, not six-model rankings or general superiority claims. Phase I has 
 **Exact next recommendation (not execution approval):** Phase I Wave 2, the locked
 Dilated ResNet at T1200 and T2399, each followed by all four frozen Q400 evaluations,
 subject to explicit user authorization and fresh preflight. Do not launch it automatically.
+
+### 15.6 Phase I Wave 2 completed and audited: Dilated ResNet (2026-09-12)
+
+**Completed-experiment analysis, not a new execution:** both previously launched ResNet
+runs finished in the background after the Codex conversation was interrupted. The new
+analysis task launched no training or inference. Source and analysis HEAD:
+`29170c9c20813306abb465d10b86031fa5853d23`, branch
+`codex/clean-research-history-20260905`; analysis began with a clean working tree.
+Both train exit records and both evaluator exit records have returncode 0. Each training
+history spans epochs 1--500; all 20 recovery checkpoints per run and all eight frozen
+evaluation cells are present, with no failure record. The conversation interruption
+did not interrupt the formal jobs; no training interruption/resume is recorded.
+
+Verified locked architecture: input2/output3, width84, kernel7, eleven residual blocks,
+dilations [1,2,4,8,16,32,64,128,256,512,1024], RF12349, and
+`real_scalar_parameter_count == tensor_numel == 1,096,119`.
+Source/checkpoint/configuration checks confirm the locked optimizer/budget/seed27,
+train-only float64 statistics and float32 model/training application. Statistics match
+independent float64 train-split reductions exactly and match Wave 1 at each native T.
+Frozen evaluation restores them without refitting. Dataset hashes/splits, physical
+lambda grids and canonical Q ordering match the registered assets and Wave 1.
+
+Measured training results (selection uses best validation normalized MSE, not final epoch):
+
+| Train T | Final epoch | Best epoch | Best validation normalized MSE | Final validation normalized MSE | Training seconds | Peak allocated bytes | Host GPU / CUDA_VISIBLE_DEVICES / local CUDA |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |
+| 1200 | 500 | 490 | 8.08959028594e-7 | 9.28123791558e-7 | 8828.08704151 | 1216906240 | 1 / 1 / cuda:0 |
+| 2399 | 500 | 487 | 3.85748219666e-7 | 4.38222237259e-7 | 10006.3546170 | 2259363328 | 2 / 2 / cuda:0 |
+
+Runs overlapped as independent single-GPU jobs in `fno_srv`, with the same single-thread
+CPU settings used in Wave 1. Training wall time covers training/validation and intermediate
+checkpoint I/O, excluding data/model setup and final publication; peak memory is PyTorch
+allocated memory, not total driver-reserved memory. No DDP/DataParallel was used.
+
+Measured global raw-xyz Relative L2:
+
+| Train / Evaluate | T1200 | T2399 | T3598 | T4797 |
+| --- | ---: | ---: | ---: | ---: |
+| 1200 | 0.000875793115919 | 1.23641878184 | 1.15185604926 | 1.10103131103 |
+| 2399 | 1.08073931383 | 0.000624316666496 | 1.03557683005 | 1.03118762782 |
+
+Native-relative ratios E(T)/E(native):
+
+| Train / Evaluate | T1200 | T2399 | T3598 | T4797 |
+| --- | ---: | ---: | ---: | ---: |
+| 1200 | 1.00000000000 | 1411.77038203 | 1315.21477884 | 1257.18196572 |
+| 2399 | 1731.07554520 | 1.00000000000 | 1658.73648041 | 1651.70607026 |
+
+Absolute differences E(T)-E(native), in Relative-L2 units:
+
+| Train / Evaluate | T1200 | T2399 | T3598 | T4797 |
+| --- | ---: | ---: | ---: | ---: |
+| 1200 | 0.00000000000 | 1.23554298872 | 1.15098025615 | 1.10015551792 |
+| 2399 | 1.08011499717 | 0.00000000000 | 1.03495251338 | 1.03056331115 |
+
+Secondary raw-xyz metrics:
+
+| Train T | Eval T | Raw MSE | Mean per-Q Relative L2 | Median | p95 | p99 | Max | Worst Q |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 1200 | 1200 | 0.0000186528900847 | 0.000862124007241 | 0.000779073926617 | 0.00134926304795 | 0.00175268214147 | 0.00236733468221 | 1.60070000000 |
+| 1200 | 2399 | 37.1723714867 | 1.23826426895 | 1.26245690855 | 1.28165117935 | 1.28267344321 | 1.28273622817 | 1.63925789474 |
+| 1200 | 3598 | 32.2602332635 | 1.15196260052 | 1.15541055167 | 1.18827162537 | 1.19910375666 | 1.20166970601 | 1.60070000000 |
+| 1200 | 4797 | 29.4755170437 | 1.09809848633 | 1.09945026386 | 1.16083852120 | 1.16110032435 | 1.16111414028 | 2.92568947368 |
+| 2399 | 1200 | 28.4043579387 | 1.07662143528 | 1.06831679179 | 1.15330165627 | 1.15774591915 | 1.15872146592 | 2.99930000000 |
+| 2399 | 2399 | 0.00000947761230136 | 0.000622188444090 | 0.000585114698436 | 0.000845615912937 | 0.00100617183403 | 0.00125611145894 | 1.60070000000 |
+| 2399 | 3598 | 26.0756857407 | 1.03684686112 | 1.03267457471 | 1.09684580886 | 1.11236287682 | 1.11595855781 | 1.60070000000 |
+| 2399 | 4797 | 25.8545795886 | 1.03296823687 | 1.02371805851 | 1.10082721763 | 1.10145877268 | 1.10148784570 | 1.67781578947 |
+
+**Provisional two-model comparison:** the same 2x4 global Relative-L2 layout is:
+
+| Model / Train T | T1200 | T2399 | T3598 | T4797 |
+| --- | ---: | ---: | ---: | ---: |
+| FNO1D / 1200 | 0.000304676590517 | 0.00260773956864 | 0.00346591077718 | 0.00389546647459 |
+| ResNet / 1200 | 0.000875793115919 | 1.23641878184 | 1.15185604926 | 1.10103131103 |
+| FNO1D / 2399 | 0.00262195772641 | 0.000295562198528 | 0.000891773304135 | 0.00130651011794 |
+| ResNet / 2399 | 1.08073931383 | 0.000624316666496 | 1.03557683005 | 1.03118762782 |
+
+Native-relative ratios, kept separate from absolute accuracy:
+
+| Model / Train T | T1200 | T2399 | T3598 | T4797 |
+| --- | ---: | ---: | ---: | ---: |
+| FNO1D / 1200 | 1.00000000000 | 8.55904145513 | 11.3757042223 | 12.7855785309 |
+| ResNet / 1200 | 1.00000000000 | 1411.77038203 | 1315.21477884 | 1257.18196572 |
+| FNO1D / 2399 | 8.87108615200 | 1.00000000000 | 3.01721028121 | 4.42042360102 |
+| ResNet / 2399 | 1731.07554520 | 1.00000000000 | 1658.73648041 | 1651.70607026 |
+
+ResNet native errors are about 2.87x / 2.11x the corresponding FNO1D native errors.
+All six ResNet off-native global errors exceed 1, whereas the corresponding FNO1D errors
+range from about 8.92e-4 to 3.90e-3. ResNet errors jump abruptly upon leaving the native
+grid; the off-native errors are not monotonically increasing with finer T. T2399 training
+reduces ResNet absolute T3598/T4797 errors relative to T1200 training, but does not restore
+native-level accuracy; its native-relative ratios are larger because its native error
+is smaller. ResNet training time is about 17.04x / 16.84x, and peak allocated memory about
+6.27x / 6.33x, the corresponding Wave-1 measurements. These are measured run comparisons,
+not attribution to architecture alone or a six-model ranking.
+
+**Integrity evidence:** read-only single-thread CPU analysis independently recomputed
+global and per-Q raw metrics from saved predictions and authoritative float64 truth using
+sum-of-squares formulas, population summaries and the unchanged metric epsilon 1e-12.
+All eight cells passed `rtol=1e-12, atol=1e-14`; maximum absolute discrepancy was
+2.842170943040401e-14. Saved Q/lambda arrays, per-cell versus matrix metrics, native ratios/
+deltas, source/data hashes, full checkpoint histories, best-weight selection and
+normalization matched. All 70 Wave-1 file hashes match the pre-Wave-2 manifest. All 77
+Wave-2 files were retained unchanged. No predictions were regenerated and no new output
+asset was created by this analysis. No Protocol-impacting issue or execution failure
+was found; poor cross-resolution accuracy is retained as a formal result.
+
+Formal root: `outputs/benchmark_track_a_v1/phase_i_wave2_resnet_20260912`.
+`train_t1200/` and `train_t2399/` contain run/summary JSON, best checkpoints and immutable
+epoch checkpoints through 0500. `eval_t1200/` and `eval_t2399/` each contain four prediction
+archives, four metrics JSON files and `matrix.json`. Execution manifest, logs and start/
+exit records are at the wave root. Registry section 9.2 indexes these existing assets.
+
+**Interpretation/hypothesis boundary:** native fit does not establish resolution stability.
+The large RF does not by itself guarantee invariance to discretization; these results
+do not establish an effective-RF or other causal mechanism. Preregistered hypotheses
+remain unchanged. Phase I has completed 4 of 12 formal training runs and 16 of 48
+evaluation cells, involving only FNO1D and ResNet; Phase I is not complete.
+
+**Exact next recommendation, requiring explicit approval:** Phase I Wave 3, canonical
+TimesNet at T1200 and T2399 with the locked configuration, followed by the same four
+frozen Q400 evaluations per checkpoint. Do not launch it from this analysis task.

@@ -518,11 +518,11 @@ PASS — registry draft ready for user review
 ## 9. Planned cross-model Benchmark Protocol v1
 
 The initial planned-work index below is retained with current status. Completed formal
-Wave-1 assets are registered separately in section 9.1; no new dataset was generated.
+Wave-1 and Wave-2 assets are registered in sections 9.1 and 9.2; no new dataset was generated.
 
 | Planned work | Reused recorded basis | Status | Asset boundary |
 | --- | --- | --- | --- |
-| Phase-I Track-A task-aligned models: BiLSTM, Dilated ResNet, canonical TimesNet, Transformer encoder, FNO1D, DeepONet | `data/tasks/q_1p6-3_n2000_t1200`; matched `data/tasks/q_1p6-3_n2000_t2399_plan_b_matched_v1`; independent Q400 endpoint-fixed evaluation family | IMPLEMENTED; FNO1D WAVE 1 COMPLETED; other five models NOT TRAINED | Only the FNO1D assets in section 9.1 exist as formal Track A outputs. |
+| Phase-I Track-A task-aligned models: BiLSTM, Dilated ResNet, canonical TimesNet, Transformer encoder, FNO1D, DeepONet | `data/tasks/q_1p6-3_n2000_t1200`; matched `data/tasks/q_1p6-3_n2000_t2399_plan_b_matched_v1`; independent Q400 endpoint-fixed evaluation family | IMPLEMENTED; FNO1D WAVE 1 and ResNet WAVE 2 COMPLETED; other four models NOT TRAINED | Formal assets are indexed in sections 9.1 and 9.2; Phase I remains incomplete. |
 | Phase-II FNO formulation/capacity study | Phase-I FNO1D-small; existing FNO2D-large Plan B assets; future FNO2D-small matched data | PLANNED / NOT TRAINED | Existing FNO2D-large outputs are reusable evidence; FNO2D-small is not yet an asset. |
 | Phase-III selective scaling | Phase-I/II results only after review | CONDITIONAL FUTURE / NOT STARTED | No selected model, capacity-scaled checkpoint, or expanded n5000/n10000 run is registered. |
 
@@ -581,3 +581,68 @@ summary. All eight prediction metrics were recomputed exactly on CPU after compl
 Q/lambda ordering, normalization and selected checkpoint hashes were verified. No
 interruption/resume or Protocol-impacting issue occurred. This registers only FNO1D:
 the other five Phase-I models remain untrained, and Phase II/III remain unexecuted.
+
+### 9.2 Completed Phase I Wave 2 — Dilated ResNet (2026-09-12)
+
+These are existing formal outputs, verified during completed-experiment analysis.
+Source HEAD: `29170c9c20813306abb465d10b86031fa5853d23`;
+branch `codex/clean-research-history-20260905`. Initial execution and analysis Git
+preflights were clean. No new training, inference or output generation occurred during
+analysis. Wave-1's 70 files were verified unchanged against the saved preflight hashes.
+
+| Existing path | Status | Identity / contents |
+| --- | --- | --- |
+| `outputs/benchmark_track_a_v1/phase_i_wave2_resnet_20260912/train_t1200` | COMPLETED — epoch500 | Locked ResNet, original n2000/T1200 train split, best epoch490, host GPU1/local cuda:0 |
+| `outputs/benchmark_track_a_v1/phase_i_wave2_resnet_20260912/train_t2399` | COMPLETED — epoch500 | Locked ResNet, matched n2000/T2399 train split, best epoch487, host GPU2/local cuda:0 |
+| `outputs/benchmark_track_a_v1/phase_i_wave2_resnet_20260912/eval_t1200` | COMPLETED — four frozen cells | T1200 BEST checkpoint on canonical Q400 T1200/T2399/T3598/T4797 |
+| `outputs/benchmark_track_a_v1/phase_i_wave2_resnet_20260912/eval_t2399` | COMPLETED — four frozen cells | T2399 BEST checkpoint on the same four canonical Q400 assets |
+| `outputs/benchmark_track_a_v1/phase_i_wave2_resnet_20260912/wave_execution.json` | EXISTING — execution provenance | Scope, source HEAD, CPU/GPU scheduling, Wave-1 preflight file hashes |
+
+Each training directory contains `run.json`, `summary.json`, `best_model.pt` and twenty
+immutable `epoch_0025.pt` through `epoch_0500.pt` recovery checkpoints. Statistics,
+optimizer/scheduler/RNG, history and best-so-far weights are retained in checkpoints.
+Each evaluation directory contains `matrix.json`, four `metrics_t<T>.json` and four
+`prediction_t<T>.npz`. Root `train_t<T>.log`, `evaluate_t<T>.log` and each corresponding
+`*_start.json` / `*_exit.json` record execution. Both training and both evaluation exits
+are successful; no failure or training-resume event is recorded. There are 77 retained
+Wave-2 files; no standalone wave-summary JSON is claimed.
+
+Architecture: input2/output3, width84, kernel7, 11 blocks, dilation powers of two through
+1024, RF12349; both parameter counts are 1,096,119. All locked training defaults were
+retained, including train-only float64 statistics and float32 training. No dataset,
+Wave-1 asset or historical result was overwritten.
+
+Best checkpoint SHA256:
+
+- T1200: `aeee49cf033a304e2fd07a8ef5e45297cbc634d6904cf00787af7c1410f83270`.
+- T2399: `12e0cf0c8e8294652bf2a011d605aaf37dd3ff6d2024a196d00371f06007d712`.
+
+| Train T | Final epoch | Best epoch | Best validation normalized MSE | Final validation normalized MSE | Training seconds | Peak allocated bytes | Host GPU / CUDA_VISIBLE_DEVICES / local CUDA |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |
+| 1200 | 500 | 490 | 8.08959028594e-7 | 9.28123791558e-7 | 8828.08704151 | 1216906240 | 1 / 1 / cuda:0 |
+| 2399 | 500 | 487 | 3.85748219666e-7 | 4.38222237259e-7 | 10006.3546170 | 2259363328 | 2 / 2 / cuda:0 |
+
+Measured global raw-xyz Relative L2:
+
+| Train / Evaluate | T1200 | T2399 | T3598 | T4797 |
+| --- | ---: | ---: | ---: | ---: |
+| 1200 | 0.000875793115919 | 1.23641878184 | 1.15185604926 | 1.10103131103 |
+| 2399 | 1.08073931383 | 0.000624316666496 | 1.03557683005 | 1.03118762782 |
+
+Native-relative global-error ratios:
+
+| Train / Evaluate | T1200 | T2399 | T3598 | T4797 |
+| --- | ---: | ---: | ---: | ---: |
+| 1200 | 1.00000000000 | 1411.77038203 | 1315.21477884 | 1257.18196572 |
+| 2399 | 1731.07554520 | 1.00000000000 | 1658.73648041 | 1651.70607026 |
+
+Raw MSE, all per-Q summaries/worst Q, ratios/deltas and inference resources are retained
+in the per-cell metrics/matrices; Current State 15.6 includes the full secondary table.
+Independent CPU recomputation of all eight saved prediction metrics passed at
+`rtol=1e-12, atol=1e-14`; max absolute discrepancy 2.842170943040401e-14.
+Normalization, best selection, source/data provenance and Q/lambda arrays were verified.
+
+Provisional comparison only: ResNet has higher native errors and much larger off-native
+errors/ratios than FNO1D in this single locked seed27 comparison. Training time and
+peak allocated memory were also higher (see Current State 15.6); this is not a six-model
+ranking or architecture-only causal claim. Four other Track A models remain untrained.

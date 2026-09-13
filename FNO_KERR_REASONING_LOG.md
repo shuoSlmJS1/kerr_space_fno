@@ -1399,3 +1399,79 @@ followed by all four frozen Q400 evaluations, to add a conventional convolutiona
 comparison under the same task and budget. This is a recommendation requiring explicit
 user authorization, not a ranking, new architecture choice or permission to launch.
 No other model or Phase II/III experiment was executed in this task.
+
+## Episode 22 — Completed ResNet Wave 2: native fit and resolution transfer (2026-09-12)
+
+### Measured facts and completed-experiment audit
+
+The user confirmed background completion and authorized analysis only. Both ResNet
+trainings reached 500 epochs; both frozen BEST evaluations produced all four Q400 cells.
+Start/exit records show successful training and evaluation with no recorded failure or
+training resume. The earlier Codex conversation interruption did not stop either job.
+Analysis used source HEAD `29170c9c20813306abb465d10b86031fa5853d23` and a clean
+working tree. No training, prediction regeneration or protocol change was performed.
+
+Best epochs were 490 (T1200) and 487 (T2399); validation normalized MSE was
+8.08959028593866e-7 and 3.8574821966600816e-7. Final-epoch validation MSE was
+9.281237915577852e-7 and 4.3822223725934844e-7, respectively. Full best/final selection,
+checkpoint histories, locked RF12349/capacity/configuration, exact float64 train statistics,
+float32 checkpoint/model path, data hashes and Q/lambda ordering passed audit. All eight
+saved prediction metrics passed independent sum-of-squares CPU recomputation with
+`rtol=1e-12, atol=1e-14`; max absolute discrepancy was 2.842170943040401e-14.
+Wave-1's 70 file hashes remained unchanged. No numerical or provenance mismatch was found.
+
+Measured global raw-xyz Relative L2:
+
+| Train / Evaluate | T1200 | T2399 | T3598 | T4797 |
+| --- | ---: | ---: | ---: | ---: |
+| 1200 | 0.000875793115919 | 1.23641878184 | 1.15185604926 | 1.10103131103 |
+| 2399 | 1.08073931383 | 0.000624316666496 | 1.03557683005 | 1.03118762782 |
+
+Ratios to each checkpoint's own native resolution:
+
+| Train / Evaluate | T1200 | T2399 | T3598 | T4797 |
+| --- | ---: | ---: | ---: | ---: |
+| 1200 | 1.00000000000 | 1411.77038203 | 1315.21477884 | 1257.18196572 |
+| 2399 | 1731.07554520 | 1.00000000000 | 1658.73648041 | 1651.70607026 |
+
+Native errors are 8.757931159186983e-4 and 6.243166664963908e-4. All six off-native errors
+are between approximately 1.03 and 1.24, with an abrupt native/off-native gap rather than
+a monotonic rise across the finer grids. T2399 training lowers absolute T3598/T4797 errors
+relative to T1200 training, but leaves them near 1; its smaller native baseline produces
+larger relative degradation ratios. Thus improved absolute error and improved
+native-relative robustness must not be treated as the same claim.
+
+Worst Q is 1.6007 for both native cells. T1200 training shifts to Q=1.6392578947368421 at
+T2399, back to 1.6007 at T3598, and to 2.9256894736842103 at T4797. T2399 training shifts
+to 2.9993 at T1200, stays at 1.6007 at T3598, and shifts to 1.6778157894736843 at T4797.
+Training took 8828.0870415112 / 10006.35461697448 seconds with peak allocated memory
+1216906240 / 2259363328 bytes on independent host GPU1/GPU2, each mapped to local cuda:0.
+
+### Provisional interpretation, not a final model ranking
+
+Compared with the same Wave-1 cells, ResNet native errors are approximately 2.87x / 2.11x
+larger. Its non-native ratios are approximately 1257--1731x, versus approximately
+3.02--12.79x for FNO1D. ResNet measured training time is about 17.04x / 16.84x and peak
+allocated memory about 6.27x / 6.33x FNO1D. Both waves used the locked seed27/protocol
+and concurrent independent single-GPU scheduling. These are descriptive observations;
+they do not isolate architecture as the sole cause, establish seed robustness, or
+rank all six models. Full matrices/distributions and asset hashes are in Current State
+15.6 and Registry 9.2.
+
+A provisional reading is that accurate native function regression can coexist with
+strong discretization sensitivity in this ResNet configuration. RF12349 is a nominal
+architecture property, not a guarantee of resolution invariance; these results do not
+identify effective-RF, padding, learned filters or another mechanism as the cause.
+No failed-transfer result is discarded or used to justify architecture, budget,
+normalization or data changes. Poor accuracy is a measured result, not by itself a
+Protocol-impacting issue.
+
+### Hypothesis boundary and next step
+
+The preregistered six-model hypotheses remain unchanged. The hypothesis that operator/
+spectral models may transfer resolution more reliably remains for the complete benchmark
+to assess; this two-model comparison does not establish a universal explanation.
+Phase I is incomplete: 4/12 trainings and 16/48 evaluation cells are complete.
+The next recommended wave is locked canonical TimesNet at T1200/T2399, each followed
+by four frozen Q400 evaluations, only after explicit user authorization. No next wave
+or other model was launched by this analysis.
