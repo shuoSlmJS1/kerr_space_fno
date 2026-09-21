@@ -1,0 +1,32 @@
+{
+  "units": "bytes; logical file lengths, not filesystem allocated space",
+  "class_totals": {
+    "MUST_UPLOAD": 1044125815,
+    "RECOMMENDED_UPLOAD": 860988042,
+    "INDEX_ONLY": 767168,
+    "DO_NOT_UPLOAD": 5018121983
+  },
+  "selected_category_totals": {
+    "best_checkpoint": 858235146,
+    "dataset": 277796529,
+    "dataset_metadata": 1951997,
+    "final_prediction": 751066423,
+    "metrics_metadata": 13273848,
+    "protocol": 37018,
+    "provenance_summary": 2752896
+  },
+  "must_plus_recommended_bytes": 1905113857,
+  "must_plus_all_14_best_checkpoints_bytes": 1902360961,
+  "must_plus_12_track_a_best_checkpoints_bytes": 1096381053,
+  "best_checkpoint_count": 14,
+  "dataset_files_only_bytes": 277796529,
+  "dataset_directories_bytes": 279748526,
+  "final_predictions_bytes": 751066423,
+  "best_checkpoint_bytes": 858235146,
+  "metrics_and_metadata_bytes": 18015759,
+  "intermediate_checkpoint_bytes": 4990529468,
+  "track_a_periodic_checkpoint_count": 240,
+  "track_a_periodic_checkpoint_bytes": 4184549560,
+  "package_byte_dedup_policy": "One source per logical dataset/prediction/BEST; repeated matrix references are not extra files. Context-specific tiny metadata preserved even if byte-identical.",
+  "inventory_files_overhead": "Not included in source-asset totals; small generated inventory files only."
+}

@@ -1,0 +1,725 @@
+[
+  {
+    "logical_name": "training_n2000_T1200",
+    "absolute_path": "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6-3_n2000_t1200",
+    "relative_project_path": "data/tasks/q_1p6-3_n2000_t1200",
+    "size_bytes": 55681768,
+    "file_count": 3,
+    "Q_range": [
+      1.6,
+      3.0
+    ],
+    "Q_count": 2000,
+    "T": 1200,
+    "delta_lambda": 0.005,
+    "lambda_range": [
+      0.0,
+      5.995
+    ],
+    "split": {
+      "train": 1400,
+      "val": 300,
+      "test": 300
+    },
+    "split_seed": 10,
+    "principal_arrays": {
+      "vary_params_order": {
+        "shape": [
+          1
+        ],
+        "dtype": "<U1",
+        "fortran_order": false
+      },
+      "x_train": {
+        "shape": [
+          1400,
+          1
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "x_val": {
+        "shape": [
+          300,
+          1
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "x_test": {
+        "shape": [
+          300,
+          1
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "y_train": {
+        "shape": [
+          1400,
+          1200,
+          3
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "y_val": {
+        "shape": [
+          300,
+          1200,
+          3
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "y_test": {
+        "shape": [
+          300,
+          1200,
+          3
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "lambda_grid": {
+        "shape": [
+          1200
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      }
+    },
+    "generator_script": [
+      "scripts/generate_dataset.py"
+    ],
+    "generator_evidence": "existing workflow/source; original coarse invocation not separately preserved",
+    "metadata_file": "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6-3_n2000_t1200/meta.json",
+    "dataset_sha256": "3e0358831e6b96c38f15c8e3178f6d37f38b4bddbe1ab01a63cfaba043f211ce",
+    "sha256_basis": "existing Wave 6 launch provenance; dataset SHA256 not recomputed",
+    "used_by": [
+      "Plan B theta1200 training",
+      "Track A: all six models trained at T1200"
+    ],
+    "truth_role": "formal ground truth",
+    "evaluation_order": "native split row order for training; Q400 evaluation uses all 400 rows sorted by Q",
+    "relationship_to_other_datasets": "coarse reference; fine datasets preserve split identities and row order",
+    "historical_task_name_note": "Matched metadata may retain coarse source task_name; resolution is identified by n_steps, grid and actual path."
+  },
+  {
+    "logical_name": "training_n2000_T2399",
+    "absolute_path": "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6-3_n2000_t2399_plan_b_matched_v1",
+    "relative_project_path": "data/tasks/q_1p6-3_n2000_t2399_plan_b_matched_v1",
+    "size_bytes": 112393203,
+    "file_count": 4,
+    "Q_range": [
+      1.6,
+      3.0
+    ],
+    "Q_count": 2000,
+    "T": 2399,
+    "delta_lambda": 0.0025,
+    "lambda_range": [
+      0.0,
+      5.995
+    ],
+    "split": {
+      "train": 1400,
+      "val": 300,
+      "test": 300
+    },
+    "split_seed": 10,
+    "principal_arrays": {
+      "vary_params_order": {
+        "shape": [
+          1
+        ],
+        "dtype": "<U1",
+        "fortran_order": false
+      },
+      "lambda_grid": {
+        "shape": [
+          2399
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "x_train": {
+        "shape": [
+          1400,
+          1
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "y_train": {
+        "shape": [
+          1400,
+          2399,
+          3
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "success_mask_train": {
+        "shape": [
+          1400
+        ],
+        "dtype": "bool",
+        "fortran_order": false
+      },
+      "x_val": {
+        "shape": [
+          300,
+          1
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "y_val": {
+        "shape": [
+          300,
+          2399,
+          3
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "success_mask_val": {
+        "shape": [
+          300
+        ],
+        "dtype": "bool",
+        "fortran_order": false
+      },
+      "x_test": {
+        "shape": [
+          300,
+          1
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "y_test": {
+        "shape": [
+          300,
+          2399,
+          3
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "success_mask_test": {
+        "shape": [
+          300
+        ],
+        "dtype": "bool",
+        "fortran_order": false
+      }
+    },
+    "generator_script": [
+      "scripts/run_plan_b_bidirectional_reverse_2d.py",
+      "src/data_generation/plan_b_matched_training.py"
+    ],
+    "generator_evidence": "paired replay provenance and existing workflow",
+    "metadata_file": "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6-3_n2000_t2399_plan_b_matched_v1/meta.json",
+    "dataset_sha256": "031135ec8f4839881f9ce968dc0c4a1b7b2a0184e0690eb97458f7d095c05a2d",
+    "sha256_basis": "existing Wave 6 launch provenance; dataset SHA256 not recomputed",
+    "used_by": [
+      "Plan B theta2399 training",
+      "Track A: all six models trained at T2399"
+    ],
+    "truth_role": "formal ground truth",
+    "evaluation_order": "native split row order for training; Q400 evaluation uses all 400 rows sorted by Q",
+    "relationship_to_other_datasets": "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6-3_n2000_t1200",
+    "historical_task_name_note": "Matched metadata may retain coarse source task_name; resolution is identified by n_steps, grid and actual path."
+  },
+  {
+    "logical_name": "evaluation_Q400_T1200",
+    "absolute_path": "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1200",
+    "relative_project_path": "data/tasks/q_1p6007-2p9993_n400_t1200",
+    "size_bytes": 11141867,
+    "file_count": 3,
+    "Q_range": [
+      1.6007,
+      2.9993
+    ],
+    "Q_count": 400,
+    "T": 1200,
+    "delta_lambda": 0.005,
+    "lambda_range": [
+      0.0,
+      5.995
+    ],
+    "split": {
+      "train": 280,
+      "val": 60,
+      "test": 60
+    },
+    "split_seed": 20260728,
+    "principal_arrays": {
+      "vary_params_order": {
+        "shape": [
+          1
+        ],
+        "dtype": "<U1",
+        "fortran_order": false
+      },
+      "x_train": {
+        "shape": [
+          280,
+          1
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "x_val": {
+        "shape": [
+          60,
+          1
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "x_test": {
+        "shape": [
+          60,
+          1
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "y_train": {
+        "shape": [
+          280,
+          1200,
+          3
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "y_val": {
+        "shape": [
+          60,
+          1200,
+          3
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "y_test": {
+        "shape": [
+          60,
+          1200,
+          3
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "lambda_grid": {
+        "shape": [
+          1200
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      }
+    },
+    "generator_script": [
+      "scripts/generate_dataset.py"
+    ],
+    "generator_evidence": "existing workflow/source; original coarse invocation not separately preserved",
+    "metadata_file": "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1200/meta.json",
+    "dataset_sha256": "39c7b1ce9624123a5f2680d76abe8a7fa18e135ec166fa70262efb8d563c60db",
+    "sha256_basis": "existing Wave 6 launch provenance; dataset SHA256 not recomputed",
+    "used_by": [
+      "Plan B frozen FNO2D evaluation",
+      "Track A: all 12 frozen BEST checkpoints"
+    ],
+    "truth_role": "formal ground truth",
+    "evaluation_order": "native split row order for training; Q400 evaluation uses all 400 rows sorted by Q",
+    "relationship_to_other_datasets": "coarse reference; fine datasets preserve split identities and row order",
+    "historical_task_name_note": "Matched metadata may retain coarse source task_name; resolution is identified by n_steps, grid and actual path."
+  },
+  {
+    "logical_name": "evaluation_Q400_T2399",
+    "absolute_path": "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t2399_plan_b_v1",
+    "relative_project_path": "data/tasks/q_1p6007-2p9993_n400_t2399_plan_b_v1",
+    "size_bytes": 22487456,
+    "file_count": 4,
+    "Q_range": [
+      1.6007,
+      2.9993
+    ],
+    "Q_count": 400,
+    "T": 2399,
+    "delta_lambda": 0.0025,
+    "lambda_range": [
+      0.0,
+      5.995
+    ],
+    "split": {
+      "train": 280,
+      "val": 60,
+      "test": 60
+    },
+    "split_seed": 20260728,
+    "principal_arrays": {
+      "vary_params_order": {
+        "shape": [
+          1
+        ],
+        "dtype": "<U1",
+        "fortran_order": false
+      },
+      "lambda_grid": {
+        "shape": [
+          2399
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "x_train": {
+        "shape": [
+          280,
+          1
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "y_train": {
+        "shape": [
+          280,
+          2399,
+          3
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "success_mask_train": {
+        "shape": [
+          280
+        ],
+        "dtype": "bool",
+        "fortran_order": false
+      },
+      "x_val": {
+        "shape": [
+          60,
+          1
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "y_val": {
+        "shape": [
+          60,
+          2399,
+          3
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "success_mask_val": {
+        "shape": [
+          60
+        ],
+        "dtype": "bool",
+        "fortran_order": false
+      },
+      "x_test": {
+        "shape": [
+          60,
+          1
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "y_test": {
+        "shape": [
+          60,
+          2399,
+          3
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "success_mask_test": {
+        "shape": [
+          60
+        ],
+        "dtype": "bool",
+        "fortran_order": false
+      }
+    },
+    "generator_script": [
+      "scripts/generate_plan_b_paired_fine_dataset.py"
+    ],
+    "generator_evidence": "paired replay provenance and existing workflow",
+    "metadata_file": "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t2399_plan_b_v1/meta.json",
+    "dataset_sha256": "57eaef573d4adc86c352b91f04c256cc1bd54cd38ebc042d70644e20aa750ce8",
+    "sha256_basis": "existing Wave 6 launch provenance; dataset SHA256 not recomputed",
+    "used_by": [
+      "Plan B frozen FNO2D evaluation",
+      "Track A: all 12 frozen BEST checkpoints"
+    ],
+    "truth_role": "formal ground truth",
+    "evaluation_order": "native split row order for training; Q400 evaluation uses all 400 rows sorted by Q",
+    "relationship_to_other_datasets": "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1200",
+    "historical_task_name_note": "Matched metadata may retain coarse source task_name; resolution is identified by n_steps, grid and actual path."
+  },
+  {
+    "logical_name": "evaluation_Q400_T3598",
+    "absolute_path": "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t3598_plan_b_range_v1",
+    "relative_project_path": "data/tasks/q_1p6007-2p9993_n400_t3598_plan_b_range_v1",
+    "size_bytes": 33522764,
+    "file_count": 4,
+    "Q_range": [
+      1.6007,
+      2.9993
+    ],
+    "Q_count": 400,
+    "T": 3598,
+    "delta_lambda": 0.0016666666666666668,
+    "lambda_range": [
+      0.0,
+      5.995
+    ],
+    "split": {
+      "train": 280,
+      "val": 60,
+      "test": 60
+    },
+    "split_seed": 20260728,
+    "principal_arrays": {
+      "vary_params_order": {
+        "shape": [
+          1
+        ],
+        "dtype": "<U1",
+        "fortran_order": false
+      },
+      "lambda_grid": {
+        "shape": [
+          3598
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "x_train": {
+        "shape": [
+          280,
+          1
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "y_train": {
+        "shape": [
+          280,
+          3598,
+          3
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "success_mask_train": {
+        "shape": [
+          280
+        ],
+        "dtype": "bool",
+        "fortran_order": false
+      },
+      "x_val": {
+        "shape": [
+          60,
+          1
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "y_val": {
+        "shape": [
+          60,
+          3598,
+          3
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "success_mask_val": {
+        "shape": [
+          60
+        ],
+        "dtype": "bool",
+        "fortran_order": false
+      },
+      "x_test": {
+        "shape": [
+          60,
+          1
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "y_test": {
+        "shape": [
+          60,
+          3598,
+          3
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "success_mask_test": {
+        "shape": [
+          60
+        ],
+        "dtype": "bool",
+        "fortran_order": false
+      }
+    },
+    "generator_script": [
+      "scripts/run_plan_b_resolution_range_sweep_2d.py",
+      "src/data_generation/plan_b_resolution_range.py"
+    ],
+    "generator_evidence": "paired replay provenance and existing workflow",
+    "metadata_file": "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t3598_plan_b_range_v1/meta.json",
+    "dataset_sha256": "edaec5a5ad1cb5c4bca24558cb9e014ea55e64c8b766a6f03ea88bf933ea8aa2",
+    "sha256_basis": "existing Wave 6 launch provenance; dataset SHA256 not recomputed",
+    "used_by": [
+      "Plan B frozen FNO2D evaluation",
+      "Track A: all 12 frozen BEST checkpoints"
+    ],
+    "truth_role": "formal ground truth",
+    "evaluation_order": "native split row order for training; Q400 evaluation uses all 400 rows sorted by Q",
+    "relationship_to_other_datasets": "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1200",
+    "historical_task_name_note": "Matched metadata may retain coarse source task_name; resolution is identified by n_steps, grid and actual path."
+  },
+  {
+    "logical_name": "evaluation_Q400_T4797",
+    "absolute_path": "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t4797_plan_b_range_v1",
+    "relative_project_path": "data/tasks/q_1p6007-2p9993_n400_t4797_plan_b_range_v1",
+    "size_bytes": 44521468,
+    "file_count": 4,
+    "Q_range": [
+      1.6007,
+      2.9993
+    ],
+    "Q_count": 400,
+    "T": 4797,
+    "delta_lambda": 0.00125,
+    "lambda_range": [
+      0.0,
+      5.995
+    ],
+    "split": {
+      "train": 280,
+      "val": 60,
+      "test": 60
+    },
+    "split_seed": 20260728,
+    "principal_arrays": {
+      "vary_params_order": {
+        "shape": [
+          1
+        ],
+        "dtype": "<U1",
+        "fortran_order": false
+      },
+      "lambda_grid": {
+        "shape": [
+          4797
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "x_train": {
+        "shape": [
+          280,
+          1
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "y_train": {
+        "shape": [
+          280,
+          4797,
+          3
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "success_mask_train": {
+        "shape": [
+          280
+        ],
+        "dtype": "bool",
+        "fortran_order": false
+      },
+      "x_val": {
+        "shape": [
+          60,
+          1
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "y_val": {
+        "shape": [
+          60,
+          4797,
+          3
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "success_mask_val": {
+        "shape": [
+          60
+        ],
+        "dtype": "bool",
+        "fortran_order": false
+      },
+      "x_test": {
+        "shape": [
+          60,
+          1
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "y_test": {
+        "shape": [
+          60,
+          4797,
+          3
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "success_mask_test": {
+        "shape": [
+          60
+        ],
+        "dtype": "bool",
+        "fortran_order": false
+      }
+    },
+    "generator_script": [
+      "scripts/run_plan_b_resolution_range_sweep_2d.py",
+      "src/data_generation/plan_b_resolution_range.py"
+    ],
+    "generator_evidence": "paired replay provenance and existing workflow",
+    "metadata_file": "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t4797_plan_b_range_v1/meta.json",
+    "dataset_sha256": "357451cb03bc974778adcc03827550c0033b1eb8e0cb02e8ed3320428127e5a1",
+    "sha256_basis": "existing Wave 6 launch provenance; dataset SHA256 not recomputed",
+    "used_by": [
+      "Plan B frozen FNO2D evaluation",
+      "Track A: all 12 frozen BEST checkpoints"
+    ],
+    "truth_role": "formal ground truth",
+    "evaluation_order": "native split row order for training; Q400 evaluation uses all 400 rows sorted by Q",
+    "relationship_to_other_datasets": "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1200",
+    "historical_task_name_note": "Matched metadata may retain coarse source task_name; resolution is identified by n_steps, grid and actual path."
+  }
+]

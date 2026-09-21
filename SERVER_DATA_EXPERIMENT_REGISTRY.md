@@ -518,11 +518,11 @@ PASS — registry draft ready for user review
 ## 9. Planned cross-model Benchmark Protocol v1
 
 The initial planned-work index below is retained with current status. Completed formal
-Wave-1 and Wave-2 assets are registered in sections 9.1 and 9.2; no new dataset was generated.
+Waves 1--6 assets are registered in sections 9.1--9.6; no new dataset was generated.
 
 | Planned work | Reused recorded basis | Status | Asset boundary |
 | --- | --- | --- | --- |
-| Phase-I Track-A task-aligned models: BiLSTM, Dilated ResNet, canonical TimesNet, Transformer encoder, FNO1D, DeepONet | `data/tasks/q_1p6-3_n2000_t1200`; matched `data/tasks/q_1p6-3_n2000_t2399_plan_b_matched_v1`; independent Q400 endpoint-fixed evaluation family | IMPLEMENTED; FNO1D WAVE 1 and ResNet WAVE 2 COMPLETED; other four models NOT TRAINED | Formal assets are indexed in sections 9.1 and 9.2; Phase I remains incomplete. |
+| Phase-I Track-A task-aligned models: BiLSTM, Dilated ResNet, canonical TimesNet, Transformer encoder, FNO1D, DeepONet | `data/tasks/q_1p6-3_n2000_t1200`; matched `data/tasks/q_1p6-3_n2000_t2399_plan_b_matched_v1`; independent Q400 endpoint-fixed evaluation family | COMPLETE: 6/6 models, 12/12 trainings, 48/48 frozen cells | Formal assets are indexed in sections 9.1--9.6; single-seed protocol, no Phase-II/III execution implied. |
 | Phase-II FNO formulation/capacity study | Phase-I FNO1D-small; existing FNO2D-large Plan B assets; future FNO2D-small matched data | PLANNED / NOT TRAINED | Existing FNO2D-large outputs are reusable evidence; FNO2D-small is not yet an asset. |
 | Phase-III selective scaling | Phase-I/II results only after review | CONDITIONAL FUTURE / NOT STARTED | No selected model, capacity-scaled checkpoint, or expanded n5000/n10000 run is registered. |
 
@@ -854,3 +854,44 @@ checkpoints load. All 319 prior-wave files match launch hashes; all 60 recovery-
 original Wave-5 files remain unchanged. No new invalid formal artifact was found.
 Phase I is incomplete: 5/6 models, 10/12 trainings, 40/48 evaluation cells.
 Next: Wave 6 DeepONet preparation only; no DeepONet formal asset is registered here.
+
+### 9.6 Completed Phase I Wave 6 — DeepONet (2026-09-16; audited 2026-09-20)
+
+Existing root: outputs/benchmark_track_a_v1/phase_i_wave6_deeponet_20260913.
+The requested directory suffix is retained; actual execution date is 2026-09-16.
+Source HEAD: 1ebc16696727aec2a556f5a856dfd1b36f4817a0.
+Both original trainings completed 500 epochs without a recorded interruption/resume;
+all eight frozen BEST evaluation cells completed, with zero train/evaluation exit codes.
+
+| Relative path under the root | Preserved formal contents |
+| --- | --- |
+| train_t1200/; train_t2399/ | run.json, summary.json, best_model.pt, twenty epoch_0025.pt through epoch_0500.pt per run; history, float64 normalization, optimizer/scheduler/RNG and best-so-far state |
+| eval_t1200/; eval_t2399/ | matrix.json; metrics_t<T>.json and prediction_t<T>.npz at T1200/T2399/T3598/T4797 |
+| wave_execution.json; gpu_allocation.json; run_workflow.py | Source/data/prior-wave hashes, locked configuration and live-selected GPU mapping/workflow |
+| launch_t<T>.json; workflow_t<T>_start.json; workflow_t<T>_complete.json | Independent launch and COMPLETE workflow records |
+| train_t<T>_start.json; train_t<T>_exit.json; evaluate_t<T>_start.json; evaluate_t<T>_exit.json; logs | Commands, process and successful exit provenance; train/evaluation logs |
+| early_launch_validation.json | Launch-stage epochs 1--25 health/ETA diagnostic, not a final performance result |
+
+| Train T | Best epoch | Best validation normalized MSE | best_model.pt SHA256 |
+| --- | --- | --- | --- |
+| 1200 | 498 | 0.00003187965075388396 | 1be54bf1f097bb423b6884f8decf7a0c3abfed0d7e3431afa5fe7daf002311d6 |
+| 2399 | 493 | 0.00009046893586249402 | b51be9e17f0a05c014a072f6afc7a06946feaf86d5eb8ef96f0d47f3796e6caa |
+
+Measured global raw-xyz Relative L2:
+
+| Model / Train T | T1200 | T2399 | T3598 | T4797 |
+| --- | --- | --- | --- | --- |
+| DeepONet / 1200 | 0.00572016244214 | 0.00567443172148 | 0.00565956987077 | 0.00565221168267 |
+| DeepONet / 2399 | 0.00944202436127 | 0.00939609655586 | 0.00938114551504 | 0.00937373523040 |
+
+Current State 15.10 contains the full 12-row Phase I matrix, DeepONet training/resources,
+ratios and interpretation. Existing per-cell files retain every secondary metric.
+All forty periodic checkpoints and eight prediction files are readable; 64 independent
+CPU metric comparisons pass. Two empty wrapper logs are expected, not failed outputs.
+All 417 protected Waves 1--5 files match launch hashes; all 88 Wave 6 files were audited.
+No new formal asset was created by the analysis, and no asset was deleted or overwritten.
+
+Track A Phase I is COMPLETE: 6/6 models, 12/12 trainings, 48/48 cells.
+Phase II/III remain unexecuted and require separate approval.
+Allocated-space snapshot (2026-09-20): Wave 6 815,599,616 bytes (778 MiB displayed);
+Track A total 4,891,648,000 bytes (4.6 GiB displayed); /home available 29,311,664,128 bytes.

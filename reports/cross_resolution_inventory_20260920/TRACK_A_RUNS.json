@@ -1,0 +1,1862 @@
+[
+  {
+    "model": "fno1d",
+    "train_T": 1200,
+    "wave_root": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave1_fno1d_20260912",
+    "training_directory": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave1_fno1d_20260912/train_t1200",
+    "evaluation_directory": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave1_fno1d_20260912/eval_t1200",
+    "best_checkpoint": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave1_fno1d_20260912/train_t1200/best_model.pt",
+    "best_checkpoint_sha256": "11ccbebf1d0fd68c57d0895685adeb7d1386da723242ee8271b18286ebbb7ff1",
+    "summary": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave1_fno1d_20260912/train_t1200/summary.json",
+    "run_metadata": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave1_fno1d_20260912/train_t1200/run.json",
+    "matrix": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave1_fno1d_20260912/eval_t1200/matrix.json",
+    "completed_epochs": 500,
+    "history_coverage": "1..500",
+    "best_epoch": 499,
+    "best_validation_mse": 1.0671552748438747e-07,
+    "periodic_checkpoint_count": 20,
+    "periodic_checkpoint_total_bytes": 343647976,
+    "periodic_disposition": "retain_on_server / archive_only; NOT primary mentor package",
+    "evaluation_cells": [
+      {
+        "T": 1200,
+        "metrics": "outputs/benchmark_track_a_v1/phase_i_wave1_fno1d_20260912/eval_t1200/metrics_t1200.json",
+        "prediction": "outputs/benchmark_track_a_v1/phase_i_wave1_fno1d_20260912/eval_t1200/prediction_t1200.npz",
+        "global_relative_l2": 0.00030467659051705315,
+        "principal_arrays": {
+          "prediction_xyz": {
+            "shape": [
+              400,
+              1200,
+              3
+            ],
+            "dtype": "float32",
+            "fortran_order": false
+          },
+          "Q": {
+            "shape": [
+              400,
+              1
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          },
+          "lambda_grid": {
+            "shape": [
+              1200
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          }
+        },
+        "status": "PRESENT_READABLE_FINITE"
+      },
+      {
+        "T": 2399,
+        "metrics": "outputs/benchmark_track_a_v1/phase_i_wave1_fno1d_20260912/eval_t1200/metrics_t2399.json",
+        "prediction": "outputs/benchmark_track_a_v1/phase_i_wave1_fno1d_20260912/eval_t1200/prediction_t2399.npz",
+        "global_relative_l2": 0.002607739568642681,
+        "principal_arrays": {
+          "prediction_xyz": {
+            "shape": [
+              400,
+              2399,
+              3
+            ],
+            "dtype": "float32",
+            "fortran_order": false
+          },
+          "Q": {
+            "shape": [
+              400,
+              1
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          },
+          "lambda_grid": {
+            "shape": [
+              2399
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          }
+        },
+        "status": "PRESENT_READABLE_FINITE"
+      },
+      {
+        "T": 3598,
+        "metrics": "outputs/benchmark_track_a_v1/phase_i_wave1_fno1d_20260912/eval_t1200/metrics_t3598.json",
+        "prediction": "outputs/benchmark_track_a_v1/phase_i_wave1_fno1d_20260912/eval_t1200/prediction_t3598.npz",
+        "global_relative_l2": 0.0034659107771817257,
+        "principal_arrays": {
+          "prediction_xyz": {
+            "shape": [
+              400,
+              3598,
+              3
+            ],
+            "dtype": "float32",
+            "fortran_order": false
+          },
+          "Q": {
+            "shape": [
+              400,
+              1
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          },
+          "lambda_grid": {
+            "shape": [
+              3598
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          }
+        },
+        "status": "PRESENT_READABLE_FINITE"
+      },
+      {
+        "T": 4797,
+        "metrics": "outputs/benchmark_track_a_v1/phase_i_wave1_fno1d_20260912/eval_t1200/metrics_t4797.json",
+        "prediction": "outputs/benchmark_track_a_v1/phase_i_wave1_fno1d_20260912/eval_t1200/prediction_t4797.npz",
+        "global_relative_l2": 0.003895466474586945,
+        "principal_arrays": {
+          "prediction_xyz": {
+            "shape": [
+              400,
+              4797,
+              3
+            ],
+            "dtype": "float32",
+            "fortran_order": false
+          },
+          "Q": {
+            "shape": [
+              400,
+              1
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          },
+          "lambda_grid": {
+            "shape": [
+              4797
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          }
+        },
+        "status": "PRESENT_READABLE_FINITE"
+      }
+    ],
+    "status": "COMPLETE",
+    "resume_note": "none recorded"
+  },
+  {
+    "model": "fno1d",
+    "train_T": 2399,
+    "wave_root": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave1_fno1d_20260912",
+    "training_directory": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave1_fno1d_20260912/train_t2399",
+    "evaluation_directory": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave1_fno1d_20260912/eval_t2399",
+    "best_checkpoint": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave1_fno1d_20260912/train_t2399/best_model.pt",
+    "best_checkpoint_sha256": "1b226b5f62d2f931401a8aefe3794d0b95234acbed0c4b20a6b9c483852eb1f1",
+    "summary": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave1_fno1d_20260912/train_t2399/summary.json",
+    "run_metadata": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave1_fno1d_20260912/train_t2399/run.json",
+    "matrix": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave1_fno1d_20260912/eval_t2399/matrix.json",
+    "completed_epochs": 500,
+    "history_coverage": "1..500",
+    "best_epoch": 459,
+    "best_validation_mse": 9.817391306417752e-08,
+    "periodic_checkpoint_count": 20,
+    "periodic_checkpoint_total_bytes": 343648680,
+    "periodic_disposition": "retain_on_server / archive_only; NOT primary mentor package",
+    "evaluation_cells": [
+      {
+        "T": 1200,
+        "metrics": "outputs/benchmark_track_a_v1/phase_i_wave1_fno1d_20260912/eval_t2399/metrics_t1200.json",
+        "prediction": "outputs/benchmark_track_a_v1/phase_i_wave1_fno1d_20260912/eval_t2399/prediction_t1200.npz",
+        "global_relative_l2": 0.002621957726414347,
+        "principal_arrays": {
+          "prediction_xyz": {
+            "shape": [
+              400,
+              1200,
+              3
+            ],
+            "dtype": "float32",
+            "fortran_order": false
+          },
+          "Q": {
+            "shape": [
+              400,
+              1
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          },
+          "lambda_grid": {
+            "shape": [
+              1200
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          }
+        },
+        "status": "PRESENT_READABLE_FINITE"
+      },
+      {
+        "T": 2399,
+        "metrics": "outputs/benchmark_track_a_v1/phase_i_wave1_fno1d_20260912/eval_t2399/metrics_t2399.json",
+        "prediction": "outputs/benchmark_track_a_v1/phase_i_wave1_fno1d_20260912/eval_t2399/prediction_t2399.npz",
+        "global_relative_l2": 0.00029556219852784827,
+        "principal_arrays": {
+          "prediction_xyz": {
+            "shape": [
+              400,
+              2399,
+              3
+            ],
+            "dtype": "float32",
+            "fortran_order": false
+          },
+          "Q": {
+            "shape": [
+              400,
+              1
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          },
+          "lambda_grid": {
+            "shape": [
+              2399
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          }
+        },
+        "status": "PRESENT_READABLE_FINITE"
+      },
+      {
+        "T": 3598,
+        "metrics": "outputs/benchmark_track_a_v1/phase_i_wave1_fno1d_20260912/eval_t2399/metrics_t3598.json",
+        "prediction": "outputs/benchmark_track_a_v1/phase_i_wave1_fno1d_20260912/eval_t2399/prediction_t3598.npz",
+        "global_relative_l2": 0.0008917733041352124,
+        "principal_arrays": {
+          "prediction_xyz": {
+            "shape": [
+              400,
+              3598,
+              3
+            ],
+            "dtype": "float32",
+            "fortran_order": false
+          },
+          "Q": {
+            "shape": [
+              400,
+              1
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          },
+          "lambda_grid": {
+            "shape": [
+              3598
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          }
+        },
+        "status": "PRESENT_READABLE_FINITE"
+      },
+      {
+        "T": 4797,
+        "metrics": "outputs/benchmark_track_a_v1/phase_i_wave1_fno1d_20260912/eval_t2399/metrics_t4797.json",
+        "prediction": "outputs/benchmark_track_a_v1/phase_i_wave1_fno1d_20260912/eval_t2399/prediction_t4797.npz",
+        "global_relative_l2": 0.0013065101179419929,
+        "principal_arrays": {
+          "prediction_xyz": {
+            "shape": [
+              400,
+              4797,
+              3
+            ],
+            "dtype": "float32",
+            "fortran_order": false
+          },
+          "Q": {
+            "shape": [
+              400,
+              1
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          },
+          "lambda_grid": {
+            "shape": [
+              4797
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          }
+        },
+        "status": "PRESENT_READABLE_FINITE"
+      }
+    ],
+    "status": "COMPLETE",
+    "resume_note": "none recorded"
+  },
+  {
+    "model": "resnet",
+    "train_T": 1200,
+    "wave_root": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave2_resnet_20260912",
+    "training_directory": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave2_resnet_20260912/train_t1200",
+    "evaluation_directory": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave2_resnet_20260912/eval_t1200",
+    "best_checkpoint": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave2_resnet_20260912/train_t1200/best_model.pt",
+    "best_checkpoint_sha256": "aeee49cf033a304e2fd07a8ef5e45297cbc634d6904cf00787af7c1410f83270",
+    "summary": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave2_resnet_20260912/train_t1200/summary.json",
+    "run_metadata": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave2_resnet_20260912/train_t1200/run.json",
+    "matrix": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave2_resnet_20260912/eval_t1200/matrix.json",
+    "completed_epochs": 500,
+    "history_coverage": "1..500",
+    "best_epoch": 490,
+    "best_validation_mse": 8.08959028593866e-07,
+    "periodic_checkpoint_count": 20,
+    "periodic_checkpoint_total_bytes": 352966600,
+    "periodic_disposition": "retain_on_server / archive_only; NOT primary mentor package",
+    "evaluation_cells": [
+      {
+        "T": 1200,
+        "metrics": "outputs/benchmark_track_a_v1/phase_i_wave2_resnet_20260912/eval_t1200/metrics_t1200.json",
+        "prediction": "outputs/benchmark_track_a_v1/phase_i_wave2_resnet_20260912/eval_t1200/prediction_t1200.npz",
+        "global_relative_l2": 0.0008757931159186983,
+        "principal_arrays": {
+          "prediction_xyz": {
+            "shape": [
+              400,
+              1200,
+              3
+            ],
+            "dtype": "float32",
+            "fortran_order": false
+          },
+          "Q": {
+            "shape": [
+              400,
+              1
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          },
+          "lambda_grid": {
+            "shape": [
+              1200
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          }
+        },
+        "status": "PRESENT_READABLE_FINITE"
+      },
+      {
+        "T": 2399,
+        "metrics": "outputs/benchmark_track_a_v1/phase_i_wave2_resnet_20260912/eval_t1200/metrics_t2399.json",
+        "prediction": "outputs/benchmark_track_a_v1/phase_i_wave2_resnet_20260912/eval_t1200/prediction_t2399.npz",
+        "global_relative_l2": 1.2364187818408199,
+        "principal_arrays": {
+          "prediction_xyz": {
+            "shape": [
+              400,
+              2399,
+              3
+            ],
+            "dtype": "float32",
+            "fortran_order": false
+          },
+          "Q": {
+            "shape": [
+              400,
+              1
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          },
+          "lambda_grid": {
+            "shape": [
+              2399
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          }
+        },
+        "status": "PRESENT_READABLE_FINITE"
+      },
+      {
+        "T": 3598,
+        "metrics": "outputs/benchmark_track_a_v1/phase_i_wave2_resnet_20260912/eval_t1200/metrics_t3598.json",
+        "prediction": "outputs/benchmark_track_a_v1/phase_i_wave2_resnet_20260912/eval_t1200/prediction_t3598.npz",
+        "global_relative_l2": 1.151856049261607,
+        "principal_arrays": {
+          "prediction_xyz": {
+            "shape": [
+              400,
+              3598,
+              3
+            ],
+            "dtype": "float32",
+            "fortran_order": false
+          },
+          "Q": {
+            "shape": [
+              400,
+              1
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          },
+          "lambda_grid": {
+            "shape": [
+              3598
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          }
+        },
+        "status": "PRESENT_READABLE_FINITE"
+      },
+      {
+        "T": 4797,
+        "metrics": "outputs/benchmark_track_a_v1/phase_i_wave2_resnet_20260912/eval_t1200/metrics_t4797.json",
+        "prediction": "outputs/benchmark_track_a_v1/phase_i_wave2_resnet_20260912/eval_t1200/prediction_t4797.npz",
+        "global_relative_l2": 1.101031311033319,
+        "principal_arrays": {
+          "prediction_xyz": {
+            "shape": [
+              400,
+              4797,
+              3
+            ],
+            "dtype": "float32",
+            "fortran_order": false
+          },
+          "Q": {
+            "shape": [
+              400,
+              1
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          },
+          "lambda_grid": {
+            "shape": [
+              4797
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          }
+        },
+        "status": "PRESENT_READABLE_FINITE"
+      }
+    ],
+    "status": "COMPLETE",
+    "resume_note": "none recorded"
+  },
+  {
+    "model": "resnet",
+    "train_T": 2399,
+    "wave_root": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave2_resnet_20260912",
+    "training_directory": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave2_resnet_20260912/train_t2399",
+    "evaluation_directory": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave2_resnet_20260912/eval_t2399",
+    "best_checkpoint": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave2_resnet_20260912/train_t2399/best_model.pt",
+    "best_checkpoint_sha256": "12e0cf0c8e8294652bf2a011d605aaf37dd3ff6d2024a196d00371f06007d712",
+    "summary": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave2_resnet_20260912/train_t2399/summary.json",
+    "run_metadata": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave2_resnet_20260912/train_t2399/run.json",
+    "matrix": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave2_resnet_20260912/eval_t2399/matrix.json",
+    "completed_epochs": 500,
+    "history_coverage": "1..500",
+    "best_epoch": 487,
+    "best_validation_mse": 3.8574821966600816e-07,
+    "periodic_checkpoint_count": 20,
+    "periodic_checkpoint_total_bytes": 352966792,
+    "periodic_disposition": "retain_on_server / archive_only; NOT primary mentor package",
+    "evaluation_cells": [
+      {
+        "T": 1200,
+        "metrics": "outputs/benchmark_track_a_v1/phase_i_wave2_resnet_20260912/eval_t2399/metrics_t1200.json",
+        "prediction": "outputs/benchmark_track_a_v1/phase_i_wave2_resnet_20260912/eval_t2399/prediction_t1200.npz",
+        "global_relative_l2": 1.0807393138315575,
+        "principal_arrays": {
+          "prediction_xyz": {
+            "shape": [
+              400,
+              1200,
+              3
+            ],
+            "dtype": "float32",
+            "fortran_order": false
+          },
+          "Q": {
+            "shape": [
+              400,
+              1
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          },
+          "lambda_grid": {
+            "shape": [
+              1200
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          }
+        },
+        "status": "PRESENT_READABLE_FINITE"
+      },
+      {
+        "T": 2399,
+        "metrics": "outputs/benchmark_track_a_v1/phase_i_wave2_resnet_20260912/eval_t2399/metrics_t2399.json",
+        "prediction": "outputs/benchmark_track_a_v1/phase_i_wave2_resnet_20260912/eval_t2399/prediction_t2399.npz",
+        "global_relative_l2": 0.0006243166664963908,
+        "principal_arrays": {
+          "prediction_xyz": {
+            "shape": [
+              400,
+              2399,
+              3
+            ],
+            "dtype": "float32",
+            "fortran_order": false
+          },
+          "Q": {
+            "shape": [
+              400,
+              1
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          },
+          "lambda_grid": {
+            "shape": [
+              2399
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          }
+        },
+        "status": "PRESENT_READABLE_FINITE"
+      },
+      {
+        "T": 3598,
+        "metrics": "outputs/benchmark_track_a_v1/phase_i_wave2_resnet_20260912/eval_t2399/metrics_t3598.json",
+        "prediction": "outputs/benchmark_track_a_v1/phase_i_wave2_resnet_20260912/eval_t2399/prediction_t3598.npz",
+        "global_relative_l2": 1.0355768300458614,
+        "principal_arrays": {
+          "prediction_xyz": {
+            "shape": [
+              400,
+              3598,
+              3
+            ],
+            "dtype": "float32",
+            "fortran_order": false
+          },
+          "Q": {
+            "shape": [
+              400,
+              1
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          },
+          "lambda_grid": {
+            "shape": [
+              3598
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          }
+        },
+        "status": "PRESENT_READABLE_FINITE"
+      },
+      {
+        "T": 4797,
+        "metrics": "outputs/benchmark_track_a_v1/phase_i_wave2_resnet_20260912/eval_t2399/metrics_t4797.json",
+        "prediction": "outputs/benchmark_track_a_v1/phase_i_wave2_resnet_20260912/eval_t2399/prediction_t4797.npz",
+        "global_relative_l2": 1.0311876278155752,
+        "principal_arrays": {
+          "prediction_xyz": {
+            "shape": [
+              400,
+              4797,
+              3
+            ],
+            "dtype": "float32",
+            "fortran_order": false
+          },
+          "Q": {
+            "shape": [
+              400,
+              1
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          },
+          "lambda_grid": {
+            "shape": [
+              4797
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          }
+        },
+        "status": "PRESENT_READABLE_FINITE"
+      }
+    ],
+    "status": "COMPLETE",
+    "resume_note": "none recorded"
+  },
+  {
+    "model": "timesnet",
+    "train_T": 1200,
+    "wave_root": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave3_timesnet_20260913",
+    "training_directory": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave3_timesnet_20260913/train_t1200",
+    "evaluation_directory": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave3_timesnet_20260913/eval_t1200",
+    "best_checkpoint": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave3_timesnet_20260913/train_t1200/best_model.pt",
+    "best_checkpoint_sha256": "3b69a9408dc7f3a60b9746a26ecf8c53ba0f9a91bb21839ca793abd897a73ea4",
+    "summary": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave3_timesnet_20260913/train_t1200/summary.json",
+    "run_metadata": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave3_timesnet_20260913/train_t1200/run.json",
+    "matrix": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave3_timesnet_20260913/eval_t1200/matrix.json",
+    "completed_epochs": 500,
+    "history_coverage": "1..500",
+    "best_epoch": 492,
+    "best_validation_mse": 2.6710203625649836e-06,
+    "periodic_checkpoint_count": 20,
+    "periodic_checkpoint_total_bytes": 346313816,
+    "periodic_disposition": "retain_on_server / archive_only; NOT primary mentor package",
+    "evaluation_cells": [
+      {
+        "T": 1200,
+        "metrics": "outputs/benchmark_track_a_v1/phase_i_wave3_timesnet_20260913/eval_t1200/metrics_t1200.json",
+        "prediction": "outputs/benchmark_track_a_v1/phase_i_wave3_timesnet_20260913/eval_t1200/prediction_t1200.npz",
+        "global_relative_l2": 0.0015725495150732919,
+        "principal_arrays": {
+          "prediction_xyz": {
+            "shape": [
+              400,
+              1200,
+              3
+            ],
+            "dtype": "float32",
+            "fortran_order": false
+          },
+          "Q": {
+            "shape": [
+              400,
+              1
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          },
+          "lambda_grid": {
+            "shape": [
+              1200
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          }
+        },
+        "status": "PRESENT_READABLE_FINITE"
+      },
+      {
+        "T": 2399,
+        "metrics": "outputs/benchmark_track_a_v1/phase_i_wave3_timesnet_20260913/eval_t1200/metrics_t2399.json",
+        "prediction": "outputs/benchmark_track_a_v1/phase_i_wave3_timesnet_20260913/eval_t1200/prediction_t2399.npz",
+        "global_relative_l2": 0.003838459637001943,
+        "principal_arrays": {
+          "prediction_xyz": {
+            "shape": [
+              400,
+              2399,
+              3
+            ],
+            "dtype": "float32",
+            "fortran_order": false
+          },
+          "Q": {
+            "shape": [
+              400,
+              1
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          },
+          "lambda_grid": {
+            "shape": [
+              2399
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          }
+        },
+        "status": "PRESENT_READABLE_FINITE"
+      },
+      {
+        "T": 3598,
+        "metrics": "outputs/benchmark_track_a_v1/phase_i_wave3_timesnet_20260913/eval_t1200/metrics_t3598.json",
+        "prediction": "outputs/benchmark_track_a_v1/phase_i_wave3_timesnet_20260913/eval_t1200/prediction_t3598.npz",
+        "global_relative_l2": 0.004918443560930725,
+        "principal_arrays": {
+          "prediction_xyz": {
+            "shape": [
+              400,
+              3598,
+              3
+            ],
+            "dtype": "float32",
+            "fortran_order": false
+          },
+          "Q": {
+            "shape": [
+              400,
+              1
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          },
+          "lambda_grid": {
+            "shape": [
+              3598
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          }
+        },
+        "status": "PRESENT_READABLE_FINITE"
+      },
+      {
+        "T": 4797,
+        "metrics": "outputs/benchmark_track_a_v1/phase_i_wave3_timesnet_20260913/eval_t1200/metrics_t4797.json",
+        "prediction": "outputs/benchmark_track_a_v1/phase_i_wave3_timesnet_20260913/eval_t1200/prediction_t4797.npz",
+        "global_relative_l2": 0.00546934598238999,
+        "principal_arrays": {
+          "prediction_xyz": {
+            "shape": [
+              400,
+              4797,
+              3
+            ],
+            "dtype": "float32",
+            "fortran_order": false
+          },
+          "Q": {
+            "shape": [
+              400,
+              1
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          },
+          "lambda_grid": {
+            "shape": [
+              4797
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          }
+        },
+        "status": "PRESENT_READABLE_FINITE"
+      }
+    ],
+    "status": "COMPLETE",
+    "resume_note": "none recorded"
+  },
+  {
+    "model": "timesnet",
+    "train_T": 2399,
+    "wave_root": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave3_timesnet_20260913",
+    "training_directory": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave3_timesnet_20260913/train_t2399",
+    "evaluation_directory": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave3_timesnet_20260913/eval_t2399",
+    "best_checkpoint": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave3_timesnet_20260913/train_t2399/best_model.pt",
+    "best_checkpoint_sha256": "9beec9fdf4b3359619039dc8004b667e3e416036db978fcbe62c92f27e656794",
+    "summary": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave3_timesnet_20260913/train_t2399/summary.json",
+    "run_metadata": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave3_timesnet_20260913/train_t2399/run.json",
+    "matrix": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave3_timesnet_20260913/eval_t2399/matrix.json",
+    "completed_epochs": 500,
+    "history_coverage": "1..500",
+    "best_epoch": 486,
+    "best_validation_mse": 2.904610685921701e-06,
+    "periodic_checkpoint_count": 20,
+    "periodic_checkpoint_total_bytes": 346313944,
+    "periodic_disposition": "retain_on_server / archive_only; NOT primary mentor package",
+    "evaluation_cells": [
+      {
+        "T": 1200,
+        "metrics": "outputs/benchmark_track_a_v1/phase_i_wave3_timesnet_20260913/eval_t2399/metrics_t1200.json",
+        "prediction": "outputs/benchmark_track_a_v1/phase_i_wave3_timesnet_20260913/eval_t2399/prediction_t1200.npz",
+        "global_relative_l2": 0.0032630900626231143,
+        "principal_arrays": {
+          "prediction_xyz": {
+            "shape": [
+              400,
+              1200,
+              3
+            ],
+            "dtype": "float32",
+            "fortran_order": false
+          },
+          "Q": {
+            "shape": [
+              400,
+              1
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          },
+          "lambda_grid": {
+            "shape": [
+              1200
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          }
+        },
+        "status": "PRESENT_READABLE_FINITE"
+      },
+      {
+        "T": 2399,
+        "metrics": "outputs/benchmark_track_a_v1/phase_i_wave3_timesnet_20260913/eval_t2399/metrics_t2399.json",
+        "prediction": "outputs/benchmark_track_a_v1/phase_i_wave3_timesnet_20260913/eval_t2399/prediction_t2399.npz",
+        "global_relative_l2": 0.0016563409132716704,
+        "principal_arrays": {
+          "prediction_xyz": {
+            "shape": [
+              400,
+              2399,
+              3
+            ],
+            "dtype": "float32",
+            "fortran_order": false
+          },
+          "Q": {
+            "shape": [
+              400,
+              1
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          },
+          "lambda_grid": {
+            "shape": [
+              2399
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          }
+        },
+        "status": "PRESENT_READABLE_FINITE"
+      },
+      {
+        "T": 3598,
+        "metrics": "outputs/benchmark_track_a_v1/phase_i_wave3_timesnet_20260913/eval_t2399/metrics_t3598.json",
+        "prediction": "outputs/benchmark_track_a_v1/phase_i_wave3_timesnet_20260913/eval_t2399/prediction_t3598.npz",
+        "global_relative_l2": 0.0019425517431190826,
+        "principal_arrays": {
+          "prediction_xyz": {
+            "shape": [
+              400,
+              3598,
+              3
+            ],
+            "dtype": "float32",
+            "fortran_order": false
+          },
+          "Q": {
+            "shape": [
+              400,
+              1
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          },
+          "lambda_grid": {
+            "shape": [
+              3598
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          }
+        },
+        "status": "PRESENT_READABLE_FINITE"
+      },
+      {
+        "T": 4797,
+        "metrics": "outputs/benchmark_track_a_v1/phase_i_wave3_timesnet_20260913/eval_t2399/metrics_t4797.json",
+        "prediction": "outputs/benchmark_track_a_v1/phase_i_wave3_timesnet_20260913/eval_t2399/prediction_t4797.npz",
+        "global_relative_l2": 0.0022271731703861564,
+        "principal_arrays": {
+          "prediction_xyz": {
+            "shape": [
+              400,
+              4797,
+              3
+            ],
+            "dtype": "float32",
+            "fortran_order": false
+          },
+          "Q": {
+            "shape": [
+              400,
+              1
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          },
+          "lambda_grid": {
+            "shape": [
+              4797
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          }
+        },
+        "status": "PRESENT_READABLE_FINITE"
+      }
+    ],
+    "status": "COMPLETE",
+    "resume_note": "none recorded"
+  },
+  {
+    "model": "bilstm",
+    "train_T": 1200,
+    "wave_root": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave4_bilstm_20260913",
+    "training_directory": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave4_bilstm_20260913/train_t1200",
+    "evaluation_directory": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave4_bilstm_20260913/eval_t1200",
+    "best_checkpoint": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave4_bilstm_20260913/train_t1200/best_model.pt",
+    "best_checkpoint_sha256": "c4ca47bae8d068137685cbdb5cca853a85a210e5c610b84c81c821d4148c8fd6",
+    "summary": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave4_bilstm_20260913/train_t1200/summary.json",
+    "run_metadata": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave4_bilstm_20260913/train_t1200/run.json",
+    "matrix": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave4_bilstm_20260913/eval_t1200/matrix.json",
+    "completed_epochs": 500,
+    "history_coverage": "1..500",
+    "best_epoch": 485,
+    "best_validation_mse": 7.131911327936299e-07,
+    "periodic_checkpoint_count": 20,
+    "periodic_checkpoint_total_bytes": 350989228,
+    "periodic_disposition": "retain_on_server / archive_only; NOT primary mentor package",
+    "evaluation_cells": [
+      {
+        "T": 1200,
+        "metrics": "outputs/benchmark_track_a_v1/phase_i_wave4_bilstm_20260913/eval_t1200/metrics_t1200.json",
+        "prediction": "outputs/benchmark_track_a_v1/phase_i_wave4_bilstm_20260913/eval_t1200/prediction_t1200.npz",
+        "global_relative_l2": 0.000816636194450592,
+        "principal_arrays": {
+          "prediction_xyz": {
+            "shape": [
+              400,
+              1200,
+              3
+            ],
+            "dtype": "float32",
+            "fortran_order": false
+          },
+          "Q": {
+            "shape": [
+              400,
+              1
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          },
+          "lambda_grid": {
+            "shape": [
+              1200
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          }
+        },
+        "status": "PRESENT_READABLE_FINITE"
+      },
+      {
+        "T": 2399,
+        "metrics": "outputs/benchmark_track_a_v1/phase_i_wave4_bilstm_20260913/eval_t1200/metrics_t2399.json",
+        "prediction": "outputs/benchmark_track_a_v1/phase_i_wave4_bilstm_20260913/eval_t1200/prediction_t2399.npz",
+        "global_relative_l2": 0.3011073657389273,
+        "principal_arrays": {
+          "prediction_xyz": {
+            "shape": [
+              400,
+              2399,
+              3
+            ],
+            "dtype": "float32",
+            "fortran_order": false
+          },
+          "Q": {
+            "shape": [
+              400,
+              1
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          },
+          "lambda_grid": {
+            "shape": [
+              2399
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          }
+        },
+        "status": "PRESENT_READABLE_FINITE"
+      },
+      {
+        "T": 3598,
+        "metrics": "outputs/benchmark_track_a_v1/phase_i_wave4_bilstm_20260913/eval_t1200/metrics_t3598.json",
+        "prediction": "outputs/benchmark_track_a_v1/phase_i_wave4_bilstm_20260913/eval_t1200/prediction_t3598.npz",
+        "global_relative_l2": 0.4072118416218812,
+        "principal_arrays": {
+          "prediction_xyz": {
+            "shape": [
+              400,
+              3598,
+              3
+            ],
+            "dtype": "float32",
+            "fortran_order": false
+          },
+          "Q": {
+            "shape": [
+              400,
+              1
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          },
+          "lambda_grid": {
+            "shape": [
+              3598
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          }
+        },
+        "status": "PRESENT_READABLE_FINITE"
+      },
+      {
+        "T": 4797,
+        "metrics": "outputs/benchmark_track_a_v1/phase_i_wave4_bilstm_20260913/eval_t1200/metrics_t4797.json",
+        "prediction": "outputs/benchmark_track_a_v1/phase_i_wave4_bilstm_20260913/eval_t1200/prediction_t4797.npz",
+        "global_relative_l2": 0.46168411889451944,
+        "principal_arrays": {
+          "prediction_xyz": {
+            "shape": [
+              400,
+              4797,
+              3
+            ],
+            "dtype": "float32",
+            "fortran_order": false
+          },
+          "Q": {
+            "shape": [
+              400,
+              1
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          },
+          "lambda_grid": {
+            "shape": [
+              4797
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          }
+        },
+        "status": "PRESENT_READABLE_FINITE"
+      }
+    ],
+    "status": "COMPLETE",
+    "resume_note": "none recorded"
+  },
+  {
+    "model": "bilstm",
+    "train_T": 2399,
+    "wave_root": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave4_bilstm_20260913",
+    "training_directory": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave4_bilstm_20260913/train_t2399",
+    "evaluation_directory": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave4_bilstm_20260913/eval_t2399",
+    "best_checkpoint": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave4_bilstm_20260913/train_t2399/best_model.pt",
+    "best_checkpoint_sha256": "ab47bfadf48bfb4efc8570bd32ca75d2e4482adc47c981863dd468150f8450f7",
+    "summary": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave4_bilstm_20260913/train_t2399/summary.json",
+    "run_metadata": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave4_bilstm_20260913/train_t2399/run.json",
+    "matrix": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave4_bilstm_20260913/eval_t2399/matrix.json",
+    "completed_epochs": 500,
+    "history_coverage": "1..500",
+    "best_epoch": 477,
+    "best_validation_mse": 1.0610626016690123e-06,
+    "periodic_checkpoint_count": 20,
+    "periodic_checkpoint_total_bytes": 350989868,
+    "periodic_disposition": "retain_on_server / archive_only; NOT primary mentor package",
+    "evaluation_cells": [
+      {
+        "T": 1200,
+        "metrics": "outputs/benchmark_track_a_v1/phase_i_wave4_bilstm_20260913/eval_t2399/metrics_t1200.json",
+        "prediction": "outputs/benchmark_track_a_v1/phase_i_wave4_bilstm_20260913/eval_t2399/prediction_t1200.npz",
+        "global_relative_l2": 0.20282679146181098,
+        "principal_arrays": {
+          "prediction_xyz": {
+            "shape": [
+              400,
+              1200,
+              3
+            ],
+            "dtype": "float32",
+            "fortran_order": false
+          },
+          "Q": {
+            "shape": [
+              400,
+              1
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          },
+          "lambda_grid": {
+            "shape": [
+              1200
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          }
+        },
+        "status": "PRESENT_READABLE_FINITE"
+      },
+      {
+        "T": 2399,
+        "metrics": "outputs/benchmark_track_a_v1/phase_i_wave4_bilstm_20260913/eval_t2399/metrics_t2399.json",
+        "prediction": "outputs/benchmark_track_a_v1/phase_i_wave4_bilstm_20260913/eval_t2399/prediction_t2399.npz",
+        "global_relative_l2": 0.0009904206663573737,
+        "principal_arrays": {
+          "prediction_xyz": {
+            "shape": [
+              400,
+              2399,
+              3
+            ],
+            "dtype": "float32",
+            "fortran_order": false
+          },
+          "Q": {
+            "shape": [
+              400,
+              1
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          },
+          "lambda_grid": {
+            "shape": [
+              2399
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          }
+        },
+        "status": "PRESENT_READABLE_FINITE"
+      },
+      {
+        "T": 3598,
+        "metrics": "outputs/benchmark_track_a_v1/phase_i_wave4_bilstm_20260913/eval_t2399/metrics_t3598.json",
+        "prediction": "outputs/benchmark_track_a_v1/phase_i_wave4_bilstm_20260913/eval_t2399/prediction_t3598.npz",
+        "global_relative_l2": 0.0840668719669028,
+        "principal_arrays": {
+          "prediction_xyz": {
+            "shape": [
+              400,
+              3598,
+              3
+            ],
+            "dtype": "float32",
+            "fortran_order": false
+          },
+          "Q": {
+            "shape": [
+              400,
+              1
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          },
+          "lambda_grid": {
+            "shape": [
+              3598
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          }
+        },
+        "status": "PRESENT_READABLE_FINITE"
+      },
+      {
+        "T": 4797,
+        "metrics": "outputs/benchmark_track_a_v1/phase_i_wave4_bilstm_20260913/eval_t2399/metrics_t4797.json",
+        "prediction": "outputs/benchmark_track_a_v1/phase_i_wave4_bilstm_20260913/eval_t2399/prediction_t4797.npz",
+        "global_relative_l2": 0.12544372065584408,
+        "principal_arrays": {
+          "prediction_xyz": {
+            "shape": [
+              400,
+              4797,
+              3
+            ],
+            "dtype": "float32",
+            "fortran_order": false
+          },
+          "Q": {
+            "shape": [
+              400,
+              1
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          },
+          "lambda_grid": {
+            "shape": [
+              4797
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          }
+        },
+        "status": "PRESENT_READABLE_FINITE"
+      }
+    ],
+    "status": "COMPLETE",
+    "resume_note": "none recorded"
+  },
+  {
+    "model": "transformer",
+    "train_T": 1200,
+    "wave_root": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave5_transformer_20260913",
+    "training_directory": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave5_transformer_20260913/train_t1200",
+    "evaluation_directory": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave5_transformer_20260913/eval_t1200",
+    "best_checkpoint": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave5_transformer_20260913/train_t1200/best_model.pt",
+    "best_checkpoint_sha256": "d3c62d0ff2936553719a7312d09796cb6eafb3d4e9ad7367c7a111ac56e43b84",
+    "summary": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave5_transformer_20260913/train_t1200/summary.json",
+    "run_metadata": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave5_transformer_20260913/train_t1200/run.json",
+    "matrix": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave5_transformer_20260913/eval_t1200/matrix.json",
+    "completed_epochs": 500,
+    "history_coverage": "1..500",
+    "best_epoch": 497,
+    "best_validation_mse": 0.0007080648296202222,
+    "periodic_checkpoint_count": 20,
+    "periodic_checkpoint_total_bytes": 349665464,
+    "periodic_disposition": "retain_on_server / archive_only; NOT primary mentor package",
+    "evaluation_cells": [
+      {
+        "T": 1200,
+        "metrics": "outputs/benchmark_track_a_v1/phase_i_wave5_transformer_20260913/eval_t1200/metrics_t1200.json",
+        "prediction": "outputs/benchmark_track_a_v1/phase_i_wave5_transformer_20260913/eval_t1200/prediction_t1200.npz",
+        "global_relative_l2": 0.026043416793791442,
+        "principal_arrays": {
+          "prediction_xyz": {
+            "shape": [
+              400,
+              1200,
+              3
+            ],
+            "dtype": "float32",
+            "fortran_order": false
+          },
+          "Q": {
+            "shape": [
+              400,
+              1
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          },
+          "lambda_grid": {
+            "shape": [
+              1200
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          }
+        },
+        "status": "PRESENT_READABLE_FINITE"
+      },
+      {
+        "T": 2399,
+        "metrics": "outputs/benchmark_track_a_v1/phase_i_wave5_transformer_20260913/eval_t1200/metrics_t2399.json",
+        "prediction": "outputs/benchmark_track_a_v1/phase_i_wave5_transformer_20260913/eval_t1200/prediction_t2399.npz",
+        "global_relative_l2": 0.02588182937761786,
+        "principal_arrays": {
+          "prediction_xyz": {
+            "shape": [
+              400,
+              2399,
+              3
+            ],
+            "dtype": "float32",
+            "fortran_order": false
+          },
+          "Q": {
+            "shape": [
+              400,
+              1
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          },
+          "lambda_grid": {
+            "shape": [
+              2399
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          }
+        },
+        "status": "PRESENT_READABLE_FINITE"
+      },
+      {
+        "T": 3598,
+        "metrics": "outputs/benchmark_track_a_v1/phase_i_wave5_transformer_20260913/eval_t1200/metrics_t3598.json",
+        "prediction": "outputs/benchmark_track_a_v1/phase_i_wave5_transformer_20260913/eval_t1200/prediction_t3598.npz",
+        "global_relative_l2": 0.025828333568083145,
+        "principal_arrays": {
+          "prediction_xyz": {
+            "shape": [
+              400,
+              3598,
+              3
+            ],
+            "dtype": "float32",
+            "fortran_order": false
+          },
+          "Q": {
+            "shape": [
+              400,
+              1
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          },
+          "lambda_grid": {
+            "shape": [
+              3598
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          }
+        },
+        "status": "PRESENT_READABLE_FINITE"
+      },
+      {
+        "T": 4797,
+        "metrics": "outputs/benchmark_track_a_v1/phase_i_wave5_transformer_20260913/eval_t1200/metrics_t4797.json",
+        "prediction": "outputs/benchmark_track_a_v1/phase_i_wave5_transformer_20260913/eval_t1200/prediction_t4797.npz",
+        "global_relative_l2": 0.025801656715859815,
+        "principal_arrays": {
+          "prediction_xyz": {
+            "shape": [
+              400,
+              4797,
+              3
+            ],
+            "dtype": "float32",
+            "fortran_order": false
+          },
+          "Q": {
+            "shape": [
+              400,
+              1
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          },
+          "lambda_grid": {
+            "shape": [
+              4797
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          }
+        },
+        "status": "PRESENT_READABLE_FINITE"
+      }
+    ],
+    "status": "COMPLETE",
+    "resume_note": "epoch225 deterministic resume; original zero-byte evidence retained"
+  },
+  {
+    "model": "transformer",
+    "train_T": 2399,
+    "wave_root": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave5_transformer_20260913",
+    "training_directory": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave5_transformer_20260913/train_t2399",
+    "evaluation_directory": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave5_transformer_20260913/eval_t2399",
+    "best_checkpoint": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave5_transformer_20260913/train_t2399/best_model.pt",
+    "best_checkpoint_sha256": "51dc8ebb0f2db278bac0d044416d1937039bde105da754eba59327ad8d9a6852",
+    "summary": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave5_transformer_20260913/train_t2399/summary.json",
+    "run_metadata": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave5_transformer_20260913/train_t2399/run.json",
+    "matrix": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave5_transformer_20260913/eval_t2399/matrix.json",
+    "completed_epochs": 500,
+    "history_coverage": "1..500",
+    "best_epoch": 447,
+    "best_validation_mse": 0.0010557607871790728,
+    "periodic_checkpoint_count": 20,
+    "periodic_checkpoint_total_bytes": 349654520,
+    "periodic_disposition": "retain_on_server / archive_only; NOT primary mentor package",
+    "evaluation_cells": [
+      {
+        "T": 1200,
+        "metrics": "outputs/benchmark_track_a_v1/phase_i_wave5_transformer_20260913/eval_t2399/metrics_t1200.json",
+        "prediction": "outputs/benchmark_track_a_v1/phase_i_wave5_transformer_20260913/eval_t2399/prediction_t1200.npz",
+        "global_relative_l2": 0.03260342288204693,
+        "principal_arrays": {
+          "prediction_xyz": {
+            "shape": [
+              400,
+              1200,
+              3
+            ],
+            "dtype": "float32",
+            "fortran_order": false
+          },
+          "Q": {
+            "shape": [
+              400,
+              1
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          },
+          "lambda_grid": {
+            "shape": [
+              1200
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          }
+        },
+        "status": "PRESENT_READABLE_FINITE"
+      },
+      {
+        "T": 2399,
+        "metrics": "outputs/benchmark_track_a_v1/phase_i_wave5_transformer_20260913/eval_t2399/metrics_t2399.json",
+        "prediction": "outputs/benchmark_track_a_v1/phase_i_wave5_transformer_20260913/eval_t2399/prediction_t2399.npz",
+        "global_relative_l2": 0.03225285992167032,
+        "principal_arrays": {
+          "prediction_xyz": {
+            "shape": [
+              400,
+              2399,
+              3
+            ],
+            "dtype": "float32",
+            "fortran_order": false
+          },
+          "Q": {
+            "shape": [
+              400,
+              1
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          },
+          "lambda_grid": {
+            "shape": [
+              2399
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          }
+        },
+        "status": "PRESENT_READABLE_FINITE"
+      },
+      {
+        "T": 3598,
+        "metrics": "outputs/benchmark_track_a_v1/phase_i_wave5_transformer_20260913/eval_t2399/metrics_t3598.json",
+        "prediction": "outputs/benchmark_track_a_v1/phase_i_wave5_transformer_20260913/eval_t2399/prediction_t3598.npz",
+        "global_relative_l2": 0.03213670277354887,
+        "principal_arrays": {
+          "prediction_xyz": {
+            "shape": [
+              400,
+              3598,
+              3
+            ],
+            "dtype": "float32",
+            "fortran_order": false
+          },
+          "Q": {
+            "shape": [
+              400,
+              1
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          },
+          "lambda_grid": {
+            "shape": [
+              3598
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          }
+        },
+        "status": "PRESENT_READABLE_FINITE"
+      },
+      {
+        "T": 4797,
+        "metrics": "outputs/benchmark_track_a_v1/phase_i_wave5_transformer_20260913/eval_t2399/metrics_t4797.json",
+        "prediction": "outputs/benchmark_track_a_v1/phase_i_wave5_transformer_20260913/eval_t2399/prediction_t4797.npz",
+        "global_relative_l2": 0.03207880226887176,
+        "principal_arrays": {
+          "prediction_xyz": {
+            "shape": [
+              400,
+              4797,
+              3
+            ],
+            "dtype": "float32",
+            "fortran_order": false
+          },
+          "Q": {
+            "shape": [
+              400,
+              1
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          },
+          "lambda_grid": {
+            "shape": [
+              4797
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          }
+        },
+        "status": "PRESENT_READABLE_FINITE"
+      }
+    ],
+    "status": "COMPLETE",
+    "resume_note": "none recorded"
+  },
+  {
+    "model": "deeponet",
+    "train_T": 1200,
+    "wave_root": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave6_deeponet_20260913",
+    "training_directory": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave6_deeponet_20260913/train_t1200",
+    "evaluation_directory": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave6_deeponet_20260913/eval_t1200",
+    "best_checkpoint": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave6_deeponet_20260913/train_t1200/best_model.pt",
+    "best_checkpoint_sha256": "1be54bf1f097bb423b6884f8decf7a0c3abfed0d7e3431afa5fe7daf002311d6",
+    "summary": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave6_deeponet_20260913/train_t1200/summary.json",
+    "run_metadata": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave6_deeponet_20260913/train_t1200/run.json",
+    "matrix": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave6_deeponet_20260913/eval_t1200/matrix.json",
+    "completed_epochs": 500,
+    "history_coverage": "1..500",
+    "best_epoch": 498,
+    "best_validation_mse": 3.187965075388396e-05,
+    "periodic_checkpoint_count": 20,
+    "periodic_checkpoint_total_bytes": 348696176,
+    "periodic_disposition": "retain_on_server / archive_only; NOT primary mentor package",
+    "evaluation_cells": [
+      {
+        "T": 1200,
+        "metrics": "outputs/benchmark_track_a_v1/phase_i_wave6_deeponet_20260913/eval_t1200/metrics_t1200.json",
+        "prediction": "outputs/benchmark_track_a_v1/phase_i_wave6_deeponet_20260913/eval_t1200/prediction_t1200.npz",
+        "global_relative_l2": 0.005720162442139987,
+        "principal_arrays": {
+          "prediction_xyz": {
+            "shape": [
+              400,
+              1200,
+              3
+            ],
+            "dtype": "float32",
+            "fortran_order": false
+          },
+          "Q": {
+            "shape": [
+              400,
+              1
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          },
+          "lambda_grid": {
+            "shape": [
+              1200
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          }
+        },
+        "status": "PRESENT_READABLE_FINITE"
+      },
+      {
+        "T": 2399,
+        "metrics": "outputs/benchmark_track_a_v1/phase_i_wave6_deeponet_20260913/eval_t1200/metrics_t2399.json",
+        "prediction": "outputs/benchmark_track_a_v1/phase_i_wave6_deeponet_20260913/eval_t1200/prediction_t2399.npz",
+        "global_relative_l2": 0.005674431721476437,
+        "principal_arrays": {
+          "prediction_xyz": {
+            "shape": [
+              400,
+              2399,
+              3
+            ],
+            "dtype": "float32",
+            "fortran_order": false
+          },
+          "Q": {
+            "shape": [
+              400,
+              1
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          },
+          "lambda_grid": {
+            "shape": [
+              2399
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          }
+        },
+        "status": "PRESENT_READABLE_FINITE"
+      },
+      {
+        "T": 3598,
+        "metrics": "outputs/benchmark_track_a_v1/phase_i_wave6_deeponet_20260913/eval_t1200/metrics_t3598.json",
+        "prediction": "outputs/benchmark_track_a_v1/phase_i_wave6_deeponet_20260913/eval_t1200/prediction_t3598.npz",
+        "global_relative_l2": 0.0056595698707693895,
+        "principal_arrays": {
+          "prediction_xyz": {
+            "shape": [
+              400,
+              3598,
+              3
+            ],
+            "dtype": "float32",
+            "fortran_order": false
+          },
+          "Q": {
+            "shape": [
+              400,
+              1
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          },
+          "lambda_grid": {
+            "shape": [
+              3598
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          }
+        },
+        "status": "PRESENT_READABLE_FINITE"
+      },
+      {
+        "T": 4797,
+        "metrics": "outputs/benchmark_track_a_v1/phase_i_wave6_deeponet_20260913/eval_t1200/metrics_t4797.json",
+        "prediction": "outputs/benchmark_track_a_v1/phase_i_wave6_deeponet_20260913/eval_t1200/prediction_t4797.npz",
+        "global_relative_l2": 0.005652211682669433,
+        "principal_arrays": {
+          "prediction_xyz": {
+            "shape": [
+              400,
+              4797,
+              3
+            ],
+            "dtype": "float32",
+            "fortran_order": false
+          },
+          "Q": {
+            "shape": [
+              400,
+              1
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          },
+          "lambda_grid": {
+            "shape": [
+              4797
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          }
+        },
+        "status": "PRESENT_READABLE_FINITE"
+      }
+    ],
+    "status": "COMPLETE",
+    "resume_note": "none recorded"
+  },
+  {
+    "model": "deeponet",
+    "train_T": 2399,
+    "wave_root": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave6_deeponet_20260913",
+    "training_directory": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave6_deeponet_20260913/train_t2399",
+    "evaluation_directory": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave6_deeponet_20260913/eval_t2399",
+    "best_checkpoint": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave6_deeponet_20260913/train_t2399/best_model.pt",
+    "best_checkpoint_sha256": "b51be9e17f0a05c014a072f6afc7a06946feaf86d5eb8ef96f0d47f3796e6caa",
+    "summary": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave6_deeponet_20260913/train_t2399/summary.json",
+    "run_metadata": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave6_deeponet_20260913/train_t2399/run.json",
+    "matrix": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave6_deeponet_20260913/eval_t2399/matrix.json",
+    "completed_epochs": 500,
+    "history_coverage": "1..500",
+    "best_epoch": 493,
+    "best_validation_mse": 9.046893586249402e-05,
+    "periodic_checkpoint_count": 20,
+    "periodic_checkpoint_total_bytes": 348696496,
+    "periodic_disposition": "retain_on_server / archive_only; NOT primary mentor package",
+    "evaluation_cells": [
+      {
+        "T": 1200,
+        "metrics": "outputs/benchmark_track_a_v1/phase_i_wave6_deeponet_20260913/eval_t2399/metrics_t1200.json",
+        "prediction": "outputs/benchmark_track_a_v1/phase_i_wave6_deeponet_20260913/eval_t2399/prediction_t1200.npz",
+        "global_relative_l2": 0.00944202436127413,
+        "principal_arrays": {
+          "prediction_xyz": {
+            "shape": [
+              400,
+              1200,
+              3
+            ],
+            "dtype": "float32",
+            "fortran_order": false
+          },
+          "Q": {
+            "shape": [
+              400,
+              1
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          },
+          "lambda_grid": {
+            "shape": [
+              1200
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          }
+        },
+        "status": "PRESENT_READABLE_FINITE"
+      },
+      {
+        "T": 2399,
+        "metrics": "outputs/benchmark_track_a_v1/phase_i_wave6_deeponet_20260913/eval_t2399/metrics_t2399.json",
+        "prediction": "outputs/benchmark_track_a_v1/phase_i_wave6_deeponet_20260913/eval_t2399/prediction_t2399.npz",
+        "global_relative_l2": 0.009396096555858728,
+        "principal_arrays": {
+          "prediction_xyz": {
+            "shape": [
+              400,
+              2399,
+              3
+            ],
+            "dtype": "float32",
+            "fortran_order": false
+          },
+          "Q": {
+            "shape": [
+              400,
+              1
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          },
+          "lambda_grid": {
+            "shape": [
+              2399
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          }
+        },
+        "status": "PRESENT_READABLE_FINITE"
+      },
+      {
+        "T": 3598,
+        "metrics": "outputs/benchmark_track_a_v1/phase_i_wave6_deeponet_20260913/eval_t2399/metrics_t3598.json",
+        "prediction": "outputs/benchmark_track_a_v1/phase_i_wave6_deeponet_20260913/eval_t2399/prediction_t3598.npz",
+        "global_relative_l2": 0.009381145515043576,
+        "principal_arrays": {
+          "prediction_xyz": {
+            "shape": [
+              400,
+              3598,
+              3
+            ],
+            "dtype": "float32",
+            "fortran_order": false
+          },
+          "Q": {
+            "shape": [
+              400,
+              1
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          },
+          "lambda_grid": {
+            "shape": [
+              3598
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          }
+        },
+        "status": "PRESENT_READABLE_FINITE"
+      },
+      {
+        "T": 4797,
+        "metrics": "outputs/benchmark_track_a_v1/phase_i_wave6_deeponet_20260913/eval_t2399/metrics_t4797.json",
+        "prediction": "outputs/benchmark_track_a_v1/phase_i_wave6_deeponet_20260913/eval_t2399/prediction_t4797.npz",
+        "global_relative_l2": 0.009373735230404173,
+        "principal_arrays": {
+          "prediction_xyz": {
+            "shape": [
+              400,
+              4797,
+              3
+            ],
+            "dtype": "float32",
+            "fortran_order": false
+          },
+          "Q": {
+            "shape": [
+              400,
+              1
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          },
+          "lambda_grid": {
+            "shape": [
+              4797
+            ],
+            "dtype": "float64",
+            "fortran_order": false
+          }
+        },
+        "status": "PRESENT_READABLE_FINITE"
+      }
+    ],
+    "status": "COMPLETE",
+    "resume_note": "none recorded"
+  }
+]

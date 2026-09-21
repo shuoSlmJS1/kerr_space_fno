@@ -1,0 +1,180 @@
+{
+  "hash_groups": [
+    {
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "paths": [
+        "data/tasks/q_1p6-3_n2000_t1200/failed_samples.json",
+        "data/tasks/q_1p6007-2p9993_n400_t1200/failed_samples.json"
+      ],
+      "size_bytes": 2,
+      "note": "Byte identity; semantically distinct tiny metadata remain separate. Empty files are not interchangeable scientific assets."
+    },
+    {
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "paths": [
+        "data/tasks/q_1p6-3_n2000_t2399_plan_b_matched_v1/failed_samples.json",
+        "data/tasks/q_1p6007-2p9993_n400_t2399_plan_b_v1/failed_samples.json",
+        "data/tasks/q_1p6007-2p9993_n400_t3598_plan_b_range_v1/failed_samples.json",
+        "data/tasks/q_1p6007-2p9993_n400_t4797_plan_b_range_v1/failed_samples.json"
+      ],
+      "size_bytes": 3,
+      "note": "Byte identity; semantically distinct tiny metadata remain separate. Empty files are not interchangeable scientific assets."
+    },
+    {
+      "sha256": "3861703602589e4d56929f810a6147d6b2ab03b001533b1c751bbf2ebfe1f032",
+      "paths": [
+        "outputs/benchmark_track_a_v1/phase_i_wave1_fno1d_20260912/eval_t1200/matrix.json",
+        "outputs/benchmark_track_a_v1/phase_i_wave1_fno1d_20260912/evaluate_t1200.log"
+      ],
+      "size_bytes": 403152,
+      "note": "Byte identity; semantically distinct tiny metadata remain separate. Empty files are not interchangeable scientific assets."
+    },
+    {
+      "sha256": "729c68ea54c85c22324d92ed1a50353434b63191793468fcfa069f738d42ef9d",
+      "paths": [
+        "outputs/benchmark_track_a_v1/phase_i_wave1_fno1d_20260912/eval_t2399/matrix.json",
+        "outputs/benchmark_track_a_v1/phase_i_wave1_fno1d_20260912/evaluate_t2399.log"
+      ],
+      "size_bytes": 403144,
+      "note": "Byte identity; semantically distinct tiny metadata remain separate. Empty files are not interchangeable scientific assets."
+    },
+    {
+      "sha256": "8a9d5cfe27ac1c2d15c4c00cd50469836a7e888646d0dd5c685d0e7e9d48680d",
+      "paths": [
+        "outputs/benchmark_track_a_v1/phase_i_wave2_resnet_20260912/eval_t1200/matrix.json",
+        "outputs/benchmark_track_a_v1/phase_i_wave2_resnet_20260912/evaluate_t1200.log"
+      ],
+      "size_bytes": 403065,
+      "note": "Byte identity; semantically distinct tiny metadata remain separate. Empty files are not interchangeable scientific assets."
+    },
+    {
+      "sha256": "c65b78b36efe68e74430f87bbb7a5a548a4a6fbd5e71622b551e1c2ae96f100d",
+      "paths": [
+        "outputs/benchmark_track_a_v1/phase_i_wave2_resnet_20260912/eval_t2399/matrix.json",
+        "outputs/benchmark_track_a_v1/phase_i_wave2_resnet_20260912/evaluate_t2399.log"
+      ],
+      "size_bytes": 403060,
+      "note": "Byte identity; semantically distinct tiny metadata remain separate. Empty files are not interchangeable scientific assets."
+    },
+    {
+      "sha256": "f95fe895ef92efcf6b42317df92a53c141a869953c0b73c2e384feda5d1f4144",
+      "paths": [
+        "outputs/benchmark_track_a_v1/phase_i_wave3_timesnet_20260913/eval_t1200/matrix.json",
+        "outputs/benchmark_track_a_v1/phase_i_wave3_timesnet_20260913/evaluate_t1200.log"
+      ],
+      "size_bytes": 403125,
+      "note": "Byte identity; semantically distinct tiny metadata remain separate. Empty files are not interchangeable scientific assets."
+    },
+    {
+      "sha256": "d3afa6eded5775a9df5b8352f0cb7cb8c2ae74a323207b4c8d2dd99e70590491",
+      "paths": [
+        "outputs/benchmark_track_a_v1/phase_i_wave3_timesnet_20260913/eval_t2399/matrix.json",
+        "outputs/benchmark_track_a_v1/phase_i_wave3_timesnet_20260913/evaluate_t2399.log"
+      ],
+      "size_bytes": 403134,
+      "note": "Byte identity; semantically distinct tiny metadata remain separate. Empty files are not interchangeable scientific assets."
+    },
+    {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "paths": [
+        "outputs/benchmark_track_a_v1/phase_i_wave3_timesnet_20260913/workflow_t1200.log",
+        "outputs/benchmark_track_a_v1/phase_i_wave3_timesnet_20260913/workflow_t2399.log",
+        "outputs/benchmark_track_a_v1/phase_i_wave4_bilstm_20260913/workflow_t1200.log",
+        "outputs/benchmark_track_a_v1/phase_i_wave4_bilstm_20260913/workflow_t2399.log",
+        "outputs/benchmark_track_a_v1/phase_i_wave5_transformer_20260913/resume_t1200_from_epoch0225_20260913/failure_artifacts/epoch_0250.zero_byte.original_20260913T143409_731829.pt",
+        "outputs/benchmark_track_a_v1/phase_i_wave5_transformer_20260913/resume_t1200_from_epoch0225_20260913/workflow.log",
+        "outputs/benchmark_track_a_v1/phase_i_wave5_transformer_20260913/train_t1200.log",
+        "outputs/benchmark_track_a_v1/phase_i_wave5_transformer_20260913/train_t1200_exit.json",
+        "outputs/benchmark_track_a_v1/phase_i_wave5_transformer_20260913/workflow_t1200.log",
+        "outputs/benchmark_track_a_v1/phase_i_wave5_transformer_20260913/workflow_t2399.log",
+        "src/data_generation/__init__.py",
+        "src/models/fno1d/__init__.py",
+        "src/training/fno2d/__init__.py"
+      ],
+      "size_bytes": 0,
+      "note": "Byte identity; semantically distinct tiny metadata remain separate. Empty files are not interchangeable scientific assets."
+    },
+    {
+      "sha256": "46abe4d46c5453ba11f37415fc2d0b080fc4a2a42434d8613192c57901ccd065",
+      "paths": [
+        "outputs/benchmark_track_a_v1/phase_i_wave4_bilstm_20260913/eval_t1200/matrix.json",
+        "outputs/benchmark_track_a_v1/phase_i_wave4_bilstm_20260913/evaluate_t1200.log"
+      ],
+      "size_bytes": 403079,
+      "note": "Byte identity; semantically distinct tiny metadata remain separate. Empty files are not interchangeable scientific assets."
+    },
+    {
+      "sha256": "0e550e1933cba39c79eca5afc368ed2ce76186f90144c677b4156b41c7372d3d",
+      "paths": [
+        "outputs/benchmark_track_a_v1/phase_i_wave4_bilstm_20260913/eval_t2399/matrix.json",
+        "outputs/benchmark_track_a_v1/phase_i_wave4_bilstm_20260913/evaluate_t2399.log"
+      ],
+      "size_bytes": 403076,
+      "note": "Byte identity; semantically distinct tiny metadata remain separate. Empty files are not interchangeable scientific assets."
+    },
+    {
+      "sha256": "f549ed120a312085794d506a0765b3dcb298a5adba09e4bf8dbbe05a76753b96",
+      "paths": [
+        "outputs/benchmark_track_a_v1/phase_i_wave5_transformer_20260913/eval_t1200/matrix.json",
+        "outputs/benchmark_track_a_v1/phase_i_wave5_transformer_20260913/resume_t1200_from_epoch0225_20260913/evaluate.log"
+      ],
+      "size_bytes": 403179,
+      "note": "Byte identity; semantically distinct tiny metadata remain separate. Empty files are not interchangeable scientific assets."
+    },
+    {
+      "sha256": "f6acfbec79f8d0859a49a33a422f0ec8593db5f786b8ff770048edc8125eb11f",
+      "paths": [
+        "outputs/benchmark_track_a_v1/phase_i_wave5_transformer_20260913/eval_t2399/matrix.json",
+        "outputs/benchmark_track_a_v1/phase_i_wave5_transformer_20260913/evaluate_t2399.log"
+      ],
+      "size_bytes": 403156,
+      "note": "Byte identity; semantically distinct tiny metadata remain separate. Empty files are not interchangeable scientific assets."
+    },
+    {
+      "sha256": "951e18ff08877d3694776b60b28049302c1c2ac33b70fdbcb06c704c1b3fc24f",
+      "paths": [
+        "outputs/benchmark_track_a_v1/phase_i_wave6_deeponet_20260913/eval_t1200/matrix.json",
+        "outputs/benchmark_track_a_v1/phase_i_wave6_deeponet_20260913/evaluate_t1200.log"
+      ],
+      "size_bytes": 403130,
+      "note": "Byte identity; semantically distinct tiny metadata remain separate. Empty files are not interchangeable scientific assets."
+    },
+    {
+      "sha256": "45f4a572efc38c0ec6c4b7116b51bc076a9a06a591ae57e8b99cd27406788c42",
+      "paths": [
+        "outputs/benchmark_track_a_v1/phase_i_wave6_deeponet_20260913/eval_t2399/matrix.json",
+        "outputs/benchmark_track_a_v1/phase_i_wave6_deeponet_20260913/evaluate_t2399.log"
+      ],
+      "size_bytes": 403118,
+      "note": "Byte identity; semantically distinct tiny metadata remain separate. Empty files are not interchangeable scientific assets."
+    }
+  ],
+  "historical_checkpoints": [
+    {
+      "kind": "historical_best_last",
+      "paths": [
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/plan_b_bidirectional_t1200_t2399/training/checkpoints/best_model.pt",
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/plan_b_bidirectional_t1200_t2399/training/checkpoints/last_model.pt"
+      ],
+      "byte_identical": false,
+      "archive_payload_identical": false,
+      "action": "Only BEST in package; retain LAST on server."
+    },
+    {
+      "kind": "historical_best_last",
+      "paths": [
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/checkpoints/best_model.pt",
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/checkpoints/last_model.pt"
+      ],
+      "byte_identical": false,
+      "archive_payload_identical": true,
+      "action": "Only BEST in package; retain LAST on server."
+    }
+  ],
+  "logical_reuse": [
+    "Six datasets shared by Plan B and all Track A models; never duplicate per model.",
+    "Plan B range matrix reuses original T1200/T2399 four cells; only T3598/T4797 add new predictions.",
+    "Track A matrices embed per-cell metrics; retain matrix and individual metrics for usability, not extra scientific measurements."
+  ],
+  "coverage_limit": "Only registry-derived directories inspected. No global search for unregistered copies or obsolete versions. No complete periodic-checkpoint content comparison."
+}

@@ -1288,12 +1288,12 @@ from Plan A physical-domain extension and from sparse observation-density experi
 clarification approved on 2026-09-12.** The read-only CPU capacity audit and the subsequent
 user-authorized Track A implementation/capacity matching are complete. The unified workflow
 has passed CPU and GPU feasibility validation. Completed-experiment audits now confirm
-Phase I Waves 1--5 (FNO1D, ResNet, canonical TimesNet, BiLSTM, Transformer): 10/12 formal
-trainings and 40/48 frozen evaluation cells are complete. See sections 15.5--15.9 for measured evidence;
-Phase I is not complete, and no dataset was regenerated.
+Phase I Waves 1--6 (FNO1D, ResNet, canonical TimesNet, BiLSTM, Transformer, DeepONet):
+all 6 models, 12/12 formal trainings and 48/48 frozen evaluation cells are complete.
+See sections 15.5--15.10 for measured evidence; no dataset was regenerated.
 
 The protocol fixes the original n2000 T1200/T2399 matched training data and independent
-Q400 endpoint-fixed evaluation field. Phase I will compare trajectory-wise BiLSTM, Dilated
+Q400 endpoint-fixed evaluation field. Phase I compared trajectory-wise BiLSTM, Dilated
 ResNet, canonical TimesNet, encoder-only Transformer, FNO1D, and DeepONet at approximately
 `1.1M real_scalar_parameter_count`, with the accepted `0.9M--1.3M` band in that unit.
 Track B applies the same small-model target/band to FNO1D-small and FNO2D-small, and
@@ -1301,8 +1301,8 @@ retains existing FNO2D-large at `33,579,971 real_scalar_parameter_count` (approx
 33.58M), historically `16,802,755 tensor_numel` (approximately 16.80M). It is a
 formulation/capacity study rather than a general leaderboard.
 
-The exact next step is **Phase I Wave 6 DeepONet preparation**; its T1200/T2399 formal
-workflows and four frozen Q400 evaluations per checkpoint require fresh explicit launch approval.
+The exact next step is **review the completed Phase I evidence and prepare the planned
+Phase-II FNO formulation/capacity study**. New formal execution requires explicit approval.
 The accepted GPU feasibility gate and corrected GPU preflight have cleared the identified
 technical blockers (section 15.3). Recheck current shared-server GPU availability before
 every subsequently approved workload. No Phase-I, Phase-II, or Phase-III experiment is
@@ -2109,3 +2109,114 @@ Phase I now has **5/6 models, 10/12 trainings and 40/48 frozen evaluation cells*
 The exact next step is **Wave 6 DeepONet preparation**, followed by fresh explicit
 launch authorization and Git/data/GPU preflight before any T1200/T2399 formal workflow.
 DeepONet has not been started; this analysis does not authorize it.
+
+### 15.10 Completed DeepONet Wave 6 and Track A Phase I matrix (audit 2026-09-20)
+
+**Measured completion:** Wave 6 ran on 2026-09-16, retaining the explicitly requested
+directory suffix 20260913. Both trainings reached epoch 500 and all eight frozen BEST
+evaluation cells completed. Both histories contain exactly epochs 1--500; all forty
+periodic checkpoints, selected BEST files, summaries, metrics and predictions are readable.
+Train/evaluation exits are zero and both workflow markers are COMPLETE; no Wave-6
+process remains active in the current-user process check. No resume/interruption or
+failure record exists. The two empty workflow wrapper logs are expected; actual train/
+evaluation logs contain readable result JSON, with no damaged zero-byte formal result.
+
+The accepted Q-only branch/lambda-only trunk remains width 384/four tanh hidden layers,
+branch output 3x128, shared trunk output 128 and three xyz biases: 1,085,699 nominal real
+scalar parameters and tensor elements. Source HEAD is
+1ebc16696727aec2a556f5a856dfd1b36f4817a0. Locked training settings, float32 model/input
+application, train-only float64 normalization statistics, source/data/split/Q/grid
+provenance and BEST selection by minimum validation normalized MSE all passed checks.
+Each matrix identifies the same frozen BEST SHA256 and restored normalization across
+its four cells; evaluation does not refit. All 417 prior-wave files match the launch
+manifest. No formal asset was modified, regenerated or rerun during this analysis.
+
+| Train T | Final / best epoch | Best validation MSE | Final validation MSE | Training seconds | Peak allocated bytes | Host GPU / CVD / local |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1200 | 500 / 498 | 0.00003187965075388396 | 0.00018842142385741076 | 348.17045059334487 | 428369920 | 1 / 1 / cuda:0 |
+| 2399 | 500 / 493 | 0.00009046893586249402 | 0.000556503542078038 | 520.7258876319975 | 741419520 | 2 / 2 / cuda:0 |
+
+T1200 training/evaluation exited at 07:57:11 / 07:57:23; T2399 at 08:00:06 / 08:00:18,
+all 2026-09-16 Asia/Shanghai. Final validation MSE is higher than BEST in both runs;
+the locked BEST-selection rule was followed without extending or tuning training.
+
+**Complete six-model Phase I global raw-xyz Relative L2:**
+
+| Model / Train T | T1200 | T2399 | T3598 | T4797 |
+| --- | --- | --- | --- | --- |
+| FNO1D / 1200 | 0.000304676590517 | 0.00260773956864 | 0.00346591077718 | 0.00389546647459 |
+| FNO1D / 2399 | 0.00262195772641 | 0.000295562198528 | 0.000891773304135 | 0.00130651011794 |
+| ResNet / 1200 | 0.000875793115919 | 1.23641878184 | 1.15185604926 | 1.10103131103 |
+| ResNet / 2399 | 1.08073931383 | 0.000624316666496 | 1.03557683005 | 1.03118762782 |
+| TimesNet / 1200 | 0.00157254951507 | 0.00383845963700 | 0.00491844356093 | 0.00546934598239 |
+| TimesNet / 2399 | 0.00326309006262 | 0.00165634091327 | 0.00194255174312 | 0.00222717317039 |
+| BiLSTM / 1200 | 0.000816636194451 | 0.301107365739 | 0.407211841622 | 0.461684118895 |
+| BiLSTM / 2399 | 0.202826791462 | 0.000990420666357 | 0.0840668719669 | 0.125443720656 |
+| Transformer / 1200 | 0.0260434167938 | 0.0258818293776 | 0.0258283335681 | 0.0258016567159 |
+| Transformer / 2399 | 0.0326034228820 | 0.0322528599217 | 0.0321367027735 | 0.0320788022689 |
+| DeepONet / 1200 | 0.00572016244214 | 0.00567443172148 | 0.00565956987077 | 0.00565221168267 |
+| DeepONet / 2399 | 0.00944202436127 | 0.00939609655586 | 0.00938114551504 | 0.00937373523040 |
+
+**DeepONet native-relative ratios E(T_eval)/E(T_native):**
+
+| Model / Train T | T1200 | T2399 | T3598 | T4797 |
+| --- | --- | --- | --- | --- |
+| DeepONet / 1200 | 1.00000000000 | 0.992005345805 | 0.989407193942 | 0.988120833952 |
+| DeepONet / 2399 | 1.00488796652 | 1.00000000000 | 0.998408802983 | 0.997620147332 |
+
+Independent single-thread fno_srv CPU recomputation from the eight saved predictions
+and authoritative float64 truth passed 64 metric comparisons (rtol1e-12, atol1e-14;
+maximum absolute discrepancy 7.806255641895632e-18). Q ordering, physical lambda grids,
+matrix/per-cell agreement, native ratios/deltas and worst-Q identities were checked.
+Raw MSE, mean-per-Q Relative L2, median, p95, p99, max and worst Q remain in the
+eight metrics_t<T>.json files indexed in Registry 9.6. Worst Q is 1.6007 (index 0) in
+all eight DeepONet cells; maximum per-Q Relative L2 spans 0.0119126--0.0119786 for
+T1200 training and 0.0235048--0.0235166 for T2399 training.
+
+**Measured patterns:** DeepONet T1200-to-finer error decreases slightly (up to 1.19%
+relative to native); T2399-to-T1200 increases 0.489%, while finer-grid error decreases
+up to 0.238%. Absolute changes are below 6.8e-5 within either trained checkpoint.
+T2399 training has higher error than T1200 training at all four grids, so finer training
+did not improve absolute accuracy in this pair. DeepONet has the shortest recorded
+training time among the six at each T; this does not measure total experimental cost,
+and Transformer T1200 retains the interruption accounting caveat in section 15.9.
+
+**Six-model interpretation, separated from measurements:**
+
+- FNO1D has the lowest absolute error in every corresponding cell, including native
+  errors near 3e-4, but off-native ratios reach approximately 3.02--12.79.
+- ResNet and BiLSTM fit native grids accurately but exhibit large transfer gaps:
+  ResNet off-native errors exceed 1; BiLSTM ranges approximately 0.0841--0.4617.
+  ResNet's predeclared RF control prevents a simple insufficient-span explanation
+  from being established by these results alone.
+- Canonical TimesNet retains relatively low off-native absolute errors and ratios
+  approximately 1.17--3.48. Its smaller ratios than FNO1D coexist with higher native
+  and off-native absolute errors. FFT/period folding is not proof of operator invariance.
+- DeepONet and Transformer vary little across these grids, but their native baselines
+  are higher. DeepONet is more accurate than Transformer in all eight corresponding
+  cells, while both are less accurate than FNO1D/TimesNet in those cells.
+
+DeepONet's pointwise query construction is consistent with weak dependence on the
+query set, not causal proof that this alone produced the observed accuracy/stability.
+A relatively resolution-insensitive approximation error could likewise contribute to
+Transformer's flat error profile; this is a hypothesis, not a diagnosed optimization
+failure or an attention-mechanism result. Changing evaluation quadrature can also change
+global errors even for a fixed continuous predictor. Absolute accuracy and relative
+stability therefore do not define a single model ranking.
+
+**Scope and next decision:** Track A Phase I is complete: **6/6 models, 12/12 training
+runs, 48/48 frozen cells**, under one locked seed 27/capacity/data/training protocol.
+This does not establish seed robustness, a universal architecture ranking, or causal
+support for every preregistered hypothesis. Those hypotheses remain unchanged.
+Unresolved questions include training-resolution effects on fitted error, the source
+of the ResNet/BiLSTM transfer gap, and whether joint-Q formulation or capacity explains
+historical FNO2D gains. The next step is review of the completed Phase I evidence and
+preparation for the already planned Phase-II FNO formulation/capacity study; no Phase-II,
+Phase-III, additional-seed, retuning or larger-data execution is authorized here.
+
+Formal root: outputs/benchmark_track_a_v1/phase_i_wave6_deeponet_20260913.
+Registry 9.6 indexes assets and hashes; Reasoning Log Episode 26 records the evidence
+boundary. No Protocol-impacting issue or Wave-6 execution error was found.
+Storage snapshot on 2026-09-20: Wave 6 allocated 815,599,616 bytes (778 MiB displayed);
+all Track A allocated 4,891,648,000 bytes (4.6 GiB displayed); /home available 29,311,664,128
+bytes (27.30 GiB, df displays 28G). These are dynamic inventory facts, not permanent allocation.

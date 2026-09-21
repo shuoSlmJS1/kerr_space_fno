@@ -1775,3 +1775,51 @@ follows; revisit the accuracy/stability distinction after the sixth model comple
 Phase I is not complete. Proceed only to Wave 6 DeepONet preparation. Formal DeepONet
 launch still requires explicit execution approval and fresh Git/data/GPU preflight.
 This analysis started no workload and changed no checkpoint, prediction or recovery file.
+
+## Episode 26 — DeepONet completion and six-model Phase I synthesis (2026-09-20)
+
+**Measured completion:** DeepONet Wave 6 executed on 2026-09-16 in the requested
+phase_i_wave6_deeponet_20260913 directory. Both runs reached epoch 500; best epochs/MSE
+are T1200: 498 / 0.00003187965075388396 and T2399: 493 / 0.00009046893586249402.
+All eight frozen cells completed. No resume/interruption is recorded. Forty checkpoints
+load, histories cover 1--500, BEST weights/SHA256 and train-only float64 statistics match,
+and 64 independent CPU metric comparisons pass. Prior 417 files match launch hashes.
+Current State 15.10 holds the complete six-model matrix; Registry 9.6 indexes formal assets.
+
+**DeepONet observations:** native global Relative L2 is 0.00572016/0.00939610.
+T1200-to-finer ratios are 0.992005/0.989407/0.988121; T2399-to-coarser is 1.004888,
+and its finer-grid ratios are 0.998409/0.997620. Absolute changes within each checkpoint
+are below 6.8e-5. T2399 training gives higher errors on every grid than T1200 training.
+Worst Q is 1.6007 in all eight cells. Final validation loss exceeds BEST in both runs;
+selection stayed fixed and no tuning or additional epochs were used.
+
+**Two-axis synthesis:** native accuracy and relative resolution stability are different.
+FNO1D has the lowest corresponding absolute errors across the matrix despite larger
+relative transfer ratios than TimesNet. ResNet/BiLSTM have small native errors but large
+off-native gaps. TimesNet retains relatively low absolute transfer error without matching
+FNO1D's absolute accuracy. DeepONet/Transformer have near-flat error profiles with higher
+native baselines; DeepONet has lower corresponding errors than Transformer, but higher
+ones than FNO1D/TimesNet. Thus a stable error ratio alone cannot establish useful accuracy
+or universal superiority of an operator label.
+
+**Interpretation limits:** DeepONet's pointwise query construction is consistent with
+its weak grid sensitivity, but this experiment does not isolate that mechanism causally.
+A persistent approximation error is one candidate explanation for Transformer's stable
+yet less accurate profile; optimization, representation and seed effects are not separated.
+Global metrics also depend on sampled-grid quadrature. TimesNet is a canonical periodic
+sequence architecture, not evidence that FFT alone guarantees cross-resolution behavior.
+ResNet's large theoretical RF does not by itself prevent discretization sensitivity.
+The broad operator-versus-sequence hypotheses are not uniformly confirmed by both
+accuracy and ratio measurements; preregistered hypotheses are preserved, not rewritten.
+
+**Unresolved questions and next-stage candidates:** review why changing training T alters
+native approximation quality, why ResNet/BiLSTM transfer gaps persist under the accepted
+contracts, and how formulation/capacity contributes to historical FNO2D performance.
+The already planned Phase-II comparison can address FNO1D-small versus FNO2D-small and
+FNO2D-small versus existing FNO2D-large. This is a candidate next execution stage after
+review, not authorization to train. Selective Phase III, extra seeds, retuning or expanded
+datasets remain separately gated; no new follow-up experiment is silently adopted.
+
+Track A Phase I is now complete: 6/6 models, 12/12 trainings, 48/48 frozen evaluation cells.
+This is a completed single-seed benchmark, not proof of architecture causality or seed
+robustness. No protocol/model/data/code or formal-output change was made during analysis.
