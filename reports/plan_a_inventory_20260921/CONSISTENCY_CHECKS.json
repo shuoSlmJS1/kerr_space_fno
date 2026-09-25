@@ -1,0 +1,94 @@
+{
+  "checks": [
+    {
+      "check": "R0_formal_anchor_and_CSV_consistency",
+      "passed": true,
+      "rows": 1200,
+      "anchor_rounding_tolerance": 5e-06,
+      "per_q_average_tolerance": 1e-12
+    },
+    {
+      "check": "R1_formal_anchor_and_CSV_consistency",
+      "passed": true,
+      "rows": 1200,
+      "anchor_rounding_tolerance": 5e-06,
+      "per_q_average_tolerance": 1e-12
+    },
+    {
+      "check": "R2_formal_anchor_and_CSV_consistency",
+      "passed": true,
+      "rows": 1200,
+      "anchor_rounding_tolerance": 5e-06,
+      "per_q_average_tolerance": 1e-12
+    },
+    {
+      "check": "R3_formal_anchor_and_CSV_consistency",
+      "passed": true,
+      "rows": 1200,
+      "anchor_rounding_tolerance": 5e-06,
+      "per_q_average_tolerance": 1e-12
+    },
+    {
+      "check": "R0_saved_T1200_prefix_existing_metric_recomputation",
+      "passed": true,
+      "mean_per_q_relative_l2": 0.005427490395002388,
+      "formal_reference": 0.005427490395002388,
+      "absolute_difference": 0.0,
+      "tolerance": 1e-12,
+      "inference_run": false
+    },
+    {
+      "check": "R0_saved_T1200_full_existing_metric_recomputation",
+      "passed": true,
+      "mean_per_q_relative_l2": 0.005427490395002388,
+      "formal_reference": 0.005427490395002388,
+      "absolute_difference": 0.0,
+      "tolerance": 1e-12,
+      "inference_run": false
+    },
+    {
+      "check": "R0_saved_T1800_prefix_existing_metric_recomputation",
+      "passed": true,
+      "mean_per_q_relative_l2": 1.7016413755435957,
+      "formal_reference": 1.7016413755435957,
+      "absolute_difference": 0.0,
+      "tolerance": 1e-12,
+      "inference_run": false
+    },
+    {
+      "check": "R0_saved_T1800_full_existing_metric_recomputation",
+      "passed": true,
+      "mean_per_q_relative_l2": 1.8720813646855663,
+      "formal_reference": 1.8720813646855663,
+      "absolute_difference": 0.0,
+      "tolerance": 1e-12,
+      "inference_run": false
+    },
+    {
+      "check": "R0_saved_T1800_extrapolation_existing_metric_recomputation",
+      "passed": true,
+      "mean_per_q_relative_l2": 2.175171290898468,
+      "formal_reference": 2.175171290898468,
+      "absolute_difference": 0.0,
+      "tolerance": 1e-12,
+      "inference_run": false
+    },
+    {
+      "check": "R3_seven_length_record_anchors",
+      "passed": true
+    }
+  ],
+  "all_passed": true,
+  "scientific_recomputation_scope": "Only existing metric definitions evaluated from already saved predictions and authoritative truth; no model construction, inference or training.",
+  "A0_Q_split_hashes_match_record": true,
+  "R3_checkpoint_canonical_float64_anchors_verified": true,
+  "invalid_Q_order_artifact": {
+    "status": "not_found_in_scoped_existing_assets",
+    "searched_directory": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/length_change_prediction_consistency",
+    "existing_files": [
+      "/home/shanjinshuo/fno_kerr/kerr_project/outputs/length_change_prediction_consistency/q400_t1200_t1800_all_canonical_q.json"
+    ],
+    "record_evidence": "Current State 7.7; Reasoning Log Episode 3; correction commit a68dc2c",
+    "handling": "Historical invalid run is protocol-debug and DO_NOT_UPLOAD if later located; no path, byte size or surviving file is invented."
+  }
+}

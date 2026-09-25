@@ -1,0 +1,208 @@
+{
+  "head": "594f0eaf331b0c3a8b4c6342f5c554ab64c3a2a1",
+  "files": {
+    "FNO_KERR_CURRENT_STATE.md": {
+      "tracked": true,
+      "latest_commit": "594f0eaf331b0c3a8b4c6342f5c554ab64c3a2a1",
+      "sha256": "de33904f76a3060443913a1b75c857143525a96e007489fc5174ed21c27b0f64"
+    },
+    "SERVER_DATA_EXPERIMENT_REGISTRY.md": {
+      "tracked": true,
+      "latest_commit": "594f0eaf331b0c3a8b4c6342f5c554ab64c3a2a1",
+      "sha256": "7366056603c4a2a52edb69445f9ff3052c6f91cf99c79529dd7040f77d13703b"
+    },
+    "FNO_KERR_REASONING_LOG.md": {
+      "tracked": true,
+      "latest_commit": "594f0eaf331b0c3a8b4c6342f5c554ab64c3a2a1",
+      "sha256": "2077b626d5744b6a08b1ccabe0ea6baf61d826fa3ee9626ef30ce0cea4e84692"
+    },
+    "FNO_KERR_EXPERIMENT_PLAN.md": {
+      "tracked": true,
+      "latest_commit": "3335b3b197cf8b7d7a302d900a51af37a25d2144",
+      "sha256": "a87bb1ce7b3ecd880e50efd7db17d8112a7ef888d145636919b8d1e6ee42577c"
+    },
+    "scripts/generate_dataset.py": {
+      "tracked": true,
+      "latest_commit": "da009847ff64be1cdb404120ce8c05758f6b297e",
+      "sha256": "4e1b1b2715ba91fbfc3a9b2c47ece35d1e7f9f41281ac2e094549d23add33dc8"
+    },
+    "scripts/generate_length_extrapolation_datasets.sh": {
+      "tracked": true,
+      "latest_commit": "eecef022de4fb72c87255762b8cb0a6457a87667",
+      "sha256": "6ebf75d0b65fcccce6f3ec24b7b47aa8b9970af6fba8357240cd1b1fe6dd4a1a"
+    },
+    "scripts/validate_length_dataset_prefix_identity.py": {
+      "tracked": true,
+      "latest_commit": "8a6ee0bc8c08399e099da86e80fe104badf39622",
+      "sha256": "f4b6e02ff529e87436332dea676d06f7542301bc0a79e5ea54231fbfcc11ebc5"
+    },
+    "scripts/evaluate_length_extrapolation_2d.py": {
+      "tracked": true,
+      "latest_commit": "eecef022de4fb72c87255762b8cb0a6457a87667",
+      "sha256": "679318d2b57909f462e4cc556794c9320ed03845388f43d4cb625bf3d39d40fa"
+    },
+    "scripts/compare_length_prefix_predictions_2d.py": {
+      "tracked": true,
+      "latest_commit": "eecef022de4fb72c87255762b8cb0a6457a87667",
+      "sha256": "0ee74274cf65c55352218a9684164209b5ab0dba39d2db9545d625a260471501"
+    },
+    "scripts/evaluate_length_change_prediction_consistency_2d.py": {
+      "tracked": true,
+      "latest_commit": "a68dc2c24a42a51fe675d5a0e693b1bb19d2130a",
+      "sha256": "6050942c7dce28e147614b6ae45c90e7a185f8f0a924cfc50aec3a0109d3a5ee"
+    },
+    "scripts/evaluate_formal_length_extrapolation_2d.py": {
+      "tracked": true,
+      "latest_commit": "d6bb75e9ce6572c36706b8cffb7792b5c7d0a683",
+      "sha256": "cb96a639e2e4ace97014178b01f00c45d7d5f7cec2098ba60d5e36e15698a537"
+    },
+    "scripts/analyze_raw_kerr_spectral_energy.py": {
+      "tracked": true,
+      "latest_commit": "718958204d84d787c6615f0748f0e9f5c30539f3",
+      "sha256": "fe6c752bef9b15f1721a04218e11a17e39bde82ea747cd420de95dff285d6e08"
+    },
+    "scripts/diagnose_fno2d_internal_length_sensitivity.py": {
+      "tracked": true,
+      "latest_commit": "f4a8573754bb59b686d5685f4c453583817a15a0",
+      "sha256": "914eabf0d4ee12f5c7760f14abaa2b844e244bb83fc303ce9b268a33328cc7ab"
+    },
+    "scripts/diagnose_lambda_coordinate_clamp_effect_2d.py": {
+      "tracked": true,
+      "latest_commit": "b3c78854b07ee87fd66be2e4ab95675e0e5ada3c",
+      "sha256": "8bef61e655092c6828ca1b61d1f1d35d9ef825b3077a9ea36e5438fc15d208a7"
+    },
+    "scripts/train_fno2d_variable_length_r1.py": {
+      "tracked": true,
+      "latest_commit": "bc026bbc80787ea804dc3e722711fab7075f4eaf",
+      "sha256": "21db5ad709037cd5f0c08017c53ab2380884400895c7e28f538f4415853996d9"
+    },
+    "scripts/evaluate_r1_validation_length_response_2d.py": {
+      "tracked": true,
+      "latest_commit": "7ab27e43c935b09fdf958488e3fff4754ce78f8a",
+      "sha256": "fac32b5c46bb512027281e5cb82207744df9fad8414146603c684bbc7dac5b80"
+    },
+    "scripts/train_fno2d_domain_conditioned_r2.py": {
+      "tracked": true,
+      "latest_commit": "ff8a20c67a3c28a1afae0cd171eadb47afde973d",
+      "sha256": "c40fdc02b144b10ec8bc6440b1be4cd8e6175efa64aa850e8df313d30157a9ea"
+    },
+    "scripts/evaluate_formal_length_extrapolation_r2_2d.py": {
+      "tracked": true,
+      "latest_commit": "ff8a20c67a3c28a1afae0cd171eadb47afde973d",
+      "sha256": "363dd1e52aa56fb523ccbcf96610b2fc3dbc0942e28f044074aa897aaec4e2e0"
+    },
+    "scripts/train_fno2d_physical_frequency_r3.py": {
+      "tracked": true,
+      "latest_commit": "73251bdf210c9078047287af7a54dad4b73e7a84",
+      "sha256": "8bc28e32191e24b23c35c65a75cf4d449ea86f86f0dc7cfbfda6ec27c52a1e4d"
+    },
+    "scripts/evaluate_formal_length_extrapolation_r3_2d.py": {
+      "tracked": true,
+      "latest_commit": "10c9394e946c9b0972dde3594072fd270c4cc428",
+      "sha256": "ff998b5056838199bc94017fbb988e8bdd6d0bf1668ee64fc46bfcf118c10d5c"
+    },
+    "scripts/evaluate_r3_validation_length_response_2d.py": {
+      "tracked": true,
+      "latest_commit": "7f1ba64635644efe9b70da7ccca713651ed5f43d",
+      "sha256": "93d3304c71066dbfee9a708674ebff02ac6c72fd42b9509211af15841e4325b6"
+    },
+    "src/models/fno2d/fno2d.py": {
+      "tracked": true,
+      "latest_commit": "2847927b0cac1bace16be26180edd6b2149420cb",
+      "sha256": "2fc2ade699372a59f123d26b4184995edf25559004707effe1aaefeec0fd2940"
+    },
+    "src/models/fno2d/layers2d.py": {
+      "tracked": true,
+      "latest_commit": "2847927b0cac1bace16be26180edd6b2149420cb",
+      "sha256": "77c6cf535beb9386ca5f0284de393f645a74c72d1333ad8c09ace895f5236134"
+    },
+    "src/models/fno2d/fno2d_physical_frequency.py": {
+      "tracked": true,
+      "latest_commit": "10c9394e946c9b0972dde3594072fd270c4cc428",
+      "sha256": "11b6da8864da525f9e37b639caf7c45a13196a3a58c2d3be115d1a4b77736b89"
+    },
+    "src/models/fno2d/physical_frequency_layers2d.py": {
+      "tracked": true,
+      "latest_commit": "10c9394e946c9b0972dde3594072fd270c4cc428",
+      "sha256": "c1049542d0ac5a455650c2275a6e797c59ac96a83e975fd6fe8fb88ac7d694cf"
+    },
+    "src/training/fno2d/input_builder_2d.py": {
+      "tracked": true,
+      "latest_commit": "bb6f3a5cdd451d03b2cfd135d043b811d846c783",
+      "sha256": "d3d59f4a3c9fc49f56d49aa952693cb62cd85fbee68fbbf2d11964da8b4a9615"
+    },
+    "src/training/fno2d/dataset_loader_2d.py": {
+      "tracked": true,
+      "latest_commit": "59b54bb72b0130f56bd06bff496b147276b82f33",
+      "sha256": "7f00f5019573b4d4327fe20922aa685b50bb335dae06a8276a6abc9d27ce6442"
+    },
+    "src/training/fno2d/normalization_2d.py": {
+      "tracked": true,
+      "latest_commit": "2847927b0cac1bace16be26180edd6b2149420cb",
+      "sha256": "22a0eabacc087d48c58410a21f705d6bda6f0d585af35f27aad9a11957217b42"
+    },
+    "src/training/fno2d/target_transform_2d.py": {
+      "tracked": true,
+      "latest_commit": "2847927b0cac1bace16be26180edd6b2149420cb",
+      "sha256": "76a56a0d8a5166a1bf4009ede5a8e382e1e2196d5125b141faea97ec6ce84b79"
+    },
+    "src/data_generation/dataset_builder.py": {
+      "tracked": true,
+      "latest_commit": "5d04833d597fa671b288f9400f1ace3a7345802a",
+      "sha256": "5056dd402ab79005d3d410b7d6a2f58a5bcad159e89811cd219563da3133237e"
+    },
+    "src/data_generation/dataset_saver.py": {
+      "tracked": true,
+      "latest_commit": "da009847ff64be1cdb404120ce8c05758f6b297e",
+      "sha256": "6e9a2b8910640ee1d34ce8317dd9bae986e6809095466ed92ebcab9208122f97"
+    },
+    "scripts/train_model_2d.py": {
+      "tracked": true,
+      "latest_commit": "59b54bb72b0130f56bd06bff496b147276b82f33",
+      "sha256": "f9b5fc1b7810fe23435a4372b1999ee9e4f314c5bc125601857169520f04276d"
+    },
+    "scripts/evaluate_common_test_2d.py": {
+      "tracked": true,
+      "latest_commit": "eecef022de4fb72c87255762b8cb0a6457a87667",
+      "sha256": "9f0e245ad7e2705a4cf05983d35292d7b5f9560d3bb53f5946e67fe6cbbeab66"
+    },
+    "scripts/evaluate_plan_b_resolution_generalization_2d.py": {
+      "tracked": true,
+      "latest_commit": "c12123038c165089fc20a7b23aa767ce7c85efa8",
+      "sha256": "ad85646be2147e9771a1aa405a76917a0933150b7d54d6ae0af5772c3d546737"
+    },
+    "src/data_generation/orbit_solver_second_order.py": {
+      "tracked": true,
+      "latest_commit": "5c2e5507276071fd7bdbac282c9e02fbbe2d32b4",
+      "sha256": "f89efd9ce2cd62d3cd377563c550b8dced1203b1becdc5efc67cfe56be01da39"
+    },
+    "src/training/checkpoint.py": {
+      "tracked": true,
+      "latest_commit": "2847927b0cac1bace16be26180edd6b2149420cb",
+      "sha256": "e02561e21edfdac2e73c887aa04dbbe008a469f9982a613c5ffe7628080fcd37"
+    },
+    "src/models/registry_2d.py": {
+      "tracked": true,
+      "latest_commit": "da009847ff64be1cdb404120ce8c05758f6b297e",
+      "sha256": "28f7af89407a1d5869e46e862ede3d1fe809b1b9ab7cc22647d4129adc927c32"
+    }
+  },
+  "historical_commits": {
+    "initial_fno2d": "dc7964c6c0dc6490152b2a7894ec4c92d7218d4e",
+    "exact_prefix_validator": "8a6ee0b",
+    "Q_order_fix": "a68dc2c",
+    "R3_anchor_fix": "10c9394e946c9b0972dde3594072fd270c4cc428"
+  },
+  "original_design_audit": {
+    "evidence_level": "Git/code-derived plus original training config and checkpoint metadata",
+    "historical_standalone_audit_file": "not_located",
+    "conclusion": "The recorded R0 training uses one fixed T1200 field and normalized MSE. The original layer learns fixed discrete-index spectral weights over a global FFT; input construction uses Q and absolute lambda. There is no explicit domain-length equivariance or restriction-consistency constraint in the inspected original training path. Shape flexibility alone does not establish such invariance.",
+    "source_references": [
+      "scripts/train_model_2d.py:261",
+      "scripts/train_model_2d.py:697",
+      "src/models/fno2d/layers2d.py:133",
+      "src/training/fno2d/input_builder_2d.py:103"
+    ],
+    "boundary": "This inventory supplies an explicit code-derived audit index; it does not invent a historical standalone experiment or claim a mathematical impossibility theorem."
+  }
+}

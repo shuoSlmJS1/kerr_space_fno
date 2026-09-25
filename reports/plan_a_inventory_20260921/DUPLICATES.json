@@ -1,0 +1,233 @@
+{
+  "groups": [
+    {
+      "duplicate_group_id": "duplicate_001",
+      "members": [
+        "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6-3_n2000_t1200/failed_samples.json",
+        "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1200/failed_samples.json",
+        "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1800/failed_samples.json",
+        "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t2400/failed_samples.json"
+      ],
+      "canonical_source": "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6-3_n2000_t1200/failed_samples.json",
+      "duplicate_type": "same_size_and_sha256",
+      "scientific_roles": [
+        "A0",
+        "M2",
+        "M3",
+        "M4a",
+        "M4b",
+        "R0",
+        "R1",
+        "R2",
+        "R3"
+      ],
+      "recommended_handling": "Use one canonical payload; retain original path-to-role mapping in the inventory. Do not delete server files.",
+      "bytes_avoided_if_single_copy": 6
+    },
+    {
+      "duplicate_group_id": "duplicate_002",
+      "members": [
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/comparison/common_test__q_1p6007-2p9993_n400_t1200/common_test_dataset.npz",
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/comparison/common_test_e500_w64_n2000_n5000/common_test_dataset.npz"
+      ],
+      "canonical_source": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/comparison/common_test__q_1p6007-2p9993_n400_t1200/common_test_dataset.npz",
+      "duplicate_type": "same_size_and_sha256",
+      "scientific_roles": [
+        "R0"
+      ],
+      "recommended_handling": "Use one canonical payload; retain original path-to-role mapping in the inventory. Do not delete server files.",
+      "bytes_avoided_if_single_copy": 5324833
+    },
+    {
+      "duplicate_group_id": "duplicate_003",
+      "members": [
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200/summary.json",
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200/logs/train_summary.json"
+      ],
+      "canonical_source": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200/summary.json",
+      "duplicate_type": "same_size_and_sha256",
+      "scientific_roles": [
+        "R1"
+      ],
+      "recommended_handling": "Use one canonical payload; retain original path-to-role mapping in the inventory. Do not delete server files.",
+      "bytes_avoided_if_single_copy": 1612
+    },
+    {
+      "duplicate_group_id": "duplicate_004",
+      "members": [
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200/summary.json",
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200/logs/train_summary.json"
+      ],
+      "canonical_source": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200/summary.json",
+      "duplicate_type": "same_size_and_sha256",
+      "scientific_roles": [
+        "R2"
+      ],
+      "recommended_handling": "Use one canonical payload; retain original path-to-role mapping in the inventory. Do not delete server files.",
+      "bytes_avoided_if_single_copy": 1636
+    },
+    {
+      "duplicate_group_id": "duplicate_005",
+      "members": [
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200/summary.json",
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200/logs/train_summary.json"
+      ],
+      "canonical_source": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200/summary.json",
+      "duplicate_type": "same_size_and_sha256",
+      "scientific_roles": [
+        "R3"
+      ],
+      "recommended_handling": "Use one canonical payload; retain original path-to-role mapping in the inventory. Do not delete server files.",
+      "bytes_avoided_if_single_copy": 1643
+    },
+    {
+      "duplicate_group_id": "reuse_006",
+      "members": [
+        "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6-3_n2000_t1200/dataset.npz"
+      ],
+      "canonical_source": "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6-3_n2000_t1200/dataset.npz",
+      "duplicate_type": "one_physical_file_multiple_scientific_roles",
+      "scientific_roles": [
+        "R0",
+        "R1",
+        "R2",
+        "R3",
+        "R1_validation_length_response",
+        "R3_validation_length_response"
+      ],
+      "recommended_handling": "One package asset, multiple references; no physical duplicate is asserted.",
+      "bytes_avoided_if_single_copy": 0,
+      "hypothetical_naive_per_role_duplication_bytes": 278397530
+    },
+    {
+      "duplicate_group_id": "reuse_007",
+      "members": [
+        "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1200/dataset.npz"
+      ],
+      "canonical_source": "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1200/dataset.npz",
+      "duplicate_type": "one_physical_file_multiple_scientific_roles",
+      "scientific_roles": [
+        "A0",
+        "R0",
+        "M2",
+        "M3",
+        "M4a",
+        "M4b",
+        "R1",
+        "R2",
+        "R3"
+      ],
+      "recommended_handling": "One package asset, multiple references; no physical duplicate is asserted.",
+      "bytes_avoided_if_single_copy": 0,
+      "hypothetical_naive_per_role_duplication_bytes": 89116696
+    },
+    {
+      "duplicate_group_id": "reuse_008",
+      "members": [
+        "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1800/dataset.npz"
+      ],
+      "canonical_source": "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1800/dataset.npz",
+      "duplicate_type": "one_physical_file_multiple_scientific_roles",
+      "scientific_roles": [
+        "A0",
+        "R0",
+        "M2",
+        "M3",
+        "M4a",
+        "M4b",
+        "R1",
+        "R2",
+        "R3"
+      ],
+      "recommended_handling": "One package asset, multiple references; no physical duplicate is asserted.",
+      "bytes_avoided_if_single_copy": 0,
+      "hypothetical_naive_per_role_duplication_bytes": 133757832
+    },
+    {
+      "duplicate_group_id": "reuse_009",
+      "members": [
+        "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t2400/dataset.npz"
+      ],
+      "canonical_source": "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t2400/dataset.npz",
+      "duplicate_type": "one_physical_file_multiple_scientific_roles",
+      "scientific_roles": [
+        "A0",
+        "R0",
+        "M2",
+        "M3",
+        "M4a",
+        "M4b",
+        "R1",
+        "R2",
+        "R3"
+      ],
+      "recommended_handling": "One package asset, multiple references; no physical duplicate is asserted.",
+      "bytes_avoided_if_single_copy": 0,
+      "hypothetical_naive_per_role_duplication_bytes": 178309160
+    },
+    {
+      "duplicate_group_id": "reuse_010",
+      "members": [
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/plan_b_q400_t1200_to_t2399/frozen_fno_resolution_generalization/coarse_prediction_raw_xyz.npy"
+      ],
+      "canonical_source": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/plan_b_q400_t1200_to_t2399/frozen_fno_resolution_generalization/coarse_prediction_raw_xyz.npy",
+      "duplicate_type": "one_physical_file_multiple_scientific_roles",
+      "scientific_roles": [
+        "R0_T1200",
+        "Plan_B_coarse_anchor"
+      ],
+      "recommended_handling": "One package asset, multiple references; no physical duplicate is asserted.",
+      "bytes_avoided_if_single_copy": 0,
+      "hypothetical_naive_per_role_duplication_bytes": 5760128
+    },
+    {
+      "duplicate_group_id": "reuse_011",
+      "members": [
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/checkpoints/best_model.pt"
+      ],
+      "canonical_source": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/checkpoints/best_model.pt",
+      "duplicate_type": "one_physical_file_multiple_scientific_roles",
+      "scientific_roles": [
+        "R0",
+        "M3",
+        "M4a",
+        "M4b"
+      ],
+      "recommended_handling": "One package asset, multiple references; no physical duplicate is asserted.",
+      "bytes_avoided_if_single_copy": 0,
+      "hypothetical_naive_per_role_duplication_bytes": 1208969958
+    },
+    {
+      "duplicate_group_id": "reuse_012",
+      "members": [
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200/checkpoints/best_model.pt"
+      ],
+      "canonical_source": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200/checkpoints/best_model.pt",
+      "duplicate_type": "one_physical_file_multiple_scientific_roles",
+      "scientific_roles": [
+        "R1",
+        "R1_validation_length_response"
+      ],
+      "recommended_handling": "One package asset, multiple references; no physical duplicate is asserted.",
+      "bytes_avoided_if_single_copy": 0,
+      "hypothetical_naive_per_role_duplication_bytes": 402990114
+    },
+    {
+      "duplicate_group_id": "reuse_013",
+      "members": [
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200/checkpoints/best_model.pt"
+      ],
+      "canonical_source": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200/checkpoints/best_model.pt",
+      "duplicate_type": "one_physical_file_multiple_scientific_roles",
+      "scientific_roles": [
+        "R3",
+        "R3_validation_length_response"
+      ],
+      "recommended_handling": "One package asset, multiple references; no physical duplicate is asserted.",
+      "bytes_avoided_if_single_copy": 0,
+      "hypothetical_naive_per_role_duplication_bytes": 402996002
+    }
+  ],
+  "byte_identical_savings": 5329730,
+  "note": "Reuse-role groups have zero physical duplicate savings; their hypothetical per-role savings must not be added to actual storage savings. Prefix-equivalent datasets are distinct formal assets, not byte duplicates."
+}

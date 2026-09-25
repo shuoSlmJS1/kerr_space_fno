@@ -1,0 +1,660 @@
+{
+  "schema_version": "1.0",
+  "record_authority": [
+    "/home/shanjinshuo/fno_kerr/kerr_project/FNO_KERR_EXPERIMENT_PLAN.md",
+    "/home/shanjinshuo/fno_kerr/kerr_project/FNO_KERR_CURRENT_STATE.md",
+    "/home/shanjinshuo/fno_kerr/kerr_project/SERVER_DATA_EXPERIMENT_REGISTRY.md",
+    "/home/shanjinshuo/fno_kerr/kerr_project/FNO_KERR_REASONING_LOG.md"
+  ],
+  "nodes": [
+    {
+      "stage_id": "A0_exact_prefix_protocol",
+      "stage_type": "qualification",
+      "scientific_question": "Do the Q400 T1200/T1800/T2400 raw truths have exactly matching identities and prefixes?",
+      "changed_variable": "Total physical domain length at delta_lambda=0.005",
+      "kept_fixed": [
+        "Q identities and split ordering",
+        "Kerr physics and solver v1"
+      ],
+      "input_datasets": [
+        "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1200",
+        "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1800",
+        "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t2400"
+      ],
+      "checkpoint_dependencies": [],
+      "output_artifacts": [
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/length_dataset_identity_validation/q400_t1200_t1800_t2400_prefix_identity.json"
+      ],
+      "formal_or_development": "formal_qualification",
+      "scientific_status": "EXACT_PREFIX",
+      "supports_candidates": [],
+      "weakens_candidates": [
+        "raw truth-prefix mismatch"
+      ],
+      "limitations": [
+        "Dataset identity is not model accuracy.",
+        "Recorded raw-trajectory checks are exactly zero; current split-Q hashes were independently matched to the validator convention."
+      ],
+      "next_stage_logic": "Enables corrected frozen R0 comparison.",
+      "record_references": [
+        "Current State 7.3",
+        "Reasoning Log Episode 2"
+      ],
+      "development_benchmark": false,
+      "untouched_final_confirmation": false
+    },
+    {
+      "stage_id": "R0_baseline",
+      "stage_type": "formal_frozen_evaluation",
+      "scientific_question": "Can the original fixed-domain T1200 FNO2D extrapolate one-shot to longer physical domains?",
+      "changed_variable": "Evaluation T1200 -> T1800 -> T2400",
+      "kept_fixed": [
+        "One frozen BEST",
+        "Canonical Q400",
+        "Raw float64 truth",
+        "One forward per total length",
+        "No adaptation or autoregression"
+      ],
+      "input_datasets": [
+        "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6-3_n2000_t1200",
+        "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1200",
+        "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1800",
+        "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t2400"
+      ],
+      "checkpoint_dependencies": [
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/checkpoints/best_model.pt"
+      ],
+      "output_artifacts": [
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/formal_a1_length_extrapolation/q400_t1200_t1800_t2400_w0p5/a1_length_extrapolation_summary.json",
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/formal_a1_length_extrapolation/q400_t1200_t1800_t2400_w0p5/lambda_window_metrics.csv",
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/formal_a1_length_extrapolation/q400_t1200_t1800_t2400_w0p5/per_q_metrics.csv",
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/length_change_prediction_consistency/q400_t1200_t1800_all_canonical_q.json"
+      ],
+      "formal_or_development": "formal_development_benchmark",
+      "scientific_status": "completed_baseline_failure",
+      "supports_candidates": [
+        "domain-length sensitivity"
+      ],
+      "weakens_candidates": [
+        "ground-truth mismatch",
+        "Q-axis scrambling as explanation of corrected result"
+      ],
+      "limitations": [
+        "Specific model/protocol only; not universal FNO impossibility.",
+        "T1800/T2400 are repeatedly inspected development benchmarks."
+      ],
+      "next_stage_logic": "Motivates M1-M4.",
+      "record_references": [
+        "Current State 7.4-7.7",
+        "Reasoning Log Episodes 3-4"
+      ],
+      "development_benchmark": true,
+      "untouched_final_confirmation": false
+    },
+    {
+      "stage_id": "M1_fft_semantics",
+      "stage_type": "source_audit",
+      "scientific_question": "How do discrete lambda indices and physical frequencies change with domain length?",
+      "changed_variable": "Audit frequency interpretation f_k=k/(N*delta_lambda)",
+      "kept_fixed": [
+        "Original source and modes2=32"
+      ],
+      "input_datasets": [],
+      "checkpoint_dependencies": [],
+      "output_artifacts": [
+        "/home/shanjinshuo/fno_kerr/kerr_project/src/models/fno2d/layers2d.py",
+        "/home/shanjinshuo/fno_kerr/kerr_project/src/training/fno2d/input_builder_2d.py"
+      ],
+      "formal_or_development": "Git/code-derived",
+      "scientific_status": "completed_code_derived",
+      "supports_candidates": [
+        "Candidate 1",
+        "Candidate 2",
+        "Candidate 3"
+      ],
+      "weakens_candidates": [],
+      "limitations": [
+        "No distinct dataset/checkpoint is needed.",
+        "Mathematical representation facts alone do not establish error causality."
+      ],
+      "next_stage_logic": "M2 tests raw spectral energy; M3 tests internal pathways.",
+      "record_references": [
+        "Current State 7.8",
+        "Reasoning Log Episode 5"
+      ],
+      "development_benchmark": false,
+      "untouched_final_confirmation": false
+    },
+    {
+      "stage_id": "M2_raw_spectral_energy",
+      "stage_type": "raw_truth_diagnostic",
+      "scientific_question": "Does the fixed 32-mode cutoff lose enough raw high-frequency energy to explain failure?",
+      "changed_variable": "Length-dependent spectral energy and physical cutoffs",
+      "kept_fixed": [
+        "Raw float64 xyz",
+        "Canonical Q400",
+        "One-sided FFT definition"
+      ],
+      "input_datasets": [
+        "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1200",
+        "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1800",
+        "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t2400"
+      ],
+      "checkpoint_dependencies": [],
+      "output_artifacts": [
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/raw_kerr_spectral_energy/q400_t1200_t1800_t2400_m32_raw/dominant_peaks.csv",
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/raw_kerr_spectral_energy/q400_t1200_t1800_t2400_m32_raw/raw_spectral_energy_summary.json",
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/raw_kerr_spectral_energy/q400_t1200_t1800_t2400_m32_raw/spectral_band_energy.csv"
+      ],
+      "formal_or_development": "development_diagnostic",
+      "scientific_status": "completed_simple_bandwidth_explanation_weakened",
+      "supports_candidates": [
+        "Candidate 1 descriptive frequency remapping"
+      ],
+      "weakens_candidates": [
+        "Candidate 2 simple raw-energy-loss explanation"
+      ],
+      "limitations": [
+        "Hidden features can have different spectra.",
+        "Small raw above-cutoff energy does not eliminate bandwidth mechanisms."
+      ],
+      "next_stage_logic": "M3 observes the actual frozen model.",
+      "record_references": [
+        "Current State 7.8",
+        "Reasoning Log Episode 6"
+      ],
+      "development_benchmark": false,
+      "untouched_final_confirmation": false
+    },
+    {
+      "stage_id": "M3_internal_length_sensitivity",
+      "stage_type": "frozen_internal_diagnostic",
+      "scientific_question": "Where does shared-prefix divergence enter, and how do aligned frequencies use different learned weights?",
+      "changed_variable": "Total input domain length",
+      "kept_fixed": [
+        "R0 BEST",
+        "Identical raw shared prefix",
+        "Normalization",
+        "Canonical Q400"
+      ],
+      "input_datasets": [
+        "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1200",
+        "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1800",
+        "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t2400"
+      ],
+      "checkpoint_dependencies": [
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/checkpoints/best_model.pt"
+      ],
+      "output_artifacts": [
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/m3_internal_length_sensitivity/q400_t1200_t1800_t2400/m3_internal_length_sensitivity_summary.json",
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/m3_internal_length_sensitivity/q400_t1200_t1800_t2400/m3_spectral_mode_comparison.csv",
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/m3_internal_length_sensitivity/q400_t1200_t1800_t2400/m3_stage_comparison.csv"
+      ],
+      "formal_or_development": "development_diagnostic",
+      "scientific_status": "completed_observational_pathway_evidence",
+      "supports_candidates": [
+        "Candidate 1",
+        "Candidate 3"
+      ],
+      "weakens_candidates": [],
+      "limitations": [
+        "No unique causal error fraction.",
+        "Coordinate-range and global-basis effects remain coupled.",
+        "Only compact reductions were saved; no hidden/full tensor archive exists in this final directory."
+      ],
+      "next_stage_logic": "M4 probes appended-coordinate magnitude.",
+      "record_references": [
+        "Current State 7.8",
+        "Reasoning Log Episode 7"
+      ],
+      "development_benchmark": false,
+      "untouched_final_confirmation": false
+    },
+    {
+      "stage_id": "M4a_coordinate_normalization_audit",
+      "stage_type": "metadata_source_audit",
+      "scientific_question": "Do appended lambda coordinates leave the checkpoint training range and enter lifting?",
+      "changed_variable": "Audit checkpoint normalization and coordinate ranges",
+      "kept_fixed": [
+        "R0 checkpoint and original lifting"
+      ],
+      "input_datasets": [
+        "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1200",
+        "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1800",
+        "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t2400"
+      ],
+      "checkpoint_dependencies": [
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/checkpoints/best_model.pt"
+      ],
+      "output_artifacts": [
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/m4b_lambda_clamp/q400_t1200_t1800_t2400/m4b_lambda_clamp_summary.json",
+        "/home/shanjinshuo/fno_kerr/kerr_project/src/training/fno2d/normalization_2d.py"
+      ],
+      "formal_or_development": "metadata/source audit",
+      "scientific_status": "completed_checkpoint_verified",
+      "supports_candidates": [
+        "Candidate 4"
+      ],
+      "weakens_candidates": [],
+      "limitations": [
+        "No separate historical M4a output file was located; actual checkpoint and final M4b normalization provide the cited evidence."
+      ],
+      "next_stage_logic": "M4b intervenes only on appended lambda.",
+      "record_references": [
+        "Current State 7.8 M4a",
+        "Reasoning Log Episode 8"
+      ],
+      "development_benchmark": false,
+      "untouched_final_confirmation": false
+    },
+    {
+      "stage_id": "M4b_coordinate_clamp_probe",
+      "stage_type": "nonphysical_mechanism_probe",
+      "scientific_question": "Does appended out-of-training-range lambda magnitude affect the shared-prefix representation?",
+      "changed_variable": "Clamp appended normalized lambda",
+      "kept_fixed": [
+        "Same total length and FFT grid within pair",
+        "Q",
+        "R0 weights",
+        "Shared prefix coordinates",
+        "Truth"
+      ],
+      "input_datasets": [
+        "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1200",
+        "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1800",
+        "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t2400"
+      ],
+      "checkpoint_dependencies": [
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/checkpoints/best_model.pt"
+      ],
+      "output_artifacts": [
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/m4b_lambda_clamp/q400_t1200_t1800_t2400/m4b_intervention_response.csv",
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/m4b_lambda_clamp/q400_t1200_t1800_t2400/m4b_lambda_clamp_summary.json",
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/m4b_lambda_clamp/q400_t1200_t1800_t2400/m4b_stage_comparison.csv"
+      ],
+      "formal_or_development": "development_diagnostic",
+      "scientific_status": "completed_nonphysical_mechanism_evidence",
+      "supports_candidates": [
+        "Candidate 4 coupled pathway"
+      ],
+      "weakens_candidates": [
+        "coordinate channel negligible"
+      ],
+      "limitations": [
+        "NOT a valid physical prediction model.",
+        "Clamped-region trajectory error is not physical model-performance evidence.",
+        "Early hidden recovery does not propagate monotonically to final output."
+      ],
+      "next_stage_logic": "Motivates physically meaningful repair experiments.",
+      "record_references": [
+        "Current State 7.8",
+        "Reasoning Log Episode 8"
+      ],
+      "development_benchmark": false,
+      "untouched_final_confirmation": false
+    },
+    {
+      "stage_id": "original_design_audit",
+      "stage_type": "source_provenance_audit",
+      "scientific_question": "Was the original model trained to enforce variable-domain equivariance or restriction consistency?",
+      "changed_variable": "Read original architecture/training contracts",
+      "kept_fixed": [
+        "Historical checkpoint and recorded fixed-domain training"
+      ],
+      "input_datasets": [
+        "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6-3_n2000_t1200"
+      ],
+      "checkpoint_dependencies": [
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/checkpoints/best_model.pt"
+      ],
+      "output_artifacts": [
+        "/home/shanjinshuo/fno_kerr/kerr_project/scripts/train_model_2d.py",
+        "/home/shanjinshuo/fno_kerr/kerr_project/src/models/fno2d/layers2d.py",
+        "/home/shanjinshuo/fno_kerr/kerr_project/src/training/fno2d/input_builder_2d.py",
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/run_config.json"
+      ],
+      "formal_or_development": "Git/code-derived",
+      "scientific_status": "code_derived_fixed_domain_surrogate",
+      "supports_candidates": [
+        "absence of explicit domain-length equivariance/restriction-consistency constraint"
+      ],
+      "weakens_candidates": [],
+      "limitations": [
+        "No standalone historical original-design audit artifact was located.",
+        "Historical completion/authorship cannot be established solely from the user-supplied hypothesis map.",
+        "The current inventory verifies the substantive code/configuration claim, not a mathematical impossibility theorem."
+      ],
+      "next_stage_logic": "R1 tests added variable-length exposure.",
+      "record_references": [
+        "Current State 7.2, 7.9",
+        "initial FNO2D commit dc7964c"
+      ],
+      "development_benchmark": false,
+      "untouched_final_confirmation": false
+    },
+    {
+      "stage_id": "R1_variable_length_training",
+      "stage_type": "training_repair_and_frozen_A1",
+      "scientific_question": "Is variable-length exposure alone sufficient?",
+      "changed_variable": "Single T1200 training -> strict T600/T800/T1000/T1200 prefix exposure",
+      "kept_fixed": [
+        "Original architecture and absolute coordinates",
+        "Original n2000 Q splits",
+        "500 optimizer updates"
+      ],
+      "input_datasets": [
+        "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6-3_n2000_t1200",
+        "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1200",
+        "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1800",
+        "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t2400"
+      ],
+      "checkpoint_dependencies": [
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200/checkpoints/best_model.pt"
+      ],
+      "output_artifacts": [
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200/summary.json",
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200/run_config.json",
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/formal_a1_length_extrapolation/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200_q400_t1200_t1800_t2400/a1_length_extrapolation_summary.json",
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/formal_a1_length_extrapolation/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200_q400_t1200_t1800_t2400/lambda_window_metrics.csv",
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/formal_a1_length_extrapolation/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200_q400_t1200_t1800_t2400/per_q_metrics.csv"
+      ],
+      "formal_or_development": "formal_development_benchmark",
+      "scientific_status": "completed_negative_repair",
+      "supports_candidates": [],
+      "weakens_candidates": [
+        "single-length exposure as sole explanation"
+      ],
+      "limitations": [
+        "Optimizer-update matched, not total-compute matched.",
+        "T1800/T2400 worsened despite good T1200 fidelity.",
+        "Development benchmarks, not untouched confirmation."
+      ],
+      "next_stage_logic": "Same-validation-Q diagnostic isolates discrete-length response.",
+      "record_references": [
+        "Current State 7.9-7.11",
+        "Reasoning Log Episodes 9-10"
+      ],
+      "development_benchmark": true,
+      "untouched_final_confirmation": false
+    },
+    {
+      "stage_id": "R1_validation_length_response",
+      "stage_type": "seven_length_development_diagnostic",
+      "scientific_question": "Does the same validation-Q set show smooth length interpolation?",
+      "changed_variable": "T600/T700/T800/T900/T1000/T1100/T1200 strict prefixes",
+      "kept_fixed": [
+        "Same canonical validation Q300",
+        "Frozen selected BEST",
+        "Restored normalization"
+      ],
+      "input_datasets": [
+        "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6-3_n2000_t1200"
+      ],
+      "checkpoint_dependencies": [
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200/checkpoints/best_model.pt"
+      ],
+      "output_artifacts": [
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/r1_validation_length_response/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200/r1_validation_length_response.csv",
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/r1_validation_length_response/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200/r1_validation_length_response_summary.json"
+      ],
+      "formal_or_development": "development_diagnostic",
+      "scientific_status": "completed_negative_discrete_length_response",
+      "supports_candidates": [
+        "residual length sensitivity"
+      ],
+      "weakens_candidates": [
+        "smooth within-range interpolation"
+      ],
+      "limitations": [
+        "Strong alternating gradient-seen / non-gradient validation error response; not a proof of memorization.",
+        "T700/T900/T1100 are non-gradient validation lengths used for checkpoint selection; not unseen/untouched test lengths."
+      ],
+      "next_stage_logic": "R2 changes coordinate/domain representation.",
+      "record_references": [
+        "Current State 7.9",
+        "Reasoning Log Episode 11"
+      ],
+      "development_benchmark": false,
+      "untouched_final_confirmation": false
+    },
+    {
+      "stage_id": "R2_domain_conditioned_coordinates",
+      "stage_type": "training_repair_and_frozen_A1",
+      "scientific_question": "Does domain-conditioned coordinate representation improve length extrapolation?",
+      "changed_variable": "[Q,lambda] -> [Q,s,ell], s=lambda/L and ell=L/L_ref",
+      "kept_fixed": [
+        "Original n2000 Q splits",
+        "500 optimizer steps",
+        "Train-only normalization",
+        "Training prefixes 600/800/1000/1200",
+        "Selection lengths 700/900/1100/1200",
+        "No T1800/T2400 gradient/selection leakage"
+      ],
+      "input_datasets": [
+        "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6-3_n2000_t1200",
+        "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1200",
+        "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1800",
+        "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t2400"
+      ],
+      "checkpoint_dependencies": [
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200/checkpoints/best_model.pt"
+      ],
+      "output_artifacts": [
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200/summary.json",
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200/run_config.json",
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/formal_a1_length_extrapolation/fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200_best_q400_t1200_t1800_t2400/r2_a1_length_extrapolation_summary.json",
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/formal_a1_length_extrapolation/fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200_best_q400_t1200_t1800_t2400/r2_lambda_window_metrics.csv",
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/formal_a1_length_extrapolation/fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200_best_q400_t1200_t1800_t2400/r2_per_q_metrics.csv"
+      ],
+      "formal_or_development": "formal_development_benchmark",
+      "scientific_status": "completed_partial_positive_repair",
+      "supports_candidates": [
+        "Candidate 4"
+      ],
+      "weakens_candidates": [],
+      "limitations": [
+        "T1200 fidelity degraded.",
+        "Actual extrapolated-region accuracy is not better than R0.",
+        "Discrete-index weights and global FFT remain unchanged.",
+        "Development benchmarks, not untouched confirmation."
+      ],
+      "next_stage_logic": "R3 targets physical-frequency/discrete-index remapping.",
+      "record_references": [
+        "Current State 7.9-7.11",
+        "Reasoning Log Episodes 9-10"
+      ],
+      "development_benchmark": true,
+      "untouched_final_confirmation": false
+    },
+    {
+      "stage_id": "R3_physical_frequency_parameterization",
+      "stage_type": "training_repair_and_frozen_A1",
+      "scientific_question": "Do physical-frequency-aware spectral multipliers improve long-domain behavior?",
+      "changed_variable": "Discrete R_k -> R(xi_k), xi_k=k/(N*delta_lambda)",
+      "kept_fixed": [
+        "Original n2000 Q splits",
+        "500 optimizer steps",
+        "Train-only normalization",
+        "Training prefixes 600/800/1000/1200",
+        "Selection lengths 700/900/1100/1200",
+        "No T1800/T2400 gradient/selection leakage"
+      ],
+      "input_datasets": [
+        "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6-3_n2000_t1200",
+        "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1200",
+        "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1800",
+        "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t2400"
+      ],
+      "checkpoint_dependencies": [
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200/checkpoints/best_model.pt"
+      ],
+      "output_artifacts": [
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200/summary.json",
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200/run_config.json",
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/formal_a1_length_extrapolation/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200_best_fixed_q400_t1200_t1800_t2400/r3_a1_length_extrapolation_summary.json",
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/formal_a1_length_extrapolation/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200_best_fixed_q400_t1200_t1800_t2400/r3_lambda_window_metrics.csv",
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/formal_a1_length_extrapolation/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200_best_fixed_q400_t1200_t1800_t2400/r3_per_q_metrics.csv"
+      ],
+      "formal_or_development": "formal_development_benchmark",
+      "scientific_status": "completed_strong_long_domain_signal_with_severe_fidelity_tradeoff",
+      "supports_candidates": [
+        "Candidate 1"
+      ],
+      "weakens_candidates": [],
+      "limitations": [
+        "R2 coordinates, global FFT and retained k=0..31 remain unchanged.",
+        "No physical-bandwidth repair.",
+        "Severe T1200 accuracy trade-off.",
+        "Existing epoch77 checkpoint is valid; serialization incident required no retraining.",
+        "Development benchmarks, not untouched confirmation."
+      ],
+      "next_stage_logic": "Seven-length response checks whether interpolation was repaired.",
+      "record_references": [
+        "Current State 7.9-7.11",
+        "Reasoning Log Episodes 9-10"
+      ],
+      "development_benchmark": true,
+      "untouched_final_confirmation": false
+    },
+    {
+      "stage_id": "R3_validation_length_response",
+      "stage_type": "seven_length_development_diagnostic",
+      "scientific_question": "Does the same validation-Q set show smooth length interpolation?",
+      "changed_variable": "T600/T700/T800/T900/T1000/T1100/T1200 strict prefixes",
+      "kept_fixed": [
+        "Same canonical validation Q300",
+        "Frozen selected BEST",
+        "Restored normalization"
+      ],
+      "input_datasets": [
+        "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6-3_n2000_t1200"
+      ],
+      "checkpoint_dependencies": [
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200/checkpoints/best_model.pt"
+      ],
+      "output_artifacts": [
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/r3_validation_length_response/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200_best_epoch77_val_t600-1200/r3_validation_length_response_by_length.csv",
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/r3_validation_length_response/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200_best_epoch77_val_t600-1200/r3_validation_length_response_per_q.csv",
+        "/home/shanjinshuo/fno_kerr/kerr_project/outputs/r3_validation_length_response/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200_best_epoch77_val_t600-1200/r3_validation_length_response_summary.json"
+      ],
+      "formal_or_development": "development_diagnostic",
+      "scientific_status": "completed_interpolation_unresolved",
+      "supports_candidates": [
+        "Candidate 3 remains unresolved"
+      ],
+      "weakens_candidates": [
+        "smooth within-range interpolation"
+      ],
+      "limitations": [
+        "Smaller sawtooth is mainly raised error at gradient-seen lengths; non-gradient validation mean barely improves.",
+        "T700/T900/T1100 are non-gradient validation lengths used for checkpoint selection; not unseen/untouched test lengths."
+      ],
+      "next_stage_logic": "Consider R4 only after advisor decision; Plan A paused.",
+      "record_references": [
+        "Current State 7.12",
+        "Reasoning Log Episode 11"
+      ],
+      "development_benchmark": false,
+      "untouched_final_confirmation": false
+    },
+    {
+      "stage_id": "R4_not_started",
+      "stage_type": "decision_only",
+      "scientific_question": "Should a global/local spectral redesign be attempted after advisor review?",
+      "changed_variable": "None; no R4 execution exists",
+      "kept_fixed": [
+        "All completed Plan A evidence"
+      ],
+      "input_datasets": [],
+      "checkpoint_dependencies": [],
+      "output_artifacts": [],
+      "formal_or_development": "not_started",
+      "scientific_status": "not_started",
+      "supports_candidates": [
+        "Candidate 3 motivates a possible next design"
+      ],
+      "weakens_candidates": [],
+      "limitations": [
+        "R4 is a candidate, not an executed experiment.",
+        "Plan B resolution level R4/T4797 is unrelated and excluded.",
+        "Plan A is paused pending advisor report/decision."
+      ],
+      "next_stage_logic": "Advisor decision; no automatic training, inference or protocol change.",
+      "record_references": [
+        "Experiment Plan 2.8 and 5",
+        "Current State 7.12, 12, 14"
+      ],
+      "development_benchmark": false,
+      "untouched_final_confirmation": false
+    }
+  ],
+  "edges": [
+    {
+      "from": "A0_exact_prefix_protocol",
+      "to": "R0_baseline",
+      "relationship": "scientific_question_progression_not_new_execution"
+    },
+    {
+      "from": "R0_baseline",
+      "to": "M1_fft_semantics",
+      "relationship": "scientific_question_progression_not_new_execution"
+    },
+    {
+      "from": "M1_fft_semantics",
+      "to": "M2_raw_spectral_energy",
+      "relationship": "scientific_question_progression_not_new_execution"
+    },
+    {
+      "from": "M2_raw_spectral_energy",
+      "to": "M3_internal_length_sensitivity",
+      "relationship": "scientific_question_progression_not_new_execution"
+    },
+    {
+      "from": "M3_internal_length_sensitivity",
+      "to": "M4a_coordinate_normalization_audit",
+      "relationship": "scientific_question_progression_not_new_execution"
+    },
+    {
+      "from": "M4a_coordinate_normalization_audit",
+      "to": "M4b_coordinate_clamp_probe",
+      "relationship": "scientific_question_progression_not_new_execution"
+    },
+    {
+      "from": "M4b_coordinate_clamp_probe",
+      "to": "original_design_audit",
+      "relationship": "scientific_question_progression_not_new_execution"
+    },
+    {
+      "from": "original_design_audit",
+      "to": "R1_variable_length_training",
+      "relationship": "scientific_question_progression_not_new_execution"
+    },
+    {
+      "from": "R1_variable_length_training",
+      "to": "R1_validation_length_response",
+      "relationship": "scientific_question_progression_not_new_execution"
+    },
+    {
+      "from": "R1_validation_length_response",
+      "to": "R2_domain_conditioned_coordinates",
+      "relationship": "scientific_question_progression_not_new_execution"
+    },
+    {
+      "from": "R2_domain_conditioned_coordinates",
+      "to": "R3_physical_frequency_parameterization",
+      "relationship": "scientific_question_progression_not_new_execution"
+    },
+    {
+      "from": "R3_physical_frequency_parameterization",
+      "to": "R3_validation_length_response",
+      "relationship": "scientific_question_progression_not_new_execution"
+    },
+    {
+      "from": "R3_validation_length_response",
+      "to": "R4_not_started",
+      "relationship": "scientific_question_progression_not_new_execution"
+    }
+  ],
+  "interpretation_boundary": "AI-assisted synthesis of measured artifacts, Git/source evidence and explicitly recorded user decisions. Plan A physical-domain extension is distinct from Plan B endpoint-fixed resolution change.",
+  "R4_status": "not_started"
+}

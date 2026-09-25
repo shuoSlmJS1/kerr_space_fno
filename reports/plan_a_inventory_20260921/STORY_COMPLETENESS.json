@@ -1,0 +1,84 @@
+{
+  "advisor_can_reconstruct_without_full_server_history": true,
+  "conditions": [
+    "Candidate scientific files plus indexed Git source and four records must remain accessible.",
+    "This Phase-1 README is an inventory guide; final mentor README is deferred."
+  ],
+  "checks": [
+    {
+      "topic": "original fixed-domain baseline",
+      "status": "covered",
+      "evidence": "R0 run_config, training summary, BEST metadata, source audit"
+    },
+    {
+      "topic": "exact-prefix protocol",
+      "status": "covered",
+      "evidence": "A0 recorded three-pair EXACT_PREFIX; current Q split identity verified"
+    },
+    {
+      "topic": "baseline failure",
+      "status": "covered",
+      "evidence": "R0 formal A1 plus corrected consistency diagnostic"
+    },
+    {
+      "topic": "M1-M4 evidence",
+      "status": "covered",
+      "evidence": "M1 source; M2/M3 compact tables; M4a checkpoint/M4b normalization; M4b nonphysical probe"
+    },
+    {
+      "topic": "original-design audit",
+      "status": "covered_with_historical_provenance_gap",
+      "evidence": "Current code/config-derived audit is explicit; no historical standalone audit file was located"
+    },
+    {
+      "topic": "R1 motivation/result",
+      "status": "covered",
+      "evidence": "Research records, training/BEST/formal A1 and same-validation-Q response"
+    },
+    {
+      "topic": "R2 motivation/result",
+      "status": "covered",
+      "evidence": "Research records, q-s-ell run configuration, BEST and formal A1"
+    },
+    {
+      "topic": "R3 motivation/result",
+      "status": "covered",
+      "evidence": "Physical-frequency config, epoch77 BEST, canonical float64 anchors and formal A1"
+    },
+    {
+      "topic": "R3 seven-length caveat",
+      "status": "covered",
+      "evidence": "Validation-response summary and by-length/per-Q CSV"
+    },
+    {
+      "topic": "unresolved Candidate 3",
+      "status": "covered",
+      "evidence": "M3 first spectral divergence; R3 global FFT unchanged; reasoning limits retained"
+    },
+    {
+      "topic": "why R4 is not started",
+      "status": "covered",
+      "evidence": "Conditional design decision, no authorized/completed R4; Plan B R4 excluded"
+    },
+    {
+      "topic": "why Plan A is paused",
+      "status": "covered",
+      "evidence": "Experiment Plan section5 and Current State sections12/14: pending advisor report"
+    }
+  ],
+  "MISSING_EVIDENCE": [
+    {
+      "item": "historical standalone original-design audit",
+      "status": "not_located",
+      "impact": "Historical timing/authorship/completion of a separate audit cannot be verified. The scientific design claim is independently supported by indexed source and R0 configuration; no binary experiment is invented."
+    }
+  ],
+  "prediction_asset_gaps": [
+    "R0 T2400",
+    "R1 T1200/T1800/T2400",
+    "R2 T1200/T1800/T2400",
+    "R3 T1200/T1800/T2400",
+    "R1/R3 seven-length full arrays if direct trajectory plots are desired"
+  ],
+  "compact_metrics_sufficient_for_reported_conclusions": true
+}

@@ -1,0 +1,199 @@
+{
+  "existing_prediction_files": [
+    {
+      "logical_name": "outputs/extrapolation_2d/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/t1800_full_q400/predictions_raw.npy",
+      "absolute_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/extrapolation_2d/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/t1800_full_q400/predictions_raw.npy",
+      "experiment_stage": "R0",
+      "model_run": "fno2d_m16x32_w64_d4_e500",
+      "checkpoint_reference": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/checkpoints/best_model.pt",
+      "dataset_reference": "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1800",
+      "T": 1800,
+      "Q_count": 400,
+      "prediction_array_names": [
+        "array"
+      ],
+      "truth_included": false,
+      "Q_values_included": false,
+      "lambda_grid_included": false,
+      "array_shapes": {
+        "array": [
+          1,
+          400,
+          1800,
+          3
+        ]
+      },
+      "dtype": "float32",
+      "size_bytes": 8640128,
+      "sha256": "b58c530651269b5f18e3cf30c16799727b35b87b32be9eb08984da4a861f9114",
+      "scientific_status": "reusable_historical_final",
+      "used_by_reported_conclusion": true,
+      "proposed_upload_class": "MUST_UPLOAD",
+      "reason": "Existing reusable historical R0 T1800 prediction with explicit Q/grid/checkpoint provenance.",
+      "shared_asset": false,
+      "truth_reference": "Use canonical sorted raw float64 dataset y; historical targets_raw.npy is a recovered float32 representation.",
+      "Q_values_reference": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/extrapolation_2d/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/t1800_full_q400/Q.npy",
+      "lambda_grid_reference": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/extrapolation_2d/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/t1800_full_q400/lambda_grid.npy",
+      "metric_space": "raw_xyz"
+    },
+    {
+      "logical_name": "outputs/plan_b_q400_t1200_to_t2399/frozen_fno_resolution_generalization/coarse_prediction_raw_xyz.npy",
+      "absolute_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/plan_b_q400_t1200_to_t2399/frozen_fno_resolution_generalization/coarse_prediction_raw_xyz.npy",
+      "experiment_stage": "R0",
+      "model_run": "fno2d_m16x32_w64_d4_e500",
+      "checkpoint_reference": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/checkpoints/best_model.pt",
+      "dataset_reference": "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1200",
+      "T": 1200,
+      "Q_count": 400,
+      "prediction_array_names": [
+        "array"
+      ],
+      "truth_included": false,
+      "Q_values_included": false,
+      "lambda_grid_included": false,
+      "array_shapes": {
+        "array": [
+          400,
+          1200,
+          3
+        ]
+      },
+      "dtype": "float32",
+      "size_bytes": 5760128,
+      "sha256": "60d2ec8c089ceededc2dbbd9ad6726287b94ba76da50e9dc89cb6a8ab1763c64",
+      "scientific_status": "shared_native_baseline",
+      "used_by_reported_conclusion": true,
+      "proposed_upload_class": "MUST_UPLOAD",
+      "reason": "Only the shared native T1200 arm is reused: same R0 checkpoint and canonical Q400; fine-grid predictions and Plan B-only assets are excluded.",
+      "shared_asset": true,
+      "truth_reference": "Use canonical sorted raw float64 dataset y; historical targets_raw.npy is a recovered float32 representation.",
+      "Q_values_reference": "Stable ascending Q reconstructed from x_train/x_val/x_test of dataset_reference",
+      "lambda_grid_reference": "lambda_grid in dataset_reference/dataset.npz",
+      "metric_space": "raw_xyz"
+    },
+    {
+      "logical_name": "outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/inference/predictions.npy",
+      "absolute_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/inference/predictions.npy",
+      "experiment_stage": "R0",
+      "model_run": "fno2d_m16x32_w64_d4_e500",
+      "checkpoint_reference": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/checkpoints/best_model.pt",
+      "dataset_reference": "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6-3_n2000_t1200",
+      "T": 1200,
+      "Q_count": 300,
+      "prediction_array_names": [
+        "array"
+      ],
+      "truth_included": false,
+      "Q_values_included": false,
+      "lambda_grid_included": false,
+      "array_shapes": {
+        "array": [
+          1,
+          300,
+          1200,
+          3
+        ]
+      },
+      "dtype": "float32",
+      "size_bytes": 4320128,
+      "sha256": "572c315842ab1bbf7d4f9c9610ea149fac6d042f033181fc11116a4eadd0f644",
+      "scientific_status": "original_task_test300_auxiliary",
+      "used_by_reported_conclusion": false,
+      "proposed_upload_class": "DO_NOT_UPLOAD",
+      "reason": "Original training-task test300 output, not the independent canonical Q400 Plan A comparison.",
+      "shared_asset": false,
+      "truth_reference": "Use canonical sorted raw float64 dataset y; historical targets_raw.npy is a recovered float32 representation.",
+      "Q_values_reference": "Stable ascending Q reconstructed from x_train/x_val/x_test of dataset_reference",
+      "lambda_grid_reference": "lambda_grid in dataset_reference/dataset.npz",
+      "metric_space": "raw_xyz"
+    },
+    {
+      "logical_name": "outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/inference/predictions_model_space.npy",
+      "absolute_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/inference/predictions_model_space.npy",
+      "experiment_stage": "R0",
+      "model_run": "fno2d_m16x32_w64_d4_e500",
+      "checkpoint_reference": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/checkpoints/best_model.pt",
+      "dataset_reference": "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6-3_n2000_t1200",
+      "T": 1200,
+      "Q_count": 300,
+      "prediction_array_names": [
+        "array"
+      ],
+      "truth_included": false,
+      "Q_values_included": false,
+      "lambda_grid_included": false,
+      "array_shapes": {
+        "array": [
+          1,
+          300,
+          1200,
+          3
+        ]
+      },
+      "dtype": "float32",
+      "size_bytes": 4320128,
+      "sha256": "42b29e3cbc318e3d6af6edad6fbd8c55d633d5941e6bd78ee50b20286c874f18",
+      "scientific_status": "original_task_test300_auxiliary",
+      "used_by_reported_conclusion": false,
+      "proposed_upload_class": "DO_NOT_UPLOAD",
+      "reason": "Original training-task test300 output, not the independent canonical Q400 Plan A comparison.",
+      "shared_asset": false,
+      "truth_reference": "Use canonical sorted raw float64 dataset y; historical targets_raw.npy is a recovered float32 representation.",
+      "Q_values_reference": "Stable ascending Q reconstructed from x_train/x_val/x_test of dataset_reference",
+      "lambda_grid_reference": "lambda_grid in dataset_reference/dataset.npz",
+      "metric_space": "model_space"
+    }
+  ],
+  "stage_coverage": [
+    {
+      "experiment_stage": "R0",
+      "prediction_asset_gap": true,
+      "formal_A1_saved_full_predictions": false,
+      "available_reusable_prediction_lengths": [
+        1200,
+        1800
+      ],
+      "missing_reusable_prediction_lengths": [
+        2400
+      ]
+    },
+    {
+      "experiment_stage": "R1",
+      "prediction_asset_gap": true,
+      "formal_A1_saved_full_predictions": false,
+      "available_reusable_prediction_lengths": [],
+      "missing_reusable_prediction_lengths": [
+        1200,
+        1800,
+        2400
+      ]
+    },
+    {
+      "experiment_stage": "R2",
+      "prediction_asset_gap": true,
+      "formal_A1_saved_full_predictions": false,
+      "available_reusable_prediction_lengths": [],
+      "missing_reusable_prediction_lengths": [
+        1200,
+        1800,
+        2400
+      ]
+    },
+    {
+      "experiment_stage": "R3",
+      "prediction_asset_gap": true,
+      "formal_A1_saved_full_predictions": false,
+      "available_reusable_prediction_lengths": [],
+      "missing_reusable_prediction_lengths": [
+        1200,
+        1800,
+        2400
+      ]
+    }
+  ],
+  "M3_M4_hidden_or_full_arrays_saved": false,
+  "compact_metrics_sufficient_for_reported_conclusions": true,
+  "compact_metrics_support_orbit_replotting": false,
+  "scope_note": "All formal A1, training, mechanism, validation-response and historical length-evaluation directories were inspected. Only the verified shared Plan B native T1200 arm was added. No whole-server absence claim is made.",
+  "phase_2_decision": "Decide whether to authorize controlled frozen inference for R0 T2400, all R1/R2/R3 lengths and optionally seven-length trajectory visualization. No inference ran in Phase 1."
+}

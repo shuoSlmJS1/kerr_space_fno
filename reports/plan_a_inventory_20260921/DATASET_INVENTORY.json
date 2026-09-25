@@ -1,0 +1,496 @@
+[
+  {
+    "dataset_id": "q_1p6-3_n2000_t1200",
+    "logical_name": "q_1p6-3_n2000_t1200",
+    "absolute_path": "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6-3_n2000_t1200",
+    "relative_repo_path_if_any": "data/tasks/q_1p6-3_n2000_t1200",
+    "exists": true,
+    "size_bytes": 55681768,
+    "file_count": 3,
+    "Q_min": 1.6,
+    "Q_max": 3.0,
+    "Q_count": 2000,
+    "T": 1200,
+    "delta_lambda": 0.005,
+    "lambda_min": 0.0,
+    "lambda_max": 5.995,
+    "physical_domain_length_definition": {
+      "sampled_span": "(N - 1) * delta_lambda",
+      "DFT_logical_period": "N * delta_lambda",
+      "DFT_logical_period_value": 6.0
+    },
+    "train_count": 1400,
+    "val_count": 300,
+    "test_count": 300,
+    "split_semantics": "Original seed10 train/val/test trajectory split; R1-R3 use strict prefixes, not separate datasets. Validation Q300 is checkpoint-selection data.",
+    "array_names": [
+      "vary_params_order",
+      "x_train",
+      "x_val",
+      "x_test",
+      "y_train",
+      "y_val",
+      "y_test",
+      "lambda_grid"
+    ],
+    "array_shapes": {
+      "vary_params_order": [
+        1
+      ],
+      "x_train": [
+        1400,
+        1
+      ],
+      "x_val": [
+        300,
+        1
+      ],
+      "x_test": [
+        300,
+        1
+      ],
+      "y_train": [
+        1400,
+        1200,
+        3
+      ],
+      "y_val": [
+        300,
+        1200,
+        3
+      ],
+      "y_test": [
+        300,
+        1200,
+        3
+      ],
+      "lambda_grid": [
+        1200
+      ]
+    },
+    "array_dtypes": {
+      "vary_params_order": "<U1",
+      "x_train": "float64",
+      "x_val": "float64",
+      "x_test": "float64",
+      "y_train": "float64",
+      "y_val": "float64",
+      "y_test": "float64",
+      "lambda_grid": "float64"
+    },
+    "solver_name": "second_order_rk4",
+    "solver_version": "v1",
+    "generator_script": "/home/shanjinshuo/fno_kerr/kerr_project/scripts/generate_dataset.py",
+    "metadata_files": [
+      "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6-3_n2000_t1200/meta.json",
+      "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6-3_n2000_t1200/failed_samples.json"
+    ],
+    "used_by": [
+      "R0",
+      "R1",
+      "R2",
+      "R3",
+      "R1_validation_length_response",
+      "R3_validation_length_response"
+    ],
+    "formal_role": "original_training_and_validation_source",
+    "relationship_to_other_datasets": "R1-R3 prefix views share this physical asset; not the legacy experimental_v1 source.",
+    "exact_prefix_relationship": {
+      "status": "not_applicable_to_Q400_pairing",
+      "prefix_views": [
+        600,
+        700,
+        800,
+        900,
+        1000,
+        1100,
+        1200
+      ]
+    },
+    "shared_with_other_project_line": true,
+    "shared_asset": true,
+    "shared_reason": "Training source is reused by Plan B matched replay/benchmark; Q400 T1200 is the common coarse anchor.",
+    "development_benchmark": false,
+    "untouched_final_confirmation": false,
+    "proposed_upload_class": "MUST_UPLOAD",
+    "reason": "Retain authoritative truth and original training/validation provenance for analysis and controlled reproduction.",
+    "split_q_sha256": {
+      "train": "19568b3ebb25494faa0f769874d3aa02c0e32bae325e7c968308ffe297e964ea",
+      "val": "065795c3ac45c8fbf52e8e3c115c0daeb57b476609f73499dc9f9cd420e54275",
+      "test": "c67d057aba98eb080c374280524751deb44d752a58425f3dfff5b4dbcc377e80"
+    },
+    "payload_sha256": "3e0358831e6b96c38f15c8e3178f6d37f38b4bddbe1ab01a63cfaba043f211ce"
+  },
+  {
+    "dataset_id": "q_1p6007-2p9993_n400_t1200",
+    "logical_name": "q_1p6007-2p9993_n400_t1200",
+    "absolute_path": "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1200",
+    "relative_repo_path_if_any": "data/tasks/q_1p6007-2p9993_n400_t1200",
+    "exists": true,
+    "size_bytes": 11141867,
+    "file_count": 3,
+    "Q_min": 1.6007,
+    "Q_max": 2.9993,
+    "Q_count": 400,
+    "T": 1200,
+    "delta_lambda": 0.005,
+    "lambda_min": 0.0,
+    "lambda_max": 5.995,
+    "physical_domain_length_definition": {
+      "sampled_span": "(N - 1) * delta_lambda",
+      "DFT_logical_period": "N * delta_lambda",
+      "DFT_logical_period_value": 6.0
+    },
+    "train_count": 280,
+    "val_count": 60,
+    "test_count": 60,
+    "split_semantics": "Preserve stored Q split membership/source order. FNO2D constructs a separately sorted canonical ascending-Q field. Evaluation uses all 400 rows across splits.",
+    "array_names": [
+      "vary_params_order",
+      "x_train",
+      "x_val",
+      "x_test",
+      "y_train",
+      "y_val",
+      "y_test",
+      "lambda_grid"
+    ],
+    "array_shapes": {
+      "vary_params_order": [
+        1
+      ],
+      "x_train": [
+        280,
+        1
+      ],
+      "x_val": [
+        60,
+        1
+      ],
+      "x_test": [
+        60,
+        1
+      ],
+      "y_train": [
+        280,
+        1200,
+        3
+      ],
+      "y_val": [
+        60,
+        1200,
+        3
+      ],
+      "y_test": [
+        60,
+        1200,
+        3
+      ],
+      "lambda_grid": [
+        1200
+      ]
+    },
+    "array_dtypes": {
+      "vary_params_order": "<U1",
+      "x_train": "float64",
+      "x_val": "float64",
+      "x_test": "float64",
+      "y_train": "float64",
+      "y_val": "float64",
+      "y_test": "float64",
+      "lambda_grid": "float64"
+    },
+    "solver_name": "second_order_rk4",
+    "solver_version": "v1",
+    "generator_script": "/home/shanjinshuo/fno_kerr/kerr_project/scripts/generate_dataset.py",
+    "metadata_files": [
+      "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1200/meta.json",
+      "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1200/failed_samples.json"
+    ],
+    "used_by": [
+      "A0",
+      "R0",
+      "M2",
+      "M3",
+      "M4a",
+      "M4b",
+      "R1",
+      "R2",
+      "R3"
+    ],
+    "formal_role": "canonical_Q400_exact_prefix_evaluation_truth",
+    "relationship_to_other_datasets": "Same Q split identities/order and exact raw trajectory/lambda prefixes across T1200/T1800/T2400.",
+    "exact_prefix_relationship": {
+      "status": "EXACT_PREFIX",
+      "recorded_validation": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/length_dataset_identity_validation/q400_t1200_t1800_t2400_prefix_identity.json",
+      "pair_classification": {
+        "short_to_medium": "EXACT_PREFIX",
+        "short_to_long": "EXACT_PREFIX",
+        "medium_to_long": "EXACT_PREFIX"
+      },
+      "current_Q_hashes_match_record": true,
+      "trajectory_evidence": "Recorded exact-prefix validation; no new solver run."
+    },
+    "shared_with_other_project_line": true,
+    "shared_asset": true,
+    "shared_reason": "Training source is reused by Plan B matched replay/benchmark; Q400 T1200 is the common coarse anchor.",
+    "development_benchmark": false,
+    "untouched_final_confirmation": false,
+    "proposed_upload_class": "MUST_UPLOAD",
+    "reason": "Retain authoritative truth and original training/validation provenance for analysis and controlled reproduction.",
+    "split_q_sha256": {
+      "train": "eb54087448997fc9807c0c5948408ca3eb8e933e93ea9ddfc6aaaec0a04f9031",
+      "val": "126fac10ba97f5b6efb70bc5c550f5006764e0a284a2cee31cdeffdaa9e89984",
+      "test": "d396c2ccd60ccb7a26bdb258d7a347590d39342cdd137410bea52b25cdce320a"
+    },
+    "payload_sha256": "39c7b1ce9624123a5f2680d76abe8a7fa18e135ec166fa70262efb8d563c60db"
+  },
+  {
+    "dataset_id": "q_1p6007-2p9993_n400_t1800",
+    "logical_name": "q_1p6007-2p9993_n400_t1800",
+    "absolute_path": "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1800",
+    "relative_repo_path_if_any": "data/tasks/q_1p6007-2p9993_n400_t1800",
+    "exists": true,
+    "size_bytes": 16722020,
+    "file_count": 3,
+    "Q_min": 1.6007,
+    "Q_max": 2.9993,
+    "Q_count": 400,
+    "T": 1800,
+    "delta_lambda": 0.005,
+    "lambda_min": 0.0,
+    "lambda_max": 8.995000000000001,
+    "physical_domain_length_definition": {
+      "sampled_span": "(N - 1) * delta_lambda",
+      "DFT_logical_period": "N * delta_lambda",
+      "DFT_logical_period_value": 9.0
+    },
+    "train_count": 280,
+    "val_count": 60,
+    "test_count": 60,
+    "split_semantics": "Preserve stored Q split membership/source order. FNO2D constructs a separately sorted canonical ascending-Q field. Evaluation uses all 400 rows across splits.",
+    "array_names": [
+      "vary_params_order",
+      "x_train",
+      "x_val",
+      "x_test",
+      "y_train",
+      "y_val",
+      "y_test",
+      "lambda_grid"
+    ],
+    "array_shapes": {
+      "vary_params_order": [
+        1
+      ],
+      "x_train": [
+        280,
+        1
+      ],
+      "x_val": [
+        60,
+        1
+      ],
+      "x_test": [
+        60,
+        1
+      ],
+      "y_train": [
+        280,
+        1800,
+        3
+      ],
+      "y_val": [
+        60,
+        1800,
+        3
+      ],
+      "y_test": [
+        60,
+        1800,
+        3
+      ],
+      "lambda_grid": [
+        1800
+      ]
+    },
+    "array_dtypes": {
+      "vary_params_order": "<U1",
+      "x_train": "float64",
+      "x_val": "float64",
+      "x_test": "float64",
+      "y_train": "float64",
+      "y_val": "float64",
+      "y_test": "float64",
+      "lambda_grid": "float64"
+    },
+    "solver_name": "second_order_rk4",
+    "solver_version": "v1",
+    "generator_script": "/home/shanjinshuo/fno_kerr/kerr_project/scripts/generate_dataset.py",
+    "metadata_files": [
+      "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1800/meta.json",
+      "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1800/failed_samples.json"
+    ],
+    "used_by": [
+      "A0",
+      "R0",
+      "M2",
+      "M3",
+      "M4a",
+      "M4b",
+      "R1",
+      "R2",
+      "R3"
+    ],
+    "formal_role": "canonical_Q400_exact_prefix_evaluation_truth",
+    "relationship_to_other_datasets": "Same Q split identities/order and exact raw trajectory/lambda prefixes across T1200/T1800/T2400.",
+    "exact_prefix_relationship": {
+      "status": "EXACT_PREFIX",
+      "recorded_validation": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/length_dataset_identity_validation/q400_t1200_t1800_t2400_prefix_identity.json",
+      "pair_classification": {
+        "short_to_medium": "EXACT_PREFIX",
+        "short_to_long": "EXACT_PREFIX",
+        "medium_to_long": "EXACT_PREFIX"
+      },
+      "current_Q_hashes_match_record": true,
+      "trajectory_evidence": "Recorded exact-prefix validation; no new solver run."
+    },
+    "shared_with_other_project_line": false,
+    "shared_asset": false,
+    "shared_reason": null,
+    "development_benchmark": true,
+    "untouched_final_confirmation": false,
+    "proposed_upload_class": "MUST_UPLOAD",
+    "reason": "Retain authoritative truth and original training/validation provenance for analysis and controlled reproduction.",
+    "split_q_sha256": {
+      "train": "eb54087448997fc9807c0c5948408ca3eb8e933e93ea9ddfc6aaaec0a04f9031",
+      "val": "126fac10ba97f5b6efb70bc5c550f5006764e0a284a2cee31cdeffdaa9e89984",
+      "test": "d396c2ccd60ccb7a26bdb258d7a347590d39342cdd137410bea52b25cdce320a"
+    },
+    "payload_sha256": "87e17ecef62761756189b9325a375f38f982b094a5aed73083ba6bc80f5615d7"
+  },
+  {
+    "dataset_id": "q_1p6007-2p9993_n400_t2400",
+    "logical_name": "q_1p6007-2p9993_n400_t2400",
+    "absolute_path": "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t2400",
+    "relative_repo_path_if_any": "data/tasks/q_1p6007-2p9993_n400_t2400",
+    "exists": true,
+    "size_bytes": 22290937,
+    "file_count": 3,
+    "Q_min": 1.6007,
+    "Q_max": 2.9993,
+    "Q_count": 400,
+    "T": 2400,
+    "delta_lambda": 0.005,
+    "lambda_min": 0.0,
+    "lambda_max": 11.995000000000001,
+    "physical_domain_length_definition": {
+      "sampled_span": "(N - 1) * delta_lambda",
+      "DFT_logical_period": "N * delta_lambda",
+      "DFT_logical_period_value": 12.0
+    },
+    "train_count": 280,
+    "val_count": 60,
+    "test_count": 60,
+    "split_semantics": "Preserve stored Q split membership/source order. FNO2D constructs a separately sorted canonical ascending-Q field. Evaluation uses all 400 rows across splits.",
+    "array_names": [
+      "vary_params_order",
+      "x_train",
+      "x_val",
+      "x_test",
+      "y_train",
+      "y_val",
+      "y_test",
+      "lambda_grid"
+    ],
+    "array_shapes": {
+      "vary_params_order": [
+        1
+      ],
+      "x_train": [
+        280,
+        1
+      ],
+      "x_val": [
+        60,
+        1
+      ],
+      "x_test": [
+        60,
+        1
+      ],
+      "y_train": [
+        280,
+        2400,
+        3
+      ],
+      "y_val": [
+        60,
+        2400,
+        3
+      ],
+      "y_test": [
+        60,
+        2400,
+        3
+      ],
+      "lambda_grid": [
+        2400
+      ]
+    },
+    "array_dtypes": {
+      "vary_params_order": "<U1",
+      "x_train": "float64",
+      "x_val": "float64",
+      "x_test": "float64",
+      "y_train": "float64",
+      "y_val": "float64",
+      "y_test": "float64",
+      "lambda_grid": "float64"
+    },
+    "solver_name": "second_order_rk4",
+    "solver_version": "v1",
+    "generator_script": "/home/shanjinshuo/fno_kerr/kerr_project/scripts/generate_dataset.py",
+    "metadata_files": [
+      "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t2400/meta.json",
+      "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t2400/failed_samples.json"
+    ],
+    "used_by": [
+      "A0",
+      "R0",
+      "M2",
+      "M3",
+      "M4a",
+      "M4b",
+      "R1",
+      "R2",
+      "R3"
+    ],
+    "formal_role": "canonical_Q400_exact_prefix_evaluation_truth",
+    "relationship_to_other_datasets": "Same Q split identities/order and exact raw trajectory/lambda prefixes across T1200/T1800/T2400.",
+    "exact_prefix_relationship": {
+      "status": "EXACT_PREFIX",
+      "recorded_validation": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/length_dataset_identity_validation/q400_t1200_t1800_t2400_prefix_identity.json",
+      "pair_classification": {
+        "short_to_medium": "EXACT_PREFIX",
+        "short_to_long": "EXACT_PREFIX",
+        "medium_to_long": "EXACT_PREFIX"
+      },
+      "current_Q_hashes_match_record": true,
+      "trajectory_evidence": "Recorded exact-prefix validation; no new solver run."
+    },
+    "shared_with_other_project_line": false,
+    "shared_asset": false,
+    "shared_reason": null,
+    "development_benchmark": true,
+    "untouched_final_confirmation": false,
+    "proposed_upload_class": "MUST_UPLOAD",
+    "reason": "Retain authoritative truth and original training/validation provenance for analysis and controlled reproduction.",
+    "split_q_sha256": {
+      "train": "eb54087448997fc9807c0c5948408ca3eb8e933e93ea9ddfc6aaaec0a04f9031",
+      "val": "126fac10ba97f5b6efb70bc5c550f5006764e0a284a2cee31cdeffdaa9e89984",
+      "test": "d396c2ccd60ccb7a26bdb258d7a347590d39342cdd137410bea52b25cdce320a"
+    },
+    "payload_sha256": "4687fe18e8701818ef8ffc5d87d5ac618c224ba7d8f80f7b57eccb2cf0e5b1d2"
+  }
+]

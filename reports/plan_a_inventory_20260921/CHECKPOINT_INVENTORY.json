@@ -1,0 +1,354 @@
+[
+  {
+    "logical_name": "R0_BEST",
+    "absolute_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/checkpoints/best_model.pt",
+    "experiment_stage": "R0",
+    "run_name": "fno2d_m16x32_w64_d4_e500",
+    "epoch": 500,
+    "checkpoint_role": "BEST",
+    "best_selection_metric": "validation normalized MSE",
+    "best_selection_value": 0.0004567307187244296,
+    "training_task": "q_1p6-3_n2000_t1200",
+    "train_lengths": [
+      1200
+    ],
+    "validation_lengths": [
+      1200
+    ],
+    "model_type": "fno2d",
+    "model_config_summary": {
+      "model_type": "fno2d",
+      "in_dim": 2,
+      "out_dim": 3,
+      "modes1": 16,
+      "modes2": 32,
+      "width": 64,
+      "depth": 4,
+      "hidden_dim": 128,
+      "activation": "gelu"
+    },
+    "coordinate_representation": [
+      "Q",
+      "lambda"
+    ],
+    "spectral_parameterization": "discrete_mode_index_weights",
+    "size_bytes": 402989986,
+    "sha256": "db5cb795af32a91a24ef61c0b87e07fa7352be62201dfa8ca834dd31b5d63b33",
+    "used_by": [
+      "R0",
+      "M3",
+      "M4a",
+      "M4b"
+    ],
+    "required_for_existing_results": false,
+    "required_for_existing_results_explanation": "Compact metrics and saved predictions can be analyzed without loading weights; this is the exact checkpoint that generated the result.",
+    "useful_for_future_inference": true,
+    "duplicate_of": null,
+    "proposed_upload_class": "RECOMMENDED_UPLOAD",
+    "reason": "The unique selected BEST required for future controlled inference and checkpoint-level verification.",
+    "shared_asset": true,
+    "normalization": {
+      "method": "standard",
+      "x_mean": [
+        2.299506187438965,
+        2.996041774749756
+      ],
+      "x_std": [
+        0.40356874465942383,
+        1.7314223051071167
+      ],
+      "y_mean": [
+        0.43493300676345825,
+        0.6949756741523743,
+        0.06759584695100784
+      ],
+      "y_std": [
+        5.458001136779785,
+        5.927692413330078,
+        2.7061917781829834
+      ],
+      "eps": 1e-08
+    },
+    "target_transform": "raw",
+    "metadata_verified_cpu_only": true
+  },
+  {
+    "logical_name": "R1_BEST",
+    "absolute_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200/checkpoints/best_model.pt",
+    "experiment_stage": "R1",
+    "run_name": "fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200",
+    "epoch": 500,
+    "checkpoint_role": "BEST",
+    "best_selection_metric": "equal mean normalized-space MSE over validation lengths",
+    "best_selection_value": 0.15176096446521115,
+    "training_task": "q_1p6-3_n2000_t1200",
+    "train_lengths": [
+      600,
+      800,
+      1000,
+      1200
+    ],
+    "validation_lengths": [
+      700,
+      900,
+      1100,
+      1200
+    ],
+    "model_type": "fno2d",
+    "model_config_summary": {
+      "model_type": "fno2d",
+      "in_dim": 2,
+      "out_dim": 3,
+      "modes1": 16,
+      "modes2": 32,
+      "width": 64,
+      "depth": 4,
+      "hidden_dim": 128,
+      "activation": "gelu"
+    },
+    "coordinate_representation": [
+      "Q",
+      "lambda"
+    ],
+    "spectral_parameterization": "discrete_mode_index_weights",
+    "size_bytes": 402990114,
+    "sha256": "58cfd1343523b161eac100cc3336f585538ea9550cb09dcae3eb57fea95b91b8",
+    "used_by": [
+      "R1",
+      "R1_validation_length_response"
+    ],
+    "required_for_existing_results": false,
+    "required_for_existing_results_explanation": "Compact metrics and saved predictions can be analyzed without loading weights; this is the exact checkpoint that generated the result.",
+    "useful_for_future_inference": true,
+    "duplicate_of": null,
+    "proposed_upload_class": "RECOMMENDED_UPLOAD",
+    "reason": "The unique selected BEST required for future controlled inference and checkpoint-level verification.",
+    "shared_asset": false,
+    "normalization": {
+      "method": "standard",
+      "x_mean": [
+        2.299506187438965,
+        2.996041774749756
+      ],
+      "x_std": [
+        0.40356874465942383,
+        1.7314223051071167
+      ],
+      "y_mean": [
+        0.43493300676345825,
+        0.6949756741523743,
+        0.06759584695100784
+      ],
+      "y_std": [
+        5.458001136779785,
+        5.927692413330078,
+        2.7061917781829834
+      ],
+      "eps": 1e-08
+    },
+    "target_transform": "raw",
+    "metadata_verified_cpu_only": true
+  },
+  {
+    "logical_name": "R2_BEST",
+    "absolute_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200/checkpoints/best_model.pt",
+    "experiment_stage": "R2",
+    "run_name": "fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200",
+    "epoch": 118,
+    "checkpoint_role": "BEST",
+    "best_selection_metric": "equal mean normalized-space MSE over validation lengths",
+    "best_selection_value": 0.13257645582780242,
+    "training_task": "q_1p6-3_n2000_t1200",
+    "train_lengths": [
+      600,
+      800,
+      1000,
+      1200
+    ],
+    "validation_lengths": [
+      700,
+      900,
+      1100,
+      1200
+    ],
+    "model_type": "fno2d",
+    "model_config_summary": {
+      "model_type": "fno2d",
+      "in_dim": 3,
+      "out_dim": 3,
+      "modes1": 16,
+      "modes2": 32,
+      "width": 64,
+      "depth": 4,
+      "hidden_dim": 128,
+      "activation": "gelu"
+    },
+    "coordinate_representation": [
+      "Q",
+      "s",
+      "ell"
+    ],
+    "spectral_parameterization": "discrete_mode_index_weights",
+    "size_bytes": 402991906,
+    "sha256": "29891a82963e4a78abd0eeb7e4420f9a1d665df2f34aa1529b08693782afcfa1",
+    "used_by": [
+      "R2"
+    ],
+    "required_for_existing_results": false,
+    "required_for_existing_results_explanation": "Compact metrics and saved predictions can be analyzed without loading weights; this is the exact checkpoint that generated the result.",
+    "useful_for_future_inference": true,
+    "duplicate_of": null,
+    "proposed_upload_class": "RECOMMENDED_UPLOAD",
+    "reason": "The unique selected BEST required for future controlled inference and checkpoint-level verification.",
+    "shared_asset": false,
+    "normalization": {
+      "method": "standard",
+      "x_mean": [
+        2.2996666431427,
+        0.0,
+        0.0
+      ],
+      "x_std": [
+        0.40362977981567383,
+        1.0,
+        1.0
+      ],
+      "y_mean": [
+        0.43493300676345825,
+        0.6949756741523743,
+        0.06759584695100784
+      ],
+      "y_std": [
+        5.458001136779785,
+        5.927692413330078,
+        2.7061917781829834
+      ],
+      "eps": 1e-08
+    },
+    "target_transform": "raw",
+    "metadata_verified_cpu_only": true
+  },
+  {
+    "logical_name": "R3_BEST",
+    "absolute_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200/checkpoints/best_model.pt",
+    "experiment_stage": "R3",
+    "run_name": "fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200",
+    "epoch": 77,
+    "checkpoint_role": "BEST",
+    "best_selection_metric": "equal mean normalized-space MSE over validation lengths",
+    "best_selection_value": 0.15512157417833805,
+    "training_task": "q_1p6-3_n2000_t1200",
+    "train_lengths": [
+      600,
+      800,
+      1000,
+      1200
+    ],
+    "validation_lengths": [
+      700,
+      900,
+      1100,
+      1200
+    ],
+    "model_type": "fno2d_physical_frequency",
+    "model_config_summary": {
+      "model_type": "fno2d_physical_frequency",
+      "in_dim": 3,
+      "out_dim": 3,
+      "modes1": 16,
+      "modes2": 32,
+      "width": 64,
+      "depth": 4,
+      "hidden_dim": 128,
+      "activation": "gelu",
+      "delta_lambda": 0.005,
+      "anchor_frequencies": [
+        0.0,
+        0.3333333432674408,
+        0.6666666865348816,
+        1.0,
+        1.3333333730697632,
+        1.6666666269302368,
+        2.0,
+        2.3333332538604736,
+        2.6666667461395264,
+        3.0,
+        3.3333332538604736,
+        3.6666667461395264,
+        4.0,
+        4.333333492279053,
+        4.666666507720947,
+        5.0,
+        5.333333492279053,
+        5.666666507720947,
+        6.0,
+        6.333333492279053,
+        6.666666507720947,
+        7.0,
+        7.333333492279053,
+        7.666666507720947,
+        8.0,
+        8.333333015441895,
+        8.666666984558105,
+        9.0,
+        9.333333015441895,
+        9.666666984558105,
+        10.0,
+        10.333333015441895
+      ]
+    },
+    "coordinate_representation": [
+      "Q",
+      "s",
+      "ell"
+    ],
+    "spectral_parameterization": "physical_frequency_anchor_interpolation",
+    "size_bytes": 402996002,
+    "sha256": "418da911cc1324b8182b924df13f37a5e747209f6ff92a6357e3af8eb0e4a728",
+    "used_by": [
+      "R3",
+      "R3_validation_length_response"
+    ],
+    "required_for_existing_results": false,
+    "required_for_existing_results_explanation": "Compact metrics and saved predictions can be analyzed without loading weights; this is the exact checkpoint that generated the result.",
+    "useful_for_future_inference": true,
+    "duplicate_of": null,
+    "proposed_upload_class": "RECOMMENDED_UPLOAD",
+    "reason": "The unique selected BEST required for future controlled inference and checkpoint-level verification.",
+    "shared_asset": false,
+    "normalization": {
+      "method": "standard",
+      "x_mean": [
+        2.2996666431427,
+        0.0,
+        0.0
+      ],
+      "x_std": [
+        0.40362977981567383,
+        1.0,
+        1.0
+      ],
+      "y_mean": [
+        0.43493300676345825,
+        0.6949756741523743,
+        0.06759584695100784
+      ],
+      "y_std": [
+        5.458001136779785,
+        5.927692413330078,
+        2.7061917781829834
+      ],
+      "eps": 1e-08
+    },
+    "target_transform": "raw",
+    "metadata_verified_cpu_only": true,
+    "anchor_incident": {
+      "classification": "CHECKPOINT_SERIALIZATION_PRECISION",
+      "legacy_model_config_float32_rounded": true,
+      "canonical_float64_buffers_match_config": true,
+      "scientifically_valid_existing_checkpoint": true,
+      "retraining_required": false,
+      "reconstruction_fix_commit": "10c9394e946c9b0972dde3594072fd270c4cc428"
+    }
+  }
+]

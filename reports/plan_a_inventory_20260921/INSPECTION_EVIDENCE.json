@@ -1,0 +1,3291 @@
+{
+  "repository": "/home/shanjinshuo/fno_kerr/kerr_project",
+  "head": "594f0eaf331b0c3a8b4c6342f5c554ab64c3a2a1",
+  "initial_git_status": "",
+  "scope_roots": [
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/formal_a1_length_extrapolation",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/length_dataset_identity_validation",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/length_change_prediction_consistency",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/raw_kerr_spectral_energy",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/m3_internal_length_sensitivity",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/m4b_lambda_clamp",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/r1_validation_length_response",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/r3_validation_length_response",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/extrapolation_2d/q_1p6-3_n2000_t1200",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200",
+    "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6-3_n2000_t1200",
+    "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1200",
+    "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1800",
+    "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t2400"
+  ],
+  "snapshot_before": {
+    "/home/shanjinshuo/fno_kerr/kerr_project/FNO_KERR_CURRENT_STATE.md": {
+      "size_bytes": 138412,
+      "mtime_ns": 1789903426376555445,
+      "ctime_ns": 1789903426376555445,
+      "inode": 17704647,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/FNO_KERR_CURRENT_STATE.md"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/FNO_KERR_EXPERIMENT_PLAN.md": {
+      "size_bytes": 37018,
+      "mtime_ns": 1789205403631120051,
+      "ctime_ns": 1789205403631120051,
+      "inode": 17704648,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/FNO_KERR_EXPERIMENT_PLAN.md"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/FNO_KERR_REASONING_LOG.md": {
+      "size_bytes": 96733,
+      "mtime_ns": 1789903427872535499,
+      "ctime_ns": 1789903427872535499,
+      "inode": 17704770,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/FNO_KERR_REASONING_LOG.md"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/SERVER_DATA_EXPERIMENT_REGISTRY.md": {
+      "size_bytes": 62945,
+      "mtime_ns": 1789903427112545633,
+      "ctime_ns": 1789903427112545633,
+      "inode": 17704517,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/SERVER_DATA_EXPERIMENT_REGISTRY.md"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6-3_n2000_t1200/dataset.npz": {
+      "size_bytes": 55679506,
+      "mtime_ns": 1785067815725198307,
+      "ctime_ns": 1785067815725198307,
+      "inode": 17703848,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6-3_n2000_t1200/dataset.npz"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6-3_n2000_t1200/failed_samples.json": {
+      "size_bytes": 2,
+      "mtime_ns": 1785067815725198307,
+      "ctime_ns": 1785067815725198307,
+      "inode": 17703850,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6-3_n2000_t1200/failed_samples.json"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6-3_n2000_t1200/meta.json": {
+      "size_bytes": 2260,
+      "mtime_ns": 1785067815725198307,
+      "ctime_ns": 1785067815725198307,
+      "inode": 17703849,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6-3_n2000_t1200/meta.json"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1200/dataset.npz": {
+      "size_bytes": 11139587,
+      "mtime_ns": 1785210012005862183,
+      "ctime_ns": 1785210012005862183,
+      "inode": 17704327,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1200/dataset.npz"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1200/failed_samples.json": {
+      "size_bytes": 2,
+      "mtime_ns": 1785210012005862183,
+      "ctime_ns": 1785210012005862183,
+      "inode": 17704329,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1200/failed_samples.json"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1200/meta.json": {
+      "size_bytes": 2278,
+      "mtime_ns": 1785210012005862183,
+      "ctime_ns": 1785210012005862183,
+      "inode": 17704328,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1200/meta.json"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1800/dataset.npz": {
+      "size_bytes": 16719729,
+      "mtime_ns": 1785221535731348083,
+      "ctime_ns": 1785221535731348083,
+      "inode": 17704405,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1800/dataset.npz"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1800/failed_samples.json": {
+      "size_bytes": 2,
+      "mtime_ns": 1785221535731348083,
+      "ctime_ns": 1785221535731348083,
+      "inode": 17704407,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1800/failed_samples.json"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1800/meta.json": {
+      "size_bytes": 2289,
+      "mtime_ns": 1785221535731348083,
+      "ctime_ns": 1785221535731348083,
+      "inode": 17704406,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1800/meta.json"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t2400/dataset.npz": {
+      "size_bytes": 22288645,
+      "mtime_ns": 1785221566042846578,
+      "ctime_ns": 1785221566042846578,
+      "inode": 17704409,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t2400/dataset.npz"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t2400/failed_samples.json": {
+      "size_bytes": 2,
+      "mtime_ns": 1785221566042846578,
+      "ctime_ns": 1785221566042846578,
+      "inode": 17704411,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t2400/failed_samples.json"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t2400/meta.json": {
+      "size_bytes": 2290,
+      "mtime_ns": 1785221566042846578,
+      "ctime_ns": 1785221566042846578,
+      "inode": 17704410,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t2400/meta.json"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/comparison/common_test__q_1p6007-2p9993_n400_t1200/common_test_dataset.npz": {
+      "size_bytes": 5324833,
+      "mtime_ns": 1785210185191268209,
+      "ctime_ns": 1785210185191268209,
+      "inode": 17704333,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/comparison/common_test__q_1p6007-2p9993_n400_t1200/common_test_dataset.npz"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/comparison/common_test__q_1p6007-2p9993_n400_t1200/common_test_summary.json": {
+      "size_bytes": 3276,
+      "mtime_ns": 1785210185191268209,
+      "ctime_ns": 1785210185191268209,
+      "inode": 17704334,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/comparison/common_test__q_1p6007-2p9993_n400_t1200/common_test_summary.json"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/comparison/common_test__q_1p6007-2p9993_n400_t1200/models/q_1p6-3_n2000_t1200/per_q_metrics.csv": {
+      "size_bytes": 26399,
+      "mtime_ns": 1785210188579216878,
+      "ctime_ns": 1785210188579216878,
+      "inode": 17704343,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/comparison/common_test__q_1p6007-2p9993_n400_t1200/models/q_1p6-3_n2000_t1200/per_q_metrics.csv"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/comparison/common_test__q_1p6007-2p9993_n400_t1200/models/q_1p6-3_n2000_t1200/result.json": {
+      "size_bytes": 1796,
+      "mtime_ns": 1785210188579216878,
+      "ctime_ns": 1785210188579216878,
+      "inode": 17704344,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/comparison/common_test__q_1p6007-2p9993_n400_t1200/models/q_1p6-3_n2000_t1200/result.json"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/comparison/common_test_e500_w64_n2000_n5000/common_test_dataset.npz": {
+      "size_bytes": 5324833,
+      "mtime_ns": 1785214942416422510,
+      "ctime_ns": 1785214942416422510,
+      "inode": 17704391,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/comparison/common_test_e500_w64_n2000_n5000/common_test_dataset.npz"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/comparison/common_test_e500_w64_n2000_n5000/common_test_summary.json": {
+      "size_bytes": 3269,
+      "mtime_ns": 1785214942420422442,
+      "ctime_ns": 1785214942420422442,
+      "inode": 17704392,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/comparison/common_test_e500_w64_n2000_n5000/common_test_summary.json"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/comparison/common_test_e500_w64_n2000_n5000/models/q_1p6-3_n2000_t1200/per_q_metrics.csv": {
+      "size_bytes": 26530,
+      "mtime_ns": 1785214944304391112,
+      "ctime_ns": 1785214944304391112,
+      "inode": 17704395,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/comparison/common_test_e500_w64_n2000_n5000/models/q_1p6-3_n2000_t1200/per_q_metrics.csv"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/comparison/common_test_e500_w64_n2000_n5000/models/q_1p6-3_n2000_t1200/result.json": {
+      "size_bytes": 1790,
+      "mtime_ns": 1785214944304391112,
+      "ctime_ns": 1785214944304391112,
+      "inode": 17704396,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/comparison/common_test_e500_w64_n2000_n5000/models/q_1p6-3_n2000_t1200/result.json"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/extrapolation_2d/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/t1800_full_q400/Q.npy": {
+      "size_bytes": 3328,
+      "mtime_ns": 1785222460105060124,
+      "ctime_ns": 1785222460105060124,
+      "inode": 17704420,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/extrapolation_2d/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/t1800_full_q400/Q.npy"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/extrapolation_2d/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/t1800_full_q400/lambda_error_profile.csv": {
+      "size_bytes": 171020,
+      "mtime_ns": 1785222460129059743,
+      "ctime_ns": 1785222460129059743,
+      "inode": 17704426,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/extrapolation_2d/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/t1800_full_q400/lambda_error_profile.csv"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/extrapolation_2d/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/t1800_full_q400/lambda_grid.npy": {
+      "size_bytes": 14528,
+      "mtime_ns": 1785222460105060124,
+      "ctime_ns": 1785222460105060124,
+      "inode": 17704422,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/extrapolation_2d/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/t1800_full_q400/lambda_grid.npy"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/extrapolation_2d/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/t1800_full_q400/metrics.json": {
+      "size_bytes": 5753,
+      "mtime_ns": 1785222460129059743,
+      "ctime_ns": 1785222460129059743,
+      "inode": 17704427,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/extrapolation_2d/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/t1800_full_q400/metrics.json"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/extrapolation_2d/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/t1800_full_q400/per_q_metrics.csv": {
+      "size_bytes": 60829,
+      "mtime_ns": 1785222460121059870,
+      "ctime_ns": 1785222460121059870,
+      "inode": 17704425,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/extrapolation_2d/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/t1800_full_q400/per_q_metrics.csv"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/extrapolation_2d/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/t1800_full_q400/predictions_raw.npy": {
+      "size_bytes": 8640128,
+      "mtime_ns": 1785222460113059997,
+      "ctime_ns": 1785222460113059997,
+      "inode": 17704423,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/extrapolation_2d/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/t1800_full_q400/predictions_raw.npy"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/extrapolation_2d/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/t1800_full_q400/source_q_indices.npy": {
+      "size_bytes": 3328,
+      "mtime_ns": 1785222460105060124,
+      "ctime_ns": 1785222460105060124,
+      "inode": 17704421,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/extrapolation_2d/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/t1800_full_q400/source_q_indices.npy"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/extrapolation_2d/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/t1800_full_q400/targets_raw.npy": {
+      "size_bytes": 8640128,
+      "mtime_ns": 1785222460117059934,
+      "ctime_ns": 1785222460117059934,
+      "inode": 17704424,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/extrapolation_2d/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/t1800_full_q400/targets_raw.npy"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/formal_a1_length_extrapolation/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200_q400_t1200_t1800_t2400/a1_length_extrapolation_summary.json": {
+      "size_bytes": 301041,
+      "mtime_ns": 1788012246727494880,
+      "ctime_ns": 1788012246727494880,
+      "inode": 17704713,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/formal_a1_length_extrapolation/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200_q400_t1200_t1800_t2400/a1_length_extrapolation_summary.json"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/formal_a1_length_extrapolation/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200_q400_t1200_t1800_t2400/lambda_window_metrics.csv": {
+      "size_bytes": 2289,
+      "mtime_ns": 1788012246747494552,
+      "ctime_ns": 1788012246747494552,
+      "inode": 17704715,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/formal_a1_length_extrapolation/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200_q400_t1200_t1800_t2400/lambda_window_metrics.csv"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/formal_a1_length_extrapolation/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200_q400_t1200_t1800_t2400/per_q_metrics.csv": {
+      "size_bytes": 152072,
+      "mtime_ns": 1788012246747494552,
+      "ctime_ns": 1788012246747494552,
+      "inode": 17704714,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/formal_a1_length_extrapolation/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200_q400_t1200_t1800_t2400/per_q_metrics.csv"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/formal_a1_length_extrapolation/fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200_best_q400_t1200_t1800_t2400/r2_a1_length_extrapolation_summary.json": {
+      "size_bytes": 303277,
+      "mtime_ns": 1788058145956327461,
+      "ctime_ns": 1788058145956327461,
+      "inode": 17704729,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/formal_a1_length_extrapolation/fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200_best_q400_t1200_t1800_t2400/r2_a1_length_extrapolation_summary.json"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/formal_a1_length_extrapolation/fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200_best_q400_t1200_t1800_t2400/r2_lambda_window_metrics.csv": {
+      "size_bytes": 2313,
+      "mtime_ns": 1788058145964327341,
+      "ctime_ns": 1788058145964327341,
+      "inode": 17704731,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/formal_a1_length_extrapolation/fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200_best_q400_t1200_t1800_t2400/r2_lambda_window_metrics.csv"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/formal_a1_length_extrapolation/fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200_best_q400_t1200_t1800_t2400/r2_per_q_metrics.csv": {
+      "size_bytes": 150159,
+      "mtime_ns": 1788058145964327341,
+      "ctime_ns": 1788058145964327341,
+      "inode": 17704730,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/formal_a1_length_extrapolation/fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200_best_q400_t1200_t1800_t2400/r2_per_q_metrics.csv"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/formal_a1_length_extrapolation/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200_best_fixed_q400_t1200_t1800_t2400/r3_a1_length_extrapolation_summary.json": {
+      "size_bytes": 55032,
+      "mtime_ns": 1788063795578917730,
+      "ctime_ns": 1788063795578917730,
+      "inode": 17704724,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/formal_a1_length_extrapolation/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200_best_fixed_q400_t1200_t1800_t2400/r3_a1_length_extrapolation_summary.json"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/formal_a1_length_extrapolation/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200_best_fixed_q400_t1200_t1800_t2400/r3_lambda_window_metrics.csv": {
+      "size_bytes": 2310,
+      "mtime_ns": 1788063795594917445,
+      "ctime_ns": 1788063795594917445,
+      "inode": 17704757,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/formal_a1_length_extrapolation/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200_best_fixed_q400_t1200_t1800_t2400/r3_lambda_window_metrics.csv"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/formal_a1_length_extrapolation/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200_best_fixed_q400_t1200_t1800_t2400/r3_per_q_metrics.csv": {
+      "size_bytes": 149596,
+      "mtime_ns": 1788063795594917445,
+      "ctime_ns": 1788063795594917445,
+      "inode": 17704744,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/formal_a1_length_extrapolation/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200_best_fixed_q400_t1200_t1800_t2400/r3_per_q_metrics.csv"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/formal_a1_length_extrapolation/q400_t1200_t1800_t2400_w0p5/a1_length_extrapolation_summary.json": {
+      "size_bytes": 301002,
+      "mtime_ns": 1787977857822553907,
+      "ctime_ns": 1787977857822553907,
+      "inode": 17704654,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/formal_a1_length_extrapolation/q400_t1200_t1800_t2400_w0p5/a1_length_extrapolation_summary.json"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/formal_a1_length_extrapolation/q400_t1200_t1800_t2400_w0p5/lambda_window_metrics.csv": {
+      "size_bytes": 2314,
+      "mtime_ns": 1787977857838553721,
+      "ctime_ns": 1787977857838553721,
+      "inode": 17704667,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/formal_a1_length_extrapolation/q400_t1200_t1800_t2400_w0p5/lambda_window_metrics.csv"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/formal_a1_length_extrapolation/q400_t1200_t1800_t2400_w0p5/per_q_metrics.csv": {
+      "size_bytes": 153110,
+      "mtime_ns": 1787977857838553721,
+      "ctime_ns": 1787977857838553721,
+      "inode": 17704661,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/formal_a1_length_extrapolation/q400_t1200_t1800_t2400_w0p5/per_q_metrics.csv"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/length_change_prediction_consistency/q400_t1200_t1800_all_canonical_q.json": {
+      "size_bytes": 198563,
+      "mtime_ns": 1787924155779563576,
+      "ctime_ns": 1787924155779563576,
+      "inode": 17704646,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/length_change_prediction_consistency/q400_t1200_t1800_all_canonical_q.json"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/length_dataset_identity_validation/q400_t1200_t1800_t2400_prefix_identity.json": {
+      "size_bytes": 35132,
+      "mtime_ns": 1787913675655754424,
+      "ctime_ns": 1787913675655754424,
+      "inode": 17704631,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/length_dataset_identity_validation/q400_t1200_t1800_t2400_prefix_identity.json"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/m3_internal_length_sensitivity/q400_t1200_t1800_t2400/m3_internal_length_sensitivity_summary.json": {
+      "size_bytes": 12404,
+      "mtime_ns": 1787987917031142712,
+      "ctime_ns": 1787987917031142712,
+      "inode": 17704683,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/m3_internal_length_sensitivity/q400_t1200_t1800_t2400/m3_internal_length_sensitivity_summary.json"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/m3_internal_length_sensitivity/q400_t1200_t1800_t2400/m3_spectral_mode_comparison.csv": {
+      "size_bytes": 47101,
+      "mtime_ns": 1787987917035142617,
+      "ctime_ns": 1787987917035142617,
+      "inode": 17704685,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/m3_internal_length_sensitivity/q400_t1200_t1800_t2400/m3_spectral_mode_comparison.csv"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/m3_internal_length_sensitivity/q400_t1200_t1800_t2400/m3_stage_comparison.csv": {
+      "size_bytes": 2615,
+      "mtime_ns": 1787987917031142712,
+      "ctime_ns": 1787987917031142712,
+      "inode": 17704684,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/m3_internal_length_sensitivity/q400_t1200_t1800_t2400/m3_stage_comparison.csv"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/m4b_lambda_clamp/q400_t1200_t1800_t2400/m4b_intervention_response.csv": {
+      "size_bytes": 1147,
+      "mtime_ns": 1787997112594810197,
+      "ctime_ns": 1787997112594810197,
+      "inode": 17704693,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/m4b_lambda_clamp/q400_t1200_t1800_t2400/m4b_intervention_response.csv"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/m4b_lambda_clamp/q400_t1200_t1800_t2400/m4b_lambda_clamp_summary.json": {
+      "size_bytes": 18770,
+      "mtime_ns": 1787997112594810197,
+      "ctime_ns": 1787997112594810197,
+      "inode": 17704682,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/m4b_lambda_clamp/q400_t1200_t1800_t2400/m4b_lambda_clamp_summary.json"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/m4b_lambda_clamp/q400_t1200_t1800_t2400/m4b_stage_comparison.csv": {
+      "size_bytes": 4090,
+      "mtime_ns": 1787997112594810197,
+      "ctime_ns": 1787997112594810197,
+      "inode": 17704694,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/m4b_lambda_clamp/q400_t1200_t1800_t2400/m4b_stage_comparison.csv"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/plan_b_q400_t1200_to_t2399/frozen_fno_resolution_generalization/coarse_prediction_raw_xyz.npy": {
+      "size_bytes": 5760128,
+      "mtime_ns": 1788095934042694856,
+      "ctime_ns": 1788095934042694856,
+      "inode": 17704793,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/plan_b_q400_t1200_to_t2399/frozen_fno_resolution_generalization/coarse_prediction_raw_xyz.npy"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/plan_b_q400_t1200_to_t2399/frozen_fno_resolution_generalization/experiment_summary.json": {
+      "size_bytes": 89241,
+      "mtime_ns": 1788095934034694989,
+      "ctime_ns": 1788095934034694989,
+      "inode": 17704792,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/plan_b_q400_t1200_to_t2399/frozen_fno_resolution_generalization/experiment_summary.json"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/plan_b_q400_t1200_to_t2399/frozen_fno_resolution_generalization/metrics.json": {
+      "size_bytes": 1610,
+      "mtime_ns": 1788095934022695188,
+      "ctime_ns": 1788095934022695188,
+      "inode": 17704791,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/plan_b_q400_t1200_to_t2399/frozen_fno_resolution_generalization/metrics.json"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/analysis/analysis_summary.json": {
+      "size_bytes": 13248,
+      "mtime_ns": 1785212074604473222,
+      "ctime_ns": 1785212074604473222,
+      "inode": 17704370,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/analysis/analysis_summary.json"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/checkpoints/best_model.pt": {
+      "size_bytes": 402989986,
+      "mtime_ns": 1785212051440861461,
+      "ctime_ns": 1785212051440861461,
+      "inode": 17704358,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/checkpoints/best_model.pt"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/checkpoints/last_model.pt": {
+      "size_bytes": 402989986,
+      "mtime_ns": 1785212052788838853,
+      "ctime_ns": 1785212052788838853,
+      "inode": 17704359,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/checkpoints/last_model.pt"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/inference/metrics.json": {
+      "size_bytes": 481,
+      "mtime_ns": 1785212074600473288,
+      "ctime_ns": 1785212074600473288,
+      "inode": 17704368,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/inference/metrics.json"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/inference/predictions.npy": {
+      "size_bytes": 4320128,
+      "mtime_ns": 1785212074584473556,
+      "ctime_ns": 1785212074584473556,
+      "inode": 17704363,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/inference/predictions.npy"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/inference/predictions_model_space.npy": {
+      "size_bytes": 4320128,
+      "mtime_ns": 1785212074592473423,
+      "ctime_ns": 1785212074592473423,
+      "inode": 17704364,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/inference/predictions_model_space.npy"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/inference/targets.npy": {
+      "size_bytes": 4320128,
+      "mtime_ns": 1785212074592473423,
+      "ctime_ns": 1785212074592473423,
+      "inode": 17704365,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/inference/targets.npy"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/inference/targets_model_space.npy": {
+      "size_bytes": 4320128,
+      "mtime_ns": 1785212074596473355,
+      "ctime_ns": 1785212074596473355,
+      "inode": 17704366,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/inference/targets_model_space.npy"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/inference/targets_raw_reference.npy": {
+      "size_bytes": 4320128,
+      "mtime_ns": 1785212074600473288,
+      "ctime_ns": 1785212074600473288,
+      "inode": 17704367,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/inference/targets_raw_reference.npy"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/inference/timing.json": {
+      "size_bytes": 1504,
+      "mtime_ns": 1785212074600473288,
+      "ctime_ns": 1785212074600473288,
+      "inode": 17704369,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/inference/timing.json"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/logs/train_history.json": {
+      "size_bytes": 76286,
+      "mtime_ns": 1785212053936819602,
+      "ctime_ns": 1785212053936819602,
+      "inode": 17704290,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/logs/train_history.json"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/logs/train_summary.json": {
+      "size_bytes": 13430,
+      "mtime_ns": 1785212053936819602,
+      "ctime_ns": 1785212053936819602,
+      "inode": 17704361,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/logs/train_summary.json"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/run_config.json": {
+      "size_bytes": 4945,
+      "mtime_ns": 1785210586321081657,
+      "ctime_ns": 1785210586321081657,
+      "inode": 17704357,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/run_config.json"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/summary.json": {
+      "size_bytes": 3148,
+      "mtime_ns": 1785212074604473222,
+      "ctime_ns": 1785212074604473222,
+      "inode": 17704362,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/summary.json"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200/checkpoints/best_model.pt": {
+      "size_bytes": 402990114,
+      "mtime_ns": 1788006342728113632,
+      "ctime_ns": 1788006342728113632,
+      "inode": 17704696,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200/checkpoints/best_model.pt"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200/checkpoints/last_model.pt": {
+      "size_bytes": 402990114,
+      "mtime_ns": 1788006344108084704,
+      "ctime_ns": 1788006344108084704,
+      "inode": 17704702,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200/checkpoints/last_model.pt"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200/logs/train_history.json": {
+      "size_bytes": 565515,
+      "mtime_ns": 1788006344900068111,
+      "ctime_ns": 1788006344900068111,
+      "inode": 17704703,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200/logs/train_history.json"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200/logs/train_summary.json": {
+      "size_bytes": 1612,
+      "mtime_ns": 1788006344900068111,
+      "ctime_ns": 1788006344900068111,
+      "inode": 17704705,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200/logs/train_summary.json"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200/run_config.json": {
+      "size_bytes": 3766,
+      "mtime_ns": 1788004703313961646,
+      "ctime_ns": 1788004703313961646,
+      "inode": 17704679,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200/run_config.json"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200/summary.json": {
+      "size_bytes": 1612,
+      "mtime_ns": 1788006344900068111,
+      "ctime_ns": 1788006344900068111,
+      "inode": 17704695,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200/summary.json"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200/checkpoints/best_model.pt": {
+      "size_bytes": 402991906,
+      "mtime_ns": 1788057040012961359,
+      "ctime_ns": 1788057040012961359,
+      "inode": 17704717,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200/checkpoints/best_model.pt"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200/checkpoints/last_model.pt": {
+      "size_bytes": 402991906,
+      "mtime_ns": 1788057858192581842,
+      "ctime_ns": 1788057858192581842,
+      "inode": 17704725,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200/checkpoints/last_model.pt"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200/logs/train_history.json": {
+      "size_bytes": 563693,
+      "mtime_ns": 1788057858996570253,
+      "ctime_ns": 1788057858996570253,
+      "inode": 17704726,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200/logs/train_history.json"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200/logs/train_summary.json": {
+      "size_bytes": 1636,
+      "mtime_ns": 1788057858996570253,
+      "ctime_ns": 1788057858996570253,
+      "inode": 17704728,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200/logs/train_summary.json"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200/run_config.json": {
+      "size_bytes": 4924,
+      "mtime_ns": 1788056661863210352,
+      "ctime_ns": 1788056661863210352,
+      "inode": 17704698,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200/run_config.json"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200/summary.json": {
+      "size_bytes": 1636,
+      "mtime_ns": 1788057858996570253,
+      "ctime_ns": 1788057858996570253,
+      "inode": 17704727,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200/summary.json"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200/checkpoints/best_model.pt": {
+      "size_bytes": 402996002,
+      "mtime_ns": 1788061664210140094,
+      "ctime_ns": 1788061664210140094,
+      "inode": 17704747,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200/checkpoints/best_model.pt"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200/checkpoints/last_model.pt": {
+      "size_bytes": 402996002,
+      "mtime_ns": 1788062618838258257,
+      "ctime_ns": 1788062618838258257,
+      "inode": 17704748,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200/checkpoints/last_model.pt"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200/logs/train_history.json": {
+      "size_bytes": 563936,
+      "mtime_ns": 1788062619642245213,
+      "ctime_ns": 1788062619642245213,
+      "inode": 17704749,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200/logs/train_history.json"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200/logs/train_summary.json": {
+      "size_bytes": 1643,
+      "mtime_ns": 1788062619646245149,
+      "ctime_ns": 1788062619646245149,
+      "inode": 17704751,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200/logs/train_summary.json"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200/run_config.json": {
+      "size_bytes": 7057,
+      "mtime_ns": 1788061405230383549,
+      "ctime_ns": 1788061405230383549,
+      "inode": 17704746,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200/run_config.json"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200/summary.json": {
+      "size_bytes": 1643,
+      "mtime_ns": 1788062619642245213,
+      "ctime_ns": 1788062619642245213,
+      "inode": 17704706,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200/summary.json"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/r1_validation_length_response/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200/r1_validation_length_response.csv": {
+      "size_bytes": 674,
+      "mtime_ns": 1788012068098430390,
+      "ctime_ns": 1788012068098430390,
+      "inode": 17704707,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/r1_validation_length_response/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200/r1_validation_length_response.csv"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/r1_validation_length_response/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200/r1_validation_length_response_summary.json": {
+      "size_bytes": 4512,
+      "mtime_ns": 1788012068098430390,
+      "ctime_ns": 1788012068098430390,
+      "inode": 17704689,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/r1_validation_length_response/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200/r1_validation_length_response_summary.json"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/r3_validation_length_response/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200_best_epoch77_val_t600-1200/r3_validation_length_response_by_length.csv": {
+      "size_bytes": 1291,
+      "mtime_ns": 1788066023304393323,
+      "ctime_ns": 1788066023304393323,
+      "inode": 17704756,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/r3_validation_length_response/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200_best_epoch77_val_t600-1200/r3_validation_length_response_by_length.csv"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/r3_validation_length_response/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200_best_epoch77_val_t600-1200/r3_validation_length_response_per_q.csv": {
+      "size_bytes": 153223,
+      "mtime_ns": 1788066023316393191,
+      "ctime_ns": 1788066023316393191,
+      "inode": 17704765,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/r3_validation_length_response/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200_best_epoch77_val_t600-1200/r3_validation_length_response_per_q.csv"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/r3_validation_length_response/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200_best_epoch77_val_t600-1200/r3_validation_length_response_summary.json": {
+      "size_bytes": 23244,
+      "mtime_ns": 1788066023304393323,
+      "ctime_ns": 1788066023304393323,
+      "inode": 17704735,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/r3_validation_length_response/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200_best_epoch77_val_t600-1200/r3_validation_length_response_summary.json"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/raw_kerr_spectral_energy/q400_t1200_t1800_t2400_m32_raw/dominant_peaks.csv": {
+      "size_bytes": 7316,
+      "mtime_ns": 1787983765296242932,
+      "ctime_ns": 1787983765296242932,
+      "inode": 17704675,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/raw_kerr_spectral_energy/q400_t1200_t1800_t2400_m32_raw/dominant_peaks.csv"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/raw_kerr_spectral_energy/q400_t1200_t1800_t2400_m32_raw/raw_spectral_energy_summary.json": {
+      "size_bytes": 16846,
+      "mtime_ns": 1787983765292242998,
+      "ctime_ns": 1787983765292242998,
+      "inode": 17704666,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/raw_kerr_spectral_energy/q400_t1200_t1800_t2400_m32_raw/raw_spectral_energy_summary.json"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/raw_kerr_spectral_energy/q400_t1200_t1800_t2400_m32_raw/spectral_band_energy.csv": {
+      "size_bytes": 4928,
+      "mtime_ns": 1787983765296242932,
+      "ctime_ns": 1787983765296242932,
+      "inode": 17704669,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/raw_kerr_spectral_energy/q400_t1200_t1800_t2400_m32_raw/spectral_band_energy.csv"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/scripts/analyze_raw_kerr_spectral_energy.py": {
+      "size_bytes": 36199,
+      "mtime_ns": 1787983669977817955,
+      "ctime_ns": 1787983669977817955,
+      "inode": 17704672,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/scripts/analyze_raw_kerr_spectral_energy.py"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/scripts/compare_length_prefix_predictions_2d.py": {
+      "size_bytes": 9850,
+      "mtime_ns": 1785222323679220636,
+      "ctime_ns": 1785222323679220636,
+      "inode": 17704428,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/scripts/compare_length_prefix_predictions_2d.py"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/scripts/diagnose_fno2d_internal_length_sensitivity.py": {
+      "size_bytes": 29021,
+      "mtime_ns": 1787987769126319557,
+      "ctime_ns": 1787987769126319557,
+      "inode": 17704680,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/scripts/diagnose_fno2d_internal_length_sensitivity.py"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/scripts/diagnose_lambda_coordinate_clamp_effect_2d.py": {
+      "size_bytes": 39476,
+      "mtime_ns": 1787997032284425564,
+      "ctime_ns": 1787997032284425564,
+      "inode": 17704690,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/scripts/diagnose_lambda_coordinate_clamp_effect_2d.py"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/scripts/evaluate_formal_length_extrapolation_2d.py": {
+      "size_bytes": 34678,
+      "mtime_ns": 1787977818607004154,
+      "ctime_ns": 1787977818607004154,
+      "inode": 17704664,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/scripts/evaluate_formal_length_extrapolation_2d.py"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/scripts/evaluate_formal_length_extrapolation_r2_2d.py": {
+      "size_bytes": 31008,
+      "mtime_ns": 1788056557512935009,
+      "ctime_ns": 1788056557512935009,
+      "inode": 17704720,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/scripts/evaluate_formal_length_extrapolation_r2_2d.py"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/scripts/evaluate_formal_length_extrapolation_r3_2d.py": {
+      "size_bytes": 20939,
+      "mtime_ns": 1788063748959755260,
+      "ctime_ns": 1788063748959755260,
+      "inode": 17704736,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/scripts/evaluate_formal_length_extrapolation_r3_2d.py"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/scripts/evaluate_length_change_prediction_consistency_2d.py": {
+      "size_bytes": 25408,
+      "mtime_ns": 1787924127143948576,
+      "ctime_ns": 1787924127143948576,
+      "inode": 17704655,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/scripts/evaluate_length_change_prediction_consistency_2d.py"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/scripts/evaluate_length_extrapolation_2d.py": {
+      "size_bytes": 29495,
+      "mtime_ns": 1785221667813284683,
+      "ctime_ns": 1785221667813284683,
+      "inode": 17704414,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/scripts/evaluate_length_extrapolation_2d.py"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/scripts/evaluate_r1_validation_length_response_2d.py": {
+      "size_bytes": 20177,
+      "mtime_ns": 1788012005207462485,
+      "ctime_ns": 1788012005207462485,
+      "inode": 17704710,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/scripts/evaluate_r1_validation_length_response_2d.py"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/scripts/evaluate_r3_validation_length_response_2d.py": {
+      "size_bytes": 18707,
+      "mtime_ns": 1788065973160933924,
+      "ctime_ns": 1788065973160933924,
+      "inode": 17704762,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/scripts/evaluate_r3_validation_length_response_2d.py"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/scripts/generate_dataset.py": {
+      "size_bytes": 9100,
+      "mtime_ns": 1785059687580812049,
+      "ctime_ns": 1785059687584811983,
+      "inode": 17703753,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/scripts/generate_dataset.py"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/scripts/generate_length_extrapolation_datasets.sh": {
+      "size_bytes": 1568,
+      "mtime_ns": 1785221500267934818,
+      "ctime_ns": 1785221500271934752,
+      "inode": 17704402,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/scripts/generate_length_extrapolation_datasets.sh"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/scripts/train_fno2d_domain_conditioned_r2.py": {
+      "size_bytes": 23369,
+      "mtime_ns": 1788056557516934944,
+      "ctime_ns": 1788056557516934944,
+      "inode": 17704721,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/scripts/train_fno2d_domain_conditioned_r2.py"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/scripts/train_fno2d_physical_frequency_r3.py": {
+      "size_bytes": 16153,
+      "mtime_ns": 1788061290624174623,
+      "ctime_ns": 1788061290624174623,
+      "inode": 17704737,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/scripts/train_fno2d_physical_frequency_r3.py"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/scripts/train_fno2d_variable_length_r1.py": {
+      "size_bytes": 27433,
+      "mtime_ns": 1788004604191523839,
+      "ctime_ns": 1788004604191523839,
+      "inode": 17704699,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/scripts/train_fno2d_variable_length_r1.py"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/scripts/validate_length_dataset_prefix_identity.py": {
+      "size_bytes": 20537,
+      "mtime_ns": 1787913617644680835,
+      "ctime_ns": 1787913617644680835,
+      "inode": 17704649,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/scripts/validate_length_dataset_prefix_identity.py"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/src/data_generation/dataset_builder.py": {
+      "size_bytes": 18451,
+      "mtime_ns": 1785204537644109450,
+      "ctime_ns": 1785204537652109316,
+      "inode": 17704271,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/src/data_generation/dataset_builder.py"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/src/data_generation/dataset_saver.py": {
+      "size_bytes": 11312,
+      "mtime_ns": 1785058652961917114,
+      "ctime_ns": 1785058652965917047,
+      "inode": 17703775,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/src/data_generation/dataset_saver.py"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/src/models/fno2d/fno2d.py": {
+      "size_bytes": 8291,
+      "mtime_ns": 1777693723352757794,
+      "ctime_ns": 1777693723352757794,
+      "inode": 17704035,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/src/models/fno2d/fno2d.py"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/src/models/fno2d/fno2d_physical_frequency.py": {
+      "size_bytes": 3978,
+      "mtime_ns": 1788063748959755260,
+      "ctime_ns": 1788063748959755260,
+      "inode": 17704738,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/src/models/fno2d/fno2d_physical_frequency.py"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/src/models/fno2d/layers2d.py": {
+      "size_bytes": 7207,
+      "mtime_ns": 1777693678501472430,
+      "ctime_ns": 1777693678501472430,
+      "inode": 17704034,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/src/models/fno2d/layers2d.py"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/src/models/fno2d/physical_frequency_layers2d.py": {
+      "size_bytes": 8112,
+      "mtime_ns": 1788063748959755260,
+      "ctime_ns": 1788063748959755260,
+      "inode": 17704739,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/src/models/fno2d/physical_frequency_layers2d.py"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/src/training/fno2d/dataset_loader_2d.py": {
+      "size_bytes": 24359,
+      "mtime_ns": 1785062737005952965,
+      "ctime_ns": 1785062737017952781,
+      "inode": 20846745,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/src/training/fno2d/dataset_loader_2d.py"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/src/training/fno2d/input_builder_2d.py": {
+      "size_bytes": 8384,
+      "mtime_ns": 1779534508000000000,
+      "ctime_ns": 1779534707365328805,
+      "inode": 20846736,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/src/training/fno2d/input_builder_2d.py"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/src/training/fno2d/normalization_2d.py": {
+      "size_bytes": 8262,
+      "mtime_ns": 1777709305166954660,
+      "ctime_ns": 1777709305166954660,
+      "inode": 20846748,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/src/training/fno2d/normalization_2d.py"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/src/training/fno2d/target_transform_2d.py": {
+      "size_bytes": 7066,
+      "mtime_ns": 1777713662822849026,
+      "ctime_ns": 1777713662822849026,
+      "inode": 20846744,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/src/training/fno2d/target_transform_2d.py"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/scripts/train_model_2d.py": {
+      "size_bytes": 32187,
+      "mtime_ns": 1785066494651139096,
+      "ctime_ns": 1785066494659138962,
+      "inode": 17704040,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/scripts/train_model_2d.py"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/scripts/evaluate_common_test_2d.py": {
+      "size_bytes": 28318,
+      "mtime_ns": 1785210052673258837,
+      "ctime_ns": 1785210052673258837,
+      "inode": 17704330,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/scripts/evaluate_common_test_2d.py"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/scripts/evaluate_plan_b_resolution_generalization_2d.py": {
+      "size_bytes": 19897,
+      "mtime_ns": 1788095616947976131,
+      "ctime_ns": 1788095616947976131,
+      "inode": 17704788,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/scripts/evaluate_plan_b_resolution_generalization_2d.py"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/src/data_generation/orbit_solver_second_order.py": {
+      "size_bytes": 9520,
+      "mtime_ns": 1785038202824868489,
+      "ctime_ns": 1785038202824868489,
+      "inode": 17704102,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/src/data_generation/orbit_solver_second_order.py"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/src/training/checkpoint.py": {
+      "size_bytes": 4106,
+      "mtime_ns": 1775957851000000000,
+      "ctime_ns": 1776251820862541932,
+      "inode": 17703801,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/src/training/checkpoint.py"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/src/models/registry_2d.py": {
+      "size_bytes": 5492,
+      "mtime_ns": 1785049056793512437,
+      "ctime_ns": 1785049056793512437,
+      "inode": 17704036,
+      "device": 2052,
+      "resolved_path": "/home/shanjinshuo/fno_kerr/kerr_project/src/models/registry_2d.py"
+    }
+  },
+  "records": [
+    "FNO_KERR_CURRENT_STATE.md",
+    "SERVER_DATA_EXPERIMENT_REGISTRY.md",
+    "FNO_KERR_REASONING_LOG.md",
+    "FNO_KERR_EXPERIMENT_PLAN.md"
+  ],
+  "source_paths": [
+    "scripts/generate_dataset.py",
+    "scripts/generate_length_extrapolation_datasets.sh",
+    "scripts/validate_length_dataset_prefix_identity.py",
+    "scripts/evaluate_length_extrapolation_2d.py",
+    "scripts/compare_length_prefix_predictions_2d.py",
+    "scripts/evaluate_length_change_prediction_consistency_2d.py",
+    "scripts/evaluate_formal_length_extrapolation_2d.py",
+    "scripts/analyze_raw_kerr_spectral_energy.py",
+    "scripts/diagnose_fno2d_internal_length_sensitivity.py",
+    "scripts/diagnose_lambda_coordinate_clamp_effect_2d.py",
+    "scripts/train_fno2d_variable_length_r1.py",
+    "scripts/evaluate_r1_validation_length_response_2d.py",
+    "scripts/train_fno2d_domain_conditioned_r2.py",
+    "scripts/evaluate_formal_length_extrapolation_r2_2d.py",
+    "scripts/train_fno2d_physical_frequency_r3.py",
+    "scripts/evaluate_formal_length_extrapolation_r3_2d.py",
+    "scripts/evaluate_r3_validation_length_response_2d.py",
+    "src/models/fno2d/fno2d.py",
+    "src/models/fno2d/layers2d.py",
+    "src/models/fno2d/fno2d_physical_frequency.py",
+    "src/models/fno2d/physical_frequency_layers2d.py",
+    "src/training/fno2d/input_builder_2d.py",
+    "src/training/fno2d/dataset_loader_2d.py",
+    "src/training/fno2d/normalization_2d.py",
+    "src/training/fno2d/target_transform_2d.py",
+    "src/data_generation/dataset_builder.py",
+    "src/data_generation/dataset_saver.py",
+    "scripts/train_model_2d.py",
+    "scripts/evaluate_common_test_2d.py",
+    "scripts/evaluate_plan_b_resolution_generalization_2d.py",
+    "src/data_generation/orbit_solver_second_order.py",
+    "src/training/checkpoint.py",
+    "src/models/registry_2d.py"
+  ],
+  "array_headers": {
+    "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6-3_n2000_t1200/dataset.npz": {
+      "vary_params_order": {
+        "shape": [
+          1
+        ],
+        "dtype": "<U1",
+        "fortran_order": false
+      },
+      "x_train": {
+        "shape": [
+          1400,
+          1
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "x_val": {
+        "shape": [
+          300,
+          1
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "x_test": {
+        "shape": [
+          300,
+          1
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "y_train": {
+        "shape": [
+          1400,
+          1200,
+          3
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "y_val": {
+        "shape": [
+          300,
+          1200,
+          3
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "y_test": {
+        "shape": [
+          300,
+          1200,
+          3
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "lambda_grid": {
+        "shape": [
+          1200
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      }
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1200/dataset.npz": {
+      "vary_params_order": {
+        "shape": [
+          1
+        ],
+        "dtype": "<U1",
+        "fortran_order": false
+      },
+      "x_train": {
+        "shape": [
+          280,
+          1
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "x_val": {
+        "shape": [
+          60,
+          1
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "x_test": {
+        "shape": [
+          60,
+          1
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "y_train": {
+        "shape": [
+          280,
+          1200,
+          3
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "y_val": {
+        "shape": [
+          60,
+          1200,
+          3
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "y_test": {
+        "shape": [
+          60,
+          1200,
+          3
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "lambda_grid": {
+        "shape": [
+          1200
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      }
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1800/dataset.npz": {
+      "vary_params_order": {
+        "shape": [
+          1
+        ],
+        "dtype": "<U1",
+        "fortran_order": false
+      },
+      "x_train": {
+        "shape": [
+          280,
+          1
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "x_val": {
+        "shape": [
+          60,
+          1
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "x_test": {
+        "shape": [
+          60,
+          1
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "y_train": {
+        "shape": [
+          280,
+          1800,
+          3
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "y_val": {
+        "shape": [
+          60,
+          1800,
+          3
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "y_test": {
+        "shape": [
+          60,
+          1800,
+          3
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "lambda_grid": {
+        "shape": [
+          1800
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      }
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t2400/dataset.npz": {
+      "vary_params_order": {
+        "shape": [
+          1
+        ],
+        "dtype": "<U1",
+        "fortran_order": false
+      },
+      "x_train": {
+        "shape": [
+          280,
+          1
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "x_val": {
+        "shape": [
+          60,
+          1
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "x_test": {
+        "shape": [
+          60,
+          1
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "y_train": {
+        "shape": [
+          280,
+          2400,
+          3
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "y_val": {
+        "shape": [
+          60,
+          2400,
+          3
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "y_test": {
+        "shape": [
+          60,
+          2400,
+          3
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "lambda_grid": {
+        "shape": [
+          2400
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      }
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/comparison/common_test__q_1p6007-2p9993_n400_t1200/common_test_dataset.npz": {
+      "Q": {
+        "shape": [
+          400
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "lambda_grid": {
+        "shape": [
+          1200
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "y_raw": {
+        "shape": [
+          1,
+          400,
+          1200,
+          3
+        ],
+        "dtype": "float32",
+        "fortran_order": false
+      }
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/comparison/common_test_e500_w64_n2000_n5000/common_test_dataset.npz": {
+      "Q": {
+        "shape": [
+          400
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "lambda_grid": {
+        "shape": [
+          1200
+        ],
+        "dtype": "float64",
+        "fortran_order": false
+      },
+      "y_raw": {
+        "shape": [
+          1,
+          400,
+          1200,
+          3
+        ],
+        "dtype": "float32",
+        "fortran_order": false
+      }
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/extrapolation_2d/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/t1800_full_q400/Q.npy": {
+      "array": {
+        "shape": [
+          400
+        ],
+        "dtype": "float64"
+      }
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/extrapolation_2d/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/t1800_full_q400/lambda_grid.npy": {
+      "array": {
+        "shape": [
+          1800
+        ],
+        "dtype": "float64"
+      }
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/extrapolation_2d/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/t1800_full_q400/predictions_raw.npy": {
+      "array": {
+        "shape": [
+          1,
+          400,
+          1800,
+          3
+        ],
+        "dtype": "float32"
+      }
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/extrapolation_2d/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/t1800_full_q400/source_q_indices.npy": {
+      "array": {
+        "shape": [
+          400
+        ],
+        "dtype": "int64"
+      }
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/extrapolation_2d/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/t1800_full_q400/targets_raw.npy": {
+      "array": {
+        "shape": [
+          1,
+          400,
+          1800,
+          3
+        ],
+        "dtype": "float32"
+      }
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/plan_b_q400_t1200_to_t2399/frozen_fno_resolution_generalization/coarse_prediction_raw_xyz.npy": {
+      "array": {
+        "shape": [
+          400,
+          1200,
+          3
+        ],
+        "dtype": "float32"
+      }
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/inference/predictions.npy": {
+      "array": {
+        "shape": [
+          1,
+          300,
+          1200,
+          3
+        ],
+        "dtype": "float32"
+      }
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/inference/predictions_model_space.npy": {
+      "array": {
+        "shape": [
+          1,
+          300,
+          1200,
+          3
+        ],
+        "dtype": "float32"
+      }
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/inference/targets.npy": {
+      "array": {
+        "shape": [
+          1,
+          300,
+          1200,
+          3
+        ],
+        "dtype": "float32"
+      }
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/inference/targets_model_space.npy": {
+      "array": {
+        "shape": [
+          1,
+          300,
+          1200,
+          3
+        ],
+        "dtype": "float32"
+      }
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/inference/targets_raw_reference.npy": {
+      "array": {
+        "shape": [
+          1,
+          300,
+          1200,
+          3
+        ],
+        "dtype": "float32"
+      }
+    }
+  },
+  "datasets": {
+    "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6-3_n2000_t1200": {
+      "meta": {
+        "task_name": "q_1p6-3_n2000_t1200",
+        "task_spec": {
+          "vary_params": [
+            "Q"
+          ],
+          "vary_ranges": {
+            "Q": [
+              1.6,
+              3.0
+            ]
+          },
+          "fixed_params": {
+            "M": 1.0,
+            "a": 0.5,
+            "E": 0.95,
+            "Lz": 3.0,
+            "r0": 10.0,
+            "theta0": 1.2,
+            "phi0": 0.0,
+            "sign_r": -1,
+            "sign_th": 1
+          },
+          "sample_shape": [
+            2000
+          ],
+          "n_steps": 1200,
+          "step_size": 0.005,
+          "split_ratios": [
+            0.7,
+            0.15,
+            0.15
+          ],
+          "seed": 10,
+          "sampling_mode": "grid",
+          "completion_policy": "target_success",
+          "max_attempt_factor": 1.5,
+          "metadata": {
+            "task_name": "q_1p6-3_n2000_t1200",
+            "orbit_solver": "second_order_rk4",
+            "orbit_solver_version": "v1",
+            "dataset_max_radial_constraint_residual": 3.723736483607354e-07,
+            "dataset_max_polar_constraint_residual": 4.0151633129426045e-09,
+            "generation": {
+              "completion_policy": "target_success",
+              "target_success_count": 2000,
+              "initial_candidate_count": 2000,
+              "max_attempt_factor": 1.5,
+              "max_attempt_count": 3000,
+              "attempt_count": 2000,
+              "success_count": 2000,
+              "fail_count": 0,
+              "completed": true,
+              "used_completion_sampling": false,
+              "initial_sampling_mode": "grid",
+              "completion_sampling_mode": null,
+              "successful_points_strictly_uniform": true,
+              "data_seed": 10
+            }
+          }
+        },
+        "config_tag": "cfg1",
+        "generation_status": {
+          "completed": true,
+          "completion_policy": "target_success",
+          "target_success_count": 2000,
+          "initial_candidate_count": 2000,
+          "max_attempt_factor": 1.5,
+          "max_attempt_count": 3000,
+          "attempt_count": 2000,
+          "success_count": 2000,
+          "fail_count": 0,
+          "success_ratio_vs_attempts": 1.0,
+          "completion_ratio": 1.0,
+          "used_completion_sampling": false,
+          "successful_points_strictly_uniform": true
+        },
+        "split": {
+          "train_size": 1400,
+          "val_size": 300,
+          "test_size": 300,
+          "train_ratio": 0.7,
+          "val_ratio": 0.15,
+          "test_ratio": 0.15
+        },
+        "integration": {
+          "n_steps": 1200,
+          "step_size": 0.005,
+          "lambda_max": 5.995
+        },
+        "vary_params_order": [
+          "Q"
+        ],
+        "astrophysical_warnings": []
+      },
+      "Q_min": 1.6,
+      "Q_max": 3.0,
+      "Q_count": 2000,
+      "lambda_min": 0.0,
+      "lambda_max": 5.995,
+      "T": 1200,
+      "delta_lambda_min": 0.004999999999999893,
+      "delta_lambda_max": 0.005000000000000782,
+      "split_q_sha256": {
+        "train": "19568b3ebb25494faa0f769874d3aa02c0e32bae325e7c968308ffe297e964ea",
+        "val": "065795c3ac45c8fbf52e8e3c115c0daeb57b476609f73499dc9f9cd420e54275",
+        "test": "c67d057aba98eb080c374280524751deb44d752a58425f3dfff5b4dbcc377e80"
+      },
+      "canonical_q_sha256": "7fb80c1879f422724f68efa2f794a998457ee4dab55a5ad74b5b82a515a54b85"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1200": {
+      "meta": {
+        "task_name": "q_1p6007-2p9993_n400_t1200",
+        "task_spec": {
+          "vary_params": [
+            "Q"
+          ],
+          "vary_ranges": {
+            "Q": [
+              1.6007,
+              2.9993
+            ]
+          },
+          "fixed_params": {
+            "M": 1.0,
+            "a": 0.5,
+            "E": 0.95,
+            "Lz": 3.0,
+            "r0": 10.0,
+            "theta0": 1.2,
+            "phi0": 0.0,
+            "sign_r": -1,
+            "sign_th": 1
+          },
+          "sample_shape": [
+            400
+          ],
+          "n_steps": 1200,
+          "step_size": 0.005,
+          "split_ratios": [
+            0.7,
+            0.15,
+            0.15
+          ],
+          "seed": 20260728,
+          "sampling_mode": "grid",
+          "completion_policy": "target_success",
+          "max_attempt_factor": 1.5,
+          "metadata": {
+            "task_name": "q_1p6007-2p9993_n400_t1200",
+            "orbit_solver": "second_order_rk4",
+            "orbit_solver_version": "v1",
+            "dataset_max_radial_constraint_residual": 3.720015726571546e-07,
+            "dataset_max_polar_constraint_residual": 4.0133656398211315e-09,
+            "generation": {
+              "completion_policy": "target_success",
+              "target_success_count": 400,
+              "initial_candidate_count": 400,
+              "max_attempt_factor": 1.5,
+              "max_attempt_count": 600,
+              "attempt_count": 400,
+              "success_count": 400,
+              "fail_count": 0,
+              "completed": true,
+              "used_completion_sampling": false,
+              "initial_sampling_mode": "grid",
+              "completion_sampling_mode": null,
+              "successful_points_strictly_uniform": true,
+              "data_seed": 20260728
+            }
+          }
+        },
+        "config_tag": "cfg1",
+        "generation_status": {
+          "completed": true,
+          "completion_policy": "target_success",
+          "target_success_count": 400,
+          "initial_candidate_count": 400,
+          "max_attempt_factor": 1.5,
+          "max_attempt_count": 600,
+          "attempt_count": 400,
+          "success_count": 400,
+          "fail_count": 0,
+          "success_ratio_vs_attempts": 1.0,
+          "completion_ratio": 1.0,
+          "used_completion_sampling": false,
+          "successful_points_strictly_uniform": true
+        },
+        "split": {
+          "train_size": 280,
+          "val_size": 60,
+          "test_size": 60,
+          "train_ratio": 0.7,
+          "val_ratio": 0.15,
+          "test_ratio": 0.15
+        },
+        "integration": {
+          "n_steps": 1200,
+          "step_size": 0.005,
+          "lambda_max": 5.995
+        },
+        "vary_params_order": [
+          "Q"
+        ],
+        "astrophysical_warnings": []
+      },
+      "Q_min": 1.6007,
+      "Q_max": 2.9993,
+      "Q_count": 400,
+      "lambda_min": 0.0,
+      "lambda_max": 5.995,
+      "T": 1200,
+      "delta_lambda_min": 0.004999999999999893,
+      "delta_lambda_max": 0.005000000000000782,
+      "split_q_sha256": {
+        "train": "eb54087448997fc9807c0c5948408ca3eb8e933e93ea9ddfc6aaaec0a04f9031",
+        "val": "126fac10ba97f5b6efb70bc5c550f5006764e0a284a2cee31cdeffdaa9e89984",
+        "test": "d396c2ccd60ccb7a26bdb258d7a347590d39342cdd137410bea52b25cdce320a"
+      },
+      "canonical_q_sha256": "cb547ac456e43b347fcb4cfc8747f6bb7fea4fb09d8cb372cb536fff44c6514f"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1800": {
+      "meta": {
+        "task_name": "q_1p6007-2p9993_n400_t1800",
+        "task_spec": {
+          "vary_params": [
+            "Q"
+          ],
+          "vary_ranges": {
+            "Q": [
+              1.6007,
+              2.9993
+            ]
+          },
+          "fixed_params": {
+            "M": 1.0,
+            "a": 0.5,
+            "E": 0.95,
+            "Lz": 3.0,
+            "r0": 10.0,
+            "theta0": 1.2,
+            "phi0": 0.0,
+            "sign_r": -1,
+            "sign_th": 1
+          },
+          "sample_shape": [
+            400
+          ],
+          "n_steps": 1800,
+          "step_size": 0.005,
+          "split_ratios": [
+            0.7,
+            0.15,
+            0.15
+          ],
+          "seed": 20260728,
+          "sampling_mode": "grid",
+          "completion_policy": "target_success",
+          "max_attempt_factor": 1.5,
+          "metadata": {
+            "task_name": "q_1p6007-2p9993_n400_t1800",
+            "orbit_solver": "second_order_rk4",
+            "orbit_solver_version": "v1",
+            "dataset_max_radial_constraint_residual": 3.720015726571546e-07,
+            "dataset_max_polar_constraint_residual": 4.977499745706382e-09,
+            "generation": {
+              "completion_policy": "target_success",
+              "target_success_count": 400,
+              "initial_candidate_count": 400,
+              "max_attempt_factor": 1.5,
+              "max_attempt_count": 600,
+              "attempt_count": 400,
+              "success_count": 400,
+              "fail_count": 0,
+              "completed": true,
+              "used_completion_sampling": false,
+              "initial_sampling_mode": "grid",
+              "completion_sampling_mode": null,
+              "successful_points_strictly_uniform": true,
+              "data_seed": 20260728
+            }
+          }
+        },
+        "config_tag": "cfg1",
+        "generation_status": {
+          "completed": true,
+          "completion_policy": "target_success",
+          "target_success_count": 400,
+          "initial_candidate_count": 400,
+          "max_attempt_factor": 1.5,
+          "max_attempt_count": 600,
+          "attempt_count": 400,
+          "success_count": 400,
+          "fail_count": 0,
+          "success_ratio_vs_attempts": 1.0,
+          "completion_ratio": 1.0,
+          "used_completion_sampling": false,
+          "successful_points_strictly_uniform": true
+        },
+        "split": {
+          "train_size": 280,
+          "val_size": 60,
+          "test_size": 60,
+          "train_ratio": 0.7,
+          "val_ratio": 0.15,
+          "test_ratio": 0.15
+        },
+        "integration": {
+          "n_steps": 1800,
+          "step_size": 0.005,
+          "lambda_max": 8.995000000000001
+        },
+        "vary_params_order": [
+          "Q"
+        ],
+        "astrophysical_warnings": []
+      },
+      "Q_min": 1.6007,
+      "Q_max": 2.9993,
+      "Q_count": 400,
+      "lambda_min": 0.0,
+      "lambda_max": 8.995000000000001,
+      "T": 1800,
+      "delta_lambda_min": 0.004999999999999005,
+      "delta_lambda_max": 0.005000000000000782,
+      "split_q_sha256": {
+        "train": "eb54087448997fc9807c0c5948408ca3eb8e933e93ea9ddfc6aaaec0a04f9031",
+        "val": "126fac10ba97f5b6efb70bc5c550f5006764e0a284a2cee31cdeffdaa9e89984",
+        "test": "d396c2ccd60ccb7a26bdb258d7a347590d39342cdd137410bea52b25cdce320a"
+      },
+      "canonical_q_sha256": "cb547ac456e43b347fcb4cfc8747f6bb7fea4fb09d8cb372cb536fff44c6514f"
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t2400": {
+      "meta": {
+        "task_name": "q_1p6007-2p9993_n400_t2400",
+        "task_spec": {
+          "vary_params": [
+            "Q"
+          ],
+          "vary_ranges": {
+            "Q": [
+              1.6007,
+              2.9993
+            ]
+          },
+          "fixed_params": {
+            "M": 1.0,
+            "a": 0.5,
+            "E": 0.95,
+            "Lz": 3.0,
+            "r0": 10.0,
+            "theta0": 1.2,
+            "phi0": 0.0,
+            "sign_r": -1,
+            "sign_th": 1
+          },
+          "sample_shape": [
+            400
+          ],
+          "n_steps": 2400,
+          "step_size": 0.005,
+          "split_ratios": [
+            0.7,
+            0.15,
+            0.15
+          ],
+          "seed": 20260728,
+          "sampling_mode": "grid",
+          "completion_policy": "target_success",
+          "max_attempt_factor": 1.5,
+          "metadata": {
+            "task_name": "q_1p6007-2p9993_n400_t2400",
+            "orbit_solver": "second_order_rk4",
+            "orbit_solver_version": "v1",
+            "dataset_max_radial_constraint_residual": 3.720015726571546e-07,
+            "dataset_max_polar_constraint_residual": 6.241748451429885e-09,
+            "generation": {
+              "completion_policy": "target_success",
+              "target_success_count": 400,
+              "initial_candidate_count": 400,
+              "max_attempt_factor": 1.5,
+              "max_attempt_count": 600,
+              "attempt_count": 400,
+              "success_count": 400,
+              "fail_count": 0,
+              "completed": true,
+              "used_completion_sampling": false,
+              "initial_sampling_mode": "grid",
+              "completion_sampling_mode": null,
+              "successful_points_strictly_uniform": true,
+              "data_seed": 20260728
+            }
+          }
+        },
+        "config_tag": "cfg1",
+        "generation_status": {
+          "completed": true,
+          "completion_policy": "target_success",
+          "target_success_count": 400,
+          "initial_candidate_count": 400,
+          "max_attempt_factor": 1.5,
+          "max_attempt_count": 600,
+          "attempt_count": 400,
+          "success_count": 400,
+          "fail_count": 0,
+          "success_ratio_vs_attempts": 1.0,
+          "completion_ratio": 1.0,
+          "used_completion_sampling": false,
+          "successful_points_strictly_uniform": true
+        },
+        "split": {
+          "train_size": 280,
+          "val_size": 60,
+          "test_size": 60,
+          "train_ratio": 0.7,
+          "val_ratio": 0.15,
+          "test_ratio": 0.15
+        },
+        "integration": {
+          "n_steps": 2400,
+          "step_size": 0.005,
+          "lambda_max": 11.995000000000001
+        },
+        "vary_params_order": [
+          "Q"
+        ],
+        "astrophysical_warnings": []
+      },
+      "Q_min": 1.6007,
+      "Q_max": 2.9993,
+      "Q_count": 400,
+      "lambda_min": 0.0,
+      "lambda_max": 11.995000000000001,
+      "T": 2400,
+      "delta_lambda_min": 0.004999999999999005,
+      "delta_lambda_max": 0.005000000000000782,
+      "split_q_sha256": {
+        "train": "eb54087448997fc9807c0c5948408ca3eb8e933e93ea9ddfc6aaaec0a04f9031",
+        "val": "126fac10ba97f5b6efb70bc5c550f5006764e0a284a2cee31cdeffdaa9e89984",
+        "test": "d396c2ccd60ccb7a26bdb258d7a347590d39342cdd137410bea52b25cdce320a"
+      },
+      "canonical_q_sha256": "cb547ac456e43b347fcb4cfc8747f6bb7fea4fb09d8cb372cb536fff44c6514f"
+    }
+  },
+  "checkpoint_metadata": {
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/checkpoints/best_model.pt": {
+      "keys": [
+        "epoch",
+        "best_val_mse",
+        "model_state_dict",
+        "optimizer_state_dict",
+        "config"
+      ],
+      "epoch": 500,
+      "best_val_loss": null,
+      "best_val_score": null,
+      "config": {
+        "schema_version": "1.0",
+        "run_type": "training",
+        "experiment_family": "kerr_fno",
+        "model_family": "fno",
+        "task_name": "q_1p6-3_n2000_t1200",
+        "task_names": [
+          "q_1p6-3_n2000_t1200"
+        ],
+        "cfg_param_name": null,
+        "model_name": "fno2d_m16x32_w64_d4_e500",
+        "model_type": "fno2d",
+        "operator_axes": [
+          "Q",
+          "lambda"
+        ],
+        "spatial_dimension": 2,
+        "device": "cuda",
+        "training_seed": 27,
+        "data_seeds": {
+          "q_1p6-3_n2000_t1200": 10
+        },
+        "generation_statuses": {
+          "q_1p6-3_n2000_t1200": {
+            "completed": true,
+            "completion_policy": "target_success",
+            "target_success_count": 2000,
+            "initial_candidate_count": 2000,
+            "max_attempt_factor": 1.5,
+            "max_attempt_count": 3000,
+            "attempt_count": 2000,
+            "success_count": 2000,
+            "fail_count": 0,
+            "success_ratio_vs_attempts": 1.0,
+            "completion_ratio": 1.0,
+            "used_completion_sampling": false,
+            "successful_points_strictly_uniform": true,
+            "status_source": "meta.json"
+          }
+        },
+        "name_tags": [],
+        "epochs": 500,
+        "batch_size": 1,
+        "lr": 0.001,
+        "weight_decay": 0.0001,
+        "scheduler_gamma": 0.995,
+        "print_every": 10,
+        "normalization": "standard",
+        "target_transform": "raw",
+        "lambda_reference_index": 0,
+        "num_parameters": 16802755,
+        "model_config": {
+          "model_type": "fno2d",
+          "in_dim": 2,
+          "out_dim": 3,
+          "modes1": 16,
+          "modes2": 32,
+          "width": 64,
+          "depth": 4,
+          "hidden_dim": 128,
+          "activation": "gelu"
+        },
+        "dataset_summary": {
+          "task_name": "q_1p6-3_n2000_t1200",
+          "task_names": [
+            "q_1p6-3_n2000_t1200"
+          ],
+          "cfg_param_name": null,
+          "param_name": "Q",
+          "vary_params_order": [
+            "Q"
+          ],
+          "data_seeds": {
+            "q_1p6-3_n2000_t1200": 10
+          },
+          "generation_statuses": {
+            "q_1p6-3_n2000_t1200": {
+              "completed": true,
+              "completion_policy": "target_success",
+              "target_success_count": 2000,
+              "initial_candidate_count": 2000,
+              "max_attempt_factor": 1.5,
+              "max_attempt_count": 3000,
+              "attempt_count": 2000,
+              "success_count": 2000,
+              "fail_count": 0,
+              "success_ratio_vs_attempts": 1.0,
+              "completion_ratio": 1.0,
+              "used_completion_sampling": false,
+              "successful_points_strictly_uniform": true,
+              "status_source": "meta.json"
+            }
+          },
+          "normalization": "standard",
+          "normalization_stats": {
+            "method": "standard",
+            "x_mean": [
+              2.299506187438965,
+              2.996041774749756
+            ],
+            "x_std": [
+              0.40356874465942383,
+              1.7314223051071167
+            ],
+            "y_mean": [
+              0.43493300676345825,
+              0.6949756741523743,
+              0.06759584695100784
+            ],
+            "y_std": [
+              5.458001136779785,
+              5.927692413330078,
+              2.7061917781829834
+            ],
+            "eps": 1e-08
+          },
+          "target_transform": "raw",
+          "target_transform_config": {
+            "mode": "raw",
+            "lambda_reference_index": 0
+          },
+          "train": {
+            "x_2d_shape": [
+              1,
+              1400,
+              1200,
+              2
+            ],
+            "y_2d_shape": [
+              1,
+              1400,
+              1200,
+              3
+            ],
+            "param_name": "Q",
+            "param_grid_shape": [
+              1400
+            ],
+            "lambda_grid_shape": [
+              1200
+            ],
+            "num_fields": 1,
+            "num_param": 1400,
+            "num_lambda": 1200,
+            "in_dim": 2,
+            "out_dim": 3,
+            "input_channel_names": [
+              "Q",
+              "lambda"
+            ],
+            "cfg_param_names": null,
+            "param_min": 1.6021010875701904,
+            "param_max": 3.0,
+            "lambda_min": 0.0,
+            "lambda_max": 5.994999885559082
+          },
+          "val": {
+            "x_2d_shape": [
+              1,
+              300,
+              1200,
+              2
+            ],
+            "y_2d_shape": [
+              1,
+              300,
+              1200,
+              3
+            ],
+            "param_name": "Q",
+            "param_grid_shape": [
+              300
+            ],
+            "lambda_grid_shape": [
+              1200
+            ],
+            "num_fields": 1,
+            "num_param": 300,
+            "num_lambda": 1200,
+            "in_dim": 2,
+            "out_dim": 3,
+            "input_channel_names": [
+              "Q",
+              "lambda"
+            ],
+            "cfg_param_names": null,
+            "param_min": 1.600000023841858,
+            "param_max": 2.997899055480957,
+            "lambda_min": 0.0,
+            "lambda_max": 5.994999885559082
+          },
+          "test": {
+            "x_2d_shape": [
+              1,
+              300,
+              1200,
+              2
+            ],
+            "y_2d_shape": [
+              1,
+              300,
+              1200,
+              3
+            ],
+            "param_name": "Q",
+            "param_grid_shape": [
+              300
+            ],
+            "lambda_grid_shape": [
+              1200
+            ],
+            "num_fields": 1,
+            "num_param": 300,
+            "num_lambda": 1200,
+            "in_dim": 2,
+            "out_dim": 3,
+            "input_channel_names": [
+              "Q",
+              "lambda"
+            ],
+            "cfg_param_names": null,
+            "param_min": 1.6007003784179688,
+            "param_max": 2.9943971633911133,
+            "lambda_min": 0.0,
+            "lambda_max": 5.994999885559082
+          }
+        }
+      },
+      "model_config": null,
+      "anchor_buffers": {}
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200/checkpoints/best_model.pt": {
+      "keys": [
+        "epoch",
+        "best_val_mse",
+        "model_state_dict",
+        "optimizer_state_dict",
+        "config"
+      ],
+      "epoch": 500,
+      "best_val_loss": null,
+      "best_val_score": null,
+      "config": {
+        "experiment_type": "r1_variable_length_training",
+        "repair_class": "TRAINING_PROTOCOL_REPAIR",
+        "task_name": "q_1p6-3_n2000_t1200",
+        "source_task": "q_1p6-3_n2000_t1200",
+        "model_name": "fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200",
+        "run_name": "fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200",
+        "model_type": "fno2d",
+        "normalization": "standard",
+        "target_transform": "raw",
+        "lambda_reference_index": 0,
+        "model_config": {
+          "model_type": "fno2d",
+          "in_dim": 2,
+          "out_dim": 3,
+          "modes1": 16,
+          "modes2": 32,
+          "width": 64,
+          "depth": 4,
+          "hidden_dim": 128,
+          "activation": "gelu"
+        },
+        "optimizer_config": {
+          "name": "AdamW",
+          "lr": 0.001,
+          "weight_decay": 0.0001
+        },
+        "scheduler_config": {
+          "name": "ExponentialLR",
+          "gamma": 0.995,
+          "steps_per_optimizer_step": 1
+        },
+        "training_seed": 27,
+        "epochs": 500,
+        "source_max_length": 1200,
+        "train_lengths": [
+          600,
+          800,
+          1000,
+          1200
+        ],
+        "validation_lengths": [
+          700,
+          900,
+          1100,
+          1200
+        ],
+        "max_training_length": 1200,
+        "normalization_fit_length": 1200,
+        "normalization_source": "full_source_train_field",
+        "architecture_unchanged": true,
+        "coordinate_representation": [
+          "Q",
+          "lambda"
+        ],
+        "augmentation_type": "variable-domain_prefix_augmentation",
+        "prefix_views_are_independent_trajectories": false,
+        "equal_length_loss_weighting": true,
+        "optimizer_step_semantics": "one_step_after_all_train_lengths",
+        "optimizer_steps": 500,
+        "forward_backward_passes_per_step": 4,
+        "optimizer_update_matched": true,
+        "compute_matched": false,
+        "deterministic_length_order": "ascending",
+        "mixed_width_batching": false,
+        "zero_padding": false,
+        "masking": false,
+        "consistency_loss": false,
+        "domain_length_channel": false,
+        "relative_coordinate": false,
+        "physical_frequency_conditioning": false,
+        "formal_long_test_lengths_excluded_from_training": true,
+        "unseen_domain_evaluation": "separate_formal_evaluator",
+        "checkpoint_selection": {
+          "split": "validation_Q_only",
+          "metric": "equal_mean_normalized_space_mse",
+          "lengths": [
+            700,
+            900,
+            1100,
+            1200
+          ],
+          "formal_long_lengths_used": false
+        },
+        "dataset_summary": {
+          "source_task": "q_1p6-3_n2000_t1200",
+          "param_name": "Q",
+          "input_channel_names": [
+            "Q",
+            "lambda"
+          ],
+          "normalization_stats": {
+            "method": "standard",
+            "x_mean": [
+              2.299506187438965,
+              2.996041774749756
+            ],
+            "x_std": [
+              0.40356874465942383,
+              1.7314223051071167
+            ],
+            "y_mean": [
+              0.43493300676345825,
+              0.6949756741523743,
+              0.06759584695100784
+            ],
+            "y_std": [
+              5.458001136779785,
+              5.927692413330078,
+              2.7061917781829834
+            ],
+            "eps": 1e-08
+          },
+          "target_transform_config": {
+            "mode": "raw",
+            "lambda_reference_index": 0
+          },
+          "canonical_q_order": "stable_ascending",
+          "q_split_identity_unit": "trajectory",
+          "data_seed": 10
+        },
+        "runtime": {
+          "python": "3.10.20",
+          "numpy": "2.0.1",
+          "pytorch": "2.5.1",
+          "cuda_available": true,
+          "device": "cuda",
+          "git_commit": "bc026bbc80787ea804dc3e722711fab7075f4eaf"
+        },
+        "model_parameter_count": 16802755
+      },
+      "model_config": null,
+      "anchor_buffers": {}
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200/checkpoints/best_model.pt": {
+      "keys": [
+        "epoch",
+        "best_val_mse",
+        "model_state_dict",
+        "optimizer_state_dict",
+        "config"
+      ],
+      "epoch": 118,
+      "best_val_loss": null,
+      "best_val_score": null,
+      "config": {
+        "experiment_type": "r2_domain_conditioned_coordinate_training",
+        "repair_class": "INPUT_REPRESENTATION_REPAIR",
+        "task_name": "q_1p6-3_n2000_t1200",
+        "source_task": "q_1p6-3_n2000_t1200",
+        "model_name": "fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200",
+        "run_name": "fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200",
+        "model_type": "fno2d",
+        "normalization": "standard",
+        "target_transform": "raw",
+        "lambda_reference_index": 0,
+        "model_config": {
+          "model_type": "fno2d",
+          "in_dim": 3,
+          "out_dim": 3,
+          "modes1": 16,
+          "modes2": 32,
+          "width": 64,
+          "depth": 4,
+          "hidden_dim": 128,
+          "activation": "gelu"
+        },
+        "optimizer_config": {
+          "name": "AdamW",
+          "lr": 0.001,
+          "weight_decay": 0.0001
+        },
+        "scheduler_config": {
+          "name": "ExponentialLR",
+          "gamma": 0.995,
+          "steps_per_optimizer_step": 1
+        },
+        "training_seed": 27,
+        "epochs": 500,
+        "source_max_length": 1200,
+        "train_lengths": [
+          600,
+          800,
+          1000,
+          1200
+        ],
+        "validation_lengths": [
+          700,
+          900,
+          1100,
+          1200
+        ],
+        "max_training_length": 1200,
+        "normalization_fit_length": 1200,
+        "normalization_source": "full_source_train_field_for_Q_and_target",
+        "input_normalization_policy": {
+          "Q": "standard_full_source_train_field",
+          "s": "identity_dimensionless",
+          "ell": "identity_dimensionless_L_over_L_ref",
+          "target": "standard_full_source_train_field",
+          "fit_uses_validation_lengths": false,
+          "fit_uses_formal_long_lengths": false
+        },
+        "output_normalization_policy": "standard_full_source_train_field",
+        "coordinate_representation": [
+          "Q",
+          "s",
+          "ell"
+        ],
+        "input_channel_names": [
+          "Q",
+          "s",
+          "ell"
+        ],
+        "relative_coordinate_definition": "s = lambda / L",
+        "domain_length_definition": "L = N * delta_lambda (DFT logical period)",
+        "relative_coordinate_final_sample": "(N - 1) / N for lambda_grid[0] = 0",
+        "L_ref": 6.0,
+        "ell_definition": "L / L_ref",
+        "absolute_lambda_input": false,
+        "architecture_base": "fno2d",
+        "architecture_unchanged_after_input_projection": true,
+        "modes1": 16,
+        "modes2": 32,
+        "width": 64,
+        "depth": 4,
+        "spectral_parameterization_unchanged": true,
+        "discrete_mode_index_weights": true,
+        "physical_frequency_conditioning": false,
+        "frequency_interpolation": false,
+        "dynamic_spectral_weights": false,
+        "augmentation_type": "variable-domain_prefix_augmentation",
+        "prefix_views_are_independent_trajectories": false,
+        "equal_length_loss_weighting": true,
+        "optimizer_step_semantics": "one_step_after_all_train_lengths",
+        "optimizer_steps": 500,
+        "forward_backward_passes_per_step": 4,
+        "optimizer_update_matched": true,
+        "compute_matched": false,
+        "deterministic_length_order": "ascending",
+        "mixed_width_batching": false,
+        "zero_padding": false,
+        "masking": false,
+        "consistency_loss": false,
+        "formal_long_test_lengths_excluded_from_training": true,
+        "unseen_domain_evaluation": "separate_r2_aware_formal_evaluator_required",
+        "existing_formal_a1_evaluator_compatible": false,
+        "checkpoint_selection": {
+          "split": "validation_Q_only",
+          "metric": "equal_mean_normalized_space_mse",
+          "lengths": [
+            700,
+            900,
+            1100,
+            1200
+          ],
+          "formal_long_lengths_used": false
+        },
+        "dataset_summary": {
+          "source_task": "q_1p6-3_n2000_t1200",
+          "param_name": "Q",
+          "input_channel_names": [
+            "Q",
+            "s",
+            "ell"
+          ],
+          "normalization_stats": {
+            "method": "standard",
+            "x_mean": [
+              2.2996666431427,
+              0.0,
+              0.0
+            ],
+            "x_std": [
+              0.40362977981567383,
+              1.0,
+              1.0
+            ],
+            "y_mean": [
+              0.43493300676345825,
+              0.6949756741523743,
+              0.06759584695100784
+            ],
+            "y_std": [
+              5.458001136779785,
+              5.927692413330078,
+              2.7061917781829834
+            ],
+            "eps": 1e-08
+          },
+          "target_transform_config": {
+            "mode": "raw",
+            "lambda_reference_index": 0
+          },
+          "canonical_q_order": "stable_ascending",
+          "q_split_identity_unit": "trajectory",
+          "data_seed": 10
+        },
+        "runtime": {
+          "python": "3.10.20",
+          "numpy": "2.0.1",
+          "pytorch": "2.5.1",
+          "cuda_available": true,
+          "device": "cuda",
+          "git_commit": "ff8a20c67a3c28a1afae0cd171eadb47afde973d"
+        },
+        "model_parameter_count": 16802819
+      },
+      "model_config": null,
+      "anchor_buffers": {}
+    },
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200/checkpoints/best_model.pt": {
+      "keys": [
+        "epoch",
+        "best_val_mse",
+        "model_state_dict",
+        "optimizer_state_dict",
+        "config"
+      ],
+      "epoch": 77,
+      "best_val_loss": null,
+      "best_val_score": null,
+      "config": {
+        "experiment_type": "r3_physical_frequency_spectral_training",
+        "repair_class": "SPECTRAL_PARAMETERIZATION_REDESIGN",
+        "task_name": "q_1p6-3_n2000_t1200",
+        "source_task": "q_1p6-3_n2000_t1200",
+        "model_name": "fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200",
+        "run_name": "fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200",
+        "model_type": "fno2d_physical_frequency",
+        "normalization": "standard",
+        "target_transform": "raw",
+        "lambda_reference_index": 0,
+        "model_config": {
+          "model_type": "fno2d_physical_frequency",
+          "in_dim": 3,
+          "out_dim": 3,
+          "modes1": 16,
+          "modes2": 32,
+          "width": 64,
+          "depth": 4,
+          "hidden_dim": 128,
+          "activation": "gelu",
+          "delta_lambda": 0.005,
+          "anchor_frequencies": [
+            0.0,
+            0.3333333432674408,
+            0.6666666865348816,
+            1.0,
+            1.3333333730697632,
+            1.6666666269302368,
+            2.0,
+            2.3333332538604736,
+            2.6666667461395264,
+            3.0,
+            3.3333332538604736,
+            3.6666667461395264,
+            4.0,
+            4.333333492279053,
+            4.666666507720947,
+            5.0,
+            5.333333492279053,
+            5.666666507720947,
+            6.0,
+            6.333333492279053,
+            6.666666507720947,
+            7.0,
+            7.333333492279053,
+            7.666666507720947,
+            8.0,
+            8.333333015441895,
+            8.666666984558105,
+            9.0,
+            9.333333015441895,
+            9.666666984558105,
+            10.0,
+            10.333333015441895
+          ]
+        },
+        "optimizer_config": {
+          "name": "AdamW",
+          "lr": 0.001,
+          "weight_decay": 0.0001
+        },
+        "scheduler_config": {
+          "name": "ExponentialLR",
+          "gamma": 0.995,
+          "steps_per_optimizer_step": 1
+        },
+        "training_seed": 27,
+        "epochs": 500,
+        "source_max_length": 1200,
+        "train_lengths": [
+          600,
+          800,
+          1000,
+          1200
+        ],
+        "validation_lengths": [
+          700,
+          900,
+          1100,
+          1200
+        ],
+        "max_training_length": 1200,
+        "normalization_fit_length": 1200,
+        "normalization_source": "full_source_train_field_for_Q_and_target",
+        "input_normalization_policy": {
+          "Q": "standard_full_source_train_field",
+          "s": "identity_dimensionless",
+          "ell": "identity_dimensionless_L_over_L_ref",
+          "target": "standard_full_source_train_field",
+          "fit_uses_validation_lengths": false,
+          "fit_uses_formal_long_lengths": false
+        },
+        "output_normalization_policy": "standard_full_source_train_field",
+        "coordinate_representation": [
+          "Q",
+          "s",
+          "ell"
+        ],
+        "input_channel_names": [
+          "Q",
+          "s",
+          "ell"
+        ],
+        "relative_coordinate_definition": "s = lambda / L",
+        "domain_length_definition": "L = N * delta_lambda (DFT logical period)",
+        "L_ref": 6.0,
+        "ell_definition": "L / L_ref",
+        "absolute_lambda_input": false,
+        "modes1": 16,
+        "modes2": 32,
+        "width": 64,
+        "depth": 4,
+        "hidden_dim": 128,
+        "activation": "gelu",
+        "spectral_parameterization": "physical_frequency_anchor_interpolation",
+        "physical_frequency_formula": "k / (N * delta_lambda)",
+        "num_lambda_frequency_anchors": 32,
+        "anchor_frequency_min": 0.0,
+        "anchor_frequency_max": 10.333333333333334,
+        "anchor_frequency_values": [
+          0.0,
+          0.33333333333333337,
+          0.6666666666666667,
+          1.0,
+          1.3333333333333335,
+          1.666666666666667,
+          2.0,
+          2.3333333333333335,
+          2.666666666666667,
+          3.0000000000000004,
+          3.333333333333334,
+          3.666666666666667,
+          4.0,
+          4.333333333333334,
+          4.666666666666667,
+          5.000000000000001,
+          5.333333333333334,
+          5.666666666666667,
+          6.000000000000001,
+          6.333333333333334,
+          6.666666666666668,
+          7.000000000000001,
+          7.333333333333334,
+          7.666666666666668,
+          8.0,
+          8.333333333333334,
+          8.666666666666668,
+          9.000000000000002,
+          9.333333333333334,
+          9.666666666666668,
+          10.000000000000002,
+          10.333333333333334
+        ],
+        "anchor_support_source": "training_lengths_only",
+        "complex_interpolation": "cartesian_linear",
+        "runtime_retained_mode_policy": "fixed_discrete_indices_k_0_to_modes2_minus_1",
+        "physical_frequency_conditioning": true,
+        "discrete_mode_index_weights": false,
+        "physical_cutoff_repair": false,
+        "physical_bandwidth_shrinkage_repaired": false,
+        "global_fft_structure_unchanged": true,
+        "frequency_interpolation": true,
+        "dynamic_spectral_weights": false,
+        "hypernetwork": false,
+        "augmentation_type": "variable-domain_prefix_augmentation",
+        "prefix_views_are_independent_trajectories": false,
+        "equal_length_loss_weighting": true,
+        "optimizer_step_semantics": "one_step_after_all_train_lengths",
+        "optimizer_steps": 500,
+        "forward_backward_passes_per_step": 4,
+        "optimizer_update_matched": true,
+        "compute_matched": false,
+        "mixed_width_batching": false,
+        "zero_padding": false,
+        "masking": false,
+        "consistency_loss": false,
+        "formal_long_test_lengths_excluded_from_training": true,
+        "checkpoint_selection": {
+          "split": "validation_Q_only",
+          "metric": "equal_mean_normalized_space_mse",
+          "lengths": [
+            700,
+            900,
+            1100,
+            1200
+          ],
+          "formal_long_lengths_used": false
+        },
+        "dataset_summary": {
+          "source_task": "q_1p6-3_n2000_t1200",
+          "param_name": "Q",
+          "input_channel_names": [
+            "Q",
+            "s",
+            "ell"
+          ],
+          "normalization_stats": {
+            "method": "standard",
+            "x_mean": [
+              2.2996666431427,
+              0.0,
+              0.0
+            ],
+            "x_std": [
+              0.40362977981567383,
+              1.0,
+              1.0
+            ],
+            "y_mean": [
+              0.43493300676345825,
+              0.6949756741523743,
+              0.06759584695100784
+            ],
+            "y_std": [
+              5.458001136779785,
+              5.927692413330078,
+              2.7061917781829834
+            ],
+            "eps": 1e-08
+          },
+          "target_transform_config": {
+            "mode": "raw",
+            "lambda_reference_index": 0
+          },
+          "canonical_q_order": "stable_ascending",
+          "q_split_identity_unit": "trajectory",
+          "data_seed": 10
+        },
+        "runtime": {
+          "python": "3.10.20",
+          "numpy": "2.0.1",
+          "pytorch": "2.5.1",
+          "cuda_available": true,
+          "device": "cuda",
+          "git_commit": "73251bdf210c9078047287af7a54dad4b73e7a84"
+        },
+        "model_parameter_count": 16802819,
+        "baseline_discrete_lambda_spectral_parameter_count": 4194304
+      },
+      "model_config": null,
+      "anchor_buffers": {
+        "anchor_frequencies": {
+          "dtype": "torch.float64",
+          "values": [
+            0.0,
+            0.33333333333333337,
+            0.6666666666666667,
+            1.0,
+            1.3333333333333335,
+            1.666666666666667,
+            2.0,
+            2.3333333333333335,
+            2.666666666666667,
+            3.0000000000000004,
+            3.333333333333334,
+            3.666666666666667,
+            4.0,
+            4.333333333333334,
+            4.666666666666667,
+            5.000000000000001,
+            5.333333333333334,
+            5.666666666666667,
+            6.000000000000001,
+            6.333333333333334,
+            6.666666666666668,
+            7.000000000000001,
+            7.333333333333334,
+            7.666666666666668,
+            8.0,
+            8.333333333333334,
+            8.666666666666668,
+            9.000000000000002,
+            9.333333333333334,
+            9.666666666666668,
+            10.000000000000002,
+            10.333333333333334
+          ]
+        },
+        "blocks.0.spectral_conv.anchor_frequencies": {
+          "dtype": "torch.float64",
+          "values": [
+            0.0,
+            0.33333333333333337,
+            0.6666666666666667,
+            1.0,
+            1.3333333333333335,
+            1.666666666666667,
+            2.0,
+            2.3333333333333335,
+            2.666666666666667,
+            3.0000000000000004,
+            3.333333333333334,
+            3.666666666666667,
+            4.0,
+            4.333333333333334,
+            4.666666666666667,
+            5.000000000000001,
+            5.333333333333334,
+            5.666666666666667,
+            6.000000000000001,
+            6.333333333333334,
+            6.666666666666668,
+            7.000000000000001,
+            7.333333333333334,
+            7.666666666666668,
+            8.0,
+            8.333333333333334,
+            8.666666666666668,
+            9.000000000000002,
+            9.333333333333334,
+            9.666666666666668,
+            10.000000000000002,
+            10.333333333333334
+          ]
+        },
+        "blocks.1.spectral_conv.anchor_frequencies": {
+          "dtype": "torch.float64",
+          "values": [
+            0.0,
+            0.33333333333333337,
+            0.6666666666666667,
+            1.0,
+            1.3333333333333335,
+            1.666666666666667,
+            2.0,
+            2.3333333333333335,
+            2.666666666666667,
+            3.0000000000000004,
+            3.333333333333334,
+            3.666666666666667,
+            4.0,
+            4.333333333333334,
+            4.666666666666667,
+            5.000000000000001,
+            5.333333333333334,
+            5.666666666666667,
+            6.000000000000001,
+            6.333333333333334,
+            6.666666666666668,
+            7.000000000000001,
+            7.333333333333334,
+            7.666666666666668,
+            8.0,
+            8.333333333333334,
+            8.666666666666668,
+            9.000000000000002,
+            9.333333333333334,
+            9.666666666666668,
+            10.000000000000002,
+            10.333333333333334
+          ]
+        },
+        "blocks.2.spectral_conv.anchor_frequencies": {
+          "dtype": "torch.float64",
+          "values": [
+            0.0,
+            0.33333333333333337,
+            0.6666666666666667,
+            1.0,
+            1.3333333333333335,
+            1.666666666666667,
+            2.0,
+            2.3333333333333335,
+            2.666666666666667,
+            3.0000000000000004,
+            3.333333333333334,
+            3.666666666666667,
+            4.0,
+            4.333333333333334,
+            4.666666666666667,
+            5.000000000000001,
+            5.333333333333334,
+            5.666666666666667,
+            6.000000000000001,
+            6.333333333333334,
+            6.666666666666668,
+            7.000000000000001,
+            7.333333333333334,
+            7.666666666666668,
+            8.0,
+            8.333333333333334,
+            8.666666666666668,
+            9.000000000000002,
+            9.333333333333334,
+            9.666666666666668,
+            10.000000000000002,
+            10.333333333333334
+          ]
+        },
+        "blocks.3.spectral_conv.anchor_frequencies": {
+          "dtype": "torch.float64",
+          "values": [
+            0.0,
+            0.33333333333333337,
+            0.6666666666666667,
+            1.0,
+            1.3333333333333335,
+            1.666666666666667,
+            2.0,
+            2.3333333333333335,
+            2.666666666666667,
+            3.0000000000000004,
+            3.333333333333334,
+            3.666666666666667,
+            4.0,
+            4.333333333333334,
+            4.666666666666667,
+            5.000000000000001,
+            5.333333333333334,
+            5.666666666666667,
+            6.000000000000001,
+            6.333333333333334,
+            6.666666666666668,
+            7.000000000000001,
+            7.333333333333334,
+            7.666666666666668,
+            8.0,
+            8.333333333333334,
+            8.666666666666668,
+            9.000000000000002,
+            9.333333333333334,
+            9.666666666666668,
+            10.000000000000002,
+            10.333333333333334
+          ]
+        }
+      }
+    }
+  },
+  "source_provenance": {
+    "FNO_KERR_CURRENT_STATE.md": {
+      "tracked": true,
+      "latest_commit": "594f0eaf331b0c3a8b4c6342f5c554ab64c3a2a1",
+      "sha256": "de33904f76a3060443913a1b75c857143525a96e007489fc5174ed21c27b0f64"
+    },
+    "SERVER_DATA_EXPERIMENT_REGISTRY.md": {
+      "tracked": true,
+      "latest_commit": "594f0eaf331b0c3a8b4c6342f5c554ab64c3a2a1",
+      "sha256": "7366056603c4a2a52edb69445f9ff3052c6f91cf99c79529dd7040f77d13703b"
+    },
+    "FNO_KERR_REASONING_LOG.md": {
+      "tracked": true,
+      "latest_commit": "594f0eaf331b0c3a8b4c6342f5c554ab64c3a2a1",
+      "sha256": "2077b626d5744b6a08b1ccabe0ea6baf61d826fa3ee9626ef30ce0cea4e84692"
+    },
+    "FNO_KERR_EXPERIMENT_PLAN.md": {
+      "tracked": true,
+      "latest_commit": "3335b3b197cf8b7d7a302d900a51af37a25d2144",
+      "sha256": "a87bb1ce7b3ecd880e50efd7db17d8112a7ef888d145636919b8d1e6ee42577c"
+    },
+    "scripts/generate_dataset.py": {
+      "tracked": true,
+      "latest_commit": "da009847ff64be1cdb404120ce8c05758f6b297e",
+      "sha256": "4e1b1b2715ba91fbfc3a9b2c47ece35d1e7f9f41281ac2e094549d23add33dc8"
+    },
+    "scripts/generate_length_extrapolation_datasets.sh": {
+      "tracked": true,
+      "latest_commit": "eecef022de4fb72c87255762b8cb0a6457a87667",
+      "sha256": "6ebf75d0b65fcccce6f3ec24b7b47aa8b9970af6fba8357240cd1b1fe6dd4a1a"
+    },
+    "scripts/validate_length_dataset_prefix_identity.py": {
+      "tracked": true,
+      "latest_commit": "8a6ee0bc8c08399e099da86e80fe104badf39622",
+      "sha256": "f4b6e02ff529e87436332dea676d06f7542301bc0a79e5ea54231fbfcc11ebc5"
+    },
+    "scripts/evaluate_length_extrapolation_2d.py": {
+      "tracked": true,
+      "latest_commit": "eecef022de4fb72c87255762b8cb0a6457a87667",
+      "sha256": "679318d2b57909f462e4cc556794c9320ed03845388f43d4cb625bf3d39d40fa"
+    },
+    "scripts/compare_length_prefix_predictions_2d.py": {
+      "tracked": true,
+      "latest_commit": "eecef022de4fb72c87255762b8cb0a6457a87667",
+      "sha256": "0ee74274cf65c55352218a9684164209b5ab0dba39d2db9545d625a260471501"
+    },
+    "scripts/evaluate_length_change_prediction_consistency_2d.py": {
+      "tracked": true,
+      "latest_commit": "a68dc2c24a42a51fe675d5a0e693b1bb19d2130a",
+      "sha256": "6050942c7dce28e147614b6ae45c90e7a185f8f0a924cfc50aec3a0109d3a5ee"
+    },
+    "scripts/evaluate_formal_length_extrapolation_2d.py": {
+      "tracked": true,
+      "latest_commit": "d6bb75e9ce6572c36706b8cffb7792b5c7d0a683",
+      "sha256": "cb96a639e2e4ace97014178b01f00c45d7d5f7cec2098ba60d5e36e15698a537"
+    },
+    "scripts/analyze_raw_kerr_spectral_energy.py": {
+      "tracked": true,
+      "latest_commit": "718958204d84d787c6615f0748f0e9f5c30539f3",
+      "sha256": "fe6c752bef9b15f1721a04218e11a17e39bde82ea747cd420de95dff285d6e08"
+    },
+    "scripts/diagnose_fno2d_internal_length_sensitivity.py": {
+      "tracked": true,
+      "latest_commit": "f4a8573754bb59b686d5685f4c453583817a15a0",
+      "sha256": "914eabf0d4ee12f5c7760f14abaa2b844e244bb83fc303ce9b268a33328cc7ab"
+    },
+    "scripts/diagnose_lambda_coordinate_clamp_effect_2d.py": {
+      "tracked": true,
+      "latest_commit": "b3c78854b07ee87fd66be2e4ab95675e0e5ada3c",
+      "sha256": "8bef61e655092c6828ca1b61d1f1d35d9ef825b3077a9ea36e5438fc15d208a7"
+    },
+    "scripts/train_fno2d_variable_length_r1.py": {
+      "tracked": true,
+      "latest_commit": "bc026bbc80787ea804dc3e722711fab7075f4eaf",
+      "sha256": "21db5ad709037cd5f0c08017c53ab2380884400895c7e28f538f4415853996d9"
+    },
+    "scripts/evaluate_r1_validation_length_response_2d.py": {
+      "tracked": true,
+      "latest_commit": "7ab27e43c935b09fdf958488e3fff4754ce78f8a",
+      "sha256": "fac32b5c46bb512027281e5cb82207744df9fad8414146603c684bbc7dac5b80"
+    },
+    "scripts/train_fno2d_domain_conditioned_r2.py": {
+      "tracked": true,
+      "latest_commit": "ff8a20c67a3c28a1afae0cd171eadb47afde973d",
+      "sha256": "c40fdc02b144b10ec8bc6440b1be4cd8e6175efa64aa850e8df313d30157a9ea"
+    },
+    "scripts/evaluate_formal_length_extrapolation_r2_2d.py": {
+      "tracked": true,
+      "latest_commit": "ff8a20c67a3c28a1afae0cd171eadb47afde973d",
+      "sha256": "363dd1e52aa56fb523ccbcf96610b2fc3dbc0942e28f044074aa897aaec4e2e0"
+    },
+    "scripts/train_fno2d_physical_frequency_r3.py": {
+      "tracked": true,
+      "latest_commit": "73251bdf210c9078047287af7a54dad4b73e7a84",
+      "sha256": "8bc28e32191e24b23c35c65a75cf4d449ea86f86f0dc7cfbfda6ec27c52a1e4d"
+    },
+    "scripts/evaluate_formal_length_extrapolation_r3_2d.py": {
+      "tracked": true,
+      "latest_commit": "10c9394e946c9b0972dde3594072fd270c4cc428",
+      "sha256": "ff998b5056838199bc94017fbb988e8bdd6d0bf1668ee64fc46bfcf118c10d5c"
+    },
+    "scripts/evaluate_r3_validation_length_response_2d.py": {
+      "tracked": true,
+      "latest_commit": "7f1ba64635644efe9b70da7ccca713651ed5f43d",
+      "sha256": "93d3304c71066dbfee9a708674ebff02ac6c72fd42b9509211af15841e4325b6"
+    },
+    "src/models/fno2d/fno2d.py": {
+      "tracked": true,
+      "latest_commit": "2847927b0cac1bace16be26180edd6b2149420cb",
+      "sha256": "2fc2ade699372a59f123d26b4184995edf25559004707effe1aaefeec0fd2940"
+    },
+    "src/models/fno2d/layers2d.py": {
+      "tracked": true,
+      "latest_commit": "2847927b0cac1bace16be26180edd6b2149420cb",
+      "sha256": "77c6cf535beb9386ca5f0284de393f645a74c72d1333ad8c09ace895f5236134"
+    },
+    "src/models/fno2d/fno2d_physical_frequency.py": {
+      "tracked": true,
+      "latest_commit": "10c9394e946c9b0972dde3594072fd270c4cc428",
+      "sha256": "11b6da8864da525f9e37b639caf7c45a13196a3a58c2d3be115d1a4b77736b89"
+    },
+    "src/models/fno2d/physical_frequency_layers2d.py": {
+      "tracked": true,
+      "latest_commit": "10c9394e946c9b0972dde3594072fd270c4cc428",
+      "sha256": "c1049542d0ac5a455650c2275a6e797c59ac96a83e975fd6fe8fb88ac7d694cf"
+    },
+    "src/training/fno2d/input_builder_2d.py": {
+      "tracked": true,
+      "latest_commit": "bb6f3a5cdd451d03b2cfd135d043b811d846c783",
+      "sha256": "d3d59f4a3c9fc49f56d49aa952693cb62cd85fbee68fbbf2d11964da8b4a9615"
+    },
+    "src/training/fno2d/dataset_loader_2d.py": {
+      "tracked": true,
+      "latest_commit": "59b54bb72b0130f56bd06bff496b147276b82f33",
+      "sha256": "7f00f5019573b4d4327fe20922aa685b50bb335dae06a8276a6abc9d27ce6442"
+    },
+    "src/training/fno2d/normalization_2d.py": {
+      "tracked": true,
+      "latest_commit": "2847927b0cac1bace16be26180edd6b2149420cb",
+      "sha256": "22a0eabacc087d48c58410a21f705d6bda6f0d585af35f27aad9a11957217b42"
+    },
+    "src/training/fno2d/target_transform_2d.py": {
+      "tracked": true,
+      "latest_commit": "2847927b0cac1bace16be26180edd6b2149420cb",
+      "sha256": "76a56a0d8a5166a1bf4009ede5a8e382e1e2196d5125b141faea97ec6ce84b79"
+    },
+    "src/data_generation/dataset_builder.py": {
+      "tracked": true,
+      "latest_commit": "5d04833d597fa671b288f9400f1ace3a7345802a",
+      "sha256": "5056dd402ab79005d3d410b7d6a2f58a5bcad159e89811cd219563da3133237e"
+    },
+    "src/data_generation/dataset_saver.py": {
+      "tracked": true,
+      "latest_commit": "da009847ff64be1cdb404120ce8c05758f6b297e",
+      "sha256": "6e9a2b8910640ee1d34ce8317dd9bae986e6809095466ed92ebcab9208122f97"
+    },
+    "scripts/train_model_2d.py": {
+      "tracked": true,
+      "latest_commit": "59b54bb72b0130f56bd06bff496b147276b82f33",
+      "sha256": "f9b5fc1b7810fe23435a4372b1999ee9e4f314c5bc125601857169520f04276d"
+    },
+    "scripts/evaluate_common_test_2d.py": {
+      "tracked": true,
+      "latest_commit": "eecef022de4fb72c87255762b8cb0a6457a87667",
+      "sha256": "9f0e245ad7e2705a4cf05983d35292d7b5f9560d3bb53f5946e67fe6cbbeab66"
+    },
+    "scripts/evaluate_plan_b_resolution_generalization_2d.py": {
+      "tracked": true,
+      "latest_commit": "c12123038c165089fc20a7b23aa767ce7c85efa8",
+      "sha256": "ad85646be2147e9771a1aa405a76917a0933150b7d54d6ae0af5772c3d546737"
+    },
+    "src/data_generation/orbit_solver_second_order.py": {
+      "tracked": true,
+      "latest_commit": "5c2e5507276071fd7bdbac282c9e02fbbe2d32b4",
+      "sha256": "f89efd9ce2cd62d3cd377563c550b8dced1203b1becdc5efc67cfe56be01da39"
+    },
+    "src/training/checkpoint.py": {
+      "tracked": true,
+      "latest_commit": "2847927b0cac1bace16be26180edd6b2149420cb",
+      "sha256": "e02561e21edfdac2e73c887aa04dbbe008a469f9982a613c5ffe7628080fcd37"
+    },
+    "src/models/registry_2d.py": {
+      "tracked": true,
+      "latest_commit": "da009847ff64be1cdb404120ce8c05758f6b297e",
+      "sha256": "28f7af89407a1d5869e46e862ede3d1fe809b1b9ab7cc22647d4129adc927c32"
+    }
+  },
+  "hashes": {
+    "/home/shanjinshuo/fno_kerr/kerr_project/FNO_KERR_CURRENT_STATE.md": "de33904f76a3060443913a1b75c857143525a96e007489fc5174ed21c27b0f64",
+    "/home/shanjinshuo/fno_kerr/kerr_project/FNO_KERR_EXPERIMENT_PLAN.md": "a87bb1ce7b3ecd880e50efd7db17d8112a7ef888d145636919b8d1e6ee42577c",
+    "/home/shanjinshuo/fno_kerr/kerr_project/FNO_KERR_REASONING_LOG.md": "2077b626d5744b6a08b1ccabe0ea6baf61d826fa3ee9626ef30ce0cea4e84692",
+    "/home/shanjinshuo/fno_kerr/kerr_project/SERVER_DATA_EXPERIMENT_REGISTRY.md": "7366056603c4a2a52edb69445f9ff3052c6f91cf99c79529dd7040f77d13703b",
+    "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6-3_n2000_t1200/dataset.npz": "3e0358831e6b96c38f15c8e3178f6d37f38b4bddbe1ab01a63cfaba043f211ce",
+    "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6-3_n2000_t1200/failed_samples.json": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6-3_n2000_t1200/meta.json": "459f8024f66db1abfe95d732b1cc9c90132c7bcc29d6425e25bbf32143fd6338",
+    "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1200/dataset.npz": "39c7b1ce9624123a5f2680d76abe8a7fa18e135ec166fa70262efb8d563c60db",
+    "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1200/failed_samples.json": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1200/meta.json": "fbe816012a245c4cadf132de8cae5f042f8f796677e89b91af33b1fb377702d8",
+    "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1800/dataset.npz": "87e17ecef62761756189b9325a375f38f982b094a5aed73083ba6bc80f5615d7",
+    "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1800/failed_samples.json": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1800/meta.json": "498596316137e358d99c314a13e2f9f2c15baf52343c810431d9800ea3a108b6",
+    "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t2400/dataset.npz": "4687fe18e8701818ef8ffc5d87d5ac618c224ba7d8f80f7b57eccb2cf0e5b1d2",
+    "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t2400/failed_samples.json": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t2400/meta.json": "dfed20a87f299462b39e6cccd203a87ce85788fce02293434b8a73ab3ccc5cc1",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/comparison/common_test__q_1p6007-2p9993_n400_t1200/common_test_dataset.npz": "22a91e3bd3faf38d7dda396e149c4c1d248d7c398a3c4e58675527a05b48578a",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/comparison/common_test__q_1p6007-2p9993_n400_t1200/common_test_summary.json": "dfc622d36d8a5d3bd2761ee9e4809ed1c6b769053c2e7e7214321f2058f12b86",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/comparison/common_test__q_1p6007-2p9993_n400_t1200/models/q_1p6-3_n2000_t1200/per_q_metrics.csv": "ee49a17df0cc20210c6bdb3d2eae52f8db246335b163522d85487be89bdaa4d4",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/comparison/common_test__q_1p6007-2p9993_n400_t1200/models/q_1p6-3_n2000_t1200/result.json": "1c1634e5c073969e42b7715382230068bacb9359ba40c0d7a01600c6b17acb41",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/comparison/common_test_e500_w64_n2000_n5000/common_test_dataset.npz": "22a91e3bd3faf38d7dda396e149c4c1d248d7c398a3c4e58675527a05b48578a",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/comparison/common_test_e500_w64_n2000_n5000/common_test_summary.json": "ae8a390111ee304e88dec8b2a6842a2001063d333be5d28255098da3dd4f2eff",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/comparison/common_test_e500_w64_n2000_n5000/models/q_1p6-3_n2000_t1200/per_q_metrics.csv": "f2f9f6ede08add4d04155f7c496a534336053a40bb90df54836375874a52bc94",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/comparison/common_test_e500_w64_n2000_n5000/models/q_1p6-3_n2000_t1200/result.json": "b27fb532f1f299494fef3c99c256285a889af1cf3f070c34489d2ab6c57f5b60",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/extrapolation_2d/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/t1800_full_q400/Q.npy": "3f14682a31d7763b0a09061db10231f60002b75f7415a4908cab8912c95bef65",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/extrapolation_2d/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/t1800_full_q400/lambda_error_profile.csv": "e8a130ecd157a35e3124bf0c7854286e2ba456a11e665f5de89c9ef255ac6f2d",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/extrapolation_2d/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/t1800_full_q400/lambda_grid.npy": "b7c8a2ae3bc8a25f9fc2ad815af441b82b7cef44a218d07635ce7ce522cbcb1e",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/extrapolation_2d/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/t1800_full_q400/metrics.json": "b061c731595f83405b29f6b3ce32b4b540f12552b26c0fac34437f7cf4acd475",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/extrapolation_2d/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/t1800_full_q400/per_q_metrics.csv": "da4d345d0b697a6efc7eeedcb620aa181e7700a59a0a11a8dae3bac31de24fce",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/extrapolation_2d/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/t1800_full_q400/predictions_raw.npy": "b58c530651269b5f18e3cf30c16799727b35b87b32be9eb08984da4a861f9114",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/extrapolation_2d/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/t1800_full_q400/source_q_indices.npy": "db69baadd6ddfc236ba8e9396c5d7636916d74ab2cbc59725d81e88075c036f6",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/extrapolation_2d/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/t1800_full_q400/targets_raw.npy": "a0786246bae181a6fc91a610eb2069533ebfd1d4c1999dc342ece21783766c50",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/formal_a1_length_extrapolation/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200_q400_t1200_t1800_t2400/a1_length_extrapolation_summary.json": "3af43eaf2ffb394770e4d5b4d7162e9b0af3ff41047240034e69c721e6304002",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/formal_a1_length_extrapolation/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200_q400_t1200_t1800_t2400/lambda_window_metrics.csv": "a079ec4372524711ab923af05febdf3cf19e41f6d54813449daf3fd0dc955e72",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/formal_a1_length_extrapolation/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200_q400_t1200_t1800_t2400/per_q_metrics.csv": "6d78f94a719a8d51dd38a97d1a60518f056b6e516b24a23461d0b4aaa2dcfead",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/formal_a1_length_extrapolation/fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200_best_q400_t1200_t1800_t2400/r2_a1_length_extrapolation_summary.json": "b449baf194a0f145baf7d50cc8d12c908fa728eb87ffcdad70855a9e608371a3",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/formal_a1_length_extrapolation/fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200_best_q400_t1200_t1800_t2400/r2_lambda_window_metrics.csv": "a6b0804c2d29fdef14131380064016786ee7ee686dcf4becd23f42930df34f66",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/formal_a1_length_extrapolation/fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200_best_q400_t1200_t1800_t2400/r2_per_q_metrics.csv": "f894a9f498c2a2949830eb9fb26c2baadfbbd9e4c614e9508e3948680acdee04",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/formal_a1_length_extrapolation/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200_best_fixed_q400_t1200_t1800_t2400/r3_a1_length_extrapolation_summary.json": "04c7eeb50446b2eafba4a700894257f01c33ed23078db8ce61c88ad0168caebf",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/formal_a1_length_extrapolation/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200_best_fixed_q400_t1200_t1800_t2400/r3_lambda_window_metrics.csv": "0a7e6d5b7d92bd87657c236fb2eadef808814be53940d311e46782f2dd7c1fa6",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/formal_a1_length_extrapolation/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200_best_fixed_q400_t1200_t1800_t2400/r3_per_q_metrics.csv": "3d5e3afa989c47433d8de6538931b52b0bad0225d69db53f8bfe960b692528fa",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/formal_a1_length_extrapolation/q400_t1200_t1800_t2400_w0p5/a1_length_extrapolation_summary.json": "3066342781a185fe9fa671c5c004855fc72d06c46ccb4a7acb49968b8f2811a6",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/formal_a1_length_extrapolation/q400_t1200_t1800_t2400_w0p5/lambda_window_metrics.csv": "4be30e8b36f7c22ee2c402ca154310b8864da85c3d8efb51bd665d51b1930bc9",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/formal_a1_length_extrapolation/q400_t1200_t1800_t2400_w0p5/per_q_metrics.csv": "d352da95a912ce4870f871352252342d2b2c0eda95df43b30a5c12941a1a5670",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/length_change_prediction_consistency/q400_t1200_t1800_all_canonical_q.json": "c1e4b7d14d22929a38da9e8df751688fc340f63db2771955ee9d5b843c0dc6f2",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/length_dataset_identity_validation/q400_t1200_t1800_t2400_prefix_identity.json": "04f68349d79f3946a3aa1aa269209da2b5bae3bee36b9be3d42c9224851becc4",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/m3_internal_length_sensitivity/q400_t1200_t1800_t2400/m3_internal_length_sensitivity_summary.json": "8055462300685aab9c789974caba56907cb5e95602c9e8a6032a6e7e49fc5375",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/m3_internal_length_sensitivity/q400_t1200_t1800_t2400/m3_spectral_mode_comparison.csv": "86c7c87cd70b89e574c8d8cf5b75b893a515a85a980e185e08e0e70a7d95bd96",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/m3_internal_length_sensitivity/q400_t1200_t1800_t2400/m3_stage_comparison.csv": "4d5e36d2eb08a33bb6da500e9fc372514e508a51809f53fd2993d9283ae048a9",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/m4b_lambda_clamp/q400_t1200_t1800_t2400/m4b_intervention_response.csv": "5f25a9c67484d396c16cb6044c6180ab6c2eed1870b49d229fc2bd28b51ef2af",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/m4b_lambda_clamp/q400_t1200_t1800_t2400/m4b_lambda_clamp_summary.json": "c9e8f2f92b3c057c2bcc1f802438852ab24f10c06797eef230750d51cd164f62",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/m4b_lambda_clamp/q400_t1200_t1800_t2400/m4b_stage_comparison.csv": "aff749bbef09452c78d227c7da95bdf426cd04e42c2de1e4ef1189e68e752c07",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/plan_b_q400_t1200_to_t2399/frozen_fno_resolution_generalization/coarse_prediction_raw_xyz.npy": "60d2ec8c089ceededc2dbbd9ad6726287b94ba76da50e9dc89cb6a8ab1763c64",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/plan_b_q400_t1200_to_t2399/frozen_fno_resolution_generalization/experiment_summary.json": "ffa7211ab9b799b007075c12004fc2af76568f532844f0bd2cd86267a8c5dbdc",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/plan_b_q400_t1200_to_t2399/frozen_fno_resolution_generalization/metrics.json": "aba2a0288e1686dc0526bdfaf7293a96a2ebd712d2e421bcd62263a8b85c933c",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/analysis/analysis_summary.json": "bc0af88b18c156f409f88c9f6dec137d5db722c3f9d451c8bb31f81eae83f628",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/checkpoints/best_model.pt": "db5cb795af32a91a24ef61c0b87e07fa7352be62201dfa8ca834dd31b5d63b33",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/inference/metrics.json": "406949a1a4826ba4e6f32df74b67d64ca46e4695f6eaa56e68ff7abf5814de6c",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/inference/predictions.npy": "572c315842ab1bbf7d4f9c9610ea149fac6d042f033181fc11116a4eadd0f644",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/inference/predictions_model_space.npy": "42b29e3cbc318e3d6af6edad6fbd8c55d633d5941e6bd78ee50b20286c874f18",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/inference/targets.npy": "d57dfc1d3a10f01f65c10fa3515d945eba00f96aae2a36eda88d285d719ac1a2",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/inference/targets_model_space.npy": "0a8936f465586dbe240ab24a83e3e54a28f741e1f8acfca7d88f3f384300ef93",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/inference/targets_raw_reference.npy": "760e9af6c22b2762d127922a8530bdf04267267d100ffc7ce8729d6a1733732b",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/inference/timing.json": "1f1a1326d53092f6c4023d1f35aff0a2622414ba260e5361b5288cc8e09eb365",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/logs/train_history.json": "011ccbb0f66513bd3a28f4954bc551cba9b2b423bacf28de7f0263e3c683eee3",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/logs/train_summary.json": "7948bd20239c53cea86011a20606ff33469c7b74e123b06f2d61d49929f9a1aa",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/run_config.json": "d03814c899f26624020d412259fe6042fef39ffaa8ae5d156ef068acc3363990",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/summary.json": "b4c99279e15e3033a04ac1d47394417a6a46788f99c00d956b35e32f70c716aa",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200/checkpoints/best_model.pt": "58cfd1343523b161eac100cc3336f585538ea9550cb09dcae3eb57fea95b91b8",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200/logs/train_history.json": "3bdaa42c3d34aa62c250eb38a65a634ccaadd89d6e275ac008181f309a785cb3",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200/logs/train_summary.json": "63ef0c9702e86c6a3f1322db80563889809888a39f2dfbe06b25068554f518d9",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200/run_config.json": "41d43376240d001880a9ad61046729ed2aeb4a47d0e3ce236c2ff636abf103e2",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200/summary.json": "63ef0c9702e86c6a3f1322db80563889809888a39f2dfbe06b25068554f518d9",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200/checkpoints/best_model.pt": "29891a82963e4a78abd0eeb7e4420f9a1d665df2f34aa1529b08693782afcfa1",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200/logs/train_history.json": "9f4fa9db6cc86f0ba226c3c6fdc2cc4357400af506c042f62677c95605caffd7",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200/logs/train_summary.json": "776890528086da524e0f0e7ccc1af6170ee9a7ec78a55900009872c30d62f5f2",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200/run_config.json": "0c30b1835ed2a733144de9f661a512b49eab34bf6b86a5cb8674c5483cb7f272",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200/summary.json": "776890528086da524e0f0e7ccc1af6170ee9a7ec78a55900009872c30d62f5f2",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200/checkpoints/best_model.pt": "418da911cc1324b8182b924df13f37a5e747209f6ff92a6357e3af8eb0e4a728",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200/logs/train_history.json": "6d5676ff3bca268a8373b9d6a1d6a9a098682a7d1015162a6f7912026fd6814a",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200/logs/train_summary.json": "a97ec4db7b417b025c9dd3a5f53af5b7faee1aa1853e519fbd22a11e25c9583a",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200/run_config.json": "54f0922a3255730974b7450effabdb180c34ade8c26f42b0599a98b224eeb09c",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200/summary.json": "a97ec4db7b417b025c9dd3a5f53af5b7faee1aa1853e519fbd22a11e25c9583a",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/r1_validation_length_response/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200/r1_validation_length_response.csv": "0dd515195b23ec91f8e71e27f19ad42e11b5c738d8c288f2656610c8cc39461f",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/r1_validation_length_response/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200/r1_validation_length_response_summary.json": "dad625540e53577c4dab497c5fc9141ee814d1c39e5620fd55742966463ff421",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/r3_validation_length_response/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200_best_epoch77_val_t600-1200/r3_validation_length_response_by_length.csv": "52b85b22816e2c55ab0ee794c55530872bc7099a4d72f26842e22fafb792294c",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/r3_validation_length_response/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200_best_epoch77_val_t600-1200/r3_validation_length_response_per_q.csv": "6914860d2c026edfae138f7cb29d1ef0b00065c10b3cf138ba5b84db6a822460",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/r3_validation_length_response/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200_best_epoch77_val_t600-1200/r3_validation_length_response_summary.json": "70a95ceeaf3906731bcab424bf73e67c5a7e5e7f0bff86e8141a7cae902416fa",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/raw_kerr_spectral_energy/q400_t1200_t1800_t2400_m32_raw/dominant_peaks.csv": "4c182eaea4e98396065a5a164a708e47271e4f223508cfe903099603aef79b26",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/raw_kerr_spectral_energy/q400_t1200_t1800_t2400_m32_raw/raw_spectral_energy_summary.json": "cb7f597e040e07b15539fa77f815cfd36e422df58f759fe59a778b64c4be5c83",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/raw_kerr_spectral_energy/q400_t1200_t1800_t2400_m32_raw/spectral_band_energy.csv": "3037b03fbb7b8ee3f3cf0b8e00a664fbbf5a564b6f95e9facaf9a70b408593c6",
+    "/home/shanjinshuo/fno_kerr/kerr_project/scripts/analyze_raw_kerr_spectral_energy.py": "fe6c752bef9b15f1721a04218e11a17e39bde82ea747cd420de95dff285d6e08",
+    "/home/shanjinshuo/fno_kerr/kerr_project/scripts/compare_length_prefix_predictions_2d.py": "0ee74274cf65c55352218a9684164209b5ab0dba39d2db9545d625a260471501",
+    "/home/shanjinshuo/fno_kerr/kerr_project/scripts/diagnose_fno2d_internal_length_sensitivity.py": "914eabf0d4ee12f5c7760f14abaa2b844e244bb83fc303ce9b268a33328cc7ab",
+    "/home/shanjinshuo/fno_kerr/kerr_project/scripts/diagnose_lambda_coordinate_clamp_effect_2d.py": "8bef61e655092c6828ca1b61d1f1d35d9ef825b3077a9ea36e5438fc15d208a7",
+    "/home/shanjinshuo/fno_kerr/kerr_project/scripts/evaluate_formal_length_extrapolation_2d.py": "cb96a639e2e4ace97014178b01f00c45d7d5f7cec2098ba60d5e36e15698a537",
+    "/home/shanjinshuo/fno_kerr/kerr_project/scripts/evaluate_formal_length_extrapolation_r2_2d.py": "363dd1e52aa56fb523ccbcf96610b2fc3dbc0942e28f044074aa897aaec4e2e0",
+    "/home/shanjinshuo/fno_kerr/kerr_project/scripts/evaluate_formal_length_extrapolation_r3_2d.py": "ff998b5056838199bc94017fbb988e8bdd6d0bf1668ee64fc46bfcf118c10d5c",
+    "/home/shanjinshuo/fno_kerr/kerr_project/scripts/evaluate_length_change_prediction_consistency_2d.py": "6050942c7dce28e147614b6ae45c90e7a185f8f0a924cfc50aec3a0109d3a5ee",
+    "/home/shanjinshuo/fno_kerr/kerr_project/scripts/evaluate_length_extrapolation_2d.py": "679318d2b57909f462e4cc556794c9320ed03845388f43d4cb625bf3d39d40fa",
+    "/home/shanjinshuo/fno_kerr/kerr_project/scripts/evaluate_r1_validation_length_response_2d.py": "fac32b5c46bb512027281e5cb82207744df9fad8414146603c684bbc7dac5b80",
+    "/home/shanjinshuo/fno_kerr/kerr_project/scripts/evaluate_r3_validation_length_response_2d.py": "93d3304c71066dbfee9a708674ebff02ac6c72fd42b9509211af15841e4325b6",
+    "/home/shanjinshuo/fno_kerr/kerr_project/scripts/generate_dataset.py": "4e1b1b2715ba91fbfc3a9b2c47ece35d1e7f9f41281ac2e094549d23add33dc8",
+    "/home/shanjinshuo/fno_kerr/kerr_project/scripts/generate_length_extrapolation_datasets.sh": "6ebf75d0b65fcccce6f3ec24b7b47aa8b9970af6fba8357240cd1b1fe6dd4a1a",
+    "/home/shanjinshuo/fno_kerr/kerr_project/scripts/train_fno2d_domain_conditioned_r2.py": "c40fdc02b144b10ec8bc6440b1be4cd8e6175efa64aa850e8df313d30157a9ea",
+    "/home/shanjinshuo/fno_kerr/kerr_project/scripts/train_fno2d_physical_frequency_r3.py": "8bc28e32191e24b23c35c65a75cf4d449ea86f86f0dc7cfbfda6ec27c52a1e4d",
+    "/home/shanjinshuo/fno_kerr/kerr_project/scripts/train_fno2d_variable_length_r1.py": "21db5ad709037cd5f0c08017c53ab2380884400895c7e28f538f4415853996d9",
+    "/home/shanjinshuo/fno_kerr/kerr_project/scripts/validate_length_dataset_prefix_identity.py": "f4b6e02ff529e87436332dea676d06f7542301bc0a79e5ea54231fbfcc11ebc5",
+    "/home/shanjinshuo/fno_kerr/kerr_project/src/data_generation/dataset_builder.py": "5056dd402ab79005d3d410b7d6a2f58a5bcad159e89811cd219563da3133237e",
+    "/home/shanjinshuo/fno_kerr/kerr_project/src/data_generation/dataset_saver.py": "6e9a2b8910640ee1d34ce8317dd9bae986e6809095466ed92ebcab9208122f97",
+    "/home/shanjinshuo/fno_kerr/kerr_project/src/models/fno2d/fno2d.py": "2fc2ade699372a59f123d26b4184995edf25559004707effe1aaefeec0fd2940",
+    "/home/shanjinshuo/fno_kerr/kerr_project/src/models/fno2d/fno2d_physical_frequency.py": "11b6da8864da525f9e37b639caf7c45a13196a3a58c2d3be115d1a4b77736b89",
+    "/home/shanjinshuo/fno_kerr/kerr_project/src/models/fno2d/layers2d.py": "77c6cf535beb9386ca5f0284de393f645a74c72d1333ad8c09ace895f5236134",
+    "/home/shanjinshuo/fno_kerr/kerr_project/src/models/fno2d/physical_frequency_layers2d.py": "c1049542d0ac5a455650c2275a6e797c59ac96a83e975fd6fe8fb88ac7d694cf",
+    "/home/shanjinshuo/fno_kerr/kerr_project/src/training/fno2d/dataset_loader_2d.py": "7f00f5019573b4d4327fe20922aa685b50bb335dae06a8276a6abc9d27ce6442",
+    "/home/shanjinshuo/fno_kerr/kerr_project/src/training/fno2d/input_builder_2d.py": "d3d59f4a3c9fc49f56d49aa952693cb62cd85fbee68fbbf2d11964da8b4a9615",
+    "/home/shanjinshuo/fno_kerr/kerr_project/src/training/fno2d/normalization_2d.py": "22a0eabacc087d48c58410a21f705d6bda6f0d585af35f27aad9a11957217b42",
+    "/home/shanjinshuo/fno_kerr/kerr_project/src/training/fno2d/target_transform_2d.py": "76a56a0d8a5166a1bf4009ede5a8e382e1e2196d5125b141faea97ec6ce84b79",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/checkpoints/last_model.pt": "76253ad8c90899c8edfbd40a5af76c5d21f913a38c7d5010f2d92544c2308d29",
+    "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200/checkpoints/last_model.pt": "1ab843622b41e8eb4d6e8604bd19a93537b8c655ee6ba5d4f5e8c2916d9763bd",
+    "/home/shanjinshuo/fno_kerr/kerr_project/scripts/train_model_2d.py": "f9b5fc1b7810fe23435a4372b1999ee9e4f314c5bc125601857169520f04276d",
+    "/home/shanjinshuo/fno_kerr/kerr_project/scripts/evaluate_common_test_2d.py": "9f0e245ad7e2705a4cf05983d35292d7b5f9560d3bb53f5946e67fe6cbbeab66",
+    "/home/shanjinshuo/fno_kerr/kerr_project/scripts/evaluate_plan_b_resolution_generalization_2d.py": "ad85646be2147e9771a1aa405a76917a0933150b7d54d6ae0af5772c3d546737",
+    "/home/shanjinshuo/fno_kerr/kerr_project/src/data_generation/orbit_solver_second_order.py": "f89efd9ce2cd62d3cd377563c550b8dced1203b1becdc5efc67cfe56be01da39",
+    "/home/shanjinshuo/fno_kerr/kerr_project/src/training/checkpoint.py": "e02561e21edfdac2e73c887aa04dbbe008a469f9982a613c5ffe7628080fcd37",
+    "/home/shanjinshuo/fno_kerr/kerr_project/src/models/registry_2d.py": "28f7af89407a1d5869e46e862ede3d1fe809b1b9ab7cc22647d4129adc927c32"
+  }
+}

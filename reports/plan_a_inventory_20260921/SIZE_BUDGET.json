@@ -1,0 +1,323 @@
+{
+  "schema_version": "1.0",
+  "size_definition": "Exact logical file bytes from stat; not allocated filesystem blocks and not compressed transfer estimates.",
+  "scope": "Only record-guided Plan A candidate and directly related excluded assets. Unrelated Plan B/benchmark/server history is not included in excluded totals.",
+  "by_class": {
+    "MUST_UPLOAD": {
+      "file_count": 45,
+      "bytes": 122461001,
+      "MiB": 116.7879114151001,
+      "GiB": 0.11405069474130869
+    },
+    "RECOMMENDED_UPLOAD": {
+      "file_count": 17,
+      "bytes": 1613779599,
+      "MiB": 1539.0201559066772,
+      "GiB": 1.5029493710026145
+    },
+    "INDEX_ONLY": {
+      "file_count": 37,
+      "bytes": 933168,
+      "MiB": 0.8899383544921875,
+      "GiB": 0.0008690804243087769
+    },
+    "DO_NOT_UPLOAD": {
+      "file_count": 29,
+      "bytes": 1653173481,
+      "MiB": 1576.5890893936157,
+      "GiB": 1.5396377826109529
+    },
+    "REVIEW_REQUIRED": {
+      "file_count": 0,
+      "bytes": 0,
+      "MiB": 0.0,
+      "GiB": 0.0
+    }
+  },
+  "MUST_plus_RECOMMENDED": {
+    "file_count": 62,
+    "bytes": 1736240600,
+    "MiB": 1655.8080673217773,
+    "GiB": 1.6170000657439232
+  },
+  "all_indexed": {
+    "file_count": 128,
+    "bytes": 3390347249,
+    "MiB": 3233.2870950698853,
+    "GiB": 3.157506928779185
+  },
+  "by_category": {
+    "datasets": {
+      "all_indexed": {
+        "file_count": 12,
+        "bytes": 105836592,
+        "MiB": 100.93363952636719,
+        "GiB": 0.09856800734996796
+      },
+      "upload_candidates": {
+        "file_count": 9,
+        "bytes": 105836586,
+        "MiB": 100.93363380432129,
+        "GiB": 0.09856800176203251
+      }
+    },
+    "predictions": {
+      "all_indexed": {
+        "file_count": 8,
+        "bytes": 14518044,
+        "MiB": 13.84548568725586,
+        "GiB": 0.0135209821164608
+      },
+      "upload_candidates": {
+        "file_count": 8,
+        "bytes": 14518044,
+        "MiB": 13.84548568725586,
+        "GiB": 0.0135209821164608
+      }
+    },
+    "BEST_checkpoints": {
+      "all_indexed": {
+        "file_count": 4,
+        "bytes": 1611968008,
+        "MiB": 1537.2924880981445,
+        "GiB": 1.5012621954083443
+      },
+      "upload_candidates": {
+        "file_count": 4,
+        "bytes": 1611968008,
+        "MiB": 1537.2924880981445,
+        "GiB": 1.5012621954083443
+      }
+    },
+    "metrics_summaries_provenance": {
+      "all_indexed": {
+        "file_count": 44,
+        "bytes": 3922853,
+        "MiB": 3.741124153137207,
+        "GiB": 0.0036534415557980537
+      },
+      "upload_candidates": {
+        "file_count": 41,
+        "bytes": 3917962,
+        "MiB": 3.736459732055664,
+        "GiB": 0.0036488864570856094
+      }
+    }
+  },
+  "top_10_largest_useful_upload_candidates": [
+    {
+      "path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200/checkpoints/best_model.pt",
+      "relative_repo_path": "outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200/checkpoints/best_model.pt",
+      "size_bytes": 402996002,
+      "MiB": 384.32693672180176,
+      "type": "best_checkpoint",
+      "stage": "R3",
+      "classification": "RECOMMENDED_UPLOAD",
+      "reason": "The unique selected BEST required for future controlled inference and checkpoint-level verification."
+    },
+    {
+      "path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200/checkpoints/best_model.pt",
+      "relative_repo_path": "outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200/checkpoints/best_model.pt",
+      "size_bytes": 402991906,
+      "MiB": 384.32303047180176,
+      "type": "best_checkpoint",
+      "stage": "R2",
+      "classification": "RECOMMENDED_UPLOAD",
+      "reason": "The unique selected BEST required for future controlled inference and checkpoint-level verification."
+    },
+    {
+      "path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200/checkpoints/best_model.pt",
+      "relative_repo_path": "outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200/checkpoints/best_model.pt",
+      "size_bytes": 402990114,
+      "MiB": 384.32132148742676,
+      "type": "best_checkpoint",
+      "stage": "R1",
+      "classification": "RECOMMENDED_UPLOAD",
+      "reason": "The unique selected BEST required for future controlled inference and checkpoint-level verification."
+    },
+    {
+      "path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/checkpoints/best_model.pt",
+      "relative_repo_path": "outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/checkpoints/best_model.pt",
+      "size_bytes": 402989986,
+      "MiB": 384.32119941711426,
+      "type": "best_checkpoint",
+      "stage": "R0",
+      "classification": "RECOMMENDED_UPLOAD",
+      "reason": "The unique selected BEST required for future controlled inference and checkpoint-level verification."
+    },
+    {
+      "path": "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6-3_n2000_t1200/dataset.npz",
+      "relative_repo_path": "data/tasks/q_1p6-3_n2000_t1200/dataset.npz",
+      "size_bytes": 55679506,
+      "MiB": 53.100114822387695,
+      "type": "dataset_payload",
+      "stage": "shared",
+      "classification": "MUST_UPLOAD",
+      "reason": "Authoritative raw truth or original training/validation split needed for independent analysis and provenance."
+    },
+    {
+      "path": "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t2400/dataset.npz",
+      "relative_repo_path": "data/tasks/q_1p6007-2p9993_n400_t2400/dataset.npz",
+      "size_bytes": 22288645,
+      "MiB": 21.256108283996582,
+      "type": "dataset_payload",
+      "stage": "shared",
+      "classification": "MUST_UPLOAD",
+      "reason": "Authoritative raw truth or original training/validation split needed for independent analysis and provenance."
+    },
+    {
+      "path": "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1800/dataset.npz",
+      "relative_repo_path": "data/tasks/q_1p6007-2p9993_n400_t1800/dataset.npz",
+      "size_bytes": 16719729,
+      "MiB": 15.945176124572754,
+      "type": "dataset_payload",
+      "stage": "shared",
+      "classification": "MUST_UPLOAD",
+      "reason": "Authoritative raw truth or original training/validation split needed for independent analysis and provenance."
+    },
+    {
+      "path": "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1200/dataset.npz",
+      "relative_repo_path": "data/tasks/q_1p6007-2p9993_n400_t1200/dataset.npz",
+      "size_bytes": 11139587,
+      "MiB": 10.62353801727295,
+      "type": "dataset_payload",
+      "stage": "shared",
+      "classification": "MUST_UPLOAD",
+      "reason": "Authoritative raw truth or original training/validation split needed for independent analysis and provenance."
+    },
+    {
+      "path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/extrapolation_2d/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/t1800_full_q400/predictions_raw.npy",
+      "relative_repo_path": "outputs/extrapolation_2d/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/t1800_full_q400/predictions_raw.npy",
+      "size_bytes": 8640128,
+      "MiB": 8.2398681640625,
+      "type": "prediction",
+      "stage": "R0",
+      "classification": "MUST_UPLOAD",
+      "reason": "Existing reusable historical R0 T1800 prediction with explicit Q/grid/checkpoint provenance."
+    },
+    {
+      "path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/plan_b_q400_t1200_to_t2399/frozen_fno_resolution_generalization/coarse_prediction_raw_xyz.npy",
+      "relative_repo_path": "outputs/plan_b_q400_t1200_to_t2399/frozen_fno_resolution_generalization/coarse_prediction_raw_xyz.npy",
+      "size_bytes": 5760128,
+      "MiB": 5.4932861328125,
+      "type": "prediction",
+      "stage": "R0",
+      "classification": "MUST_UPLOAD",
+      "reason": "Only the shared native T1200 arm is reused: same R0 checkpoint and canonical Q400; fine-grid predictions and Plan B-only assets are excluded."
+    }
+  ],
+  "top_10_largest_excluded_intermediate_assets": [
+    {
+      "path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200/checkpoints/last_model.pt",
+      "relative_repo_path": "outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r3_physicalfreq_multilen_t600-800-1000-1200/checkpoints/last_model.pt",
+      "size_bytes": 402996002,
+      "MiB": 384.32693672180176,
+      "type": "last_checkpoint",
+      "stage": "R3",
+      "classification": "DO_NOT_UPLOAD",
+      "reason": "BEST exists and reproduces the reported result; LAST is not needed for the mentor package."
+    },
+    {
+      "path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200/checkpoints/last_model.pt",
+      "relative_repo_path": "outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r2_q-s-ell_multilen_t600-800-1000-1200/checkpoints/last_model.pt",
+      "size_bytes": 402991906,
+      "MiB": 384.32303047180176,
+      "type": "last_checkpoint",
+      "stage": "R2",
+      "classification": "DO_NOT_UPLOAD",
+      "reason": "BEST exists and reproduces the reported result; LAST is not needed for the mentor package."
+    },
+    {
+      "path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200/checkpoints/last_model.pt",
+      "relative_repo_path": "outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500_r1_multilen_t600-800-1000-1200/checkpoints/last_model.pt",
+      "size_bytes": 402990114,
+      "MiB": 384.32132148742676,
+      "type": "last_checkpoint",
+      "stage": "R1",
+      "classification": "DO_NOT_UPLOAD",
+      "reason": "BEST exists and reproduces the reported result; LAST is not needed for the mentor package."
+    },
+    {
+      "path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/checkpoints/last_model.pt",
+      "relative_repo_path": "outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/checkpoints/last_model.pt",
+      "size_bytes": 402989986,
+      "MiB": 384.32119941711426,
+      "type": "last_checkpoint",
+      "stage": "R0",
+      "classification": "DO_NOT_UPLOAD",
+      "reason": "BEST exists and reproduces the reported result; LAST is not needed for the mentor package."
+    },
+    {
+      "path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/extrapolation_2d/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/t1800_full_q400/targets_raw.npy",
+      "relative_repo_path": "outputs/extrapolation_2d/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/t1800_full_q400/targets_raw.npy",
+      "size_bytes": 8640128,
+      "MiB": 8.2398681640625,
+      "type": "derived_truth",
+      "stage": "R0",
+      "classification": "DO_NOT_UPLOAD",
+      "reason": "Float32 recovered-target representation is not authoritative raw float64 truth; use the registered T1800 dataset."
+    },
+    {
+      "path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/comparison/common_test__q_1p6007-2p9993_n400_t1200/common_test_dataset.npz",
+      "relative_repo_path": "outputs/comparison/common_test__q_1p6007-2p9993_n400_t1200/common_test_dataset.npz",
+      "size_bytes": 5324833,
+      "MiB": 5.078156471252441,
+      "type": "derived_truth",
+      "stage": "R0",
+      "classification": "DO_NOT_UPLOAD",
+      "reason": "Older common-test snapshot/result; final Plan A A1 and authoritative raw datasets are preferred."
+    },
+    {
+      "path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/comparison/common_test_e500_w64_n2000_n5000/common_test_dataset.npz",
+      "relative_repo_path": "outputs/comparison/common_test_e500_w64_n2000_n5000/common_test_dataset.npz",
+      "size_bytes": 5324833,
+      "MiB": 5.078156471252441,
+      "type": "derived_truth",
+      "stage": "R0",
+      "classification": "DO_NOT_UPLOAD",
+      "reason": "Byte-identical file verified by size and SHA256; reference the canonical file once. Preserve all server copies."
+    },
+    {
+      "path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/inference/predictions.npy",
+      "relative_repo_path": "outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/inference/predictions.npy",
+      "size_bytes": 4320128,
+      "MiB": 4.1199951171875,
+      "type": "prediction_auxiliary",
+      "stage": "R0",
+      "classification": "DO_NOT_UPLOAD",
+      "reason": "Original training-task test300 output, not the independent canonical Q400 Plan A comparison."
+    },
+    {
+      "path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/inference/predictions_model_space.npy",
+      "relative_repo_path": "outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/inference/predictions_model_space.npy",
+      "size_bytes": 4320128,
+      "MiB": 4.1199951171875,
+      "type": "prediction_auxiliary",
+      "stage": "R0",
+      "classification": "DO_NOT_UPLOAD",
+      "reason": "Original training-task test300 output, not the independent canonical Q400 Plan A comparison."
+    },
+    {
+      "path": "/home/shanjinshuo/fno_kerr/kerr_project/outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/inference/targets.npy",
+      "relative_repo_path": "outputs/q_1p6-3_n2000_t1200/fno2d_m16x32_w64_d4_e500/inference/targets.npy",
+      "size_bytes": 4320128,
+      "MiB": 4.1199951171875,
+      "type": "prediction_auxiliary",
+      "stage": "R0",
+      "classification": "DO_NOT_UPLOAD",
+      "reason": "Original training-task test300 output, not the independent canonical Q400 Plan A comparison."
+    }
+  ],
+  "deduplication": {
+    "basis": "One canonical individual file per candidate; duplicate rows retained as DO_NOT_UPLOAD. Directory totals never added to child-file totals.",
+    "byte_identical_potential_savings": 5329730,
+    "note": "Some byte-identical groups are already wholly excluded; savings are not additional reductions from the selected budget. Same epoch or filename is not sufficient for duplication."
+  },
+  "generated_report_directory": {
+    "path": "/home/shanjinshuo/fno_kerr/kerr_project/reports/plan_a_inventory_20260921",
+    "file_count": 17,
+    "bytes": 826343,
+    "MiB": 0.788062,
+    "GiB": 0.000769592
+  }
+}
