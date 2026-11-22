@@ -1,0 +1,19 @@
+{
+  "cutoff_utc": "2026-11-21T08:30:00+00:00",
+  "expiry_basis": "User reported 110 minutes remaining near 07:03 UTC; conservative cutoff. Platform expiry not independently exposed.",
+  "seeds": [
+    41,
+    73
+  ],
+  "epochs": 500,
+  "train_lengths": [
+    600,
+    800,
+    1000,
+    1200
+  ],
+  "repair": "Canonicalize only historical model_config anchor summary after float32-roundtrip and five float64 BEST-buffer checks; actual anchors unchanged.",
+  "frozen_manifest_sha256": "f4cf0e0c8325fee9cab125492b81998835448437c17e1b4ed0623888d20c45c2",
+  "runner_sha256": "36f292df4174c769f49bd2c0df13172343f2e9f5188a2bdc9d12cfddb6f650b7",
+  "stage2": "NOT_AUTHORIZED"
+}

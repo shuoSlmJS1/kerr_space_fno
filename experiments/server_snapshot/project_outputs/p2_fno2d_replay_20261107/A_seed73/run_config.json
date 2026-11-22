@@ -1,0 +1,228 @@
+{
+  "schema_version": "1.0",
+  "run_type": "training",
+  "experiment_family": "kerr_fno",
+  "model_family": "fno",
+  "task_name": "q_1p6-3_n2000_t1200",
+  "task_names": [
+    "q_1p6-3_n2000_t1200"
+  ],
+  "cfg_param_name": null,
+  "model_name": "fno2d_m16x32_w64_d4_e500",
+  "model_type": "fno2d",
+  "operator_axes": [
+    "Q",
+    "lambda"
+  ],
+  "spatial_dimension": 2,
+  "device": "cuda",
+  "training_seed": 73,
+  "data_seeds": {
+    "q_1p6-3_n2000_t1200": 10
+  },
+  "generation_statuses": {
+    "q_1p6-3_n2000_t1200": {
+      "completed": true,
+      "completion_policy": "target_success",
+      "target_success_count": 2000,
+      "initial_candidate_count": 2000,
+      "max_attempt_factor": 1.5,
+      "max_attempt_count": 3000,
+      "attempt_count": 2000,
+      "success_count": 2000,
+      "fail_count": 0,
+      "success_ratio_vs_attempts": 1.0,
+      "completion_ratio": 1.0,
+      "used_completion_sampling": false,
+      "successful_points_strictly_uniform": true,
+      "status_source": "meta.json"
+    }
+  },
+  "name_tags": [],
+  "epochs": 500,
+  "batch_size": 1,
+  "lr": 0.001,
+  "weight_decay": 0.0001,
+  "scheduler_gamma": 0.995,
+  "print_every": 10,
+  "normalization": "standard",
+  "target_transform": "raw",
+  "lambda_reference_index": 0,
+  "num_parameters": 16802755,
+  "model_config": {
+    "model_type": "fno2d",
+    "in_dim": 2,
+    "out_dim": 3,
+    "modes1": 16,
+    "modes2": 32,
+    "width": 64,
+    "depth": 4,
+    "hidden_dim": 128,
+    "activation": "gelu"
+  },
+  "dataset_summary": {
+    "task_name": "q_1p6-3_n2000_t1200",
+    "task_names": [
+      "q_1p6-3_n2000_t1200"
+    ],
+    "cfg_param_name": null,
+    "param_name": "Q",
+    "vary_params_order": [
+      "Q"
+    ],
+    "data_seeds": {
+      "q_1p6-3_n2000_t1200": 10
+    },
+    "generation_statuses": {
+      "q_1p6-3_n2000_t1200": {
+        "completed": true,
+        "completion_policy": "target_success",
+        "target_success_count": 2000,
+        "initial_candidate_count": 2000,
+        "max_attempt_factor": 1.5,
+        "max_attempt_count": 3000,
+        "attempt_count": 2000,
+        "success_count": 2000,
+        "fail_count": 0,
+        "success_ratio_vs_attempts": 1.0,
+        "completion_ratio": 1.0,
+        "used_completion_sampling": false,
+        "successful_points_strictly_uniform": true,
+        "status_source": "meta.json"
+      }
+    },
+    "normalization": "standard",
+    "normalization_stats": {
+      "method": "standard",
+      "x_mean": [
+        2.299506187438965,
+        2.996041774749756
+      ],
+      "x_std": [
+        0.40356874465942383,
+        1.7314223051071167
+      ],
+      "y_mean": [
+        0.43493300676345825,
+        0.6949756741523743,
+        0.06759584695100784
+      ],
+      "y_std": [
+        5.458001136779785,
+        5.927692413330078,
+        2.7061917781829834
+      ],
+      "eps": 1e-08
+    },
+    "target_transform": "raw",
+    "target_transform_config": {
+      "mode": "raw",
+      "lambda_reference_index": 0
+    },
+    "train": {
+      "x_2d_shape": [
+        1,
+        1400,
+        1200,
+        2
+      ],
+      "y_2d_shape": [
+        1,
+        1400,
+        1200,
+        3
+      ],
+      "param_name": "Q",
+      "param_grid_shape": [
+        1400
+      ],
+      "lambda_grid_shape": [
+        1200
+      ],
+      "num_fields": 1,
+      "num_param": 1400,
+      "num_lambda": 1200,
+      "in_dim": 2,
+      "out_dim": 3,
+      "input_channel_names": [
+        "Q",
+        "lambda"
+      ],
+      "cfg_param_names": null,
+      "param_min": 1.6021010875701904,
+      "param_max": 3.0,
+      "lambda_min": 0.0,
+      "lambda_max": 5.994999885559082
+    },
+    "val": {
+      "x_2d_shape": [
+        1,
+        300,
+        1200,
+        2
+      ],
+      "y_2d_shape": [
+        1,
+        300,
+        1200,
+        3
+      ],
+      "param_name": "Q",
+      "param_grid_shape": [
+        300
+      ],
+      "lambda_grid_shape": [
+        1200
+      ],
+      "num_fields": 1,
+      "num_param": 300,
+      "num_lambda": 1200,
+      "in_dim": 2,
+      "out_dim": 3,
+      "input_channel_names": [
+        "Q",
+        "lambda"
+      ],
+      "cfg_param_names": null,
+      "param_min": 1.600000023841858,
+      "param_max": 2.997899055480957,
+      "lambda_min": 0.0,
+      "lambda_max": 5.994999885559082
+    },
+    "test": {
+      "x_2d_shape": [
+        1,
+        300,
+        1200,
+        2
+      ],
+      "y_2d_shape": [
+        1,
+        300,
+        1200,
+        3
+      ],
+      "param_name": "Q",
+      "param_grid_shape": [
+        300
+      ],
+      "lambda_grid_shape": [
+        1200
+      ],
+      "num_fields": 1,
+      "num_param": 300,
+      "num_lambda": 1200,
+      "in_dim": 2,
+      "out_dim": 3,
+      "input_channel_names": [
+        "Q",
+        "lambda"
+      ],
+      "cfg_param_names": null,
+      "param_min": 1.6007003784179688,
+      "param_max": 2.9943971633911133,
+      "lambda_min": 0.0,
+      "lambda_max": 5.994999885559082
+    }
+  }
+}

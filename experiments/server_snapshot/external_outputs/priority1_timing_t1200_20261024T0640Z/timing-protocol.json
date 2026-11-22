@@ -1,0 +1,631 @@
+{
+  "status": "FROZEN_BEFORE_TIMING",
+  "utc": "2026-10-24T06:39:09.093235+00:00",
+  "sources": {
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/__init__.py": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/models/resnet1d.py": {
+      "sha256": "e4fba09411de69133c1166a013de5d37456a3104b5ed0db2dcb7150644d6f972",
+      "bytes": 7668
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/models/__init__.py": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/models/timesnet1d.py": {
+      "sha256": "18d5c82dbeacc6c89fa6d8fbbd6b88dee7baa0099f5a4cf084f65ebb8ddce645",
+      "bytes": 11683
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/models/registry_2d.py": {
+      "sha256": "28f7af89407a1d5869e46e862ede3d1fe809b1b9ab7cc22647d4129adc927c32",
+      "bytes": 5492
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/models/benchmark_track_a.py": {
+      "sha256": "f0f5e6f5e2c533b769e64c1efc15864b5870eb4caa7ed2102512c1532f4638e4",
+      "bytes": 4674
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/models/registry.py": {
+      "sha256": "1a51647925677d95d25bfaf08d768f05ffe4fc26a14c9fc6ef122ff4908360b7",
+      "bytes": 4064
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/models/timesnet_lambda_isolated1d.py": {
+      "sha256": "e744dd45e14f0990fd915fdfcb318c25517991d2eedbbe8552fa6f23762d594d",
+      "bytes": 6425
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/models/fno2d/layers2d.py": {
+      "sha256": "77c6cf535beb9386ca5f0284de393f645a74c72d1333ad8c09ace895f5236134",
+      "bytes": 7207
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/models/fno2d/__init__.py": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/models/fno2d/fno2d_physical_frequency.py": {
+      "sha256": "11b6da8864da525f9e37b639caf7c45a13196a3a58c2d3be115d1a4b77736b89",
+      "bytes": 3978
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/models/fno2d/physical_frequency_layers2d.py": {
+      "sha256": "c1049542d0ac5a455650c2275a6e797c59ac96a83e975fd6fe8fb88ac7d694cf",
+      "bytes": 8112
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/models/fno2d/fno2d.py": {
+      "sha256": "2fc2ade699372a59f123d26b4184995edf25559004707effe1aaefeec0fd2940",
+      "bytes": 8291
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/models/fno1d/fno1d.py": {
+      "sha256": "6c3260b44a5366e481513dd1de0bc67b7bca45ea08f9cede7f05878ec0cee8a7",
+      "bytes": 6009
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/models/fno1d/layers1d.py": {
+      "sha256": "3a6f8a76488f865864919b4fa3c9b48872f4c3f73900aa1e3c8df69b2d8a0074",
+      "bytes": 5563
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/models/fno1d/__init__.py": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/inference_analysis/timing.py": {
+      "sha256": "bd6bd20a35947b47ea31bca1a9cb05947c2059247fbceb7ae71ae35b0075c38b",
+      "bytes": 8492
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/inference_analysis/single_model_result_saver.py": {
+      "sha256": "e4230b17bb51a2e7f59d2dd090fbb851eb5f114d9399c9d72f7012a746e81f89",
+      "bytes": 5510
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/inference_analysis/__init__.py": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/inference_analysis/inference.py": {
+      "sha256": "c19bff0582e5c6b71d6d569c793798d1e791535c08852efd5e08ad7b21ce05ed",
+      "bytes": 4072
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/inference_analysis/comparison_saver.py": {
+      "sha256": "bfa154d7481115b07effb12a022698c322731918b96b286aac31301f9db739c1",
+      "bytes": 4216
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/inference_analysis/comparison.py": {
+      "sha256": "71f8fbf00cf19d8a853c0b86ce5be985ab247a3bc20c833f59b7c88373908232",
+      "bytes": 7952
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/inference_analysis/plotting.py": {
+      "sha256": "92ab36f2019b69aa61f3f515a86aea73b29d438590b33f38561a2c0d577b4501",
+      "bytes": 10773
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/inference_analysis/metrics.py": {
+      "sha256": "55e683de3914184df65595f6582750b928207a56914ddbedaa64b74e987bab34",
+      "bytes": 6219
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/data_generation/orbit_solver_second_order.py": {
+      "sha256": "f89efd9ce2cd62d3cd377563c550b8dced1203b1becdc5efc67cfe56be01da39",
+      "bytes": 9520
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/data_generation/parameter_parser.py": {
+      "sha256": "48b471c6a373a0ebaf8ea6870558f5246c2f70299eebd189784437291d89f279",
+      "bytes": 14251
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/data_generation/dataset_builder.py": {
+      "sha256": "5056dd402ab79005d3d410b7d6a2f58a5bcad159e89811cd219563da3133237e",
+      "bytes": 18451
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/data_generation/orbit_math.py": {
+      "sha256": "4383d14260bb618ea00f86546cefcdadc804bfa4808060878f2c70631718d689",
+      "bytes": 2821
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/data_generation/plan_b_resolution_range.py": {
+      "sha256": "55853ffbcc95af91b3f498113c7b9f81230f4b1fe74b836c1061cac284ebbb8c",
+      "bytes": 17077
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/data_generation/__init__.py": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/data_generation/dataset_saver.py": {
+      "sha256": "6e9a2b8910640ee1d34ce8317dd9bae986e6809095466ed92ebcab9208122f97",
+      "bytes": 11312
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/data_generation/validity.py": {
+      "sha256": "afd9d827586988d95a04bdbef32f052393c68ad1690ae166a226fc9b55ea2e39",
+      "bytes": 14214
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/data_generation/plan_b_matched_training.py": {
+      "sha256": "57b35bb0b3c6c2a404ed6e7d6c0c2e82b4754a5ca1659d21c4540d6fd942a378",
+      "bytes": 9652
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/data_generation/plan_b_paired.py": {
+      "sha256": "ed57e1918919501c97c57ebcf7878d8e49831fa23fe1fe8ddeb6e868f417b951",
+      "bytes": 25910
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/data_generation/sampler.py": {
+      "sha256": "2eff05dba88ef959bf5baf978ce9070b090b2384388ae8f01573f24ee3dab3e5",
+      "bytes": 8800
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/data_generation/astrophysical_checks.py": {
+      "sha256": "bd7457341db96df2171bf05b6f250221f64c3c73f7ed2911bd236d8d98866d8c",
+      "bytes": 10189
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/data_generation/orbit_types.py": {
+      "sha256": "13ae4fb0ddd56c4102251648fbea62656e348d9b57455d55fdb8ae0409347fea",
+      "bytes": 1170
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/training/trainer.py": {
+      "sha256": "4b5005174c204ebf4f2b43cc6b6e30beebcabbc408506d1aa8b0cfbedbc72c67",
+      "bytes": 11143
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/training/__init__.py": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/training/checkpoint.py": {
+      "sha256": "e02561e21edfdac2e73c887aa04dbbe008a469f9982a613c5ffe7628080fcd37",
+      "bytes": 4106
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/training/benchmark_data.py": {
+      "sha256": "2369feb69d6754e9541a5c64713c3f04c5ed3f05f7130191e1d5497c5f40b87f",
+      "bytes": 8534
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/training/benchmark_track_a.py": {
+      "sha256": "83a389fda0a7edadf91a9428be974f7438937391e8aa0d096a9670ac475c4213",
+      "bytes": 22950
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/training/losses.py": {
+      "sha256": "09753badd34c8ee930749735893b55d94fe6cfb1a825f522096f36f09a75d15c",
+      "bytes": 3792
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/training/optimizer_builder.py": {
+      "sha256": "cad0e606f3e5757ee6c33e17c978f1117eeac615d578cff13f0c4d7502d1e8fc",
+      "bytes": 3714
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/training/fno2d/target_transform_2d.py": {
+      "sha256": "76a56a0d8a5166a1bf4009ede5a8e382e1e2196d5125b141faea97ec6ce84b79",
+      "bytes": 7066
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/training/fno2d/input_builder_2d.py": {
+      "sha256": "d3d59f4a3c9fc49f56d49aa952693cb62cd85fbee68fbbf2d11964da8b4a9615",
+      "bytes": 8384
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/training/fno2d/__init__.py": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/training/fno2d/normalization_2d.py": {
+      "sha256": "22a0eabacc087d48c58410a21f705d6bda6f0d585af35f27aad9a11957217b42",
+      "bytes": 8262
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/training/fno2d/dataset_loader_2d.py": {
+      "sha256": "7f00f5019573b4d4327fe20922aa685b50bb335dae06a8276a6abc9d27ce6442",
+      "bytes": 24359
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/training/fno1d/__init__.py": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/training/fno1d/input_builder_1d.py": {
+      "sha256": "9ac766ceac01e2909f7f30360bcb08460c7c64601af6aadc1bdc8d96dd6df305",
+      "bytes": 5726
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/training/fno1d/dataset_loader_1d.py": {
+      "sha256": "8e9ca0ee37a822acef6bfe21137d2c4ecaebb9e5684f9354ff28d04bd8ed10a3",
+      "bytes": 8519
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/training/trajectory_reconstruction/interpolation_baselines.py": {
+      "sha256": "a5ad0d0c9fe121b53d316668765ae3b1b76060d7d839780ba6433a29ec26119f",
+      "bytes": 5620
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/training/trajectory_reconstruction/__init__.py": {
+      "sha256": "5db41d1c709978c3dc8b8cda2cb3b9cdfcea718dc88d2ee0a5af34a48642a51d",
+      "bytes": 641
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/training/trajectory_reconstruction/cross_resolution.py": {
+      "sha256": "7384e42a80dc7baffdb8c12ca98b729db8e892de52ae717d23c1f6b775068add",
+      "bytes": 18757
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/training/trajectory_reconstruction/sparse_sampling.py": {
+      "sha256": "4937f8630653ddc24afebdc9f2f9c1207002c02cf34ae002ab763f6cd35cb370",
+      "bytes": 5242
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/training/trajectory_reconstruction/masked_metrics.py": {
+      "sha256": "a5bf03b159ca3831571426cd1bc64a1c8b90250600575c2048757989624ba99b",
+      "bytes": 6178
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/training/trajectory_reconstruction/fno1d_reconstruction.py": {
+      "sha256": "2c259576b9e42026026d83f513d42dfb1e1e1905f2d487d4a9ddfe74acbd66cd",
+      "bytes": 13629
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/common/task_spec.py": {
+      "sha256": "547f8e76ebb6cdd242a67104a6f729e15476444ccb17f1fe37f683068ab9d815",
+      "bytes": 12496
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/common/__init__.py": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/common/paths.py": {
+      "sha256": "80da571efd02a5a476ec3ddaea4c373bfab8b352ba80b0370f919bf73343765a",
+      "bytes": 12829
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/common/naming.py": {
+      "sha256": "283869d93a31677ce3772670fec938391d677fcaeb4c66e3fe6740067a37926e",
+      "bytes": 8980
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/src/common/io_utils.py": {
+      "sha256": "7b0d77a87aa3e26e524ce22e728c3661f1b72ecd8b5ef9a9f0bc58a768236761",
+      "bytes": 8387
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/scripts/summarize_experiments.py": {
+      "sha256": "e344e13d46fa32f6f915196a0c40720cf924bda8699a15f407a35eba1e8187ae",
+      "bytes": 11295
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/scripts/analyze_raw_kerr_spectral_energy.py": {
+      "sha256": "fe6c752bef9b15f1721a04218e11a17e39bde82ea747cd420de95dff285d6e08",
+      "bytes": 36199
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/scripts/generate_plan_b_paired_fine_dataset.py": {
+      "sha256": "1604b0cfb4b04e14d9b6513eb91190792eadf28e00f9564e584fb13a0da02e6f",
+      "bytes": 1687
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/scripts/evaluate_formal_length_extrapolation_2d.py": {
+      "sha256": "cb96a639e2e4ace97014178b01f00c45d7d5f7cec2098ba60d5e36e15698a537",
+      "bytes": 34678
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/scripts/evaluate_formal_length_extrapolation_r3_2d.py": {
+      "sha256": "ff998b5056838199bc94017fbb988e8bdd6d0bf1668ee64fc46bfcf118c10d5c",
+      "bytes": 20939
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/scripts/train_model.py": {
+      "sha256": "36fc58afa28ca67da8b47a6407f91309027b8e9c07274d7991997bb65384b387",
+      "bytes": 9804
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/scripts/train_sparse_reconstruction_timesnet1d.py": {
+      "sha256": "2b6c01ef501e293eb95e162e5f6066273bea1838bd2a14c2599c103aa2886565",
+      "bytes": 11968
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/scripts/run_analysis.py": {
+      "sha256": "b444dd093bd7de50e4482b7fd4f0e42c656ff4d2ce4216db11ade1901a525f42",
+      "bytes": 12143
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/scripts/train_fno2d_domain_conditioned_r2.py": {
+      "sha256": "c40fdc02b144b10ec8bc6440b1be4cd8e6175efa64aa850e8df313d30157a9ea",
+      "bytes": 23369
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/scripts/evaluate_length_extrapolation_2d.py": {
+      "sha256": "679318d2b57909f462e4cc556794c9320ed03845388f43d4cb625bf3d39d40fa",
+      "bytes": 29495
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/scripts/analyze_fno2d_error_and_3d.py": {
+      "sha256": "348eb55ef68a367be2d98aeb2688103af58f1e3296d433d8711028c99255e1cb",
+      "bytes": 30044
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/scripts/run_analysis_2d.py": {
+      "sha256": "cc6c1dcac8c6505b2ca3e465f845951c0ee8d6f52698d6c5e3bb0885b6cb3211",
+      "bytes": 39074
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/scripts/evaluate_common_test_2d.py": {
+      "sha256": "9f0e245ad7e2705a4cf05983d35292d7b5f9560d3bb53f5946e67fe6cbbeab66",
+      "bytes": 28318
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/scripts/run_plan_b_local_smoke.py": {
+      "sha256": "a26dbce7cf938521ec7166d24f8368cfdbba0747a4621af2d974d8d68e464bd7",
+      "bytes": 5703
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/scripts/compare_error_profiles_2d.py": {
+      "sha256": "29a479e947ae4e4c0343d2b9c589d6d6f5c4e63398856c2e64063614fabcec1f",
+      "bytes": 3959
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/scripts/generate_dataset.py": {
+      "sha256": "4e1b1b2715ba91fbfc3a9b2c47ece35d1e7f9f41281ac2e094549d23add33dc8",
+      "bytes": 9100
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/scripts/diagnose_fno2d_internal_length_sensitivity.py": {
+      "sha256": "914eabf0d4ee12f5c7760f14abaa2b844e244bb83fc303ce9b268a33328cc7ab",
+      "bytes": 29021
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/scripts/collect_server_research_snapshot.py": {
+      "sha256": "e21d0ee24a44ef76e500a63f339bc84ed3fb2584a982ee9234a6404d18a1561b",
+      "bytes": 35860
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/scripts/train_fno2d_physical_frequency_r3.py": {
+      "sha256": "8bc28e32191e24b23c35c65a75cf4d449ea86f86f0dc7cfbfda6ec27c52a1e4d",
+      "bytes": 16153
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/scripts/validate_length_dataset_prefix_identity.py": {
+      "sha256": "f4b6e02ff529e87436332dea676d06f7542301bc0a79e5ea54231fbfcc11ebc5",
+      "bytes": 20537
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/scripts/collect_scale_results_2d.py": {
+      "sha256": "b3460a76afd7ae36ac1117163b83856fbcbfd8bc8222b40412b418476e12bdd5",
+      "bytes": 11007
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/scripts/validate_plan_b_ground_truth.py": {
+      "sha256": "54b4c8b37718de2e9e1370bb1474d7db07cd3d926da094e9c932e6399b9395c4",
+      "bytes": 1442
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/scripts/train_sparse_reconstruction_fno1d.py": {
+      "sha256": "a253b3dbdd22d03f441a62d59b362fa00bf709fbdba642751130ad64c3264146",
+      "bytes": 13757
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/scripts/train_fno2d_variable_length_r1.py": {
+      "sha256": "21db5ad709037cd5f0c08017c53ab2380884400895c7e28f538f4415853996d9",
+      "bytes": 27433
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/scripts/run_benchmark_track_a.py": {
+      "sha256": "975a2a3f309fea534535c28c0d9cf5d3ed95d534214fc7ea42511a1128a5650e",
+      "bytes": 2288
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/scripts/run_plan_b_resolution_range_sweep_2d.py": {
+      "sha256": "fbf6d31263e7aa0c2ef5fb3bcd4a61ec02b303846ce8ac4715645b076f1b18ee",
+      "bytes": 22843
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/scripts/evaluate_r1_validation_length_response_2d.py": {
+      "sha256": "fac32b5c46bb512027281e5cb82207744df9fad8414146603c684bbc7dac5b80",
+      "bytes": 20177
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/scripts/train_sparse_reconstruction_timesnet_lambda_isolated1d.py": {
+      "sha256": "9c96d184d0c51d3eda3521cae310a5c4d151f579ec65ed6ab5c6ce2a64db9f11",
+      "bytes": 11464
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/scripts/validate_second_order_dataset.py": {
+      "sha256": "cb6d76ead685618d405e8af6d8f7e09150ae976a4303155fb9ef00d3dbf1f29b",
+      "bytes": 15035
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/scripts/analyze_timesnet_frequency_diagnostics.py": {
+      "sha256": "56a2531638b909ff6bfdef77d6890ce4b591779c4f127f03f6ead56864b640fb",
+      "bytes": 18318
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/scripts/compare_length_prefix_predictions_2d.py": {
+      "sha256": "0ee74274cf65c55352218a9684164209b5ab0dba39d2db9545d625a260471501",
+      "bytes": 9850
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/scripts/analyze_timesnet_projection_spectral_contributions.py": {
+      "sha256": "516581296bb0d4452c4c8102b588808276ddda8340601f381e49d89e332d8e06",
+      "bytes": 15414
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/scripts/evaluate_formal_length_extrapolation_r2_2d.py": {
+      "sha256": "363dd1e52aa56fb523ccbcf96610b2fc3dbc0942e28f044074aa897aaec4e2e0",
+      "bytes": 31008
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/scripts/evaluate_length_change_prediction_consistency_2d.py": {
+      "sha256": "6050942c7dce28e147614b6ae45c90e7a185f8f0a924cfc50aec3a0109d3a5ee",
+      "bytes": 25408
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/scripts/validate_second_order_solver.py": {
+      "sha256": "e2e5134cdd934f1d347e02f5cf9f56a7f431d8da2f4d553d05fa448a6c15a467",
+      "bytes": 4286
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/scripts/diagnose_lambda_coordinate_clamp_effect_2d.py": {
+      "sha256": "8bef61e655092c6828ca1b61d1f1d35d9ef825b3077a9ea36e5438fc15d208a7",
+      "bytes": 39476
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/scripts/collect_queue_a_results_2d.py": {
+      "sha256": "9d1c1b8e07bad28d195006394992d45db33df2ba01ed7355b773d646efa7d25b",
+      "bytes": 11054
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/scripts/train_sparse_reconstruction_resnet1d.py": {
+      "sha256": "be4e7cdf5b28edac7cbc3e504dc005ccf2b1f6fd8ccdfb8f3d59fdaa9f144181",
+      "bytes": 13154
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/scripts/validate_length_dataset_prefix.py": {
+      "sha256": "c67242c1d4c942c9e108feb2d36da33c92bb8676de9d6716d0bd8c3833d94156",
+      "bytes": 6572
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/scripts/evaluate_sparse_reconstruction_cross_resolution.py": {
+      "sha256": "c8d1c2ded66c3d8a7de2e6ac5171e653477c809662f87e40ac262fc5f7b3c4ea",
+      "bytes": 2482
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/scripts/batch_validate_second_order_solver.py": {
+      "sha256": "9bce398187f8685e4752661491c946b775a1ca0c49e4e417f24048d0aff1b731",
+      "bytes": 27272
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/scripts/evaluate_plan_b_resolution_generalization_2d.py": {
+      "sha256": "ad85646be2147e9771a1aa405a76917a0933150b7d54d6ae0af5772c3d546737",
+      "bytes": 19897
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/scripts/evaluate_r3_validation_length_response_2d.py": {
+      "sha256": "93d3304c71066dbfee9a708674ebff02ac6c72fd42b9509211af15841e4325b6",
+      "bytes": 18707
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/scripts/analyze_timesnet_raw_input_spectrum.py": {
+      "sha256": "8f0f9d87d3c8a52bc4e691ddbc92ff38382cc6ee004423b421a3499fe57d54cc",
+      "bytes": 13120
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/scripts/run_plan_b_bidirectional_reverse_2d.py": {
+      "sha256": "9a20b5dde537ee0c3e3ffbb36fb5f4978ef1634df071b16f4c8519f93f5537d9",
+      "bytes": 29110
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/scripts/evaluate_sparse_reconstruction_baselines.py": {
+      "sha256": "2200e2179bd4ac67d8f3ccff83523ef6d2c4e2e24df90b7cb7c98e661f0401a8",
+      "bytes": 5306
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/scripts/train_model_2d.py": {
+      "sha256": "f9b5fc1b7810fe23435a4372b1999ee9e4f314c5bc125601857169520f04276d",
+      "bytes": 32187
+    },
+    "/workspace/shanjinshuo/outputs/fno_kerr/priority1_q400_comparison_t1200/evaluate_p1_q400.py": {
+      "sha256": "6c749373788fd382560608559d1314207ec009b7ee4a3447000b6d97a548b0b9",
+      "bytes": 20305
+    },
+    "/workspace/shanjinshuo/outputs/fno_kerr/priority1_spline_t1200_val_20261011T0341Z/spline_in_q_priority1.py": {
+      "sha256": "d8695b1d00c4ea9a4b5532bb14bc9a8c93ea474546d1343e7be1dad1bf72dfee",
+      "bytes": 3001
+    },
+    "/workspace/shanjinshuo/outputs/fno_kerr/priority1_spline_t1200_val_20261011T0341Z/frozen-protocol.json": {
+      "sha256": "09b1c3052102ca61e102145ac956d50b86976858154d5361d71d0f44b7dd1134",
+      "bytes": 1896
+    },
+    "/workspace/shanjinshuo/outputs/fno_kerr/priority1_spline_t1200_val_20261011T0341Z/source-transport-note.json": {
+      "sha256": "d3baca9d5d49feb882d3212cc29a8c173231ae2e7de69e990720eefb9d6bfecd",
+      "bytes": 816
+    },
+    "/workspace/shanjinshuo/outputs/fno_kerr/priority1_mlp_t1200_seed27_20261024T014339Z/code/p1_mlp_runner.py": {
+      "sha256": "fa81ffbd3ba867d77ba69f4fdaf2de394c95c84336dad4e70e27f80a0c95ed0e",
+      "bytes": 17053
+    },
+    "/workspace/shanjinshuo/outputs/fno_kerr/priority1_mlp_t1200_seed27_20261024T014339Z/frozen-config.json": {
+      "sha256": "63a8dba8b56fccb014e3df85f6f8d24da68610432202a85e6d6fa21014240510",
+      "bytes": 12755
+    },
+    "/workspace/shanjinshuo/outputs/fno_kerr/priority1_mlp_t1200_seed27_20261024T014339Z/run/normalization.json": {
+      "sha256": "9ccbfb602a822441621d68fab6c685e7ed073629a7e1d7cb60a74bc345ab78cf",
+      "bytes": 350
+    },
+    "/workspace/shanjinshuo/outputs/fno_kerr/priority1_mlp_t1200_seed27_20261024T014339Z/run/BEST.json": {
+      "sha256": "0e5a9e8868377809353ee36ad5226a89d1d5bdc51c34428e1fbb08b0ec18bfd5",
+      "bytes": 1043
+    },
+    "/workspace/shanjinshuo/outputs/fno_kerr/priority1_mlp_t1200_seed27_20261024T014339Z/run/completion.json": {
+      "sha256": "df70f2bdd0949764fddc5f04edeefc685bea346f466bcdb7831941897327037e",
+      "bytes": 2470
+    },
+    "/workspace/shanjinshuo/outputs/fno_kerr/priority1_mlp_t1200_seed27_20261024T014339Z/run/checkpoints/epoch_0494_cb9f52241f3d43c49edcc042abd55f29.pt": {
+      "sha256": "91503281bd80e5106ab7fb051b5956c88e269d49b20b5749681b66824f78b4c0",
+      "bytes": 16172730
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave1_fno1d_20260912/train_t1200/best_model.pt": {
+      "sha256": "11ccbebf1d0fd68c57d0895685adeb7d1386da723242ee8271b18286ebbb7ff1",
+      "bytes": 4291732
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave1_fno1d_20260912/eval_t1200/prediction_t1200.npz": {
+      "sha256": "4482c19f58f57b5102e33942f6a50fb04ce7a31729727b041457922edef3c0c3",
+      "bytes": 5325690
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave1_fno1d_20260912/eval_t1200/metrics_t1200.json": {
+      "sha256": "4428f6db3642977d7455ad6a599e02a198060b4f0b8fc00f3460e1e8bc9b7304",
+      "bytes": 86297
+    },
+    "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave1_fno1d_20260912/train_t1200/summary.json": {
+      "sha256": "8673834acad990d7bb874d6a44230dedd7d6ee2c0990114d60afc64281ffd20b",
+      "bytes": 100691
+    },
+    "/workspace/shanjinshuo/datasets/fno_kerr/priority1_q400_comparison_t1200/q_1p6007-2p9993_n400_t1200/dataset.npz": {
+      "sha256": "39c7b1ce9624123a5f2680d76abe8a7fa18e135ec166fa70262efb8d563c60db",
+      "bytes": 11139587
+    },
+    "/workspace/shanjinshuo/datasets/fno_kerr/priority1_q400_comparison_t1200/q_1p6007-2p9993_n400_t1200/meta.json": {
+      "sha256": "fbe816012a245c4cadf132de8cae5f042f8f796677e89b91af33b1fb377702d8",
+      "bytes": 2278
+    },
+    "/workspace/shanjinshuo/datasets/fno_kerr/priority1_spline_t1200_val_20261011T0341Z/data-manifest.json": {
+      "sha256": "c9239a433efa34545f2d73250b3c56d2718d74f3b88451306da1e8a74e7d29e5",
+      "bytes": 2281
+    },
+    "/workspace/shanjinshuo/datasets/fno_kerr/priority1_spline_t1200_val_20261011T0341Z/source-meta.json": {
+      "sha256": "459f8024f66db1abfe95d732b1cc9c90132c7bcc29d6425e25bbf32143fd6338",
+      "bytes": 2260
+    },
+    "/workspace/shanjinshuo/datasets/fno_kerr/priority1_spline_t1200_val_20261011T0341Z/train1400_val300_t1200.npz": {
+      "sha256": "35337c84f2811364a05c278948509c4553e94325c5caa730b707c48ca92b3dc6",
+      "bytes": 47327218
+    },
+    "/workspace/shanjinshuo/outputs/fno_kerr/priority1_timing_t1200_20261024T0640Z/benchmark_p1_t1200.py": {
+      "sha256": "801e8997ad3252817d94f73582da8c061ad25de90da6cbaf3549eac8088df0e7",
+      "bytes": 20719
+    },
+    "/workspace/shanjinshuo/outputs/fno_kerr/priority1_q400_comparison_t1200/result.json": {
+      "sha256": "ab2b28df60e83b3b325ac633b9095a166860c9e3268fcf0a97282e0b87fc3ec9",
+      "bytes": 10149
+    },
+    "/workspace/shanjinshuo/outputs/fno_kerr/priority1_q400_comparison_t1200/canonical-truth.npz": {
+      "sha256": "43daee1896dc735c4ce55f83460e2e43f2dfe31ccf2cf23dc20b8ca2879206fb",
+      "bytes": 11137652
+    },
+    "/workspace/shanjinshuo/outputs/fno_kerr/priority1_mlp_t1200_seed27_20261024T014339Z/run/session_4aeab77bc5dc403ca08819dc5aa83633.json": {
+      "sha256": "3e2618e747c40c40f70e83f3b30bde27cbf55281a7e8ccad850bf57bcf8e97a0",
+      "bytes": 776
+    }
+  },
+  "cpu_affinity": [
+    0,
+    1
+  ],
+  "cpu_threads": 2,
+  "torch_interop_threads": 1,
+  "blas_threads": 2,
+  "cpu_solver_parallelism": "Serial Python loop, one trajectory at a time",
+  "single_Q_canonical_index": 200,
+  "batch32_indices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31
+  ],
+  "full_Q400_order": "canonical ascending",
+  "warmups": {
+    "single": 5,
+    "batch32": 5,
+    "Q400": 1,
+    "preparation": 1
+  },
+  "repeats": {
+    "single": 30,
+    "batch32": 30,
+    "Q400": 5,
+    "preparation": 3
+  },
+  "cases": [
+    "RK4_CPU",
+    "Spline_CPU",
+    "MLP_CPU",
+    "FNO_CPU",
+    "MLP_GPU",
+    "FNO_GPU"
+  ],
+  "case_order": "As listed; single process, no concurrent model timing; all raw samples retained, no outlier removal",
+  "query_groups": {
+    "single": "canonical index 200; not a latency survey over Q",
+    "batch32": "canonical indices 0..31",
+    "Q400": "all 400; neural chunks 32, final16; Spline vectorized400; RK4 serial400"
+  },
+  "scopes": {
+    "model_only": "Prepared normalized input resident on device -> forward -> inverse normalization on device -> raw xyz tensor; excludes host transfers and input construction",
+    "end_to_end": "In-memory physical Q/grid -> input construction/normalization -> transfer/forward -> CPU raw xyz; excludes disk, import, initialization, metrics",
+    "RK4": "Historical simulate_one_orbit_second_order including initialization, RK4, xyz, potentials, constraints, turning counts and safety checks; not bare RK4 arithmetic",
+    "Spline": "Original frozen predict incl boundary checks; never refit inside prediction timing; E2E also constructs/copies query array"
+  },
+  "synchronization": "CUDA synchronize immediately before and after each measured region; end-to-end includes D2H per chunk; no disk IO inside region",
+  "validation": "Shape, finite, Q/grid identity and fresh compute counter outside timer for every repetition; no accuracy reevaluation",
+  "preparation_scope": "Python imports excluded. Fit uses already loaded 1400 train trajectories. Load reads artifact, instantiates model and transfers to target device. NFS cache not flushed; first load is not claimed cold.",
+  "spline_persistence": "New uncompressed NPZ of exact fitted float64 coefficients, knots, order and two endpoint/slopes; reconstruct original predict without refitting",
+  "training_time_policy": "Only existing trustworthy records, hardware and timing scope identified separately; never retrain",
+  "safe_stop_utc": "2026-10-24T07:07:00+00:00",
+  "task_expiry_source": "User creation at 2026-10-24 09:27 UTC+8 plus six hours; scheduler not independently verified",
+  "field_caveat": "Established Q400 evaluation field previously used in historical research; not an untouched held-out test",
+  "neural_dtype": "float32",
+  "spline_solver_dtype": "float64",
+  "formal_accuracy_recomputed": false,
+  "limitations": [
+    "Shared CPU/GPU; affinity is not exclusive reservation",
+    "Only five complete-field repetitions; p95 is descriptive, not stable tail inference",
+    "CPU/GPU ratios are deployment comparisons, not pure algorithm acceleration",
+    "No optimized/vectorized/compiled RK4 implementation evaluated"
+  ]
+}

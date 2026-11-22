@@ -29,3 +29,16 @@ temp/
 .vscode/
 .idea/
 *.out
+
+# Local report bundles, credentials, caches and additional binary assets
+*.zip
+*.tar
+*.tar.gz
+*.h5
+*.hdf5
+*.ckpt
+*.safetensors
+.env.*
+*.pem
+*.key
+.pytest_cache/

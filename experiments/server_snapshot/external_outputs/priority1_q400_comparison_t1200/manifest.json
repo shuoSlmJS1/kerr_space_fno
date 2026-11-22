@@ -1,0 +1,148 @@
+{
+  "status": "VERIFIED",
+  "files": [
+    {
+      "relative_path": "audit-process.json",
+      "bytes": 294,
+      "sha256": "4a07a0121d6c21fec62881395cc6cdad4861b37b036aaca56b819c44b208e92c"
+    },
+    {
+      "relative_path": "audit.stderr.log",
+      "bytes": 465,
+      "sha256": "4fecfac49c1f93a9caf1b100f7bfda9722e2c1671696b8a14b9f97f1a869008f"
+    },
+    {
+      "relative_path": "audit.stdout.log",
+      "bytes": 93,
+      "sha256": "f2b49bd2ed8f359195c41988bf5c7c998a5e8a730ef366106080150ea3b357ce"
+    },
+    {
+      "relative_path": "canonical-identity.json",
+      "bytes": 87842,
+      "sha256": "be880302c2da7885c3e978957da7279ac3da69435f346055bd8e1b758b401922"
+    },
+    {
+      "relative_path": "canonical-truth.npz",
+      "bytes": 11137652,
+      "sha256": "43daee1896dc735c4ce55f83460e2e43f2dfe31ccf2cf23dc20b8ca2879206fb"
+    },
+    {
+      "relative_path": "comparability-audit.json",
+      "bytes": 554,
+      "sha256": "c4e5a1a827b23c5e122f3e8943ab302fb667b5b42ae80729506e884d55bfc146"
+    },
+    {
+      "relative_path": "completion.json",
+      "bytes": 410,
+      "sha256": "7fd9225cda20602b4f744a49583f78d290b5eaf226af04f28224df1b9da40ddb"
+    },
+    {
+      "relative_path": "error-ratios.json",
+      "bytes": 1576,
+      "sha256": "cc366eab0d1c44d6968099a77716748f1bc8a688d9442b5598f38778afe4ea5f"
+    },
+    {
+      "relative_path": "evaluate_p1_q400.py",
+      "bytes": 20305,
+      "sha256": "6c749373788fd382560608559d1314207ec009b7ee4a3447000b6d97a548b0b9"
+    },
+    {
+      "relative_path": "evaluation-command.json",
+      "bytes": 305,
+      "sha256": "a83c6e45d5b9a780af21d8b5df20cf64aed35afb69de6842562a57e0bb5f6f3c"
+    },
+    {
+      "relative_path": "evaluation-process.json",
+      "bytes": 156,
+      "sha256": "2d59874355eb25deb09264e8231cacc0f62391784f18f88dc264ad7f22a7c126"
+    },
+    {
+      "relative_path": "evaluation.stderr.log",
+      "bytes": 1454,
+      "sha256": "3e762d21c17f78eba1a030d6d848a0c7fd7fb22e51bf27d0ace20fc36b072bf8"
+    },
+    {
+      "relative_path": "evaluation.stdout.log",
+      "bytes": 7894,
+      "sha256": "545efad64897cf810c2a31ed22ef51a17144b8dbd7925c27f7774dbcc91ec2de"
+    },
+    {
+      "relative_path": "fno-history-crosscheck.json",
+      "bytes": 334,
+      "sha256": "8a5437223d3b413c17b0189908527775072e162f275be67ac3ddca9e5dd4b303"
+    },
+    {
+      "relative_path": "frozen-protocol.json",
+      "bytes": 31273,
+      "sha256": "5962240d3a78fcffeff052bb0592cc36d15bc5c4d947a42ba9aebb3c36af6737"
+    },
+    {
+      "relative_path": "metrics.json",
+      "bytes": 5944,
+      "sha256": "fa63020b4b62bd1fd577d64f683ecd0e0ed6b3b5e45060a6de4734e2f50271fd"
+    },
+    {
+      "relative_path": "per-q-paired-errors.json",
+      "bytes": 187832,
+      "sha256": "a9cd020082bea4f751079f5a5371e9ae70ed32c8a5371b571719afee8aadd2da"
+    },
+    {
+      "relative_path": "prediction_fno.npz",
+      "bytes": 5325688,
+      "sha256": "c8112a86070a94722d77b06c5387ff671e0a7df449ec58a1ba8e9db66b8d9c6d"
+    },
+    {
+      "relative_path": "prediction_mlp.npz",
+      "bytes": 5326148,
+      "sha256": "e5b3eba4e3d5850d56deac3059945531e333a794dff46213190bce766f70e1b3"
+    },
+    {
+      "relative_path": "prediction_spline.npz",
+      "bytes": 11137543,
+      "sha256": "1f6b4b189e44922d6e849f6d3ca171629fc9013c18fa32165b23a4e64d6b5ef3"
+    },
+    {
+      "relative_path": "report.zh-CN.md",
+      "bytes": 7859,
+      "sha256": "6c5449b897968df209bdb690068a6ed3cc39d04691d901776f29c76302673736"
+    },
+    {
+      "relative_path": "result.json",
+      "bytes": 10149,
+      "sha256": "ab2b28df60e83b3b325ac633b9095a166860c9e3268fcf0a97282e0b87fc3ec9"
+    },
+    {
+      "relative_path": "review.json",
+      "bytes": 13996,
+      "sha256": "ebfd76bbc830b2473caa5d8736588ea1665a632832d409138040d38d4e3ce2f5"
+    },
+    {
+      "relative_path": "runtime.json",
+      "bytes": 1280,
+      "sha256": "28e67999bc323e8358af944dbd9803d4a42cf1a5465cc4139df165d20d89edcf"
+    },
+    {
+      "relative_path": "train-sort-mapping.json",
+      "bytes": 45932,
+      "sha256": "9030d3c528e834819bff1d8c27de4f27f41e732392d1b5d91ed96cb878733c8f"
+    },
+    {
+      "relative_path": "transfer-dry-run.json",
+      "bytes": 1238,
+      "sha256": "68dad42d6cebe81f55447372ecbfd1755762515d256661f635fa6691a7d321a4"
+    },
+    {
+      "relative_path": "transfer-result.json",
+      "bytes": 1866,
+      "sha256": "682934090618f5e18bf167bc7f76dbba09e9e1eed93dfec49d3970e2f6f8d2af"
+    },
+    {
+      "relative_path": "verification.json",
+      "bytes": 1471,
+      "sha256": "a4d6e63a0d1684a36d93e5e6332f707526f95c26bff870ba6eebe229bedf93ac"
+    }
+  ],
+  "logical_bytes": 33357553,
+  "excluded": "Transfer staging hardlinks, cache directories, and manifest itself; source/input hashes are in frozen-protocol.json",
+  "field_caveat": "Established historically used evaluation field, not an untouched held-out test"
+}

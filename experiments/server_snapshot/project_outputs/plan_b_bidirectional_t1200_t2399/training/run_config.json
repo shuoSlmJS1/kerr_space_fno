@@ -1,0 +1,183 @@
+{
+  "schema_version": "1.0",
+  "run_type": "training",
+  "experiment_type": "plan_b_bidirectional_fixed_domain_resolution",
+  "model_type": "fno2d",
+  "operator_axes": [
+    "Q",
+    "lambda"
+  ],
+  "training_seed": 27,
+  "epochs": 500,
+  "batch_size": 1,
+  "lr": 0.001,
+  "weight_decay": 0.0001,
+  "scheduler_gamma": 0.995,
+  "normalization": "standard",
+  "target_transform": "raw",
+  "lambda_reference_index": 0,
+  "model_config": {
+    "model_type": "fno2d",
+    "in_dim": 2,
+    "out_dim": 3,
+    "modes1": 16,
+    "modes2": 32,
+    "width": 64,
+    "depth": 4,
+    "hidden_dim": 128,
+    "activation": "gelu"
+  },
+  "dataset_summary": {
+    "param_name": "Q",
+    "vary_params_order": [
+      "Q"
+    ],
+    "normalization_stats": {
+      "method": "standard",
+      "x_mean": [
+        2.303922176361084,
+        2.9963793754577637
+      ],
+      "x_std": [
+        0.4028667211532593,
+        1.7295324802398682
+      ],
+      "y_mean": [
+        0.4340711534023285,
+        0.693742036819458,
+        0.0670938566327095
+      ],
+      "y_std": [
+        5.454416275024414,
+        5.923589706420898,
+        2.704824447631836
+      ],
+      "eps": 1e-08
+    },
+    "target_transform_config": {
+      "mode": "raw",
+      "lambda_reference_index": 0
+    },
+    "train": {
+      "x_2d_shape": [
+        1,
+        1400,
+        2399,
+        2
+      ],
+      "y_2d_shape": [
+        1,
+        1400,
+        2399,
+        3
+      ],
+      "param_name": "Q",
+      "param_grid_shape": [
+        1400
+      ],
+      "lambda_grid_shape": [
+        2399
+      ],
+      "num_fields": 1,
+      "num_param": 1400,
+      "num_lambda": 2399,
+      "in_dim": 2,
+      "out_dim": 3,
+      "input_channel_names": [
+        "Q",
+        "lambda"
+      ],
+      "cfg_param_names": null,
+      "param_min": 1.6021010875701904,
+      "param_max": 3.0,
+      "lambda_min": 0.0,
+      "lambda_max": 5.994999885559082
+    },
+    "val": {
+      "x_2d_shape": [
+        1,
+        300,
+        2399,
+        2
+      ],
+      "y_2d_shape": [
+        1,
+        300,
+        2399,
+        3
+      ],
+      "param_name": "Q",
+      "param_grid_shape": [
+        300
+      ],
+      "lambda_grid_shape": [
+        2399
+      ],
+      "num_fields": 1,
+      "num_param": 300,
+      "num_lambda": 2399,
+      "in_dim": 2,
+      "out_dim": 3,
+      "input_channel_names": [
+        "Q",
+        "lambda"
+      ],
+      "cfg_param_names": null,
+      "param_min": 1.600000023841858,
+      "param_max": 2.997899055480957,
+      "lambda_min": 0.0,
+      "lambda_max": 5.994999885559082
+    },
+    "test": {
+      "x_2d_shape": [
+        1,
+        300,
+        2399,
+        2
+      ],
+      "y_2d_shape": [
+        1,
+        300,
+        2399,
+        3
+      ],
+      "param_name": "Q",
+      "param_grid_shape": [
+        300
+      ],
+      "lambda_grid_shape": [
+        2399
+      ],
+      "num_fields": 1,
+      "num_param": 300,
+      "num_lambda": 2399,
+      "in_dim": 2,
+      "out_dim": 3,
+      "input_channel_names": [
+        "Q",
+        "lambda"
+      ],
+      "cfg_param_names": null,
+      "param_min": 1.6007003784179688,
+      "param_max": 2.9943971633911133,
+      "lambda_min": 0.0,
+      "lambda_max": 5.994999885559082
+    }
+  },
+  "plan_b_reverse_contract": {
+    "source_task_name": "q_1p6-3_n2000_t1200",
+    "source_split_q_sha256": {
+      "train": "19568b3ebb25494faa0f769874d3aa02c0e32bae325e7c968308ffe297e964ea",
+      "val": "065795c3ac45c8fbf52e8e3c115c0daeb57b476609f73499dc9f9cd420e54275",
+      "test": "c67d057aba98eb080c374280524751deb44d752a58425f3dfff5b4dbcc377e80"
+    },
+    "matched_training_grid": {
+      "T": 2399,
+      "step_size": 0.0025,
+      "lambda_max": 5.995
+    },
+    "normalization_fit_split": "train",
+    "normalization_reused_from_t1200": false,
+    "target_success_replacement_used": false
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "status": "PROPOSED_NOT_FORMALLY_LOCKED",
+  "name": "Priority 1 Simple Baselines",
+  "scope": "Smoke and timing plumbing only; no formal training or held-out error selection.",
+  "spline": {
+    "axis": "Q only, axis=0 of [Q,T,3]; never sparse lambda reconstruction",
+    "formal_training_Q": "All 1400 original training Q only; stable ascending sort and retain source row mapping; reject duplicates.",
+    "fit": "CubicSpline with bc_type=natural, float64 raw xyz, no smoothing/hyperparameter search.",
+    "boundary_proposal": "Inside hull: cubic spline. Outside: explicit linear tails from the first/last two training knots; report boundary subgroup and full-set metrics. Requires approval, not implemented in this smoke.",
+    "smoke_boundary": "extrapolate=False; reject out-of-hull queries before evaluation; intentionally verify rejection.",
+    "grids": "Native T1200 first. Separate T2399 fit on matched train truth as a proposed extension. Q-only spline does not define unseen lambda nodes; cross-resolution comparison is pending a separately declared lambda resampling rule, never implicit.",
+    "leakage": "Validation Q for selection only after protocol lock; no validation/test/independent-Q400 knots or refitted statistics; no test-driven interpolation/boundary choice."
+  },
+  "mlp": {
+    "proposal": "Pointwise 2->576->576->576->576->3, GELU, no Fourier/positional encoding, no residual or physics inputs; independent of lambda length.",
+    "nominal_parameters": 1000515,
+    "smoke": "2->16->16->3; one forward/backward, no optimizer step; seed27.",
+    "formal_training": "Reuse train-only Track A standard normalization with float64 reductions over float32 samples. Raw targets, normalized MSE, trajectory batches32 with all lambda points per trajectory. Original train/val Q splits; never split randomly by coordinate points.",
+    "defaults": "Proposed seed27, AdamW lr1e-3 weight_decay1e-4, ExponentialLR gamma0.995, 500 epochs maximum, minimum validation normalized MSE BEST over all epochs, preserve original batch32 eval and canonical order.",
+    "authorization": "New baseline architecture and formal training protocol require approval; not added to the locked six-model Track A registry."
+  },
+  "metrics": {
+    "space": "Raw physical xyz, float64 reductions, epsilon=1e-12",
+    "global": "norm(pred-truth over all Q,lambda,xyz)/(norm(truth over all Q,lambda,xyz)+epsilon)",
+    "mean_per_Q": "mean over Q of norm(error_q)/(norm(truth_q)+epsilon)",
+    "distinction": "Global weights trajectories by truth energy in squared norms; mean-per-Q weights relative errors equally. Not interchangeable; neither is a mean of pointwise relative errors."
+  },
+  "timing": {
+    "smoke": {
+      "warmups": 1,
+      "repetitions": 3,
+      "batch": 1,
+      "steps": 1200,
+      "step_size": 0.005,
+      "threads": 2,
+      "max_process_seconds": 120
+    },
+    "formal_proposal": {
+      "warmups": 5,
+      "repetitions": 30,
+      "latency_batch": 1,
+      "throughput_batch": 32,
+      "final_short_batch": 16,
+      "threads": 2
+    },
+    "solver": "CPU perf_counter wall-clock for original simulate_one_orbit_second_order including initialization, RK4 loop, xyz conversion and diagnostics; exclude import/disk writes. One Q at a time; serial batch32 total if later approved.",
+    "neural": "Separately CPU/GPU resident-tensor model-only latency and end-to-end Q/grid construction+normalization+H2D+forward+D2H+inverse normalization. synchronize CUDA before start and before stop. Exclude model load/disk writes; report raw repetitions and median.",
+    "comparison": "Require identical Q/grid/output contract for numerical task equivalence. Solver float64 and neural float32, CPU vs GPU and unlike implementation paths preclude a pure algorithmic speedup claim. Do not report a formal speedup from smoke timings.",
+    "precision": "Record actual TF32, matmul, cuDNN, threads, CUDA runtime, device and HAMI stderr; do not change settings."
+  },
+  "minimal_next_matrix": [
+    {
+      "id": "S1200",
+      "status": "pending_approval",
+      "method": "natural cubic spline-in-Q",
+      "resolution": 1200,
+      "fit_Q": 1400,
+      "training_runs": 0
+    },
+    {
+      "id": "M1200",
+      "status": "pending_approval_and_formal_harness",
+      "method": "plain MLP",
+      "resolution": 1200,
+      "seed": 27,
+      "epochs": 500,
+      "training_runs": 1
+    },
+    {
+      "id": "M2399",
+      "status": "deferred_until_M1200_workflow_verified_and_approved",
+      "method": "plain MLP",
+      "resolution": 2399,
+      "seed": 27,
+      "epochs": 500,
+      "training_runs": 1
+    },
+    {
+      "id": "S2399",
+      "status": "deferred_approval",
+      "method": "natural cubic spline-in-Q native-only",
+      "resolution": 2399,
+      "training_runs": 0
+    }
+  ],
+  "sources": [
+    "https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.CubicSpline.html",
+    "https://docs.pytorch.org/docs/stable/notes/cuda"
+  ]
+}

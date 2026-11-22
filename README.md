@@ -1,5 +1,19 @@
 # FNO–Kerr
 
+## November 22, 2026 source and research update
+
+The school-server source snapshot has been synchronized to this repository, including
+the P1 spline/MLP experiments and P2 multi-seed experiment scripts that were stored
+outside `src/`. Start with the [latest detailed research reports](reports/README.md)
+and the [source snapshot guide](docs/SERVER_SOURCE_SNAPSHOT_20261122.md).
+The September summaries below remain historical records; use the November reports
+for the latest completed experiments and their evidence boundaries.
+
+The repository includes code and small configuration/provenance files. Datasets,
+model weights, predictions, and full runtime outputs remain on the server.
+Some archived execution scripts require the original server directory structure;
+the snapshot guide identifies these limitations before reproduction.
+
 ## Project overview
 
 This project studies learning Kerr spacetime geodesic trajectories with Fourier Neural Operators (FNOs) and other neural architectures. The completed experiments learn the mapping from physical parameter Q and coordinate lambda to the trajectory xyz(lambda), with the remaining physical parameters and initial conditions fixed.

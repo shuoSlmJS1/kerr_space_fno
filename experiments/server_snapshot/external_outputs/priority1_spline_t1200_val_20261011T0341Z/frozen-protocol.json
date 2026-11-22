@@ -1,0 +1,30 @@
+{
+  "status": "FROZEN_BEFORE_VALIDATION",
+  "frozen_utc": "2026-10-11T03:44:13.257488+00:00",
+  "authorization": "User explicitly approved full T1200 validation with fixed natural cubic inside and two-nearest-training-knot secant linear tails.",
+  "training_Q_count": 1400,
+  "validation_Q_count": 300,
+  "data_seed": 10,
+  "sort": "stable ascending Q, keep original row mapping",
+  "axis": "Q at every fixed original lambda node, each raw xyz component",
+  "inside": "Natural Cubic Spline, float64",
+  "outside": "Nearest two training knots on the corresponding side define a linear secant extension; no spline-polynomial extrapolation",
+  "lambda": "Original T1200 arange(1200)*0.005, endpoints0..5.995; no resampling",
+  "normalization": "None; raw xyz float64 fitting and evaluation",
+  "metrics": "Original compute_raw_metrics; float64 global norm ratio and arithmetic mean of per-Q norm ratios; epsilon1e-12",
+  "test_or_Q400_used": false,
+  "hyperparameter_search": false,
+  "change_after_validation_forbidden": true,
+  "data_directory": "/workspace/shanjinshuo/datasets/fno_kerr/priority1_spline_t1200_val_20261011T0341Z",
+  "data_manifest_sha256": "c9239a433efa34545f2d73250b3c56d2718d74f3b88451306da1e8a74e7d29e5",
+  "code_sha256": {
+    "spline_in_q_priority1.py": "d8695b1d00c4ea9a4b5532bb14bc9a8c93ea474546d1343e7be1dad1bf72dfee",
+    "validate_spline_t1200.py": "548498b30be401609a934a6b98959f08e19cd997661100c2fdbdbd2d9058fb11"
+  },
+  "historical_metric_source_sha256": "ad85646be2147e9771a1aa405a76917a0933150b7d54d6ae0af5772c3d546737",
+  "backup_git_head": "1c97c032a30fd6e9c9999080a022a9bdf0216b2a",
+  "remote_git_checkout": false,
+  "new_code_provenance": "Uncommitted control-workspace scripts copied byte-for-byte and pinned above, not a historical Git commit.",
+  "safety_deadline_utc": "2026-10-11T04:08:00+00:00",
+  "nominal_task_expiry_utc": "2026-10-11T04:23:00+00:00"
+}
