@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "actual_completed_run_ingestion": "PASS",
+  "exact_global_mse_alias": "PASS",
+  "incomplete_three_seed_cells_withheld": "PASS",
+  "sample_std_ddof1": "PASS",
+  "utc": "2026-10-24T09:56:32.470752+00:00"
+}

@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "historical_metrics_recomputed": {
+    "global_relative_l2": 0.000304676590517053,
+    "mean_per_q_relative_l2": 0.000284387272944176,
+    "global_mse": 2.2574661698975313e-06
+  },
+  "data_archive_matches_historical_sha256": true,
+  "exact_Q_grid_and_source_mapping": true,
+  "same_fixed_physics": true,
+  "same_initial_xyz": true,
+  "correct_training_split_identity": true,
+  "checkpoint_normalization_restored": true,
+  "normalization_not_refitted": true,
+  "all_frozen_sources_verified": true,
+  "outside_Q": [
+    1.6007
+  ]
+}

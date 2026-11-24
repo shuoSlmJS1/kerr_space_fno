@@ -1,0 +1,95 @@
+{
+  "task_name": "q_1p6007-2p9993_n400_t1800",
+  "task_spec": {
+    "vary_params": [
+      "Q"
+    ],
+    "vary_ranges": {
+      "Q": [
+        1.6007,
+        2.9993
+      ]
+    },
+    "fixed_params": {
+      "M": 1.0,
+      "a": 0.5,
+      "E": 0.95,
+      "Lz": 3.0,
+      "r0": 10.0,
+      "theta0": 1.2,
+      "phi0": 0.0,
+      "sign_r": -1,
+      "sign_th": 1
+    },
+    "sample_shape": [
+      400
+    ],
+    "n_steps": 1800,
+    "step_size": 0.005,
+    "split_ratios": [
+      0.7,
+      0.15,
+      0.15
+    ],
+    "seed": 20260728,
+    "sampling_mode": "grid",
+    "completion_policy": "target_success",
+    "max_attempt_factor": 1.5,
+    "metadata": {
+      "task_name": "q_1p6007-2p9993_n400_t1800",
+      "orbit_solver": "second_order_rk4",
+      "orbit_solver_version": "v1",
+      "dataset_max_radial_constraint_residual": 3.720015726571546e-07,
+      "dataset_max_polar_constraint_residual": 4.977499745706382e-09,
+      "generation": {
+        "completion_policy": "target_success",
+        "target_success_count": 400,
+        "initial_candidate_count": 400,
+        "max_attempt_factor": 1.5,
+        "max_attempt_count": 600,
+        "attempt_count": 400,
+        "success_count": 400,
+        "fail_count": 0,
+        "completed": true,
+        "used_completion_sampling": false,
+        "initial_sampling_mode": "grid",
+        "completion_sampling_mode": null,
+        "successful_points_strictly_uniform": true,
+        "data_seed": 20260728
+      }
+    }
+  },
+  "config_tag": "cfg1",
+  "generation_status": {
+    "completed": true,
+    "completion_policy": "target_success",
+    "target_success_count": 400,
+    "initial_candidate_count": 400,
+    "max_attempt_factor": 1.5,
+    "max_attempt_count": 600,
+    "attempt_count": 400,
+    "success_count": 400,
+    "fail_count": 0,
+    "success_ratio_vs_attempts": 1.0,
+    "completion_ratio": 1.0,
+    "used_completion_sampling": false,
+    "successful_points_strictly_uniform": true
+  },
+  "split": {
+    "train_size": 280,
+    "val_size": 60,
+    "test_size": 60,
+    "train_ratio": 0.7,
+    "val_ratio": 0.15,
+    "test_ratio": 0.15
+  },
+  "integration": {
+    "n_steps": 1800,
+    "step_size": 0.005,
+    "lambda_max": 8.995000000000001
+  },
+  "vary_params_order": [
+    "Q"
+  ],
+  "astrophysical_warnings": []
+}

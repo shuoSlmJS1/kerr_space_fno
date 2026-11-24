@@ -1,0 +1,102 @@
+[
+  {
+    "path": "install_fno_phase4.py",
+    "bytes": 17300,
+    "sha256": "f1a5de50a029248e48a0a6673cc71d71c5c8e685200049a8bdecfbaff541f3d5"
+  },
+  {
+    "path": "installer_common.py",
+    "bytes": 14408,
+    "sha256": "d9b8f45f6df176338eb628b57c30180a554f0979abf07a52e0979bff9b06a27a"
+  },
+  {
+    "path": "smoke_fno_cpu.py",
+    "bytes": 2245,
+    "sha256": "4464c4f4f4ccfb432c7051c453507c0efaa369d744c3c56c99ec41d1045896d4"
+  },
+  {
+    "path": "phase3-audit.json",
+    "bytes": 9170,
+    "sha256": "3b6abcfff31964d3ecf530ef8f437bffbcc53b19a019f9330e42d3c50aa26545"
+  },
+  {
+    "path": "model-source/src/__init__.py",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "model-source/src/models/__init__.py",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "model-source/src/models/benchmark_track_a.py",
+    "bytes": 4674,
+    "sha256": "f0f5e6f5e2c533b769e64c1efc15864b5870eb4caa7ed2102512c1532f4638e4"
+  },
+  {
+    "path": "model-source/src/models/registry_2d.py",
+    "bytes": 5492,
+    "sha256": "28f7af89407a1d5869e46e862ede3d1fe809b1b9ab7cc22647d4129adc927c32"
+  },
+  {
+    "path": "model-source/src/models/registry.py",
+    "bytes": 4064,
+    "sha256": "1a51647925677d95d25bfaf08d768f05ffe4fc26a14c9fc6ef122ff4908360b7"
+  },
+  {
+    "path": "model-source/src/models/resnet1d.py",
+    "bytes": 7668,
+    "sha256": "e4fba09411de69133c1166a013de5d37456a3104b5ed0db2dcb7150644d6f972"
+  },
+  {
+    "path": "model-source/src/models/timesnet_lambda_isolated1d.py",
+    "bytes": 6425,
+    "sha256": "e744dd45e14f0990fd915fdfcb318c25517991d2eedbbe8552fa6f23762d594d"
+  },
+  {
+    "path": "model-source/src/models/timesnet1d.py",
+    "bytes": 11683,
+    "sha256": "18d5c82dbeacc6c89fa6d8fbbd6b88dee7baa0099f5a4cf084f65ebb8ddce645"
+  },
+  {
+    "path": "model-source/src/models/fno1d/__init__.py",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "model-source/src/models/fno1d/fno1d.py",
+    "bytes": 6009,
+    "sha256": "6c3260b44a5366e481513dd1de0bc67b7bca45ea08f9cede7f05878ec0cee8a7"
+  },
+  {
+    "path": "model-source/src/models/fno1d/layers1d.py",
+    "bytes": 5563,
+    "sha256": "3a6f8a76488f865864919b4fa3c9b48872f4c3f73900aa1e3c8df69b2d8a0074"
+  },
+  {
+    "path": "model-source/src/models/fno2d/__init__.py",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "model-source/src/models/fno2d/fno2d_physical_frequency.py",
+    "bytes": 3978,
+    "sha256": "11b6da8864da525f9e37b639caf7c45a13196a3a58c2d3be115d1a4b77736b89"
+  },
+  {
+    "path": "model-source/src/models/fno2d/fno2d.py",
+    "bytes": 8291,
+    "sha256": "2fc2ade699372a59f123d26b4184995edf25559004707effe1aaefeec0fd2940"
+  },
+  {
+    "path": "model-source/src/models/fno2d/layers2d.py",
+    "bytes": 7207,
+    "sha256": "77c6cf535beb9386ca5f0284de393f645a74c72d1333ad8c09ace895f5236134"
+  },
+  {
+    "path": "model-source/src/models/fno2d/physical_frequency_layers2d.py",
+    "bytes": 8112,
+    "sha256": "c1049542d0ac5a455650c2275a6e797c59ac96a83e975fd6fe8fb88ac7d694cf"
+  }
+]

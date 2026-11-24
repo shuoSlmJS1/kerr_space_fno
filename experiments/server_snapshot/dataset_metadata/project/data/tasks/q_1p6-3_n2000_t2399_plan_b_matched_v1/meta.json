@@ -1,0 +1,135 @@
+{
+  "schema_version": "1.0",
+  "experiment_type": "plan_b_paired_fine_replay_generation",
+  "plan_b_protocol_version": "v1",
+  "task_spec": {
+    "vary_params": [
+      "Q"
+    ],
+    "vary_ranges": {
+      "Q": [
+        1.6,
+        3.0
+      ]
+    },
+    "fixed_params": {
+      "M": 1.0,
+      "a": 0.5,
+      "E": 0.95,
+      "Lz": 3.0,
+      "r0": 10.0,
+      "theta0": 1.2,
+      "phi0": 0.0,
+      "sign_r": -1,
+      "sign_th": 1
+    },
+    "sample_shape": [
+      2000
+    ],
+    "n_steps": 2399,
+    "step_size": 0.0025,
+    "split_ratios": [
+      0.7,
+      0.15,
+      0.15
+    ],
+    "seed": 10,
+    "sampling_mode": "grid",
+    "completion_policy": "target_success",
+    "max_attempt_factor": 1.5,
+    "metadata": {
+      "task_name": "q_1p6-3_n2000_t1200",
+      "orbit_solver": "second_order_rk4",
+      "orbit_solver_version": "v1",
+      "dataset_max_radial_constraint_residual": 3.723736483607354e-07,
+      "dataset_max_polar_constraint_residual": 4.0151633129426045e-09,
+      "generation": {
+        "completion_policy": "target_success",
+        "target_success_count": 2000,
+        "initial_candidate_count": 2000,
+        "max_attempt_factor": 1.5,
+        "max_attempt_count": 3000,
+        "attempt_count": 2000,
+        "success_count": 2000,
+        "fail_count": 0,
+        "completed": true,
+        "used_completion_sampling": false,
+        "initial_sampling_mode": "grid",
+        "completion_sampling_mode": null,
+        "successful_points_strictly_uniform": true,
+        "data_seed": 10
+      }
+    }
+  },
+  "integration": {
+    "n_steps": 2399,
+    "step_size": 0.0025,
+    "lambda_min": 0.0,
+    "lambda_max": 5.995
+  },
+  "paired_replay": {
+    "source_dataset_identifier": "q_1p6-3_n2000_t1200",
+    "source_dataset_path": "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6-3_n2000_t1200",
+    "source_q_count": 2000,
+    "source_q_identity": {
+      "source_split_order": [
+        "train",
+        "val",
+        "test"
+      ],
+      "source_row_order_preserved": true,
+      "global_q_strictly_ascending_in_source_order": false,
+      "source_q_count": 2000,
+      "source_q_identity_sha256": "70ebef8fc6daeecd883c2e26d21434915fe850f28e456a956f1eda2ba1c8cf8c",
+      "canonical_ordering": "stable_ascending_Q",
+      "canonical_q_identity_sha256": "73780b9da44713036f5a7038b355ce63b21e5f1f1ba75771fbe4559db9277d75"
+    },
+    "generated_q_identity": {
+      "source_split_order": [
+        "train",
+        "val",
+        "test"
+      ],
+      "source_row_order_preserved": true,
+      "global_q_strictly_ascending_in_source_order": false,
+      "source_q_count": 2000,
+      "source_q_identity_sha256": "70ebef8fc6daeecd883c2e26d21434915fe850f28e456a956f1eda2ba1c8cf8c",
+      "canonical_ordering": "stable_ascending_Q",
+      "canonical_q_identity_sha256": "73780b9da44713036f5a7038b355ce63b21e5f1f1ba75771fbe4559db9277d75"
+    },
+    "q_ordering": {
+      "generation_order": "source_split_row_order",
+      "canonical_ordering": "stable_ascending_Q",
+      "source_and_generated_raw_order_match": true
+    },
+    "fixed_kerr_parameters": {
+      "M": 1.0,
+      "a": 0.5,
+      "E": 0.95,
+      "Lz": 3.0
+    },
+    "initial_conditions": {
+      "r0": 10.0,
+      "theta0": 1.2,
+      "phi0": 0.0,
+      "sign_r": -1,
+      "sign_th": 1
+    },
+    "solver_provenance": {
+      "orbit_solver": "second_order_rk4",
+      "orbit_solver_version": "v1"
+    },
+    "success_count": 2000,
+    "failure_count": 0,
+    "failed_q_values": [],
+    "paired_completeness": true,
+    "replacement_policy": "forbidden",
+    "target_success_replacement_used": false
+  },
+  "generation_status": {
+    "completed": true,
+    "success_count": 2000,
+    "failure_count": 0,
+    "paired_completeness": true
+  }
+}

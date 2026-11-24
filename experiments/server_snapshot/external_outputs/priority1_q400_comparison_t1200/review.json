@@ -1,0 +1,431 @@
+{
+  "result": {
+    "status": "COMPLETED",
+    "completed_utc": "2026-10-24T02:21:42.821122+00:00",
+    "Q_count": 400,
+    "T": 1200,
+    "all_shapes_and_finiteness": "PASS",
+    "Q_alignment": "PASS",
+    "all_frozen_inputs_unchanged": true,
+    "training_Q_hull": [
+      1.6021010505252626,
+      3
+    ],
+    "inside_count": 399,
+    "outside_count": 1,
+    "outside_Q": [
+      1.6007
+    ],
+    "metrics": {
+      "Spline": {
+        "all": {
+          "evaluation_space": "raw_physical_xyz_float64",
+          "point_count_per_q": 1200,
+          "global_mse": 8.935131954514508e-13,
+          "global_relative_l2": 1.9168094723851643e-7,
+          "mean_per_q_relative_l2": 1.0771637858209313e-8,
+          "per_q_relative_l2_summary": {
+            "mean": 1.0771637858209313e-8,
+            "median": 1.3442456118818425e-13,
+            "max": 0.0000043073692105336515,
+            "p95": 1.4541319342127216e-11,
+            "p99": 8.298784031523055e-11,
+            "worst_q_index": 0,
+            "worst_q_value": 1.6007
+          },
+          "count": 400,
+          "status": "PASS",
+          "squared_error_sum": 0.000001286659001450089
+        },
+        "inside": {
+          "evaluation_space": "raw_physical_xyz_float64",
+          "point_count_per_q": 1200,
+          "global_mse": 4.1589630696250156e-21,
+          "global_relative_l2": 1.3073982264143783e-11,
+          "mean_per_q_relative_l2": 3.2228890979272398e-12,
+          "per_q_relative_l2_summary": {
+            "mean": 3.2228890979272398e-12,
+            "median": 1.3384253641883103e-13,
+            "max": 1.345568509739333e-10,
+            "p95": 1.2879802003015248e-11,
+            "p99": 8.235980052012229e-11,
+            "worst_q_index": 21,
+            "worst_q_value": 1.6778157894736843
+          },
+          "count": 399,
+          "status": "PASS",
+          "squared_error_sum": 5.973934553209372e-15
+        },
+        "outside": {
+          "evaluation_space": "raw_physical_xyz_float64",
+          "point_count_per_q": 1200,
+          "global_mse": 3.5740527652115413e-10,
+          "global_relative_l2": 0.0000043073692105336515,
+          "mean_per_q_relative_l2": 0.0000043073692105336515,
+          "per_q_relative_l2_summary": {
+            "mean": 0.0000043073692105336515,
+            "median": 0.0000043073692105336515,
+            "max": 0.0000043073692105336515,
+            "p95": 0.0000043073692105336515,
+            "p99": 0.0000043073692105336515,
+            "worst_q_index": 0,
+            "worst_q_value": 1.6007
+          },
+          "count": 1,
+          "status": "PASS",
+          "squared_error_sum": 0.0000012866589954761548
+        }
+      },
+      "MLP": {
+        "all": {
+          "evaluation_space": "raw_physical_xyz_float64",
+          "point_count_per_q": 1200,
+          "global_mse": 0.000002199866131572489,
+          "global_relative_l2": 0.00030076450989955966,
+          "mean_per_q_relative_l2": 0.00028538029222011465,
+          "per_q_relative_l2_summary": {
+            "mean": 0.00028538029222011465,
+            "median": 0.0002519037981681112,
+            "max": 0.0010161285581334295,
+            "p95": 0.00042050309710742596,
+            "p99": 0.0007885165434258923,
+            "worst_q_index": 0,
+            "worst_q_value": 1.6007
+          },
+          "count": 400,
+          "status": "PASS",
+          "squared_error_sum": 3.167807229464384
+        },
+        "inside": {
+          "evaluation_space": "raw_physical_xyz_float64",
+          "point_count_per_q": 1200,
+          "global_mse": 0.000002155530037651235,
+          "global_relative_l2": 0.0002976407560841283,
+          "mean_per_q_relative_l2": 0.0002835488429321113,
+          "per_q_relative_l2_summary": {
+            "mean": 0.0002835488429321113,
+            "median": 0.00025169636399394846,
+            "max": 0.0009066627424637954,
+            "p95": 0.0004202811220301969,
+            "p99": 0.0007220349918727061,
+            "worst_q_index": 0,
+            "worst_q_value": 1.6042052631578947
+          },
+          "count": 399,
+          "status": "PASS",
+          "squared_error_sum": 3.096203346082234
+        },
+        "outside": {
+          "evaluation_space": "raw_physical_xyz_float64",
+          "point_count_per_q": 1200,
+          "global_mse": 0.000019889967606152133,
+          "global_relative_l2": 0.0010161285581334295,
+          "mean_per_q_relative_l2": 0.0010161285581334295,
+          "per_q_relative_l2_summary": {
+            "mean": 0.0010161285581334295,
+            "median": 0.0010161285581334295,
+            "max": 0.0010161285581334295,
+            "p95": 0.0010161285581334295,
+            "p99": 0.0010161285581334295,
+            "worst_q_index": 0,
+            "worst_q_value": 1.6007
+          },
+          "count": 1,
+          "status": "PASS",
+          "squared_error_sum": 0.07160388338214768
+        }
+      },
+      "FNO": {
+        "all": {
+          "evaluation_space": "raw_physical_xyz_float64",
+          "point_count_per_q": 1200,
+          "global_mse": 0.0000022574661698975313,
+          "global_relative_l2": 0.000304676590517053,
+          "mean_per_q_relative_l2": 0.000284387272944176,
+          "per_q_relative_l2_summary": {
+            "mean": 0.000284387272944176,
+            "median": 0.0002440903530231464,
+            "max": 0.001169221036452477,
+            "p95": 0.0004848330841766713,
+            "p99": 0.0008475245640376281,
+            "worst_q_index": 399,
+            "worst_q_value": 2.9993
+          },
+          "count": 400,
+          "status": "PASS",
+          "squared_error_sum": 3.2507512846524453
+        },
+        "inside": {
+          "evaluation_space": "raw_physical_xyz_float64",
+          "point_count_per_q": 1200,
+          "global_mse": 0.0000022130309175990467,
+          "global_relative_l2": 0.0003015845576794103,
+          "mean_per_q_relative_l2": 0.00028254712206729677,
+          "per_q_relative_l2_summary": {
+            "mean": 0.00028254712206729677,
+            "median": 0.00024397985038356255,
+            "max": 0.001169221036452477,
+            "p95": 0.0004765278237162752,
+            "p99": 0.0007379247693244342,
+            "worst_q_index": 398,
+            "worst_q_value": 2.9993
+          },
+          "count": 399,
+          "status": "PASS",
+          "squared_error_sum": 3.1787976100392705
+        },
+        "outside": {
+          "evaluation_space": "raw_physical_xyz_float64",
+          "point_count_per_q": 1200,
+          "global_mse": 0.000019987131836993196,
+          "global_relative_l2": 0.0010186074728189803,
+          "mean_per_q_relative_l2": 0.0010186074728189803,
+          "per_q_relative_l2_summary": {
+            "mean": 0.0010186074728189803,
+            "median": 0.0010186074728189803,
+            "max": 0.0010186074728189803,
+            "p95": 0.0010186074728189803,
+            "p99": 0.0010186074728189803,
+            "worst_q_index": 0,
+            "worst_q_value": 1.6007
+          },
+          "count": 1,
+          "status": "PASS",
+          "squared_error_sum": 0.0719536746131755
+        }
+      }
+    },
+    "ratios": {
+      "all": {
+        "MLP_over_Spline": {
+          "global_relative_l2": 1569.0892299551613,
+          "mean_per_q_relative_l2": 26493.676818388372,
+          "global_mse": 2462041.0115611097
+        },
+        "FNO_over_Spline": {
+          "global_relative_l2": 1589.498564705711,
+          "mean_per_q_relative_l2": 26401.488491133958,
+          "global_mse": 2526505.6872013384
+        },
+        "FNO_over_MLP": {
+          "global_relative_l2": 1.0130071218136734,
+          "mean_per_q_relative_l2": 0.9965203649200388,
+          "global_mse": 1.026183428845222
+        }
+      },
+      "inside": {
+        "MLP_over_Spline": {
+          "global_relative_l2": 22765883.421796184,
+          "mean_per_q_relative_l2": 87979708.36615884,
+          "global_mse": 518285447974796.25
+        },
+        "FNO_over_Spline": {
+          "global_relative_l2": 23067536.08703638,
+          "mean_per_q_relative_l2": 87668893.80370344,
+          "global_mse": 532111221126707.5
+        },
+        "FNO_over_MLP": {
+          "global_relative_l2": 1.0132502068841918,
+          "mean_per_q_relative_l2": 0.9964672017192665,
+          "global_mse": 1.0266759817508586
+        }
+      },
+      "outside": {
+        "MLP_over_Spline": {
+          "global_relative_l2": 235.90468066876917,
+          "mean_per_q_relative_l2": 235.90468066876917,
+          "global_mse": 55651.01836143397
+        },
+        "FNO_over_Spline": {
+          "global_relative_l2": 236.48018617210255,
+          "mean_per_q_relative_l2": 236.48018617210255,
+          "global_mse": 55922.87845199229
+        },
+        "FNO_over_MLP": {
+          "global_relative_l2": 1.0024395679716989,
+          "mean_per_q_relative_l2": 1.0024395679716989,
+          "global_mse": 1.0048850874352862
+        }
+      }
+    },
+    "tail_contribution": {
+      "Spline": {
+        "outside_squared_error_fraction": 0.9999999953570182,
+        "outside_sum_per_Q_relative_error_fraction": 0.9997015466062356
+      },
+      "MLP": {
+        "outside_squared_error_fraction": 0.02260361132967505,
+        "outside_sum_per_Q_relative_error_fraction": 0.008901530570212663
+      },
+      "FNO": {
+        "outside_squared_error_fraction": 0.022134475483524554,
+        "outside_sum_per_Q_relative_error_fraction": 0.00895440451917594
+      }
+    },
+    "FNO_history": {
+      "bitwise_equal": true,
+      "max_abs_diff": 0,
+      "relative_l2": 0,
+      "MSE": 0,
+      "allclose": true,
+      "outside_tolerance_scalars": 0,
+      "scalars": 1440000,
+      "atol": 0.00001,
+      "rtol": 0.0001,
+      "canonical_batch_sizes": [
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        16
+      ]
+    },
+    "historical_metric_comparison": {
+      "global_relative_l2": {
+        "historical": 0.00030467659051705315,
+        "current": 0.000304676590517053,
+        "absolute_difference": 1.6263032587282567e-19
+      },
+      "mean_per_q_relative_l2": {
+        "historical": 0.000284387272944176,
+        "current": 0.000284387272944176,
+        "absolute_difference": 0
+      },
+      "global_mse": {
+        "historical": 0.0000022574661698975313,
+        "current": 0.0000022574661698975313,
+        "absolute_difference": 0
+      }
+    },
+    "training_node_reconstruction_max_abs": 1.7763568394002505e-15,
+    "field_caveat": "Established Q400 evaluation field previously used in historical research; not an untouched held-out test",
+    "new_training": false,
+    "hyperparameter_selection_on_Q400": false,
+    "formal_timing_benchmark": false,
+    "scope": "One frozen evaluation per model; not a multi-seed or untouched-test result"
+  },
+  "verification": {
+    "status": "PASS",
+    "models": {
+      "Spline": {
+        "shape": [
+          400,
+          1200,
+          3
+        ],
+        "finite": true,
+        "Q_and_lambda_exact": true,
+        "saved_array_metric_recomputation": "PASS",
+        "per_Q_alignment_and_metrics": "PASS"
+      },
+      "MLP": {
+        "shape": [
+          400,
+          1200,
+          3
+        ],
+        "finite": true,
+        "Q_and_lambda_exact": true,
+        "saved_array_metric_recomputation": "PASS",
+        "per_Q_alignment_and_metrics": "PASS"
+      },
+      "FNO": {
+        "shape": [
+          400,
+          1200,
+          3
+        ],
+        "finite": true,
+        "Q_and_lambda_exact": true,
+        "saved_array_metric_recomputation": "PASS",
+        "per_Q_alignment_and_metrics": "PASS"
+      }
+    },
+    "Q400_training_Q_exact_overlap": 0,
+    "hami_error_count": 4,
+    "hami_only_after_python_atexit": true,
+    "outside_paired_errors": [
+      {
+        "canonical_index": 0,
+        "Q": 1.6007,
+        "in_training_hull": false,
+        "models": {
+          "Spline": {
+            "relative_l2": 0.0000043073692105336515,
+            "max_abs_error": 0.00018512853365670878
+          },
+          "MLP": {
+            "relative_l2": 0.0010161285581334295,
+            "max_abs_error": 0.030735616223390494
+          },
+          "FNO": {
+            "relative_l2": 0.0010186074728189803,
+            "max_abs_error": 0.04067179263318188
+          }
+        }
+      }
+    ],
+    "postflight_scope": "Independent CPU-only re-reduction of persisted arrays, no model forward"
+  },
+  "process": {
+    "exit_code": 0,
+    "timeout": false,
+    "wall_seconds": 11.509669794002548,
+    "utc": "2026-10-24T02:21:43.307556+00:00",
+    "hami_context_error_count": 4
+  },
+  "runtime": {
+    "gpu": "NVIDIA L40S",
+    "torch": "2.5.1+cu121",
+    "cuda": "12.1",
+    "python": "3.10.20 (main, Jun 11 2026, 15:17:37) [GCC 14.3.0]",
+    "numpy": "2.0.1",
+    "scipy": "1.15.3",
+    "models": {
+      "Spline": {
+        "device": "cpu",
+        "fit_seconds_diagnostic_only": 0.40389310504542664,
+        "training_node_max_abs": 1.7763568394002505e-15
+      },
+      "MLP": {
+        "device": "cuda:0",
+        "precision": {
+          "matmul_tf32": false,
+          "cudnn_tf32": true,
+          "matmul_precision": "highest",
+          "cudnn_deterministic": true,
+          "cudnn_benchmark": false,
+          "deterministic_algorithms": false
+        },
+        "batch_size": 32,
+        "last_batch": 16,
+        "allocator_peak_bytes": 191287296,
+        "formal_timing_benchmark": false
+      },
+      "FNO": {
+        "device": "cuda:0",
+        "precision": {
+          "matmul_tf32": false,
+          "cudnn_tf32": true,
+          "matmul_precision": "highest",
+          "cudnn_deterministic": false,
+          "cudnn_benchmark": false,
+          "deterministic_algorithms": false
+        },
+        "batch_size": 32,
+        "last_batch": 16,
+        "allocator_peak_bytes": 73681920,
+        "formal_timing_benchmark": false
+      }
+    },
+    "memory_caveat": "Allocator counters only; HAMI physical memory reports are not quota evidence"
+  }
+}

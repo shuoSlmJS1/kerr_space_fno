@@ -1,0 +1,436 @@
+{
+  "status": "BATCH_MATCH_RESOLVES_TESTED_HISTORICAL_DISCREPANCY",
+  "utc": "2026-10-11T01:49:07.218733+00:00",
+  "hostname": "job-l480b340-gxchp",
+  "log_directory": "/workspace/shanjinshuo/logs/fno-numeric-diagnostic-20261011T014713Z",
+  "scope": "One CPU forward and two GPU forwards. Same BEST and canonical input index 0. GPU batch32 uses exact original canonical rows 0..31.",
+  "atol": 1e-05,
+  "rtol": 0.0001,
+  "tolerance_changed": false,
+  "historical_evidence": {
+    "checkpoint_sha256": "11ccbebf1d0fd68c57d0895685adeb7d1386da723242ee8271b18286ebbb7ff1",
+    "reference_sha256": "4482c19f58f57b5102e33942f6a50fb04ce7a31729727b041457922edef3c0c3",
+    "source_hashes_verified_per_condition": 31,
+    "prediction_storage": "Float32 NPZ; np.savez_compressed is lossless, no decimal text rounding in the saved evaluation path.",
+    "Q_and_lambda_storage": "Float64, restored exactly from the paired historical prediction archive.",
+    "entry": "scripts/run_benchmark_track_a.py evaluate -> evaluate_run -> predict_frozen",
+    "batch": 32,
+    "shuffle": false,
+    "num_workers": 0,
+    "forward_path": "Trajectories.__getitem__ -> original input builder -> checkpoint normalization -> model -> recover_xyz",
+    "normalization": {
+      "method": "standard",
+      "x_mean": [
+        2.2996668343884603,
+        2.997499999998448
+      ],
+      "x_std": [
+        0.4036297106003588,
+        1.7320502057030378
+      ],
+      "y_mean": [
+        0.43491985321362087,
+        0.6950095646262856,
+        0.06759557962227183
+      ],
+      "y_std": [
+        5.459666332244433,
+        5.92913775929884,
+        2.706993031810956
+      ],
+      "eps": 1e-08
+    },
+    "target_transform": "raw",
+    "canonical_zero_normalized_input_sha256": "235fc40f7072e85c73ecd09aedd22a52597e26a52a175703ab0324439dd45a6f",
+    "new_vs_previous_input_bitwise_equal": true,
+    "previous_gpu_b1_prediction_repeated_bitwise": true,
+    "ground_truth_not_required_for_prediction": true,
+    "ground_truth_placeholder": "Zero arrays satisfy the unchanged Dataset target interface only. Never passed to the model, used as reference, or used to compute scientific accuracy.",
+    "historical_runtime_precision_gap": "Historical records do not persist all TF32/matmul/cuDNN runtime flags. Original standalone evaluate entry does not call seed_training; training-only deterministic settings must not be assumed to apply to evaluation.",
+    "current_precision": {
+      "matmul_allow_tf32": false,
+      "float32_matmul_precision": "highest",
+      "cudnn_allow_tf32": true,
+      "cudnn_enabled": true,
+      "cudnn_benchmark": false,
+      "cudnn_deterministic": false,
+      "deterministic_algorithms": false,
+      "default_dtype": "torch.float32",
+      "autocast_enabled": false,
+      "environment_overrides": {
+        "NVIDIA_TF32_OVERRIDE": null,
+        "TORCH_ALLOW_TF32_CUBLAS_OVERRIDE": null,
+        "CUBLAS_WORKSPACE_CONFIG": null
+      }
+    },
+    "current_cudnn_version": 90100,
+    "historical_torch": "2.5.1, CUDA build 12.1",
+    "current_torch": "2.5.1+cu121",
+    "current_cuda": "12.1",
+    "historical_gpu": "NVIDIA GeForce RTX 4090",
+    "current_gpu": "NVIDIA L40S"
+  },
+  "conditions": {
+    "cpu_b1": {
+      "process": {
+        "name": "cpu_b1",
+        "exit_code": 0,
+        "timeout": false,
+        "wall_seconds": 3.532446357421577,
+        "hami_error_count": 0,
+        "hami_only_after_python_atexit": false,
+        "stderr_sha256": "64e9d9b55897ae08e014ba4b28781680436bef7eb4a855677c3788693909caf0",
+        "metrics": {
+          "max_abs_diff": 0.0033092498779296875,
+          "relative_l2": 9.909573517610805e-05,
+          "MSE": 1.8913275548045447e-07,
+          "allclose": false,
+          "outside_tolerance": 1424,
+          "scalars": 3600,
+          "atol": 1e-05,
+          "rtol": 0.0001
+        },
+        "precision": {
+          "matmul_allow_tf32": false,
+          "float32_matmul_precision": "highest",
+          "cudnn_allow_tf32": true,
+          "cudnn_enabled": true,
+          "cudnn_benchmark": false,
+          "cudnn_deterministic": false,
+          "deterministic_algorithms": false,
+          "default_dtype": "torch.float32",
+          "autocast_enabled": false,
+          "environment_overrides": {
+            "NVIDIA_TF32_OVERRIDE": null,
+            "TORCH_ALLOW_TF32_CUBLAS_OVERRIDE": null,
+            "CUBLAS_WORKSPACE_CONFIG": null
+          }
+        }
+      },
+      "index0_vs_history": {
+        "max_abs_diff": 0.0033092498779296875,
+        "relative_l2": 9.909573517610805e-05,
+        "MSE": 1.8913275548045447e-07,
+        "allclose": false,
+        "outside_tolerance": 1424,
+        "scalars": 3600,
+        "atol": 1e-05,
+        "rtol": 0.0001
+      },
+      "all_selected_vs_history": {
+        "max_abs_diff": 0.0033092498779296875,
+        "relative_l2": 9.909573517610805e-05,
+        "MSE": 1.8913275548045447e-07,
+        "allclose": false,
+        "outside_tolerance": 1424,
+        "scalars": 3600,
+        "atol": 1e-05,
+        "rtol": 0.0001
+      },
+      "forward_seconds": 0.15312615409493446,
+      "output_shape": [
+        1,
+        1200,
+        3
+      ],
+      "finite": true
+    },
+    "gpu_b1": {
+      "process": {
+        "name": "gpu_b1",
+        "exit_code": 0,
+        "timeout": false,
+        "wall_seconds": 2.928538342937827,
+        "hami_error_count": 3,
+        "hami_only_after_python_atexit": true,
+        "stderr_sha256": "c2ad16ecc34ce27701d44bc44be50e29292aee06ea0b8501ec005bc1dd8e7fb3",
+        "metrics": {
+          "max_abs_diff": 0.0021371841430664062,
+          "relative_l2": 9.795989899153952e-05,
+          "MSE": 1.8482192069655925e-07,
+          "allclose": false,
+          "outside_tolerance": 1367,
+          "scalars": 3600,
+          "atol": 1e-05,
+          "rtol": 0.0001
+        },
+        "precision": {
+          "matmul_allow_tf32": false,
+          "float32_matmul_precision": "highest",
+          "cudnn_allow_tf32": true,
+          "cudnn_enabled": true,
+          "cudnn_benchmark": false,
+          "cudnn_deterministic": false,
+          "deterministic_algorithms": false,
+          "default_dtype": "torch.float32",
+          "autocast_enabled": false,
+          "environment_overrides": {
+            "NVIDIA_TF32_OVERRIDE": null,
+            "TORCH_ALLOW_TF32_CUBLAS_OVERRIDE": null,
+            "CUBLAS_WORKSPACE_CONFIG": null
+          }
+        }
+      },
+      "index0_vs_history": {
+        "max_abs_diff": 0.0021371841430664062,
+        "relative_l2": 9.795989899153952e-05,
+        "MSE": 1.8482192069655925e-07,
+        "allclose": false,
+        "outside_tolerance": 1367,
+        "scalars": 3600,
+        "atol": 1e-05,
+        "rtol": 0.0001
+      },
+      "all_selected_vs_history": {
+        "max_abs_diff": 0.0021371841430664062,
+        "relative_l2": 9.795989899153952e-05,
+        "MSE": 1.8482192069655925e-07,
+        "allclose": false,
+        "outside_tolerance": 1367,
+        "scalars": 3600,
+        "atol": 1e-05,
+        "rtol": 0.0001
+      },
+      "forward_seconds": 0.17838183790445328,
+      "output_shape": [
+        1,
+        1200,
+        3
+      ],
+      "finite": true
+    },
+    "gpu_b32": {
+      "process": {
+        "name": "gpu_b32",
+        "exit_code": 0,
+        "timeout": false,
+        "wall_seconds": 3.327957517467439,
+        "hami_error_count": 2,
+        "hami_only_after_python_atexit": true,
+        "stderr_sha256": "f07e1cf443abc05a6cbadb8d298869de7d7f96b59757fa82353c380d9f53efc8",
+        "metrics": {
+          "max_abs_diff": 0.0,
+          "relative_l2": 0.0,
+          "MSE": 0.0,
+          "allclose": true,
+          "outside_tolerance": 0,
+          "scalars": 3600,
+          "atol": 1e-05,
+          "rtol": 0.0001
+        },
+        "precision": {
+          "matmul_allow_tf32": false,
+          "float32_matmul_precision": "highest",
+          "cudnn_allow_tf32": true,
+          "cudnn_enabled": true,
+          "cudnn_benchmark": false,
+          "cudnn_deterministic": false,
+          "deterministic_algorithms": false,
+          "default_dtype": "torch.float32",
+          "autocast_enabled": false,
+          "environment_overrides": {
+            "NVIDIA_TF32_OVERRIDE": null,
+            "TORCH_ALLOW_TF32_CUBLAS_OVERRIDE": null,
+            "CUBLAS_WORKSPACE_CONFIG": null
+          }
+        }
+      },
+      "index0_vs_history": {
+        "max_abs_diff": 0.0,
+        "relative_l2": 0.0,
+        "MSE": 0.0,
+        "allclose": true,
+        "outside_tolerance": 0,
+        "scalars": 3600,
+        "atol": 1e-05,
+        "rtol": 0.0001
+      },
+      "all_selected_vs_history": {
+        "max_abs_diff": 0.0,
+        "relative_l2": 0.0,
+        "MSE": 0.0,
+        "allclose": true,
+        "outside_tolerance": 0,
+        "scalars": 115200,
+        "atol": 1e-05,
+        "rtol": 0.0001
+      },
+      "forward_seconds": 0.3443437395617366,
+      "output_shape": [
+        32,
+        1200,
+        3
+      ],
+      "finite": true
+    }
+  },
+  "pairwise_index0": {
+    "cpu_b1_vs_gpu_b1": {
+      "max_abs_diff": 0.0034494400024414062,
+      "relative_l2": 0.00014406071805595294,
+      "MSE": 3.9969477891414365e-07,
+      "allclose": false,
+      "outside_tolerance": 1887,
+      "scalars": 3600,
+      "atol": 1e-05,
+      "rtol": 0.0001
+    },
+    "cpu_b1_vs_gpu_b32": {
+      "max_abs_diff": 0.0033092498779296875,
+      "relative_l2": 9.909573517610805e-05,
+      "MSE": 1.8913275548045447e-07,
+      "allclose": false,
+      "outside_tolerance": 1424,
+      "scalars": 3600,
+      "atol": 1e-05,
+      "rtol": 0.0001
+    },
+    "gpu_b1_vs_gpu_b32": {
+      "max_abs_diff": 0.0021371841430664062,
+      "relative_l2": 9.795989899153952e-05,
+      "MSE": 1.8482192069655925e-07,
+      "allclose": false,
+      "outside_tolerance": 1367,
+      "scalars": 3600,
+      "atol": 1e-05,
+      "rtol": 0.0001
+    }
+  },
+  "pairwise_metric_orientation": "First named array minus second; relative norm and pointwise rtol use the second array as reference.",
+  "conclusions": {
+    "batch_explanation": "On the same L40S, unchanged flags and original forward path, batch1 repeats the mismatch, while original batch32 matches all 115200 scalars exactly. Batch-dependent execution explains the tested mismatch.",
+    "low_level_kernel_cause": "Not isolated. No kernel profiling or TF32 ablation was necessary or performed.",
+    "cpu_gpu": "CPU batch1 and GPU batch1 differ; see pairwise metrics. Neither batch1 condition matches historical batch32 within the required tolerance.",
+    "input_normalization_or_target_error": "No mismatch found. Saved inputs, exact original input functions, normalization, target transform and source hashes agree.",
+    "hami_causality": "No evidence attributes the discrepancy to HAMI. Batch32 is bitwise equal to history despite two HAMI errors after Python atexit. This does not establish system-wide HAMI safety.",
+    "acceptance": "Accept the tested first historical batch as numerically reproduced, without relaxing tolerance. Do not require or claim batch-invariant output, complete Q400 reproduction, or full historical experiment reproduction.",
+    "precision_ablation": "Not performed; A-C explain the tested discrepancy. No further GPU tests."
+  },
+  "priority1": {
+    "selected_checkpoint_numeric_blocker": "Resolved for canonical first batch32 only.",
+    "formal_experiment_ready": false,
+    "minimum_remaining": [
+      "Confirm the precise Priority 1 locked protocol and obtain execution approval; preserve evaluation batch32 and canonical ordering.",
+      "Restore and hash-validate only its necessary dataset/ground-truth assets and required checkpoint/configuration.",
+      "Establish runnable Git/source-provenance and approved path/device mapping for the new deployment.",
+      "For a full historical-reproduction claim, separately approve a bounded matched-path check of remaining saved Q400 predictions, including the final short batch; do not infer it from 32 rows.",
+      "Record exit-stage HAMI warnings and seek platform guidance before long jobs; do not change driver/HAMI."
+    ]
+  },
+  "safety": {
+    "training": false,
+    "gpu_forward_count": 2,
+    "cpu_forward_count": 1,
+    "condition_timeout_seconds": 60,
+    "environment_installation_or_modification": false,
+    "conda_metadata_fingerprints_unchanged": true,
+    "fingerprint_scope": "Conda metadata, not a whole-environment byte audit.",
+    "historical_assets_overwritten": false,
+    "driver_or_hami_changes": false,
+    "post_test_gpu_process_query_code": 0,
+    "post_test_gpu_processes": ""
+  },
+  "time": {
+    "nominal_expiry_from_user_utc": "2026-10-11T04:23:00Z",
+    "remaining_estimate_minutes": 153,
+    "platform_scheduler_independently_verified": false
+  },
+  "evidence_files": {
+    "gpu_b1.command.json": {
+      "bytes": 435,
+      "sha256": "7b38e4bdb4420eabf1ed073a9ee5e8e43ec88bd1f8b4d7aa6ac919e03b759c66"
+    },
+    "gpu_b32.process.json": {
+      "bytes": 930,
+      "sha256": "28d5bcb186a7a32a7a4e815735e4e8077b86d98164955dccdd48f92c5d6592c2"
+    },
+    "gpu_b1.preflight.json": {
+      "bytes": 460,
+      "sha256": "ae4b5a11f5e5e6368b5714678d7226d96525757613ab0510db22635a82933d39"
+    },
+    "gpu_b1.json": {
+      "bytes": 5005,
+      "sha256": "d719c9b8de2f4fa2ce12b220ed402c1755a30afad8789f68b65aef0e8a9ccdf3"
+    },
+    "diagnose_fno_numerics.py": {
+      "bytes": 7772,
+      "sha256": "aec9d30e9503a5ad284e17a6c742dc47e47a1ae8a95da1fdb423fb1436a8ecc5"
+    },
+    "run_fno_numeric_condition.py": {
+      "bytes": 3794,
+      "sha256": "8de9e5100e70eed9fa7a1fcb78538a686e5fad3e318720abd4d24e71d70c4386"
+    },
+    "cpu_b1.command.json": {
+      "bytes": 432,
+      "sha256": "4e36dff5e23ba440916bfa26d82de723a3b3d72d04ed32ac266ef2f4f2008789"
+    },
+    "cpu_b1.json": {
+      "bytes": 4993,
+      "sha256": "c91c2f5f7416610b4c643d33cc90861ddf903275ee21b3405f71e5b1ce2f0a11"
+    },
+    "gpu_b32.npz": {
+      "bytes": 957824,
+      "sha256": "8411f805168f333cf26925ba3eaa2c0c28b87037c6132bd173b2a15d84c88172"
+    },
+    "cpu_b1.npz": {
+      "bytes": 34651,
+      "sha256": "0f183925777b647065eef9c6a97f5ea31e701259305de10c043e4fe093c5cb31"
+    },
+    "gpu_b32.command.json": {
+      "bytes": 437,
+      "sha256": "de8ad097b1d94a4836bd1f9ff50962914c3f59a6211106aebb32c410626de36c"
+    },
+    "gpu_b1.stdout.log": {
+      "bytes": 4622,
+      "sha256": "3db7f1d4964a11e35ac99a8038a090cfa0ac55877b149be3b96ce361895361b4"
+    },
+    "cpu_b1.process.json": {
+      "bytes": 989,
+      "sha256": "631d4cf7ad26318cbafa9e6d408890c87e9605d2c21c847c50eb1c44a61bfd35"
+    },
+    "gpu_b1.stderr.log": {
+      "bytes": 1266,
+      "sha256": "c2ad16ecc34ce27701d44bc44be50e29292aee06ea0b8501ec005bc1dd8e7fb3"
+    },
+    "gpu_b32.stderr.log": {
+      "bytes": 1148,
+      "sha256": "f07e1cf443abc05a6cbadb8d298869de7d7f96b59757fa82353c380d9f53efc8"
+    },
+    "gpu_b32.json": {
+      "bytes": 5859,
+      "sha256": "68209bcf7f84eb3b0e4b3523c71d4212225791029a79b53a5c721f691063261c"
+    },
+    "gpu_b32.stdout.log": {
+      "bytes": 5228,
+      "sha256": "62eda368301b06a6ff12078e4afcbf985d7b8a6090efd5dc321dff7855dc72fb"
+    },
+    "gpu_b32.preflight.json": {
+      "bytes": 460,
+      "sha256": "fba6f38e5896388cfef5cada7e76d454721ec964ae215c24a8c459952475e5e3"
+    },
+    "gpu_b1.npz": {
+      "bytes": 34670,
+      "sha256": "5cd9c4285c7777ce4414bd771f77446b3d0a0c1e5d7562619c97f206b9aba1f5"
+    },
+    "cpu_b1.stderr.log": {
+      "bytes": 912,
+      "sha256": "64e9d9b55897ae08e014ba4b28781680436bef7eb4a855677c3788693909caf0"
+    },
+    "cpu_b1.stdout.log": {
+      "bytes": 4610,
+      "sha256": "4d3638f2da8512d9776ea60d9b592d48212f33172097d20e14aa125843e604af"
+    },
+    "protected-conda-before.json": {
+      "bytes": 28430,
+      "sha256": "024c3fdbbd721e079295f17e2fde9d45a6f8b824602fa20b0db2f260307ceed0"
+    },
+    "gpu_b1.process.json": {
+      "bytes": 988,
+      "sha256": "a233e5851ec4da5237517f16a59964ad1bcac4ea2362b191487ba70e8634655b"
+    },
+    "summarize_fno_numerics.py": {
+      "bytes": 8457,
+      "sha256": "0a165977c1fbad17b9074b9add725257b2763d62c0577c587d4a03b197cf4a3a"
+    }
+  }
+}

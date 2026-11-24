@@ -1,0 +1,920 @@
+{
+  "benchmark_directory": "/workspace/shanjinshuo/outputs/fno_kerr/priority1_timing_t1200_20261024T0643Z",
+  "timings": {
+    "RK4_CPU": {
+      "single": {
+        "end_to_end": {
+          "repetitions": 30,
+          "median_seconds": 0.026123638,
+          "mean_seconds": 0.02682436523333333,
+          "standard_deviation_seconds": 0.0017361290966212972,
+          "p95_seconds": 0.03109022045,
+          "min_seconds": 0.025926322,
+          "max_seconds": 0.032246298,
+          "coefficient_of_variation": 0.06472209431684497,
+          "trajectories_per_second_from_median": 38.27950762447405
+        }
+      },
+      "Q400": {
+        "end_to_end": {
+          "repetitions": 5,
+          "median_seconds": 10.719504217,
+          "mean_seconds": 10.7199925488,
+          "standard_deviation_seconds": 0.05281252363275969,
+          "p95_seconds": 10.78477125,
+          "min_seconds": 10.655190498,
+          "max_seconds": 10.796896485,
+          "coefficient_of_variation": 0.00492654480796925,
+          "trajectories_per_second_from_median": 37.31515860273111
+        }
+      }
+    },
+    "Spline_CPU": {
+      "single": {
+        "model_only": {
+          "repetitions": 30,
+          "median_seconds": 0.0000343555,
+          "mean_seconds": 0.00003446296666666667,
+          "standard_deviation_seconds": 7.122530295905514e-7,
+          "p95_seconds": 0.000035424549999999996,
+          "min_seconds": 0.000033723,
+          "max_seconds": 0.000037433,
+          "coefficient_of_variation": 0.020667200142100883,
+          "trajectories_per_second_from_median": 29107.42093696788
+        },
+        "end_to_end": {
+          "repetitions": 30,
+          "median_seconds": 0.0000351165,
+          "mean_seconds": 0.000035240566666666676,
+          "standard_deviation_seconds": 0.0000015434037325370175,
+          "p95_seconds": 0.000036824049999999995,
+          "min_seconds": 0.000034166,
+          "max_seconds": 0.000042568,
+          "coefficient_of_variation": 0.0437962234584863,
+          "trajectories_per_second_from_median": 28476.642034371307
+        }
+      },
+      "batch32": {
+        "model_only": {
+          "repetitions": 30,
+          "median_seconds": 0.0006051310000000001,
+          "mean_seconds": 0.0006064269000000001,
+          "standard_deviation_seconds": 0.000004912401262322633,
+          "p95_seconds": 0.0006172400999999999,
+          "min_seconds": 0.000598691,
+          "max_seconds": 0.000624457,
+          "coefficient_of_variation": 0.00810056622211619,
+          "trajectories_per_second_from_median": 52881.11169317056
+        },
+        "end_to_end": {
+          "repetitions": 30,
+          "median_seconds": 0.0005698179999999999,
+          "mean_seconds": 0.0005783028666666666,
+          "standard_deviation_seconds": 0.000018223641109612367,
+          "p95_seconds": 0.0006096357,
+          "min_seconds": 0.00056135,
+          "max_seconds": 0.000613786,
+          "coefficient_of_variation": 0.03151227870381016,
+          "trajectories_per_second_from_median": 56158.28211815001
+        }
+      },
+      "Q400": {
+        "model_only": {
+          "repetitions": 5,
+          "median_seconds": 0.007000498,
+          "mean_seconds": 0.0070728612,
+          "standard_deviation_seconds": 0.00045090417860860427,
+          "p95_seconds": 0.0076611108,
+          "min_seconds": 0.006648352,
+          "max_seconds": 0.007773271,
+          "coefficient_of_variation": 0.06375131164861603,
+          "trajectories_per_second_from_median": 57138.79212593161
+        },
+        "end_to_end": {
+          "repetitions": 5,
+          "median_seconds": 0.007355907,
+          "mean_seconds": 0.007812970200000002,
+          "standard_deviation_seconds": 0.0010043523939836556,
+          "p95_seconds": 0.009177059199999999,
+          "min_seconds": 0.007298613,
+          "max_seconds": 0.009606544,
+          "coefficient_of_variation": 0.12854936960896834,
+          "trajectories_per_second_from_median": 54378.06649812185
+        }
+      }
+    },
+    "MLP_CPU": {
+      "single": {
+        "model_only": {
+          "repetitions": 30,
+          "median_seconds": 0.011764229000000001,
+          "mean_seconds": 0.0118946543,
+          "standard_deviation_seconds": 0.0002948542382293385,
+          "p95_seconds": 0.01254861695,
+          "min_seconds": 0.011722597,
+          "max_seconds": 0.012879329,
+          "coefficient_of_variation": 0.024788802666533865,
+          "trajectories_per_second_from_median": 85.00344561466798
+        },
+        "end_to_end": {
+          "repetitions": 30,
+          "median_seconds": 0.0118662005,
+          "mean_seconds": 0.0119403012,
+          "standard_deviation_seconds": 0.00022101533405444968,
+          "p95_seconds": 0.012503249499999999,
+          "min_seconds": 0.011790127,
+          "max_seconds": 0.012599724,
+          "coefficient_of_variation": 0.018510030053048385,
+          "trajectories_per_second_from_median": 84.27297347621928
+        }
+      },
+      "batch32": {
+        "model_only": {
+          "repetitions": 30,
+          "median_seconds": 0.35458788350000003,
+          "mean_seconds": 0.36164425536666667,
+          "standard_deviation_seconds": 0.03409312933660902,
+          "p95_seconds": 0.39630594714999984,
+          "min_seconds": 0.344976205,
+          "max_seconds": 0.52744263,
+          "coefficient_of_variation": 0.09427255882176924,
+          "trajectories_per_second_from_median": 90.24561043693981
+        },
+        "end_to_end": {
+          "repetitions": 30,
+          "median_seconds": 0.35603638699999995,
+          "mean_seconds": 0.3566057078000001,
+          "standard_deviation_seconds": 0.005940984116970906,
+          "p95_seconds": 0.36287744925,
+          "min_seconds": 0.348305598,
+          "max_seconds": 0.37907536,
+          "coefficient_of_variation": 0.016659812187590856,
+          "trajectories_per_second_from_median": 89.87845391207165
+        }
+      },
+      "Q400": {
+        "model_only": {
+          "repetitions": 5,
+          "median_seconds": 4.423313095,
+          "mean_seconds": 4.4168664542,
+          "standard_deviation_seconds": 0.02640088014160278,
+          "p95_seconds": 4.4445491012,
+          "min_seconds": 4.388161604,
+          "max_seconds": 4.446869052,
+          "coefficient_of_variation": 0.0059772873858339485,
+          "trajectories_per_second_from_median": 90.42995406591267
+        },
+        "end_to_end": {
+          "repetitions": 5,
+          "median_seconds": 4.662412281,
+          "mean_seconds": 4.636232903400001,
+          "standard_deviation_seconds": 0.07132373140459793,
+          "p95_seconds": 4.707916464,
+          "min_seconds": 4.550138851,
+          "max_seconds": 4.714482136,
+          "coefficient_of_variation": 0.01538398369768964,
+          "trajectories_per_second_from_median": 85.7924987951103
+        }
+      }
+    },
+    "FNO_CPU": {
+      "single": {
+        "model_only": {
+          "repetitions": 30,
+          "median_seconds": 0.003569815,
+          "mean_seconds": 0.003576454,
+          "standard_deviation_seconds": 0.000028925420862434602,
+          "p95_seconds": 0.0036223097,
+          "min_seconds": 0.003518286,
+          "max_seconds": 0.003643195,
+          "coefficient_of_variation": 0.00808773742439707,
+          "trajectories_per_second_from_median": 280.1265611803413
+        },
+        "end_to_end": {
+          "repetitions": 30,
+          "median_seconds": 0.0036990495,
+          "mean_seconds": 0.0037204569,
+          "standard_deviation_seconds": 0.00012478979614628373,
+          "p95_seconds": 0.00374918675,
+          "min_seconds": 0.003655125,
+          "max_seconds": 0.004364986,
+          "coefficient_of_variation": 0.03354152446875107,
+          "trajectories_per_second_from_median": 270.3397183519712
+        }
+      },
+      "batch32": {
+        "model_only": {
+          "repetitions": 30,
+          "median_seconds": 0.0351931575,
+          "mean_seconds": 0.03524944673333333,
+          "standard_deviation_seconds": 0.0002090058182867637,
+          "p95_seconds": 0.0355679758,
+          "min_seconds": 0.035052624,
+          "max_seconds": 0.036165437,
+          "coefficient_of_variation": 0.00592933613590931,
+          "trajectories_per_second_from_median": 909.2676609082318
+        },
+        "end_to_end": {
+          "repetitions": 30,
+          "median_seconds": 0.0359247575,
+          "mean_seconds": 0.036857291033333336,
+          "standard_deviation_seconds": 0.0022567066142733165,
+          "p95_seconds": 0.0416359282,
+          "min_seconds": 0.033580187,
+          "max_seconds": 0.041996217,
+          "coefficient_of_variation": 0.06122822787579194,
+          "trajectories_per_second_from_median": 890.7506195414123
+        }
+      },
+      "Q400": {
+        "model_only": {
+          "repetitions": 5,
+          "median_seconds": 0.532871791,
+          "mean_seconds": 0.5274001086,
+          "standard_deviation_seconds": 0.013918092612544286,
+          "p95_seconds": 0.5407131546,
+          "min_seconds": 0.512318496,
+          "max_seconds": 0.541496289,
+          "coefficient_of_variation": 0.026390007103886073,
+          "trajectories_per_second_from_median": 750.6496060700649
+        },
+        "end_to_end": {
+          "repetitions": 5,
+          "median_seconds": 0.488810536,
+          "mean_seconds": 0.4844000244,
+          "standard_deviation_seconds": 0.015342583360933337,
+          "p95_seconds": 0.494530649,
+          "min_seconds": 0.457424945,
+          "max_seconds": 0.494990245,
+          "coefficient_of_variation": 0.03167337445933732,
+          "trajectories_per_second_from_median": 818.3129669692717
+        }
+      }
+    },
+    "MLP_GPU": {
+      "single": {
+        "model_only": {
+          "repetitions": 30,
+          "median_seconds": 0.00017679799999999998,
+          "mean_seconds": 0.0001770854333333333,
+          "standard_deviation_seconds": 0.0000019450505300294426,
+          "p95_seconds": 0.00017988135,
+          "min_seconds": 0.000173479,
+          "max_seconds": 0.000182776,
+          "coefficient_of_variation": 0.010983684504237087,
+          "trajectories_per_second_from_median": 5656.172581137796
+        },
+        "end_to_end": {
+          "repetitions": 30,
+          "median_seconds": 0.00026444049999999996,
+          "mean_seconds": 0.0002652437,
+          "standard_deviation_seconds": 0.0000057367588238872536,
+          "p95_seconds": 0.0002757046,
+          "min_seconds": 0.00025869,
+          "max_seconds": 0.000287217,
+          "coefficient_of_variation": 0.021628256670704164,
+          "trajectories_per_second_from_median": 3781.569010798271
+        }
+      },
+      "batch32": {
+        "model_only": {
+          "repetitions": 30,
+          "median_seconds": 0.0038338499999999998,
+          "mean_seconds": 0.0038130738,
+          "standard_deviation_seconds": 0.00006738706110911897,
+          "p95_seconds": 0.00388835115,
+          "min_seconds": 0.003677001,
+          "max_seconds": 0.003899203,
+          "coefficient_of_variation": 0.01767263489867911,
+          "trajectories_per_second_from_median": 8346.70109680869
+        },
+        "end_to_end": {
+          "repetitions": 30,
+          "median_seconds": 0.004660584000000001,
+          "mean_seconds": 0.004693871,
+          "standard_deviation_seconds": 0.00010534569620425236,
+          "p95_seconds": 0.0049191807,
+          "min_seconds": 0.004601742,
+          "max_seconds": 0.00503298,
+          "coefficient_of_variation": 0.02244324486213029,
+          "trajectories_per_second_from_median": 6866.092318044261
+        }
+      },
+      "Q400": {
+        "model_only": {
+          "repetitions": 5,
+          "median_seconds": 0.048252193,
+          "mean_seconds": 0.047682126,
+          "standard_deviation_seconds": 0.0010374954473656738,
+          "p95_seconds": 0.0483166276,
+          "min_seconds": 0.045894166,
+          "max_seconds": 0.048322691,
+          "coefficient_of_variation": 0.02175858197609884,
+          "trajectories_per_second_from_median": 8289.778663531417
+        },
+        "end_to_end": {
+          "repetitions": 5,
+          "median_seconds": 0.057407272,
+          "mean_seconds": 0.05810402440000001,
+          "standard_deviation_seconds": 0.0010147900631403029,
+          "p95_seconds": 0.0593000892,
+          "min_seconds": 0.057322694,
+          "max_seconds": 0.059360859,
+          "coefficient_of_variation": 0.017465056398749252,
+          "trajectories_per_second_from_median": 6967.7583704029685
+        }
+      }
+    },
+    "FNO_GPU": {
+      "single": {
+        "model_only": {
+          "repetitions": 30,
+          "median_seconds": 0.0008303755,
+          "mean_seconds": 0.0008311061666666665,
+          "standard_deviation_seconds": 0.000017726012259570298,
+          "p95_seconds": 0.0008628379,
+          "min_seconds": 0.000807013,
+          "max_seconds": 0.000871258,
+          "coefficient_of_variation": 0.021328216502910037,
+          "trajectories_per_second_from_median": 1204.2744517390024
+        },
+        "end_to_end": {
+          "repetitions": 30,
+          "median_seconds": 0.0009709569999999999,
+          "mean_seconds": 0.0009768412333333333,
+          "standard_deviation_seconds": 0.00002293204021132927,
+          "p95_seconds": 0.00101676235,
+          "min_seconds": 0.000946857,
+          "max_seconds": 0.001038556,
+          "coefficient_of_variation": 0.023475708670770284,
+          "trajectories_per_second_from_median": 1029.9117262659418
+        }
+      },
+      "batch32": {
+        "model_only": {
+          "repetitions": 30,
+          "median_seconds": 0.0008217599999999999,
+          "mean_seconds": 0.0008256585,
+          "standard_deviation_seconds": 0.00001923361918665443,
+          "p95_seconds": 0.00085669555,
+          "min_seconds": 0.00079591,
+          "max_seconds": 0.000872977,
+          "coefficient_of_variation": 0.023294884248941213,
+          "trajectories_per_second_from_median": 38940.80996884735
+        },
+        "end_to_end": {
+          "repetitions": 30,
+          "median_seconds": 0.0017154625,
+          "mean_seconds": 0.0017176371666666663,
+          "standard_deviation_seconds": 0.00002075822341259305,
+          "p95_seconds": 0.0017468085,
+          "min_seconds": 0.00168051,
+          "max_seconds": 0.001751545,
+          "coefficient_of_variation": 0.012085336656330922,
+          "trajectories_per_second_from_median": 18653.861567944503
+        }
+      },
+      "Q400": {
+        "model_only": {
+          "repetitions": 5,
+          "median_seconds": 0.008957909,
+          "mean_seconds": 0.008952118999999998,
+          "standard_deviation_seconds": 0.0000857150417954753,
+          "p95_seconds": 0.0090605736,
+          "min_seconds": 0.008863616,
+          "max_seconds": 0.0090848,
+          "coefficient_of_variation": 0.009574832706700539,
+          "trajectories_per_second_from_median": 44653.27790224259
+        },
+        "end_to_end": {
+          "repetitions": 5,
+          "median_seconds": 0.020922793,
+          "mean_seconds": 0.0210752612,
+          "standard_deviation_seconds": 0.00042325142991985365,
+          "p95_seconds": 0.0216469442,
+          "min_seconds": 0.020798709,
+          "max_seconds": 0.021826588,
+          "coefficient_of_variation": 0.020082855719000703,
+          "trajectories_per_second_from_median": 19117.90648600309
+        }
+      }
+    }
+  },
+  "preparation": {
+    "Spline_fit": {
+      "first_observed_seconds_not_cold_guaranteed": 0.48850288602989167,
+      "warm_repeated": {
+        "repetitions": 3,
+        "median_seconds": 0.486048131,
+        "mean_seconds": 0.4874577363333334,
+        "standard_deviation_seconds": 0.005352529922780942,
+        "p95_seconds": 0.492641414,
+        "min_seconds": 0.482951077,
+        "max_seconds": 0.493374001,
+        "coefficient_of_variation": 0.010980500510757664,
+        "trajectories_per_second_from_median": null
+      }
+    },
+    "Spline_load": {
+      "first_observed_seconds_not_cold_guaranteed": 0.27998026402201504,
+      "warm_repeated": {
+        "repetitions": 3,
+        "median_seconds": 0.247623907,
+        "mean_seconds": 0.24809389133333334,
+        "standard_deviation_seconds": 0.005381964228544859,
+        "p95_seconds": 0.2530882822,
+        "min_seconds": 0.242962332,
+        "max_seconds": 0.253695435,
+        "coefficient_of_variation": 0.021693255725163233,
+        "trajectories_per_second_from_median": null
+      }
+    },
+    "Spline_disk": {
+      "fitted_artifact_bytes": 161313730,
+      "sha256": "76a721cfd1f6fb6039627552bca1010a08492bfad5ee45ff432a7c0020612a88",
+      "training_truth_uncompressed_bytes": 40320000,
+      "training_archive_bytes": 47327218
+    },
+    "historical_training": {
+      "FNO": {
+        "seconds": 518.0856702011079,
+        "gpu": "NVIDIA GeForce RTX 4090",
+        "source": "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave1_fno1d_20260912/train_t1200/summary.json",
+        "scope": "Recorded training_wall_seconds around historical epoch loop; includes validation and in-loop checkpoint handling; excludes initial data/model setup"
+      },
+      "MLP": {
+        "seconds": 370.107164,
+        "gpu": "NVIDIA L40S",
+        "source": [
+          "/workspace/shanjinshuo/outputs/fno_kerr/priority1_mlp_t1200_seed27_20261024T014339Z/run/completion.json",
+          "/workspace/shanjinshuo/outputs/fno_kerr/priority1_mlp_t1200_seed27_20261024T014339Z/run/session_4aeab77bc5dc403ca08819dc5aa83633.json"
+        ],
+        "scope": "Observed session start to completion after initial data/model setup; includes validation and per-epoch NFS checkpoints"
+      }
+    },
+    "MLP_CPU_load": {
+      "first_observed_seconds_not_cold_guaranteed": 0.04272144800052047,
+      "warm_repeated": {
+        "repetitions": 3,
+        "median_seconds": 0.037076679,
+        "mean_seconds": 0.03667398333333333,
+        "standard_deviation_seconds": 0.0023856140530635556,
+        "p95_seconds": 0.0386570268,
+        "min_seconds": 0.03411265,
+        "max_seconds": 0.038832621,
+        "coefficient_of_variation": 0.06504922117078153,
+        "trajectories_per_second_from_median": null
+      }
+    },
+    "FNO_CPU_load": {
+      "first_observed_seconds_not_cold_guaranteed": 0.012264012009836733,
+      "warm_repeated": {
+        "repetitions": 3,
+        "median_seconds": 0.009148482,
+        "mean_seconds": 0.009060123666666666,
+        "standard_deviation_seconds": 0.0006454415136263963,
+        "p95_seconds": 0.0096059988,
+        "min_seconds": 0.008375055,
+        "max_seconds": 0.009656834,
+        "coefficient_of_variation": 0.07123981276337946,
+        "trajectories_per_second_from_median": null
+      }
+    },
+    "MLP_GPU_load": {
+      "first_observed_seconds_not_cold_guaranteed": 0.43866360798710957,
+      "warm_repeated": {
+        "repetitions": 3,
+        "median_seconds": 0.033770432,
+        "mean_seconds": 0.034143177000000004,
+        "standard_deviation_seconds": 0.001292570298446083,
+        "p95_seconds": 0.035400089,
+        "min_seconds": 0.033077937,
+        "max_seconds": 0.035581162,
+        "coefficient_of_variation": 0.03785735283058407,
+        "trajectories_per_second_from_median": null
+      }
+    },
+    "FNO_GPU_load": {
+      "first_observed_seconds_not_cold_guaranteed": 0.010112045041751117,
+      "warm_repeated": {
+        "repetitions": 3,
+        "median_seconds": 0.009156385,
+        "mean_seconds": 0.009285733666666665,
+        "standard_deviation_seconds": 0.0004696614776893388,
+        "p95_seconds": 0.009741501999999999,
+        "min_seconds": 0.008894301,
+        "max_seconds": 0.009806515,
+        "coefficient_of_variation": 0.05057882279946275,
+        "trajectories_per_second_from_median": null
+      }
+    }
+  },
+  "ratios": {
+    "CPU_same_hardware": {
+      "Spline_CPU": {
+        "single": 743.9134879614995,
+        "Q400": 1457.264782847309
+      },
+      "MLP_CPU": {
+        "single": 2.201516652276354,
+        "Q400": 2.2991326315528813
+      },
+      "FNO_CPU": {
+        "single": 7.0622569392488534,
+        "Q400": 21.929773250632227
+      }
+    },
+    "CPU_GPU_cross_hardware_deployment": {
+      "MLP_GPU": {
+        "single": 98.78833991011213,
+        "Q400": 186.72728808642918
+      },
+      "FNO_GPU": {
+        "single": 26.905041108926557,
+        "Q400": 512.3361979923044
+      }
+    }
+  },
+  "resource": {
+    "Spline_CPU": {
+      "resident_array_bytes": 161302400,
+      "dtype": "float64"
+    },
+    "MLP_CPU": {
+      "parameter_bytes": 4002060,
+      "checkpoint_bytes": 16172730,
+      "checkpoint_sha256": "91503281bd80e5106ab7fb051b5956c88e269d49b20b5749681b66824f78b4c0",
+      "dtype": "torch.float32",
+      "device": "cpu",
+      "cpu_threads": 2,
+      "matmul_precision": "highest",
+      "matmul_tf32": false,
+      "cudnn_tf32": true,
+      "cudnn_deterministic": true
+    },
+    "FNO_CPU": {
+      "parameter_bytes": 4279052,
+      "checkpoint_bytes": 4291732,
+      "checkpoint_sha256": "11ccbebf1d0fd68c57d0895685adeb7d1386da723242ee8271b18286ebbb7ff1",
+      "dtype": "torch.float32",
+      "device": "cpu",
+      "cpu_threads": 2,
+      "matmul_precision": "highest",
+      "matmul_tf32": false,
+      "cudnn_tf32": true,
+      "cudnn_deterministic": false
+    },
+    "MLP_GPU": {
+      "parameter_bytes": 4002060,
+      "checkpoint_bytes": 16172730,
+      "checkpoint_sha256": "91503281bd80e5106ab7fb051b5956c88e269d49b20b5749681b66824f78b4c0",
+      "dtype": "torch.float32",
+      "device": "cuda:0",
+      "cpu_threads": 2,
+      "matmul_precision": "highest",
+      "matmul_tf32": false,
+      "cudnn_tf32": true,
+      "cudnn_deterministic": true,
+      "allocator_peak_bytes": 205649920,
+      "allocator_reserved_bytes": 299892736
+    },
+    "FNO_GPU": {
+      "parameter_bytes": 4279052,
+      "checkpoint_bytes": 4291732,
+      "checkpoint_sha256": "11ccbebf1d0fd68c57d0895685adeb7d1386da723242ee8271b18286ebbb7ff1",
+      "dtype": "torch.float32",
+      "device": "cuda:0",
+      "cpu_threads": 2,
+      "matmul_precision": "highest",
+      "matmul_tf32": false,
+      "cudnn_tf32": true,
+      "cudnn_deterministic": false,
+      "allocator_peak_bytes": 89030656,
+      "allocator_reserved_bytes": 306184192
+    },
+    "system": {
+      "hostname": "job-u15c7468-d8ms2",
+      "cpu_model": "Intel(R) Xeon(R) Platinum 8480+",
+      "affinity": [
+        0,
+        1
+      ],
+      "cpu_max": "600000 100000",
+      "cpu_stat_before": "usage_usec 465655179\nuser_usec 434532889\nsystem_usec 31122290\nnr_periods 6892\nnr_throttled 11\nthrottled_usec 49272891\n",
+      "cpu_stat_after": "usage_usec 716583182\nuser_usec 632881795\nsystem_usec 83701387\nnr_periods 8521\nnr_throttled 11\nthrottled_usec 49272891\n",
+      "torch_threads": 2,
+      "interop_threads": 1,
+      "GPU": "NVIDIA L40S",
+      "gpu_quota_gib_user_report": 22.5,
+      "gpu_memory_note": "PyTorch allocator counters, not HAMI physical free memory",
+      "process_peak_rss_bytes": 1154416640,
+      "rss_scope": "Whole sequential benchmark process including resident data and temporary preparation copies; not isolated per-model RSS",
+      "environment": {
+        "OMP_NUM_THREADS": "2",
+        "MKL_NUM_THREADS": "2",
+        "OPENBLAS_NUM_THREADS": "2",
+        "NUMEXPR_NUM_THREADS": "2"
+      },
+      "python": "3.10.20 (main, Jun 11 2026, 15:17:37) [GCC 14.3.0]",
+      "torch": "2.5.1+cu121",
+      "numpy": "2.0.1",
+      "scipy": "1.15.3",
+      "cuda": "12.1"
+    }
+  },
+  "verification": {
+    "status": "PASS",
+    "utc": "2026-10-24T06:45:40.800112+00:00",
+    "raw_rows": 703,
+    "groups": [
+      {
+        "case": "Spline_CPU",
+        "scope": "fit",
+        "group": "preparation",
+        "count": 3,
+        "statistics": "PASS"
+      },
+      {
+        "case": "Spline_CPU",
+        "scope": "load_fitted_coefficients",
+        "group": "preparation",
+        "count": 3,
+        "statistics": "PASS"
+      },
+      {
+        "case": "RK4_CPU",
+        "scope": "end_to_end",
+        "group": "single",
+        "count": 30,
+        "statistics": "PASS"
+      },
+      {
+        "case": "RK4_CPU",
+        "scope": "end_to_end",
+        "group": "Q400",
+        "count": 5,
+        "statistics": "PASS"
+      },
+      {
+        "case": "Spline_CPU",
+        "scope": "model_only",
+        "group": "single",
+        "count": 30,
+        "statistics": "PASS"
+      },
+      {
+        "case": "Spline_CPU",
+        "scope": "end_to_end",
+        "group": "single",
+        "count": 30,
+        "statistics": "PASS"
+      },
+      {
+        "case": "Spline_CPU",
+        "scope": "model_only",
+        "group": "batch32",
+        "count": 30,
+        "statistics": "PASS"
+      },
+      {
+        "case": "Spline_CPU",
+        "scope": "end_to_end",
+        "group": "batch32",
+        "count": 30,
+        "statistics": "PASS"
+      },
+      {
+        "case": "Spline_CPU",
+        "scope": "model_only",
+        "group": "Q400",
+        "count": 5,
+        "statistics": "PASS"
+      },
+      {
+        "case": "Spline_CPU",
+        "scope": "end_to_end",
+        "group": "Q400",
+        "count": 5,
+        "statistics": "PASS"
+      },
+      {
+        "case": "MLP_CPU",
+        "scope": "load_checkpoint_and_initialize",
+        "group": "preparation",
+        "count": 3,
+        "statistics": "PASS"
+      },
+      {
+        "case": "MLP_CPU",
+        "scope": "model_only",
+        "group": "single",
+        "count": 30,
+        "statistics": "PASS"
+      },
+      {
+        "case": "MLP_CPU",
+        "scope": "end_to_end",
+        "group": "single",
+        "count": 30,
+        "statistics": "PASS"
+      },
+      {
+        "case": "MLP_CPU",
+        "scope": "model_only",
+        "group": "batch32",
+        "count": 30,
+        "statistics": "PASS"
+      },
+      {
+        "case": "MLP_CPU",
+        "scope": "end_to_end",
+        "group": "batch32",
+        "count": 30,
+        "statistics": "PASS"
+      },
+      {
+        "case": "MLP_CPU",
+        "scope": "model_only",
+        "group": "Q400",
+        "count": 5,
+        "statistics": "PASS"
+      },
+      {
+        "case": "MLP_CPU",
+        "scope": "end_to_end",
+        "group": "Q400",
+        "count": 5,
+        "statistics": "PASS"
+      },
+      {
+        "case": "FNO_CPU",
+        "scope": "load_checkpoint_and_initialize",
+        "group": "preparation",
+        "count": 3,
+        "statistics": "PASS"
+      },
+      {
+        "case": "FNO_CPU",
+        "scope": "model_only",
+        "group": "single",
+        "count": 30,
+        "statistics": "PASS"
+      },
+      {
+        "case": "FNO_CPU",
+        "scope": "end_to_end",
+        "group": "single",
+        "count": 30,
+        "statistics": "PASS"
+      },
+      {
+        "case": "FNO_CPU",
+        "scope": "model_only",
+        "group": "batch32",
+        "count": 30,
+        "statistics": "PASS"
+      },
+      {
+        "case": "FNO_CPU",
+        "scope": "end_to_end",
+        "group": "batch32",
+        "count": 30,
+        "statistics": "PASS"
+      },
+      {
+        "case": "FNO_CPU",
+        "scope": "model_only",
+        "group": "Q400",
+        "count": 5,
+        "statistics": "PASS"
+      },
+      {
+        "case": "FNO_CPU",
+        "scope": "end_to_end",
+        "group": "Q400",
+        "count": 5,
+        "statistics": "PASS"
+      },
+      {
+        "case": "MLP_GPU",
+        "scope": "load_checkpoint_and_initialize",
+        "group": "preparation",
+        "count": 3,
+        "statistics": "PASS"
+      },
+      {
+        "case": "MLP_GPU",
+        "scope": "model_only",
+        "group": "single",
+        "count": 30,
+        "statistics": "PASS"
+      },
+      {
+        "case": "MLP_GPU",
+        "scope": "end_to_end",
+        "group": "single",
+        "count": 30,
+        "statistics": "PASS"
+      },
+      {
+        "case": "MLP_GPU",
+        "scope": "model_only",
+        "group": "batch32",
+        "count": 30,
+        "statistics": "PASS"
+      },
+      {
+        "case": "MLP_GPU",
+        "scope": "end_to_end",
+        "group": "batch32",
+        "count": 30,
+        "statistics": "PASS"
+      },
+      {
+        "case": "MLP_GPU",
+        "scope": "model_only",
+        "group": "Q400",
+        "count": 5,
+        "statistics": "PASS"
+      },
+      {
+        "case": "MLP_GPU",
+        "scope": "end_to_end",
+        "group": "Q400",
+        "count": 5,
+        "statistics": "PASS"
+      },
+      {
+        "case": "FNO_GPU",
+        "scope": "load_checkpoint_and_initialize",
+        "group": "preparation",
+        "count": 3,
+        "statistics": "PASS"
+      },
+      {
+        "case": "FNO_GPU",
+        "scope": "model_only",
+        "group": "single",
+        "count": 30,
+        "statistics": "PASS"
+      },
+      {
+        "case": "FNO_GPU",
+        "scope": "end_to_end",
+        "group": "single",
+        "count": 30,
+        "statistics": "PASS"
+      },
+      {
+        "case": "FNO_GPU",
+        "scope": "model_only",
+        "group": "batch32",
+        "count": 30,
+        "statistics": "PASS"
+      },
+      {
+        "case": "FNO_GPU",
+        "scope": "end_to_end",
+        "group": "batch32",
+        "count": 30,
+        "statistics": "PASS"
+      },
+      {
+        "case": "FNO_GPU",
+        "scope": "model_only",
+        "group": "Q400",
+        "count": 5,
+        "statistics": "PASS"
+      },
+      {
+        "case": "FNO_GPU",
+        "scope": "end_to_end",
+        "group": "Q400",
+        "count": 5,
+        "statistics": "PASS"
+      }
+    ],
+    "source_hashes_unchanged": true,
+    "all_required_cases_and_counts_complete": true,
+    "all_statistical_summaries_recomputed": true,
+    "all_reported_output_checks_passed": true,
+    "accuracy_results_not_recomputed_or_changed": true,
+    "exit_code": 0,
+    "hami_context_error_count": 7,
+    "hami_only_after_atexit": true,
+    "P1_acceptance": "PASS_FOR_APPROVED_SINGLE_SEED_T1200_SCOPE",
+    "limitations": [
+      "Timing distributions from one shared-container session",
+      "Five full-field repetitions do not establish tail-latency stability",
+      "Cross-container timing repeatability not tested"
+    ]
+  },
+  "process": {
+    "exit_code": 0,
+    "timeout": false,
+    "wall_seconds": 166.46312050399138,
+    "utc": "2026-10-24T06:45:18.719576+00:00",
+    "hami_context_error_count": 7,
+    "hami_only_after_atexit": true
+  }
+}

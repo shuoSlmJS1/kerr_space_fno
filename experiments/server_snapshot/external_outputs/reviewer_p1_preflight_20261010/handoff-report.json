@@ -1,0 +1,1579 @@
+{
+  "status": "VERIFIED_PREFLIGHT_FORMAL_PROTOCOL_PENDING",
+  "task": "FNO-Kerr Priority 1 Simple Baselines",
+  "verified": [
+    "Existing project SSH reached the same container; no connection configuration changes.",
+    "Track A n2000 T1200 source archive SHA-256 and split Q hashes match the historical contract.",
+    "Train/validation/internal-test Q sets are disjoint; T1200 and matched T2399 preserve exact split rows.",
+    "Independent Q400 has no exact Q intersection with n2000; its train/val/test labels are source packaging, all Q400 remains evaluation-only.",
+    "Plan A Q400 T1200/T1800/T2400 split Q arrays match each other, but this is not the n2000 training split and does not establish truth-prefix or checkpoint equivalence.",
+    "Only a 16-train/4-validation subset and manifest were transferred, after dry-run and SHA-256 verification.",
+    "Q-axis natural cubic spline shape, finite outputs, knot reconstruction, hull rejection and exact metric formula tests passed.",
+    "GPU MLP forward/backward passed, with finite gradients, zero optimizer steps and unchanged weights.",
+    "Original second-order RK4 reproduced one training trajectory exactly; bounded CPU/GPU timing plumbing passed."
+  ],
+  "pending": [
+    "Approve new baseline protocol, especially Q-boundary handling; default spline smoke forbids extrapolation.",
+    "Approve plain MLP 4x576 GELU architecture and native-T1200-first scope; no locked Track A model registry was changed.",
+    "Implement and review a formal resumable Priority 1 runner; no existing spline-in-Q/plain-MLP formal CLI was found.",
+    "Restore only approved full train/validation assets and validate full normalization/split provenance before formal fitting/training.",
+    "Restore independent truth only after model/protocol freeze for formal evaluation; do not use Q400 or internal test errors for tuning.",
+    "Define an explicit lambda-axis rule if cross-resolution spline scores are required; Q-axis-only interpolation cannot query missing lambda nodes.",
+    "Establish Git/source provenance and approved deployment path/device mapping for official entry points.",
+    "Obtain a new task time budget and explicit formal-run authorization; refresh hardware and HAMI preflight."
+  ],
+  "failed": [],
+  "warnings": [
+    "Training Q hull is [1.6021010505252626,3.0], not the nominal [1.6,3.0]. Two validation Q and one internal-test Q lie below the hull; independent Q400 begins at1.6007.",
+    "No automatic point deletion, clipping, use of test knots, or silent extrapolation is acceptable.",
+    "Existing sparse-reconstruction Linear/PCHIP code interpolates lambda observations and is not a spline-in-Q baseline.",
+    "GPU smoke exited0 with three HAMI errors after Python atexit. No computation-stage CUDA failure observed; long-job safety is not proven.",
+    "Shared NFS free-space reporting is not the user's remaining personal quota.",
+    "Timing sample counts are too small for a formal benchmark. Different hardware, precision and implementation cannot support a pure algorithm speedup claim."
+  ],
+  "paths": {
+    "project": "/workspace/shanjinshuo/projects/fno_kerr/kerr_project",
+    "data": "/workspace/shanjinshuo/datasets/fno_kerr/reviewer_p1_preflight_20261010",
+    "outputs": "/workspace/shanjinshuo/outputs/fno_kerr/reviewer_p1_preflight_20261010",
+    "local_backup": "D:\\AAA_MyNote\\Server_Migration\\amax_2026-10-01\\fno_kerr\\kerr_project"
+  },
+  "provenance": {
+    "backup_git_head": "1c97c032a30fd6e9c9999080a022a9bdf0216b2a",
+    "checkpoint_training_head": "3335b3b197cf8b7d7a302d900a51af37a25d2144",
+    "remote_git_checkout": false,
+    "remote_state": "SHA-verified source snapshot; formal source_provenance() requires a reviewed Git/provenance deployment solution.",
+    "test_data_seed": 10,
+    "training_seed": 27,
+    "independent_Q400_data_seed": 20260728
+  },
+  "protocol_status": "Proposal only, see protocol.json. Formal scientific choices not silently locked by smoke tests.",
+  "next_action": "Approve the native T1200 baseline protocol and Q-tail policy, then implement/review a resumable formal runner. Do not launch training from this preflight script.",
+  "commands": {
+    "executed_cpu": "/opt/conda/bin/python -B /workspace/shanjinshuo/outputs/fno_kerr/reviewer_p1_preflight_20261010/run_p1_preflight.py --mode cpu --output-dir /workspace/shanjinshuo/outputs/fno_kerr/reviewer_p1_preflight_20261010",
+    "executed_gpu": "/opt/conda/bin/python -B /workspace/shanjinshuo/outputs/fno_kerr/reviewer_p1_preflight_20261010/run_p1_preflight.py --mode gpu --output-dir /workspace/shanjinshuo/outputs/fno_kerr/reviewer_p1_preflight_20261010",
+    "reexecution_warning": "Evidence commands only: fixed hostname/deadline and exclusive output creation prevent blind reruns. A new task requires new approved output path and refreshed deadline.",
+    "future_launch_template": "/workspace/shanjinshuo/environments/fno_kerr/bin/python -B <REVIEWED_PRIORITY1_RUNNER.py> --protocol <APPROVED_PROTOCOL.json> --job M1200 --data-root /workspace/shanjinshuo/datasets/fno_kerr --output-dir <NEW_UNIQUE_OUTPUT> --seed 27",
+    "template_status": "NOT_EXECUTABLE_YET: runner and final CLI must be implemented/reviewed after protocol approval; placeholders are not existing files.",
+    "formal_training_launched": false
+  },
+  "protocol": {
+    "status": "PROPOSED_NOT_FORMALLY_LOCKED",
+    "name": "Priority 1 Simple Baselines",
+    "scope": "Smoke and timing plumbing only; no formal training or held-out error selection.",
+    "spline": {
+      "axis": "Q only, axis=0 of [Q,T,3]; never sparse lambda reconstruction",
+      "formal_training_Q": "All 1400 original training Q only; stable ascending sort and retain source row mapping; reject duplicates.",
+      "fit": "CubicSpline with bc_type=natural, float64 raw xyz, no smoothing/hyperparameter search.",
+      "boundary_proposal": "Inside hull: cubic spline. Outside: explicit linear tails from the first/last two training knots; report boundary subgroup and full-set metrics. Requires approval, not implemented in this smoke.",
+      "smoke_boundary": "extrapolate=False; reject out-of-hull queries before evaluation; intentionally verify rejection.",
+      "grids": "Native T1200 first. Separate T2399 fit on matched train truth as a proposed extension. Q-only spline does not define unseen lambda nodes; cross-resolution comparison is pending a separately declared lambda resampling rule, never implicit.",
+      "leakage": "Validation Q for selection only after protocol lock; no validation/test/independent-Q400 knots or refitted statistics; no test-driven interpolation/boundary choice."
+    },
+    "mlp": {
+      "proposal": "Pointwise 2->576->576->576->576->3, GELU, no Fourier/positional encoding, no residual or physics inputs; independent of lambda length.",
+      "nominal_parameters": 1000515,
+      "smoke": "2->16->16->3; one forward/backward, no optimizer step; seed27.",
+      "formal_training": "Reuse train-only Track A standard normalization with float64 reductions over float32 samples. Raw targets, normalized MSE, trajectory batches32 with all lambda points per trajectory. Original train/val Q splits; never split randomly by coordinate points.",
+      "defaults": "Proposed seed27, AdamW lr1e-3 weight_decay1e-4, ExponentialLR gamma0.995, 500 epochs maximum, minimum validation normalized MSE BEST over all epochs, preserve original batch32 eval and canonical order.",
+      "authorization": "New baseline architecture and formal training protocol require approval; not added to the locked six-model Track A registry."
+    },
+    "metrics": {
+      "space": "Raw physical xyz, float64 reductions, epsilon=1e-12",
+      "global": "norm(pred-truth over all Q,lambda,xyz)/(norm(truth over all Q,lambda,xyz)+epsilon)",
+      "mean_per_Q": "mean over Q of norm(error_q)/(norm(truth_q)+epsilon)",
+      "distinction": "Global weights trajectories by truth energy in squared norms; mean-per-Q weights relative errors equally. Not interchangeable; neither is a mean of pointwise relative errors."
+    },
+    "timing": {
+      "smoke": {
+        "warmups": 1,
+        "repetitions": 3,
+        "batch": 1,
+        "steps": 1200,
+        "step_size": 0.005,
+        "threads": 2,
+        "max_process_seconds": 120
+      },
+      "formal_proposal": {
+        "warmups": 5,
+        "repetitions": 30,
+        "latency_batch": 1,
+        "throughput_batch": 32,
+        "final_short_batch": 16,
+        "threads": 2
+      },
+      "solver": "CPU perf_counter wall-clock for original simulate_one_orbit_second_order including initialization, RK4 loop, xyz conversion and diagnostics; exclude import/disk writes. One Q at a time; serial batch32 total if later approved.",
+      "neural": "Separately CPU/GPU resident-tensor model-only latency and end-to-end Q/grid construction+normalization+H2D+forward+D2H+inverse normalization. synchronize CUDA before start and before stop. Exclude model load/disk writes; report raw repetitions and median.",
+      "comparison": "Require identical Q/grid/output contract for numerical task equivalence. Solver float64 and neural float32, CPU vs GPU and unlike implementation paths preclude a pure algorithmic speedup claim. Do not report a formal speedup from smoke timings.",
+      "precision": "Record actual TF32, matmul, cuDNN, threads, CUDA runtime, device and HAMI stderr; do not change settings."
+    },
+    "minimal_next_matrix": [
+      {
+        "id": "S1200",
+        "status": "pending_approval",
+        "method": "natural cubic spline-in-Q",
+        "resolution": 1200,
+        "fit_Q": 1400,
+        "training_runs": 0
+      },
+      {
+        "id": "M1200",
+        "status": "pending_approval_and_formal_harness",
+        "method": "plain MLP",
+        "resolution": 1200,
+        "seed": 27,
+        "epochs": 500,
+        "training_runs": 1
+      },
+      {
+        "id": "M2399",
+        "status": "deferred_until_M1200_workflow_verified_and_approved",
+        "method": "plain MLP",
+        "resolution": 2399,
+        "seed": 27,
+        "epochs": 500,
+        "training_runs": 1
+      },
+      {
+        "id": "S2399",
+        "status": "deferred_approval",
+        "method": "natural cubic spline-in-Q native-only",
+        "resolution": 2399,
+        "training_runs": 0
+      }
+    ],
+    "sources": [
+      "https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.CubicSpline.html",
+      "https://docs.pytorch.org/docs/stable/notes/cuda"
+    ]
+  },
+  "results": {
+    "cpu-smoke.json": {
+      "status": "verified",
+      "scope": "SMOKE_ONLY_NOT_FORMAL_BENCHMARK",
+      "mode": "cpu",
+      "python": "3.10.20 (main, Jun 11 2026, 15:17:37) [GCC 14.3.0]",
+      "torch": "2.5.1+cu121",
+      "numpy": "2.0.1",
+      "scipy": "1.15.3",
+      "cuda_runtime": "12.1",
+      "cudnn": 90100,
+      "gpu": null,
+      "precision": {
+        "matmul_tf32": false,
+        "matmul_precision": "highest",
+        "cudnn_tf32": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": false
+      },
+      "seed": 27,
+      "threads": 2,
+      "heldout_test_truth_available": false,
+      "checkpoint_sha256": "11ccbebf1d0fd68c57d0895685adeb7d1386da723242ee8271b18286ebbb7ff1",
+      "manifest_sha256": "3fda19ab118d12c6230cb3f17ae6aa0ad688bcabf08c620b274ff10206c5542d",
+      "spline": {
+        "status": "verified",
+        "axis": "Q",
+        "train_Q_count": 16,
+        "validation_Q_count": 4,
+        "shape": [
+          4,
+          1200,
+          3
+        ],
+        "finite": true,
+        "knot_reconstruction": true,
+        "out_of_hull_rejected": true,
+        "bc_type": "natural",
+        "validation_smoke_metrics": {
+          "evaluation_space": "raw_physical_xyz_float64",
+          "point_count_per_q": 1200,
+          "global_mse": 9.850478539654438e-06,
+          "global_relative_l2": 0.0006354574320672598,
+          "mean_per_q_relative_l2": 0.00044463738770128487,
+          "per_q_relative_l2_summary": {
+            "mean": 0.00044463738770128487,
+            "median": 0.00023247837686160517,
+            "max": 0.0013079383849461698,
+            "p95": 0.0011789778362237102,
+            "p99": 0.0012821462752016777,
+            "worst_q_index": 1,
+            "worst_q_value": 1.6441220610305154
+          }
+        },
+        "metrics_used_to_select_parameters": false,
+        "synthetic_metric_test": {
+          "global": 0.03760887072222907,
+          "mean_per_Q": 0.14699368305179733
+        }
+      },
+      "solver": {
+        "status": "verified",
+        "Q": 1.6021010505252626,
+        "T": 1200,
+        "step_size": 0.005,
+        "cpu_wall_clock": {
+          "warmup": 1,
+          "repetitions": 3,
+          "seconds": [
+            0.02617149893194437,
+            0.026192092336714268,
+            0.026093464344739914
+          ],
+          "median_seconds": 0.02617149893194437
+        },
+        "scope": "initialization + RK4 + xyz + diagnostics; excludes imports and disk IO",
+        "training_truth_max_abs_difference": 0.0,
+        "diagnostics": {
+          "max_radial_constraint_residual": 3.7125802521131845e-07,
+          "max_polar_constraint_residual": 9.500895625791372e-10,
+          "mean_radial_constraint_residual": 6.897331794260683e-08,
+          "mean_polar_constraint_residual": 4.1591216980471823e-10,
+          "radial_velocity_zero_crossings": 3,
+          "polar_velocity_zero_crossings": 6,
+          "min_radial_potential": 2.2050303016385442e-05,
+          "min_polar_potential": 4.3413214578791326e-08
+        }
+      },
+      "neural_timing": {
+        "status": "verified",
+        "model": "historical FNO1D BEST",
+        "batch": 1,
+        "Q": 1.6021010505252626,
+        "T": 1200,
+        "model_only": {
+          "warmup": 1,
+          "repetitions": 3,
+          "seconds": [
+            0.0037300344556570053,
+            0.0036689266562461853,
+            0.0035794787108898163
+          ],
+          "median_seconds": 0.0036689266562461853
+        },
+        "end_to_end": {
+          "warmup": 1,
+          "repetitions": 3,
+          "seconds": [
+            0.0037510916590690613,
+            0.0038090022280812263,
+            0.004069390706717968
+          ],
+          "median_seconds": 0.0038090022280812263
+        },
+        "same_Q_grid_as_solver": true,
+        "accuracy_evaluation": false,
+        "hardware_speedup_claim": false,
+        "formal_benchmark": false,
+        "forward_count": 8,
+        "peak_memory_interpreted": false
+      }
+    },
+    "gpu-smoke.json": {
+      "status": "verified",
+      "scope": "SMOKE_ONLY_NOT_FORMAL_BENCHMARK",
+      "mode": "gpu",
+      "python": "3.10.20 (main, Jun 11 2026, 15:17:37) [GCC 14.3.0]",
+      "torch": "2.5.1+cu121",
+      "numpy": "2.0.1",
+      "scipy": "1.15.3",
+      "cuda_runtime": "12.1",
+      "cudnn": 90100,
+      "gpu": "NVIDIA L40S",
+      "precision": {
+        "matmul_tf32": false,
+        "matmul_precision": "highest",
+        "cudnn_tf32": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": false
+      },
+      "seed": 27,
+      "threads": 2,
+      "heldout_test_truth_available": false,
+      "checkpoint_sha256": "11ccbebf1d0fd68c57d0895685adeb7d1386da723242ee8271b18286ebbb7ff1",
+      "manifest_sha256": "3fda19ab118d12c6230cb3f17ae6aa0ad688bcabf08c620b274ff10206c5542d",
+      "mlp": {
+        "status": "verified",
+        "device": "cuda:0",
+        "shape": [
+          2,
+          32,
+          3
+        ],
+        "loss_finite": true,
+        "gradients_finite": true,
+        "optimizer_steps": 0,
+        "weights_unchanged": true,
+        "smoke_parameters": 371,
+        "proposed_formal_parameters": 1000515,
+        "proposal_count_only_not_trained": true
+      },
+      "neural_timing": {
+        "status": "verified",
+        "model": "historical FNO1D BEST",
+        "batch": 1,
+        "Q": 1.6021010505252626,
+        "T": 1200,
+        "model_only": {
+          "warmup": 1,
+          "repetitions": 3,
+          "seconds": [
+            0.0010740049183368683,
+            0.0007364675402641296,
+            0.0007178466767072678
+          ],
+          "median_seconds": 0.0007364675402641296
+        },
+        "end_to_end": {
+          "warmup": 1,
+          "repetitions": 3,
+          "seconds": [
+            0.0009859176352620125,
+            0.0009464006870985031,
+            0.0009624054655432701
+          ],
+          "median_seconds": 0.0009624054655432701
+        },
+        "same_Q_grid_as_solver": true,
+        "accuracy_evaluation": false,
+        "hardware_speedup_claim": false,
+        "formal_benchmark": false,
+        "forward_count": 8,
+        "peak_memory_interpreted": false
+      }
+    },
+    "cpu-process.json": {
+      "status": "verified",
+      "exit_code": 0,
+      "wall_seconds": 7.444007554091513,
+      "hami_error_count": 0,
+      "hami_only_after_atexit": false
+    },
+    "gpu-process.json": {
+      "status": "verified",
+      "exit_code": 0,
+      "wall_seconds": 4.2330487528815866,
+      "hami_error_count": 3,
+      "hami_only_after_atexit": true
+    },
+    "postflight-integrity.json": {
+      "utc": "2026-10-11T02:49:02.474871+00:00",
+      "restored_research_files_verified": 171,
+      "mismatches": [],
+      "conda_metadata_unchanged": true,
+      "environment_full_byte_audit": false,
+      "post_gpu_processes": ""
+    }
+  },
+  "system": {
+    "utc": "2026-10-11T02:44:57.151945+00:00",
+    "disk_available_bytes": 994693244518400,
+    "mount": "nfs4   rw,relatime,vers=4.1,rsize=1048576,wsize=1048576,namlen=255,hard,proto=tcp,timeo=600,retrans=2,sec=sys,clientaddr=10.10.10.155,local_lock=none,addr=10.10.10.195\n",
+    "cpu": "Architecture:                            x86_64\nCPU op-mode(s):                          32-bit, 64-bit\nByte Order:                              Little Endian\nAddress sizes:                           52 bits physical, 57 bits virtual\nCPU(s):                                  224\nOn-line CPU(s) list:                     0-223\nThread(s) per core:                      2\nCore(s) per socket:                      56\nSocket(s):                               2\nNUMA node(s):                            2\nVendor ID:                               GenuineIntel\nCPU family:                              6\nModel:                                   143\nModel name:                              Intel(R) Xeon(R) Platinum 8480+\nStepping:                                8\nCPU MHz:                                 822.125\nCPU max MHz:                             3800.0000\nCPU min MHz:                             800.0000\nBogoMIPS:                                4000.00\nVirtualization:                          VT-x\nL1d cache:                               5.3 MiB\nL1i cache:                               3.5 MiB\nL2 cache:                                224 MiB\nL3 cache:                                210 MiB\nNUMA node0 CPU(s):                       0-55,112-167\nNUMA node1 CPU(s):                       56-111,168-223\nVulnerability Gather data sampling:      Not affected\nVulnerability Indirect target selection: Not affected\nVulnerability Itlb multihit:             Not affected\nVulnerability L1tf:                      Not affected\nVulnerability Mds:                       Not affected\nVulnerability Meltdown:                  Not affected\nVulnerability Mmio stale data:           Not affected\nVulnerability Reg file data sampling:    Not affected\nVulnerability Retbleed:                  Not affected\nVulnerability Spec rstack overflow:      Not affected\nVulnerability Spec store bypass:         Mitigation; Speculative Store Bypass disabled via prctl and seccomp\nVulnerability Spectre v1:                Mitigation; usercopy/swapgs barriers and __user pointer sanitization\nVulnerability Spectre v2:                Mitigation; Enhanced / Automatic IBRS; IBPB conditional; PBRSB-eIBRS SW sequence; BHI BHI_DIS_S\nVulnerability Srbds:                     Not affected\nVulnerability Tsa:                       Not affected\nVulnerability Tsx async abort:           Not affected\nFlags:                                   fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cat_l2 cdp_l3 invpcid_single intel_ppin cdp_l2 ssbd mba ibrs ibpb stibp ibrs_enhanced tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid cqm rdt_a avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb intel_pt avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local split_lock_detect avx_vnni avx512_bf16 wbnoinvd dtherm ida arat pln pts hwp hwp_act_window hwp_epp hwp_pkg_req avx512vbmi umip pku ospke waitpkg avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg tme avx512_vpopcntdq la57 rdpid bus_lock_detect cldemote movdiri movdir64b enqcmd fsrm md_clear serialize tsxldtrk pconfig arch_lbr amx_bf16 avx512_fp16 amx_tile amx_int8 flush_l1d arch_capabilities\n",
+    "memory": [
+      "MemTotal:       1056387724 kB",
+      "MemFree:         9878428 kB",
+      "MemAvailable:   1024555584 kB"
+    ],
+    "os": "NAME=\"Ubuntu\"\nVERSION=\"20.04.6 LTS (Focal Fossa)\"\nID=ubuntu\nID_LIKE=debian\nPRETTY_NAME=\"Ubuntu 20.04.6 LTS\"\nVERSION_ID=\"20.04\"\nHOME_URL=\"https://www.ubuntu.com/\"\nSUPPORT_URL=\"https://help.ubuntu.com/\"\nBUG_REPORT_URL=\"https://bugs.launchpad.net/ubuntu/\"\nPRIVACY_POLICY_URL=\"https://www.ubuntu.com/legal/terms-and-policies/privacy-policy\"\nVERSION_CODENAME=focal\nUBUNTU_CODENAME=focal\n",
+    "gpu": "NVIDIA L40S, 580.178.04\n"
+  },
+  "asset_manifest": {
+    "status": "VERIFIED_LOCAL_SUBSET",
+    "source_dataset": {
+      "source": "/mnt/d/AAA_MyNote/Server_Migration/amax_2026-10-01/fno_kerr/kerr_project/data/tasks/q_1p6-3_n2000_t1200/dataset.npz",
+      "bytes": 55679506,
+      "sha256": "3e0358831e6b96c38f15c8e3178f6d37f38b4bddbe1ab01a63cfaba043f211ce",
+      "metadata_source": "/mnt/d/AAA_MyNote/Server_Migration/amax_2026-10-01/fno_kerr/kerr_project/data/tasks/q_1p6-3_n2000_t1200/meta.json",
+      "metadata_sha256": "459f8024f66db1abfe95d732b1cc9c90132c7bcc29d6425e25bbf32143fd6338",
+      "split_Q": {
+        "train": {
+          "shape": [
+            1400,
+            1
+          ],
+          "dtype": "float64",
+          "sha256_raw_q": "19568b3ebb25494faa0f769874d3aa02c0e32bae325e7c968308ffe297e964ea",
+          "min_Q": 1.6021010505252626,
+          "max_Q": 3.0,
+          "unique": true
+        },
+        "val": {
+          "shape": [
+            300,
+            1
+          ],
+          "dtype": "float64",
+          "sha256_raw_q": "065795c3ac45c8fbf52e8e3c115c0daeb57b476609f73499dc9f9cd420e54275",
+          "min_Q": 1.6,
+          "max_Q": 2.9978989494747372,
+          "unique": true
+        },
+        "test": {
+          "shape": [
+            300,
+            1
+          ],
+          "dtype": "float64",
+          "sha256_raw_q": "c67d057aba98eb080c374280524751deb44d752a58425f3dfff5b4dbcc377e80",
+          "min_Q": 1.6007003501750876,
+          "max_Q": 2.9943971985993,
+          "unique": true
+        }
+      },
+      "lambda_shape": [
+        1200
+      ],
+      "lambda_sha256": "7f3277caf8bac500d55d63ae409fcd00dc67e4a1ef2df8640dc5274b248becc8",
+      "lambda_endpoints": [
+        0.0,
+        5.995
+      ],
+      "metadata": {
+        "task_name": "q_1p6-3_n2000_t1200",
+        "task_spec": {
+          "vary_params": [
+            "Q"
+          ],
+          "vary_ranges": {
+            "Q": [
+              1.6,
+              3.0
+            ]
+          },
+          "fixed_params": {
+            "M": 1.0,
+            "a": 0.5,
+            "E": 0.95,
+            "Lz": 3.0,
+            "r0": 10.0,
+            "theta0": 1.2,
+            "phi0": 0.0,
+            "sign_r": -1,
+            "sign_th": 1
+          },
+          "sample_shape": [
+            2000
+          ],
+          "n_steps": 1200,
+          "step_size": 0.005,
+          "split_ratios": [
+            0.7,
+            0.15,
+            0.15
+          ],
+          "seed": 10,
+          "sampling_mode": "grid",
+          "completion_policy": "target_success",
+          "max_attempt_factor": 1.5,
+          "metadata": {
+            "task_name": "q_1p6-3_n2000_t1200",
+            "orbit_solver": "second_order_rk4",
+            "orbit_solver_version": "v1",
+            "dataset_max_radial_constraint_residual": 3.723736483607354e-07,
+            "dataset_max_polar_constraint_residual": 4.0151633129426045e-09,
+            "generation": {
+              "completion_policy": "target_success",
+              "target_success_count": 2000,
+              "initial_candidate_count": 2000,
+              "max_attempt_factor": 1.5,
+              "max_attempt_count": 3000,
+              "attempt_count": 2000,
+              "success_count": 2000,
+              "fail_count": 0,
+              "completed": true,
+              "used_completion_sampling": false,
+              "initial_sampling_mode": "grid",
+              "completion_sampling_mode": null,
+              "successful_points_strictly_uniform": true,
+              "data_seed": 10
+            }
+          }
+        },
+        "config_tag": "cfg1",
+        "generation_status": {
+          "completed": true,
+          "completion_policy": "target_success",
+          "target_success_count": 2000,
+          "initial_candidate_count": 2000,
+          "max_attempt_factor": 1.5,
+          "max_attempt_count": 3000,
+          "attempt_count": 2000,
+          "success_count": 2000,
+          "fail_count": 0,
+          "success_ratio_vs_attempts": 1.0,
+          "completion_ratio": 1.0,
+          "used_completion_sampling": false,
+          "successful_points_strictly_uniform": true
+        },
+        "split": {
+          "train_size": 1400,
+          "val_size": 300,
+          "test_size": 300,
+          "train_ratio": 0.7,
+          "val_ratio": 0.15,
+          "test_ratio": 0.15
+        },
+        "integration": {
+          "n_steps": 1200,
+          "step_size": 0.005,
+          "lambda_max": 5.995
+        },
+        "vary_params_order": [
+          "Q"
+        ],
+        "astrophysical_warnings": []
+      },
+      "truth_read": true
+    },
+    "all_candidate_assets": {
+      "q_1p6-3_n2000_t1200": {
+        "source": "/mnt/d/AAA_MyNote/Server_Migration/amax_2026-10-01/fno_kerr/kerr_project/data/tasks/q_1p6-3_n2000_t1200/dataset.npz",
+        "bytes": 55679506,
+        "sha256": "3e0358831e6b96c38f15c8e3178f6d37f38b4bddbe1ab01a63cfaba043f211ce",
+        "metadata_source": "/mnt/d/AAA_MyNote/Server_Migration/amax_2026-10-01/fno_kerr/kerr_project/data/tasks/q_1p6-3_n2000_t1200/meta.json",
+        "metadata_sha256": "459f8024f66db1abfe95d732b1cc9c90132c7bcc29d6425e25bbf32143fd6338",
+        "split_Q": {
+          "train": {
+            "shape": [
+              1400,
+              1
+            ],
+            "dtype": "float64",
+            "sha256_raw_q": "19568b3ebb25494faa0f769874d3aa02c0e32bae325e7c968308ffe297e964ea",
+            "min_Q": 1.6021010505252626,
+            "max_Q": 3.0,
+            "unique": true
+          },
+          "val": {
+            "shape": [
+              300,
+              1
+            ],
+            "dtype": "float64",
+            "sha256_raw_q": "065795c3ac45c8fbf52e8e3c115c0daeb57b476609f73499dc9f9cd420e54275",
+            "min_Q": 1.6,
+            "max_Q": 2.9978989494747372,
+            "unique": true
+          },
+          "test": {
+            "shape": [
+              300,
+              1
+            ],
+            "dtype": "float64",
+            "sha256_raw_q": "c67d057aba98eb080c374280524751deb44d752a58425f3dfff5b4dbcc377e80",
+            "min_Q": 1.6007003501750876,
+            "max_Q": 2.9943971985993,
+            "unique": true
+          }
+        },
+        "lambda_shape": [
+          1200
+        ],
+        "lambda_sha256": "7f3277caf8bac500d55d63ae409fcd00dc67e4a1ef2df8640dc5274b248becc8",
+        "lambda_endpoints": [
+          0.0,
+          5.995
+        ],
+        "metadata": {
+          "task_name": "q_1p6-3_n2000_t1200",
+          "task_spec": {
+            "vary_params": [
+              "Q"
+            ],
+            "vary_ranges": {
+              "Q": [
+                1.6,
+                3.0
+              ]
+            },
+            "fixed_params": {
+              "M": 1.0,
+              "a": 0.5,
+              "E": 0.95,
+              "Lz": 3.0,
+              "r0": 10.0,
+              "theta0": 1.2,
+              "phi0": 0.0,
+              "sign_r": -1,
+              "sign_th": 1
+            },
+            "sample_shape": [
+              2000
+            ],
+            "n_steps": 1200,
+            "step_size": 0.005,
+            "split_ratios": [
+              0.7,
+              0.15,
+              0.15
+            ],
+            "seed": 10,
+            "sampling_mode": "grid",
+            "completion_policy": "target_success",
+            "max_attempt_factor": 1.5,
+            "metadata": {
+              "task_name": "q_1p6-3_n2000_t1200",
+              "orbit_solver": "second_order_rk4",
+              "orbit_solver_version": "v1",
+              "dataset_max_radial_constraint_residual": 3.723736483607354e-07,
+              "dataset_max_polar_constraint_residual": 4.0151633129426045e-09,
+              "generation": {
+                "completion_policy": "target_success",
+                "target_success_count": 2000,
+                "initial_candidate_count": 2000,
+                "max_attempt_factor": 1.5,
+                "max_attempt_count": 3000,
+                "attempt_count": 2000,
+                "success_count": 2000,
+                "fail_count": 0,
+                "completed": true,
+                "used_completion_sampling": false,
+                "initial_sampling_mode": "grid",
+                "completion_sampling_mode": null,
+                "successful_points_strictly_uniform": true,
+                "data_seed": 10
+              }
+            }
+          },
+          "config_tag": "cfg1",
+          "generation_status": {
+            "completed": true,
+            "completion_policy": "target_success",
+            "target_success_count": 2000,
+            "initial_candidate_count": 2000,
+            "max_attempt_factor": 1.5,
+            "max_attempt_count": 3000,
+            "attempt_count": 2000,
+            "success_count": 2000,
+            "fail_count": 0,
+            "success_ratio_vs_attempts": 1.0,
+            "completion_ratio": 1.0,
+            "used_completion_sampling": false,
+            "successful_points_strictly_uniform": true
+          },
+          "split": {
+            "train_size": 1400,
+            "val_size": 300,
+            "test_size": 300,
+            "train_ratio": 0.7,
+            "val_ratio": 0.15,
+            "test_ratio": 0.15
+          },
+          "integration": {
+            "n_steps": 1200,
+            "step_size": 0.005,
+            "lambda_max": 5.995
+          },
+          "vary_params_order": [
+            "Q"
+          ],
+          "astrophysical_warnings": []
+        },
+        "truth_read": true
+      },
+      "q_1p6-3_n2000_t2399_plan_b_matched_v1": {
+        "source": "/mnt/d/AAA_MyNote/Server_Migration/amax_2026-10-01/fno_kerr/kerr_project/data/tasks/q_1p6-3_n2000_t2399_plan_b_matched_v1/dataset.npz",
+        "bytes": 111180905,
+        "sha256": "031135ec8f4839881f9ce968dc0c4a1b7b2a0184e0690eb97458f7d095c05a2d",
+        "metadata_source": "/mnt/d/AAA_MyNote/Server_Migration/amax_2026-10-01/fno_kerr/kerr_project/data/tasks/q_1p6-3_n2000_t2399_plan_b_matched_v1/meta.json",
+        "metadata_sha256": "0a5fa726b954353c10e80324458d850dce7bbfaf5f27466b7052cdfd026e19c5",
+        "split_Q": {
+          "train": {
+            "shape": [
+              1400,
+              1
+            ],
+            "dtype": "float64",
+            "sha256_raw_q": "19568b3ebb25494faa0f769874d3aa02c0e32bae325e7c968308ffe297e964ea",
+            "min_Q": 1.6021010505252626,
+            "max_Q": 3.0,
+            "unique": true
+          },
+          "val": {
+            "shape": [
+              300,
+              1
+            ],
+            "dtype": "float64",
+            "sha256_raw_q": "065795c3ac45c8fbf52e8e3c115c0daeb57b476609f73499dc9f9cd420e54275",
+            "min_Q": 1.6,
+            "max_Q": 2.9978989494747372,
+            "unique": true
+          },
+          "test": {
+            "shape": [
+              300,
+              1
+            ],
+            "dtype": "float64",
+            "sha256_raw_q": "c67d057aba98eb080c374280524751deb44d752a58425f3dfff5b4dbcc377e80",
+            "min_Q": 1.6007003501750876,
+            "max_Q": 2.9943971985993,
+            "unique": true
+          }
+        },
+        "lambda_shape": [
+          2399
+        ],
+        "lambda_sha256": "d0027486b7121f7ac336acfe2578cde17d3fe67766940211b4f5764e47810ad2",
+        "lambda_endpoints": [
+          0.0,
+          5.995
+        ],
+        "metadata": {
+          "schema_version": "1.0",
+          "experiment_type": "plan_b_paired_fine_replay_generation",
+          "plan_b_protocol_version": "v1",
+          "task_spec": {
+            "vary_params": [
+              "Q"
+            ],
+            "vary_ranges": {
+              "Q": [
+                1.6,
+                3.0
+              ]
+            },
+            "fixed_params": {
+              "M": 1.0,
+              "a": 0.5,
+              "E": 0.95,
+              "Lz": 3.0,
+              "r0": 10.0,
+              "theta0": 1.2,
+              "phi0": 0.0,
+              "sign_r": -1,
+              "sign_th": 1
+            },
+            "sample_shape": [
+              2000
+            ],
+            "n_steps": 2399,
+            "step_size": 0.0025,
+            "split_ratios": [
+              0.7,
+              0.15,
+              0.15
+            ],
+            "seed": 10,
+            "sampling_mode": "grid",
+            "completion_policy": "target_success",
+            "max_attempt_factor": 1.5,
+            "metadata": {
+              "task_name": "q_1p6-3_n2000_t1200",
+              "orbit_solver": "second_order_rk4",
+              "orbit_solver_version": "v1",
+              "dataset_max_radial_constraint_residual": 3.723736483607354e-07,
+              "dataset_max_polar_constraint_residual": 4.0151633129426045e-09,
+              "generation": {
+                "completion_policy": "target_success",
+                "target_success_count": 2000,
+                "initial_candidate_count": 2000,
+                "max_attempt_factor": 1.5,
+                "max_attempt_count": 3000,
+                "attempt_count": 2000,
+                "success_count": 2000,
+                "fail_count": 0,
+                "completed": true,
+                "used_completion_sampling": false,
+                "initial_sampling_mode": "grid",
+                "completion_sampling_mode": null,
+                "successful_points_strictly_uniform": true,
+                "data_seed": 10
+              }
+            }
+          },
+          "integration": {
+            "n_steps": 2399,
+            "step_size": 0.0025,
+            "lambda_min": 0.0,
+            "lambda_max": 5.995
+          },
+          "paired_replay": {
+            "source_dataset_identifier": "q_1p6-3_n2000_t1200",
+            "source_dataset_path": "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6-3_n2000_t1200",
+            "source_q_count": 2000,
+            "source_q_identity": {
+              "source_split_order": [
+                "train",
+                "val",
+                "test"
+              ],
+              "source_row_order_preserved": true,
+              "global_q_strictly_ascending_in_source_order": false,
+              "source_q_count": 2000,
+              "source_q_identity_sha256": "70ebef8fc6daeecd883c2e26d21434915fe850f28e456a956f1eda2ba1c8cf8c",
+              "canonical_ordering": "stable_ascending_Q",
+              "canonical_q_identity_sha256": "73780b9da44713036f5a7038b355ce63b21e5f1f1ba75771fbe4559db9277d75"
+            },
+            "generated_q_identity": {
+              "source_split_order": [
+                "train",
+                "val",
+                "test"
+              ],
+              "source_row_order_preserved": true,
+              "global_q_strictly_ascending_in_source_order": false,
+              "source_q_count": 2000,
+              "source_q_identity_sha256": "70ebef8fc6daeecd883c2e26d21434915fe850f28e456a956f1eda2ba1c8cf8c",
+              "canonical_ordering": "stable_ascending_Q",
+              "canonical_q_identity_sha256": "73780b9da44713036f5a7038b355ce63b21e5f1f1ba75771fbe4559db9277d75"
+            },
+            "q_ordering": {
+              "generation_order": "source_split_row_order",
+              "canonical_ordering": "stable_ascending_Q",
+              "source_and_generated_raw_order_match": true
+            },
+            "fixed_kerr_parameters": {
+              "M": 1.0,
+              "a": 0.5,
+              "E": 0.95,
+              "Lz": 3.0
+            },
+            "initial_conditions": {
+              "r0": 10.0,
+              "theta0": 1.2,
+              "phi0": 0.0,
+              "sign_r": -1,
+              "sign_th": 1
+            },
+            "solver_provenance": {
+              "orbit_solver": "second_order_rk4",
+              "orbit_solver_version": "v1"
+            },
+            "success_count": 2000,
+            "failure_count": 0,
+            "failed_q_values": [],
+            "paired_completeness": true,
+            "replacement_policy": "forbidden",
+            "target_success_replacement_used": false
+          },
+          "generation_status": {
+            "completed": true,
+            "success_count": 2000,
+            "failure_count": 0,
+            "paired_completeness": true
+          }
+        },
+        "truth_read": false
+      },
+      "q_1p6007-2p9993_n400_t1200": {
+        "source": "/mnt/d/AAA_MyNote/Server_Migration/amax_2026-10-01/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1200/dataset.npz",
+        "bytes": 11139587,
+        "sha256": "39c7b1ce9624123a5f2680d76abe8a7fa18e135ec166fa70262efb8d563c60db",
+        "metadata_source": "/mnt/d/AAA_MyNote/Server_Migration/amax_2026-10-01/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1200/meta.json",
+        "metadata_sha256": "fbe816012a245c4cadf132de8cae5f042f8f796677e89b91af33b1fb377702d8",
+        "split_Q": {
+          "train": {
+            "shape": [
+              280,
+              1
+            ],
+            "dtype": "float64",
+            "sha256_raw_q": "eb54087448997fc9807c0c5948408ca3eb8e933e93ea9ddfc6aaaec0a04f9031",
+            "min_Q": 1.6042052631578947,
+            "max_Q": 2.995794736842105,
+            "unique": true
+          },
+          "val": {
+            "shape": [
+              60,
+              1
+            ],
+            "dtype": "float64",
+            "sha256_raw_q": "126fac10ba97f5b6efb70bc5c550f5006764e0a284a2cee31cdeffdaa9e89984",
+            "min_Q": 1.6007,
+            "max_Q": 2.9502263157894735,
+            "unique": true
+          },
+          "test": {
+            "shape": [
+              60,
+              1
+            ],
+            "dtype": "float64",
+            "sha256_raw_q": "d396c2ccd60ccb7a26bdb258d7a347590d39342cdd137410bea52b25cdce320a",
+            "min_Q": 1.6182263157894736,
+            "max_Q": 2.9993,
+            "unique": true
+          }
+        },
+        "lambda_shape": [
+          1200
+        ],
+        "lambda_sha256": "7f3277caf8bac500d55d63ae409fcd00dc67e4a1ef2df8640dc5274b248becc8",
+        "lambda_endpoints": [
+          0.0,
+          5.995
+        ],
+        "metadata": {
+          "task_name": "q_1p6007-2p9993_n400_t1200",
+          "task_spec": {
+            "vary_params": [
+              "Q"
+            ],
+            "vary_ranges": {
+              "Q": [
+                1.6007,
+                2.9993
+              ]
+            },
+            "fixed_params": {
+              "M": 1.0,
+              "a": 0.5,
+              "E": 0.95,
+              "Lz": 3.0,
+              "r0": 10.0,
+              "theta0": 1.2,
+              "phi0": 0.0,
+              "sign_r": -1,
+              "sign_th": 1
+            },
+            "sample_shape": [
+              400
+            ],
+            "n_steps": 1200,
+            "step_size": 0.005,
+            "split_ratios": [
+              0.7,
+              0.15,
+              0.15
+            ],
+            "seed": 20260728,
+            "sampling_mode": "grid",
+            "completion_policy": "target_success",
+            "max_attempt_factor": 1.5,
+            "metadata": {
+              "task_name": "q_1p6007-2p9993_n400_t1200",
+              "orbit_solver": "second_order_rk4",
+              "orbit_solver_version": "v1",
+              "dataset_max_radial_constraint_residual": 3.720015726571546e-07,
+              "dataset_max_polar_constraint_residual": 4.0133656398211315e-09,
+              "generation": {
+                "completion_policy": "target_success",
+                "target_success_count": 400,
+                "initial_candidate_count": 400,
+                "max_attempt_factor": 1.5,
+                "max_attempt_count": 600,
+                "attempt_count": 400,
+                "success_count": 400,
+                "fail_count": 0,
+                "completed": true,
+                "used_completion_sampling": false,
+                "initial_sampling_mode": "grid",
+                "completion_sampling_mode": null,
+                "successful_points_strictly_uniform": true,
+                "data_seed": 20260728
+              }
+            }
+          },
+          "config_tag": "cfg1",
+          "generation_status": {
+            "completed": true,
+            "completion_policy": "target_success",
+            "target_success_count": 400,
+            "initial_candidate_count": 400,
+            "max_attempt_factor": 1.5,
+            "max_attempt_count": 600,
+            "attempt_count": 400,
+            "success_count": 400,
+            "fail_count": 0,
+            "success_ratio_vs_attempts": 1.0,
+            "completion_ratio": 1.0,
+            "used_completion_sampling": false,
+            "successful_points_strictly_uniform": true
+          },
+          "split": {
+            "train_size": 280,
+            "val_size": 60,
+            "test_size": 60,
+            "train_ratio": 0.7,
+            "val_ratio": 0.15,
+            "test_ratio": 0.15
+          },
+          "integration": {
+            "n_steps": 1200,
+            "step_size": 0.005,
+            "lambda_max": 5.995
+          },
+          "vary_params_order": [
+            "Q"
+          ],
+          "astrophysical_warnings": []
+        },
+        "truth_read": false
+      },
+      "q_1p6007-2p9993_n400_t1800": {
+        "source": "/mnt/d/AAA_MyNote/Server_Migration/amax_2026-10-01/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1800/dataset.npz",
+        "bytes": 16719729,
+        "sha256": "87e17ecef62761756189b9325a375f38f982b094a5aed73083ba6bc80f5615d7",
+        "metadata_source": "/mnt/d/AAA_MyNote/Server_Migration/amax_2026-10-01/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t1800/meta.json",
+        "metadata_sha256": "498596316137e358d99c314a13e2f9f2c15baf52343c810431d9800ea3a108b6",
+        "split_Q": {
+          "train": {
+            "shape": [
+              280,
+              1
+            ],
+            "dtype": "float64",
+            "sha256_raw_q": "eb54087448997fc9807c0c5948408ca3eb8e933e93ea9ddfc6aaaec0a04f9031",
+            "min_Q": 1.6042052631578947,
+            "max_Q": 2.995794736842105,
+            "unique": true
+          },
+          "val": {
+            "shape": [
+              60,
+              1
+            ],
+            "dtype": "float64",
+            "sha256_raw_q": "126fac10ba97f5b6efb70bc5c550f5006764e0a284a2cee31cdeffdaa9e89984",
+            "min_Q": 1.6007,
+            "max_Q": 2.9502263157894735,
+            "unique": true
+          },
+          "test": {
+            "shape": [
+              60,
+              1
+            ],
+            "dtype": "float64",
+            "sha256_raw_q": "d396c2ccd60ccb7a26bdb258d7a347590d39342cdd137410bea52b25cdce320a",
+            "min_Q": 1.6182263157894736,
+            "max_Q": 2.9993,
+            "unique": true
+          }
+        },
+        "lambda_shape": [
+          1800
+        ],
+        "lambda_sha256": "e422f129f78a8c82ed3771b25d64912be1043eb75c198457a9ab6e0637cc7b6d",
+        "lambda_endpoints": [
+          0.0,
+          8.995000000000001
+        ],
+        "metadata": {
+          "task_name": "q_1p6007-2p9993_n400_t1800",
+          "task_spec": {
+            "vary_params": [
+              "Q"
+            ],
+            "vary_ranges": {
+              "Q": [
+                1.6007,
+                2.9993
+              ]
+            },
+            "fixed_params": {
+              "M": 1.0,
+              "a": 0.5,
+              "E": 0.95,
+              "Lz": 3.0,
+              "r0": 10.0,
+              "theta0": 1.2,
+              "phi0": 0.0,
+              "sign_r": -1,
+              "sign_th": 1
+            },
+            "sample_shape": [
+              400
+            ],
+            "n_steps": 1800,
+            "step_size": 0.005,
+            "split_ratios": [
+              0.7,
+              0.15,
+              0.15
+            ],
+            "seed": 20260728,
+            "sampling_mode": "grid",
+            "completion_policy": "target_success",
+            "max_attempt_factor": 1.5,
+            "metadata": {
+              "task_name": "q_1p6007-2p9993_n400_t1800",
+              "orbit_solver": "second_order_rk4",
+              "orbit_solver_version": "v1",
+              "dataset_max_radial_constraint_residual": 3.720015726571546e-07,
+              "dataset_max_polar_constraint_residual": 4.977499745706382e-09,
+              "generation": {
+                "completion_policy": "target_success",
+                "target_success_count": 400,
+                "initial_candidate_count": 400,
+                "max_attempt_factor": 1.5,
+                "max_attempt_count": 600,
+                "attempt_count": 400,
+                "success_count": 400,
+                "fail_count": 0,
+                "completed": true,
+                "used_completion_sampling": false,
+                "initial_sampling_mode": "grid",
+                "completion_sampling_mode": null,
+                "successful_points_strictly_uniform": true,
+                "data_seed": 20260728
+              }
+            }
+          },
+          "config_tag": "cfg1",
+          "generation_status": {
+            "completed": true,
+            "completion_policy": "target_success",
+            "target_success_count": 400,
+            "initial_candidate_count": 400,
+            "max_attempt_factor": 1.5,
+            "max_attempt_count": 600,
+            "attempt_count": 400,
+            "success_count": 400,
+            "fail_count": 0,
+            "success_ratio_vs_attempts": 1.0,
+            "completion_ratio": 1.0,
+            "used_completion_sampling": false,
+            "successful_points_strictly_uniform": true
+          },
+          "split": {
+            "train_size": 280,
+            "val_size": 60,
+            "test_size": 60,
+            "train_ratio": 0.7,
+            "val_ratio": 0.15,
+            "test_ratio": 0.15
+          },
+          "integration": {
+            "n_steps": 1800,
+            "step_size": 0.005,
+            "lambda_max": 8.995000000000001
+          },
+          "vary_params_order": [
+            "Q"
+          ],
+          "astrophysical_warnings": []
+        },
+        "truth_read": false
+      },
+      "q_1p6007-2p9993_n400_t2400": {
+        "source": "/mnt/d/AAA_MyNote/Server_Migration/amax_2026-10-01/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t2400/dataset.npz",
+        "bytes": 22288645,
+        "sha256": "4687fe18e8701818ef8ffc5d87d5ac618c224ba7d8f80f7b57eccb2cf0e5b1d2",
+        "metadata_source": "/mnt/d/AAA_MyNote/Server_Migration/amax_2026-10-01/fno_kerr/kerr_project/data/tasks/q_1p6007-2p9993_n400_t2400/meta.json",
+        "metadata_sha256": "dfed20a87f299462b39e6cccd203a87ce85788fce02293434b8a73ab3ccc5cc1",
+        "split_Q": {
+          "train": {
+            "shape": [
+              280,
+              1
+            ],
+            "dtype": "float64",
+            "sha256_raw_q": "eb54087448997fc9807c0c5948408ca3eb8e933e93ea9ddfc6aaaec0a04f9031",
+            "min_Q": 1.6042052631578947,
+            "max_Q": 2.995794736842105,
+            "unique": true
+          },
+          "val": {
+            "shape": [
+              60,
+              1
+            ],
+            "dtype": "float64",
+            "sha256_raw_q": "126fac10ba97f5b6efb70bc5c550f5006764e0a284a2cee31cdeffdaa9e89984",
+            "min_Q": 1.6007,
+            "max_Q": 2.9502263157894735,
+            "unique": true
+          },
+          "test": {
+            "shape": [
+              60,
+              1
+            ],
+            "dtype": "float64",
+            "sha256_raw_q": "d396c2ccd60ccb7a26bdb258d7a347590d39342cdd137410bea52b25cdce320a",
+            "min_Q": 1.6182263157894736,
+            "max_Q": 2.9993,
+            "unique": true
+          }
+        },
+        "lambda_shape": [
+          2400
+        ],
+        "lambda_sha256": "198dbbffdbeadf1f90e149d5a024599e45e75771a2a6b98a01e9a37eb5baf4c0",
+        "lambda_endpoints": [
+          0.0,
+          11.995000000000001
+        ],
+        "metadata": {
+          "task_name": "q_1p6007-2p9993_n400_t2400",
+          "task_spec": {
+            "vary_params": [
+              "Q"
+            ],
+            "vary_ranges": {
+              "Q": [
+                1.6007,
+                2.9993
+              ]
+            },
+            "fixed_params": {
+              "M": 1.0,
+              "a": 0.5,
+              "E": 0.95,
+              "Lz": 3.0,
+              "r0": 10.0,
+              "theta0": 1.2,
+              "phi0": 0.0,
+              "sign_r": -1,
+              "sign_th": 1
+            },
+            "sample_shape": [
+              400
+            ],
+            "n_steps": 2400,
+            "step_size": 0.005,
+            "split_ratios": [
+              0.7,
+              0.15,
+              0.15
+            ],
+            "seed": 20260728,
+            "sampling_mode": "grid",
+            "completion_policy": "target_success",
+            "max_attempt_factor": 1.5,
+            "metadata": {
+              "task_name": "q_1p6007-2p9993_n400_t2400",
+              "orbit_solver": "second_order_rk4",
+              "orbit_solver_version": "v1",
+              "dataset_max_radial_constraint_residual": 3.720015726571546e-07,
+              "dataset_max_polar_constraint_residual": 6.241748451429885e-09,
+              "generation": {
+                "completion_policy": "target_success",
+                "target_success_count": 400,
+                "initial_candidate_count": 400,
+                "max_attempt_factor": 1.5,
+                "max_attempt_count": 600,
+                "attempt_count": 400,
+                "success_count": 400,
+                "fail_count": 0,
+                "completed": true,
+                "used_completion_sampling": false,
+                "initial_sampling_mode": "grid",
+                "completion_sampling_mode": null,
+                "successful_points_strictly_uniform": true,
+                "data_seed": 20260728
+              }
+            }
+          },
+          "config_tag": "cfg1",
+          "generation_status": {
+            "completed": true,
+            "completion_policy": "target_success",
+            "target_success_count": 400,
+            "initial_candidate_count": 400,
+            "max_attempt_factor": 1.5,
+            "max_attempt_count": 600,
+            "attempt_count": 400,
+            "success_count": 400,
+            "fail_count": 0,
+            "success_ratio_vs_attempts": 1.0,
+            "completion_ratio": 1.0,
+            "used_completion_sampling": false,
+            "successful_points_strictly_uniform": true
+          },
+          "split": {
+            "train_size": 280,
+            "val_size": 60,
+            "test_size": 60,
+            "train_ratio": 0.7,
+            "val_ratio": 0.15,
+            "test_ratio": 0.15
+          },
+          "integration": {
+            "n_steps": 2400,
+            "step_size": 0.005,
+            "lambda_max": 11.995000000000001
+          },
+          "vary_params_order": [
+            "Q"
+          ],
+          "astrophysical_warnings": []
+        },
+        "truth_read": false
+      }
+    },
+    "source_files": [
+      {
+        "relative_path": "src/training/benchmark_data.py",
+        "bytes": 8534,
+        "sha256": "2369feb69d6754e9541a5c64713c3f04c5ed3f05f7130191e1d5497c5f40b87f"
+      },
+      {
+        "relative_path": "src/training/benchmark_track_a.py",
+        "bytes": 22950,
+        "sha256": "83a389fda0a7edadf91a9428be974f7438937391e8aa0d096a9670ac475c4213"
+      },
+      {
+        "relative_path": "src/data_generation/plan_b_matched_training.py",
+        "bytes": 9652,
+        "sha256": "57b35bb0b3c6c2a404ed6e7d6c0c2e82b4754a5ca1659d21c4540d6fd942a378"
+      },
+      {
+        "relative_path": "src/data_generation/orbit_solver_second_order.py",
+        "bytes": 9520,
+        "sha256": "f89efd9ce2cd62d3cd377563c550b8dced1203b1becdc5efc67cfe56be01da39"
+      },
+      {
+        "relative_path": "src/data_generation/orbit_math.py",
+        "bytes": 2821,
+        "sha256": "4383d14260bb618ea00f86546cefcdadc804bfa4808060878f2c70631718d689"
+      },
+      {
+        "relative_path": "src/data_generation/orbit_types.py",
+        "bytes": 1170,
+        "sha256": "13ae4fb0ddd56c4102251648fbea62656e348d9b57455d55fdb8ae0409347fea"
+      },
+      {
+        "relative_path": "scripts/evaluate_plan_b_resolution_generalization_2d.py",
+        "bytes": 19897,
+        "sha256": "ad85646be2147e9771a1aa405a76917a0933150b7d54d6ae0af5772c3d546737"
+      },
+      {
+        "relative_path": "scripts/evaluate_formal_length_extrapolation_2d.py",
+        "bytes": 34678,
+        "sha256": "cb96a639e2e4ace97014178b01f00c45d7d5f7cec2098ba60d5e36e15698a537"
+      },
+      {
+        "relative_path": "src/training/fno2d/normalization_2d.py",
+        "bytes": 8262,
+        "sha256": "22a0eabacc087d48c58410a21f705d6bda6f0d585af35f27aad9a11957217b42"
+      },
+      {
+        "relative_path": "src/models/fno1d/fno1d.py",
+        "bytes": 6009,
+        "sha256": "6c3260b44a5366e481513dd1de0bc67b7bca45ea08f9cede7f05878ec0cee8a7"
+      },
+      {
+        "relative_path": "src/models/fno1d/layers1d.py",
+        "bytes": 5563,
+        "sha256": "3a6f8a76488f865864919b4fa3c9b48872f4c3f73900aa1e3c8df69b2d8a0074"
+      },
+      {
+        "relative_path": "outputs/benchmark_track_a_v1/phase_i_wave1_fno1d_20260912/train_t1200/best_model.pt",
+        "bytes": 4291732,
+        "sha256": "11ccbebf1d0fd68c57d0895685adeb7d1386da723242ee8271b18286ebbb7ff1"
+      }
+    ],
+    "subset": {
+      "file": "train16_val4_t1200.npz",
+      "bytes": 560309,
+      "sha256": "a37ee3e95030559719ed32eb05b94df7611376aa15d6b7d0a3ec489856d92265",
+      "selection": "16 uniformly spaced ranks of ascending training Q; first 4 original validation rows inside the training hull; selected before observing errors.",
+      "source_rows": {
+        "train": [
+          774,
+          1007,
+          953,
+          744,
+          1345,
+          422,
+          648,
+          809,
+          514,
+          674,
+          511,
+          1061,
+          341,
+          926,
+          95,
+          777
+        ],
+        "val": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "Q": {
+        "train": [
+          1.6021010505252626,
+          1.6966483241620811,
+          1.7876938469234618,
+          1.8864432216108056,
+          1.9753876938469235,
+          2.065732866433217,
+          2.1532766383191597,
+          2.2471235617808905,
+          2.3451725862931467,
+          2.4369184592296147,
+          2.536368184092046,
+          2.623911955977989,
+          2.724762381190595,
+          2.814407203601801,
+          2.9033516758379188,
+          3.0
+        ],
+        "val": [
+          2.9880940470235116,
+          1.6441220610305154,
+          2.1826913456728363,
+          2.9047523761880942
+        ]
+      },
+      "purpose": "SMOKE_ONLY_NOT_FORMAL_BENCHMARK",
+      "test_truth_read": false
+    },
+    "split_audit": {
+      "train_val_test_disjoint": true,
+      "T1200_T2399_split_Q_exact_equal": true,
+      "Q400_intersection_with_n2000_count": 0,
+      "Q400_min_distance_to_n2000": 3.501750871492959e-07,
+      "Q400_inside_train_hull": false,
+      "val_outside_train_hull": 2,
+      "test_outside_train_hull": 1,
+      "Plan_A_Q400_T1200_T1800_T2400_split_Q_equal": true
+    },
+    "no_heldout_error_computed": true
+  },
+  "transfer": {
+    "mode": "execute",
+    "files": [
+      {
+        "relative_path": "asset-manifest.json",
+        "destination": "/workspace/shanjinshuo/datasets/fno_kerr/reviewer_p1_preflight_20261010/asset-manifest.json",
+        "bytes": 33005,
+        "sha256": "3fda19ab118d12c6230cb3f17ae6aa0ad688bcabf08c620b274ff10206c5542d"
+      },
+      {
+        "relative_path": "train16_val4_t1200.npz",
+        "destination": "/workspace/shanjinshuo/datasets/fno_kerr/reviewer_p1_preflight_20261010/train16_val4_t1200.npz",
+        "bytes": 560309,
+        "sha256": "a37ee3e95030559719ed32eb05b94df7611376aa15d6b7d0a3ec489856d92265"
+      }
+    ],
+    "states": [
+      {
+        "state": "ready",
+        "target": "/workspace/shanjinshuo/datasets/fno_kerr/reviewer_p1_preflight_20261010/asset-manifest.json",
+        "offset": 0,
+        "partial_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "state": "ready",
+        "target": "/workspace/shanjinshuo/datasets/fno_kerr/reviewer_p1_preflight_20261010/train16_val4_t1200.npz",
+        "offset": 0,
+        "partial_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "results": [
+      {
+        "state": "published_verified",
+        "target": "/workspace/shanjinshuo/datasets/fno_kerr/reviewer_p1_preflight_20261010/asset-manifest.json",
+        "bytes": 33005,
+        "sha256": "3fda19ab118d12c6230cb3f17ae6aa0ad688bcabf08c620b274ff10206c5542d",
+        "resumed_offset": 0
+      },
+      {
+        "state": "published_verified",
+        "target": "/workspace/shanjinshuo/datasets/fno_kerr/reviewer_p1_preflight_20261010/train16_val4_t1200.npz",
+        "bytes": 560309,
+        "sha256": "a37ee3e95030559719ed32eb05b94df7611376aa15d6b7d0a3ec489856d92265",
+        "resumed_offset": 0
+      }
+    ]
+  },
+  "time": {
+    "utc": "2026-10-11T02:50:24.052438+00:00",
+    "hostname": "job-l480b340-gxchp",
+    "nominal_expiry_utc": "2026-10-11T04:23:00Z",
+    "safety_deadline_utc": "2026-10-11T04:08:00Z",
+    "remaining_minutes_estimated": 92,
+    "scheduler_expiry_verified": false
+  },
+  "evidence_files": {
+    "cpu-stderr.log": {
+      "bytes": 1056,
+      "sha256": "b98e4b99c6568e52064fe169b73a19ff67a16d9295e5fb21240d2f8e6e5adeed"
+    },
+    "transfer-result.json": {
+      "bytes": 1755,
+      "sha256": "3de5a8f7c6717251ebff0e9fc06a5c2cdef28880661ded38dc74d057c024b1a6"
+    },
+    "cpu-stdout.log": {
+      "bytes": 2911,
+      "sha256": "805ec604cd0dc082548419a7b17c5e5ce708cce2036c1c1a25006c1361cbd7d9"
+    },
+    "postflight-integrity.json": {
+      "bytes": 214,
+      "sha256": "54de65ea8a27744c7d7583c461512c5838a72664a1e8f35d171287e17ab4c652"
+    },
+    "gpu-preflight.json": {
+      "bytes": 96,
+      "sha256": "8b0f433747f715086edade226c62a656c9313f8b4fbb489533d8e882ebf71c52"
+    },
+    "cpu-smoke.json": {
+      "bytes": 3506,
+      "sha256": "fd72571b4baffe09f14e049cc7bdcff50852f4d3d7fadc6dcdedf90b696f6cf1"
+    },
+    "gpu-stderr.log": {
+      "bytes": 1354,
+      "sha256": "ae01bda6d75971b9dad8e31c28a69b5784a59768b4e9aed7fef7ec78379e5800"
+    },
+    "transfer_p1_assets.py": {
+      "bytes": 2053,
+      "sha256": "4e68f8e6b501ee1911090c34c4aefb215e4337fc174a7bd4e9af42636c6a52fa"
+    },
+    "gpu-process.json": {
+      "bytes": 141,
+      "sha256": "cfe2b2bfa5151a91a3b688cba6c48950fdc0bef79f1cc97c8a05fde7fb47375e"
+    },
+    "prepare_p1_assets.py": {
+      "bytes": 7109,
+      "sha256": "276852dc020d02cd03d237d06be59a60ab8e9ee50c2ceda4aef5a49714e9a178"
+    },
+    "preflight-system.json": {
+      "bytes": 4581,
+      "sha256": "75125b64c74fd0dca596489d251a3e44e7d83810aa33d262a247de691245cbab"
+    },
+    "transfer-dry-run.json": {
+      "bytes": 1163,
+      "sha256": "4a34959c3b4546535194aa2f794315de6c02a88a6033560d9d67658baf8f6ea7"
+    },
+    "p1_preflight_smoke.py": {
+      "bytes": 9388,
+      "sha256": "b4769de65b7bfacb8b13cd93aa4dc259cfeb34e9c398ebc89e9655b71fc1b3d1"
+    },
+    "run_p1_preflight.py": {
+      "bytes": 2515,
+      "sha256": "7797beaa1458c394b5d95c58f2a3844b29ef6950af23aff2cfd5084df5a84023"
+    },
+    "protocol.json": {
+      "bytes": 4978,
+      "sha256": "5d0aae1400dc162dd87d2b7cbcc9df808a395e138f7d2d2056f7e8f5d6404a18"
+    },
+    "gpu-stdout.log": {
+      "bytes": 1565,
+      "sha256": "f6414a24f94d429d0181c17b760c240409cbb035eae8a3eb666dc34c8a694278"
+    },
+    "cpu-command.json": {
+      "bytes": 345,
+      "sha256": "c9041b1765f3dd4e90e06b7215bb78bd1e2e777b55d73f3204e019177ebf6b35"
+    },
+    "gpu-smoke.json": {
+      "bytes": 1874,
+      "sha256": "bf3e4cbcefff089231c6bd9c8319931ecd71e0b8022e8771d42eb1b2e6b33cc7"
+    },
+    "cpu-process.json": {
+      "bytes": 141,
+      "sha256": "241714e5d1fb5eb4e68bb9290c192682b1a58b81ec6f97034d49bf440efd31ec"
+    },
+    "protected-conda-before.json": {
+      "bytes": 24825,
+      "sha256": "686c0eaf039d9605d70963473f0da7f50cb0d71e19f1113428158542d1a61164"
+    },
+    "gpu-command.json": {
+      "bytes": 345,
+      "sha256": "48bf41d12f701d0c09a5c6f9ca8a56160162c905d69b9179622f62cd614ca27b"
+    },
+    "asset-manifest.json": {
+      "bytes": 33005,
+      "sha256": "3fda19ab118d12c6230cb3f17ae6aa0ad688bcabf08c620b274ff10206c5542d"
+    }
+  }
+}

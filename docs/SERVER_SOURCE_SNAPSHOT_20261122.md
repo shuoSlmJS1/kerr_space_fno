@@ -4,6 +4,10 @@ Revalidated on November 24 against the replacement compute container: all 214
 freshly downloaded files match the original source hashes, with no added or missing
 files. See the [revalidation receipt](SERVER_REVALIDATION_20261124.json).
 
+This 214-file statement applies to the original selection. A subsequent broader
+[persistent-storage audit and mentor guide](MENTOR_CODE_REVIEW_GUIDE.md) found 10
+additional scripts outside those original locations and adds their supporting evidence.
+
 ## Scope and provenance
 
 This publication synchronizes the school-server core code to the existing GitHub

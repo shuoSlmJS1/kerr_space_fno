@@ -1,0 +1,63 @@
+{
+  "status": "PASS",
+  "models": {
+    "Spline": {
+      "shape": [
+        400,
+        1200,
+        3
+      ],
+      "finite": true,
+      "Q_and_lambda_exact": true,
+      "saved_array_metric_recomputation": "PASS",
+      "per_Q_alignment_and_metrics": "PASS"
+    },
+    "MLP": {
+      "shape": [
+        400,
+        1200,
+        3
+      ],
+      "finite": true,
+      "Q_and_lambda_exact": true,
+      "saved_array_metric_recomputation": "PASS",
+      "per_Q_alignment_and_metrics": "PASS"
+    },
+    "FNO": {
+      "shape": [
+        400,
+        1200,
+        3
+      ],
+      "finite": true,
+      "Q_and_lambda_exact": true,
+      "saved_array_metric_recomputation": "PASS",
+      "per_Q_alignment_and_metrics": "PASS"
+    }
+  },
+  "Q400_training_Q_exact_overlap": 0,
+  "hami_error_count": 4,
+  "hami_only_after_python_atexit": true,
+  "outside_paired_errors": [
+    {
+      "canonical_index": 0,
+      "Q": 1.6007,
+      "in_training_hull": false,
+      "models": {
+        "Spline": {
+          "relative_l2": 4.3073692105336515e-06,
+          "max_abs_error": 0.00018512853365670878
+        },
+        "MLP": {
+          "relative_l2": 0.0010161285581334295,
+          "max_abs_error": 0.030735616223390494
+        },
+        "FNO": {
+          "relative_l2": 0.0010186074728189803,
+          "max_abs_error": 0.04067179263318188
+        }
+      }
+    }
+  ],
+  "postflight_scope": "Independent CPU-only re-reduction of persisted arrays, no model forward"
+}

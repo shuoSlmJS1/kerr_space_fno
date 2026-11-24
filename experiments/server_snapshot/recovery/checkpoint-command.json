@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "/workspace/shanjinshuo/environments/fno_kerr/bin/python",
+    "-B",
+    "-u",
+    "/workspace/shanjinshuo/logs/fno-recovery-20261011T0134Z/verify_fno_checkpoint.py"
+  ],
+  "timeout_seconds": 60,
+  "utc": "2026-10-11T01:37:52.478719+00:00",
+  "comparison_atol": 1e-05,
+  "comparison_rtol": 0.0001
+}

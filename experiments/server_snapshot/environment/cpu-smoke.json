@@ -1,0 +1,35 @@
+{
+  "status": "passed_cpu_only",
+  "python": "3.10.20",
+  "versions": {
+    "torch": "2.5.1+cu121",
+    "numpy": "2.0.1",
+    "scipy": "1.15.3",
+    "matplotlib": "3.10.8",
+    "PyYAML": "6.0.3",
+    "triton": "3.1.0",
+    "sympy": "1.13.1",
+    "plotly": "6.9.0",
+    "narwhals": "2.24.0"
+  },
+  "torch_cuda_build": "12.1",
+  "cuda_available_observed": false,
+  "cuda_tensor_test": "not_run_cpu_container",
+  "cpu_tensor_result": 30.0,
+  "numpy_torch_roundtrip": "passed",
+  "cpu_fft": "passed",
+  "model_imports": [
+    "src.models.fno1d.fno1d",
+    "src.models.fno2d.fno2d",
+    "src.models.fno2d.fno2d_physical_frequency",
+    "src.models.benchmark_track_a",
+    "src.models.resnet1d",
+    "src.models.timesnet1d",
+    "src.models.timesnet_lambda_isolated1d"
+  ],
+  "model_forward": "not_run",
+  "checkpoint_load": "not_run",
+  "training": false,
+  "gpu_validation": "pending",
+  "cross_container_reuse": "not_tested"
+}

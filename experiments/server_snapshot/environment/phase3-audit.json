@@ -1,0 +1,151 @@
+{
+  "status": "audit_complete_installation_not_started",
+  "audit_utc": "2026-10-10T07:37:38Z",
+  "timezone": "America/Los_Angeles",
+  "scope": "Read-only remote and backup audit; local deployment plan only",
+  "decision": {
+    "resource_permission": "Not yet explicitly confirmed in this conversation",
+    "reported_remaining_minutes": 135,
+    "time_source": "User platform-page reading near 07:34 UTC; not independently verified through a scheduler API",
+    "reason_not_started": "A new CUDA environment has an estimated 90-180 minute installation window with variable network and NFS performance. The reported remaining time does not provide a reliable safety margin; resource permission is also pending.",
+    "recommended_next_task_remaining_hours": 4
+  },
+  "remote": {
+    "ssh_alias": "school-gpu",
+    "hostname": "job-wffc9ff4-hrsht",
+    "connection": "passed",
+    "os_release": "Ubuntu 20.04.6 LTS",
+    "actual_glibc": "2.35",
+    "gpu": "NVIDIA L40S",
+    "driver": "580.178.04",
+    "gpu_quota": "Not established by physical-device memory reporting",
+    "workspace": "Mounted read-write as NFS 4.1; directory access passed",
+    "write_probe_this_turn": false,
+    "df_note": "Shared NFS capacity is not the personal 500 GB quota",
+    "fno_prefix": "/workspace/shanjinshuo/environments/fno_kerr",
+    "fno_prefix_exists": false,
+    "fno_prefix_is_symlink": false
+  },
+  "underwater": {
+    "status": "completed",
+    "completed_utc": "2026-10-10T07:06:19.243001+00:00",
+    "installer_processes_exited": true,
+    "environment_allocated_bytes": 7273735168,
+    "cache_bytes": 3760625270,
+    "elapsed_seconds": 4666.13,
+    "base_fingerprint_unchanged_recorded": true,
+    "pip_check_saved_result": "No broken requirements found.",
+    "saved_smoke_result": "passed",
+    "versions": {
+      "python": "3.11.15", "torch": "2.7.1+cu126", "torchvision": "0.22.1+cu126",
+      "torchaudio": "2.7.1+cu126", "ultralytics": "8.4.22", "transformers": "4.46.3",
+      "numpy": "2.2.6", "scipy": "1.15.3", "Pillow": "12.1.1"
+    },
+    "cuda_runtime": "12.6",
+    "cuda_available": true,
+    "tiny_tensor_result": 30.0,
+    "ultralytics_import": true,
+    "clip_imports": true,
+    "warning": "Ultralytics configuration fell back from the requested persistent configuration path to /tmp/Ultralytics. This setting is not persistent. No repair was attempted.",
+    "evidence_directory": "/workspace/shanjinshuo/environment-locks/underwater-phase2-20261010T0546Z",
+    "verification_method": "Read saved completion and test records; no tests rerun and no environment changes",
+    "cross_container_reuse": "not_tested"
+  },
+  "backup_root": "D:/AAA_MyNote/Server_Migration/amax_2026-10-01",
+  "evidence": [
+    "env_info/fno_srv_info/fno_srv_conda_list.txt",
+    "env_info/fno_srv_info/fno_srv_environment.yml",
+    "miniconda3/envs/fno_srv/conda-meta/",
+    "fno_kerr/kerr_project/environment_fno_srv_2026-07-23.yml",
+    "fno_kerr/kerr_project/requirements_fno_srv_2026-07-23.txt",
+    "fno_kerr/kerr_project/LOCAL_ENVIRONMENT.md",
+    "fno_kerr/kerr_project/reports/plan_a_inventory_20260921/EXPERIMENT_RUNS.json",
+    "fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave*/train_*/summary.json",
+    "fno_kerr/kerr_project/src/models/",
+    "fno_kerr/kerr_project/src/training/checkpoint.py",
+    "fno_kerr/kerr_project/src/training/benchmark_track_a.py"
+  ],
+  "historical_versions": {
+    "python": "3.10.20", "pytorch": "2.5.1",
+    "pytorch_conda_build": "py3.10_cuda12.1_cudnn9.1.0_0",
+    "pytorch_cuda_runtime": "12.1", "numpy": "2.0.1", "scipy": "1.15.3",
+    "matplotlib": "3.10.8", "pyyaml": "6.0.3", "plotly": "6.9.0",
+    "narwhals": "2.24.0", "torchvision": "0.20.1", "torchaudio": "2.5.1",
+    "triton": "3.1.0", "sympy": "1.14.0", "mkl": "2023.1.0"
+  },
+  "runtime_evidence": {
+    "track_a_completed_runs": 12,
+    "epochs_per_run": 500,
+    "torch": "2.5.1",
+    "cuda_build": "12.1",
+    "models": ["fno1d", "resnet", "timesnet", "bilstm", "transformer", "deeponet"],
+    "fno2d_runtime_record": {"python": "3.10.20", "numpy": "2.0.1", "pytorch": "2.5.1"},
+    "limitation": "This proves the recorded runs used these versions, not that every recorded environment export is a complete transitive lock."
+  },
+  "dependency_findings": {
+    "models": "FNO1D, FNO2D, physical-frequency FNO2D and Track A use repository implementations built on torch and the standard library.",
+    "neuraloperator_required": "No imports or environment entries found in the inspected sources",
+    "other_project_dependencies": ["numpy", "scipy", "matplotlib", "plotly"],
+    "legacy_requirements_problem": "Many entries point to obsolete file:///home/... and file:///croot/... build paths; do not install this requirements file directly.",
+    "cuda_version_warning": "The old cuda-version=12.9 meta-package is not evidence that torch used CUDA 12.9. Runtime records and pytorch-cuda establish 12.1.",
+    "official_wheel_difference": "torch 2.5.1+cu121 for CPython 3.10 requires sympy==1.13.1, while the old Conda environment contains sympy 1.14.0. The old Conda torch dependency on sympy is unpinned.",
+    "numeric_backend_difference": "Official pip NumPy/SciPy wheels may use a different BLAS backend from the old MKL Conda environment; a wheel deployment is not a bitwise-identical reconstruction."
+  },
+  "recommended_plan": {
+    "isolation": "Create only the approved fno_kerr Conda prefix. Leave base and underwater unchanged.",
+    "python": "3.10.20",
+    "torch": "2.5.1+cu121",
+    "numpy": "2.0.1",
+    "scipy": "1.15.3",
+    "matplotlib": "3.10.8",
+    "pyyaml": "6.0.3",
+    "plotly": "6.9.0",
+    "narwhals": "2.24.0",
+    "sympy_for_wheel_route": "1.13.1",
+    "triton": "3.1.0",
+    "optional_historical_packages": {"torchvision": "0.20.1+cu121", "torchaudio": "2.5.1+cu121"},
+    "sources": ["https://repo.anaconda.com/pkgs/main", "https://download.pytorch.org/whl/cu121", "https://pypi.org", "https://files.pythonhosted.org"],
+    "exact_conda_recovery_alternative": "Resolve the original pytorch Conda build and MKL-backed NumPy/SciPy if closer historical binary parity is required; do not mix the old SymPy pin blindly into the wheel route.",
+    "full_resolver_validation": "pending",
+    "download_estimate_GiB": [3, 4],
+    "installation_estimate_minutes": [90, 180],
+    "installed_estimate_GiB": [8, 12],
+    "additional_peak_space_estimate_GiB": [12, 18],
+    "cache_cap_GiB": 6,
+    "combined_environment_estimate_GiB": [14.77, 18.77],
+    "estimate_note": "Planning estimates, not measured FNO installation values. The original 194 Conda metadata records total 3274578787 compressed bytes, excluding pip-only packages. Official torch wheel alone is 780429430 bytes.",
+    "cache_reuse": "Most underwater CUDA 12.6 and CPython 3.11 artifacts cannot satisfy CUDA 12.1 and CPython 3.10 pins. Reuse only exact matching versions, tags and hashes."
+  },
+  "network_checks": {
+    "conda_main_metadata": "HTTP 206 range read passed",
+    "pytorch_conda_metadata": "HTTP 206 range read passed",
+    "official_torch_cu121_wheel": "Range reads passed; dependency metadata extracted without downloading the full wheel",
+    "official_torch_metadata_sidecar": "HTTP 403; wheel availability was separately verified by successful byte-range reads",
+    "sustained_fno_download_speed": "not_measured",
+    "remaining_dependency_endpoints": "not_all_probed"
+  },
+  "compatibility": {
+    "driver": "Driver 580 exceeds the CUDA 12.1 Linux minimum and supports older runtimes through backward compatibility",
+    "os": "Release label is Ubuntu 20.04.6 but measured glibc is 2.35; validate actual ABI and wheel tags on every new image",
+    "toolkit": "Do not install or upgrade the global CUDA Toolkit; torch uses its selected runtime dependency set",
+    "checkpoint": "Inspected saving code stores state dictionaries and configuration. Same model code, dimensions, transforms and strict state loading remain necessary. No historical checkpoint was deserialized or tested.",
+    "formal_reproduction": "not_tested"
+  },
+  "next_validation": [
+    "Confirm resource authorization and current task expiry before any FNO installation or source upload.",
+    "Resolve and hash-lock the complete candidate package set; verify budget, official sources and NFS writes.",
+    "Use a bounded detached installer with per-stage logs, resumable verified downloads and an explicit expiry safety margin.",
+    "Check Python, pip check, torch version, CUDA availability, a tiny CUDA tensor and NumPy-to-torch round trip.",
+    "Import FNO1D, FNO2D and Track A modules from an approved minimal immutable source snapshot.",
+    "Run small inference-only random-input forwards with no checkpoint load or training; include FFT paths and all six Track A models.",
+    "Export versions, source hashes, actual environment size and tests, then repeat basic checks in a new matching-image task."
+  ],
+  "changes_this_turn": {
+    "remote_writes": false,
+    "environment_installations": false,
+    "backup_modifications": false,
+    "checkpoint_loads": false,
+    "training": false,
+    "local_file_added": "reports/fno-phase3-audit-2026-10-10.json"
+  }
+}

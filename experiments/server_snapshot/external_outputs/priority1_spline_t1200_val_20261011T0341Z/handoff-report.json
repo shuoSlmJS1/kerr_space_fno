@@ -1,0 +1,428 @@
+{
+  "status": "COMPLETED_FORMAL_T1200_SPLINE_VALIDATION",
+  "scope": "Frozen approved spline,1400 original training Q,300 original validation Q,CPU only; no test/Q400 or neural training.",
+  "output_directory": "/workspace/shanjinshuo/outputs/fno_kerr/priority1_spline_t1200_val_20261011T0341Z",
+  "data_directory": "/workspace/shanjinshuo/datasets/fno_kerr/priority1_spline_t1200_val_20261011T0341Z",
+  "results": {
+    "status": "COMPLETED_VALIDATION",
+    "started_utc": "2026-10-11T03:44:33.050556+00:00",
+    "finished_utc": "2026-10-11T03:44:35.327126+00:00",
+    "protocol_sha256": "09b1c3052102ca61e102145ac956d50b86976858154d5361d71d0f44b7dd1134",
+    "source_code_sha256": {
+      "spline_in_q_priority1.py": "d8695b1d00c4ea9a4b5532bb14bc9a8c93ea474546d1343e7be1dad1bf72dfee",
+      "validate_spline_t1200.py": "548498b30be401609a934a6b98959f08e19cd997661100c2fdbdbd2d9058fb11"
+    },
+    "data_sha256": "35337c84f2811364a05c278948509c4553e94325c5caa730b707c48ca92b3dc6",
+    "device": "CPU",
+    "python": "3.10.20 (main, Jun 11 2026, 15:17:37) [GCC 14.3.0]",
+    "numpy": "2.0.1",
+    "scipy": "1.15.3",
+    "cpu_platform": "x86_64",
+    "train": {
+      "count": 1400,
+      "Q_min": 1.6021010505252626,
+      "Q_max": 3.0,
+      "max_adjacent_Q_gap": 0.004902451225612614
+    },
+    "validation": {
+      "count": 300,
+      "Q_min": 1.6,
+      "Q_max": 2.9978989494747372,
+      "inside_count": 298,
+      "outside_count": 2
+    },
+    "metrics": {
+      "all": {
+        "status": "evaluated",
+        "count": 300,
+        "evaluation_space": "raw_physical_xyz_float64",
+        "point_count_per_q": 1200,
+        "global_mse": 4.8889154641778154e-12,
+        "global_relative_l2": 4.473503060561983e-07,
+        "mean_per_q_relative_l2": 3.366217496832826e-08,
+        "per_q_relative_l2_summary": {
+          "mean": 3.366217496832826e-08,
+          "median": 1.3887956463487394e-12,
+          "max": 8.608808800853302e-06,
+          "p95": 4.6539079011886715e-11,
+          "p99": 7.767276547200034e-09,
+          "worst_q_index": 200,
+          "worst_q_value": 1.6
+        }
+      },
+      "inside": {
+        "status": "evaluated",
+        "count": 298,
+        "evaluation_space": "raw_physical_xyz_float64",
+        "point_count_per_q": 1200,
+        "global_mse": 1.306554712451755e-16,
+        "global_relative_l2": 2.310985972411473e-09,
+        "mean_per_q_relative_l2": 1.8208744227709827e-10,
+        "per_q_relative_l2_summary": {
+          "mean": 1.8208744227709827e-10,
+          "median": 1.3847978022851533e-12,
+          "max": 4.405244734493122e-08,
+          "p95": 4.1138723288065576e-11,
+          "p99": 2.788112288536485e-10,
+          "worst_q_index": 9,
+          "worst_q_value": 1.603501750875438
+        }
+      },
+      "outside": {
+        "status": "evaluated",
+        "count": 2,
+        "evaluation_space": "raw_physical_xyz_float64",
+        "point_count_per_q": 1200,
+        "global_mse": 7.333178519614569e-10,
+        "global_relative_l2": 6.169893474983964e-06,
+        "mean_per_q_relative_l2": 5.022195216349951e-06,
+        "per_q_relative_l2_summary": {
+          "mean": 5.022195216349951e-06,
+          "median": 5.022195216349951e-06,
+          "max": 8.608808800853302e-06,
+          "p95": 8.250147442402967e-06,
+          "p99": 8.537076529163235e-06,
+          "worst_q_index": 1,
+          "worst_q_value": 1.6
+        }
+      }
+    },
+    "timing": {
+      "fit_seconds": 1.2619626484811306,
+      "prediction_seconds": 0.008115268312394619,
+      "scope": "single CPU wall-clock; fit includes stable sorting and secant slopes; prediction includes region masks and output allocation; excludes disk IO and metrics; no performance benchmark claim"
+    },
+    "checks": {
+      "shapes": true,
+      "all_data_and_outputs_finite": true,
+      "stable_sort_and_unique_Q": true,
+      "original_Q_hashes": true,
+      "lambda_grid_unchanged": true,
+      "train_val_disjoint": true,
+      "boundaries": {
+        "left": {
+          "count": 2,
+          "secant_formula_verified": true,
+          "endpoint_continuity_verified": true
+        },
+        "right": {
+          "count": 0,
+          "secant_formula_verified": true,
+          "endpoint_continuity_verified": true
+        }
+      },
+      "training_node_max_abs_error": 1.7763568394002505e-15,
+      "training_node_check_is_not_generalization_evidence": true
+    },
+    "no_test_or_Q400_evaluation": true,
+    "protocol_changed_after_validation": false,
+    "outside_rows": [
+      {
+        "val_row": 28,
+        "Q": 1.6014007003501751,
+        "relative_l2": 1.4355816318466e-06,
+        "distance_to_train_hull": 0.0007003501750875163
+      },
+      {
+        "val_row": 200,
+        "Q": 1.6,
+        "relative_l2": 8.608808800853302e-06,
+        "distance_to_train_hull": 0.002101050525262549
+      }
+    ],
+    "prediction_sha256": "4c61b6ffacff29f1964e3dd59ea096f9100acd26c28c8c05f2bcc3095bdc891a"
+  },
+  "protocol": {
+    "status": "FROZEN_BEFORE_VALIDATION",
+    "frozen_utc": "2026-10-11T03:44:13.257488+00:00",
+    "authorization": "User explicitly approved full T1200 validation with fixed natural cubic inside and two-nearest-training-knot secant linear tails.",
+    "training_Q_count": 1400,
+    "validation_Q_count": 300,
+    "data_seed": 10,
+    "sort": "stable ascending Q, keep original row mapping",
+    "axis": "Q at every fixed original lambda node, each raw xyz component",
+    "inside": "Natural Cubic Spline, float64",
+    "outside": "Nearest two training knots on the corresponding side define a linear secant extension; no spline-polynomial extrapolation",
+    "lambda": "Original T1200 arange(1200)*0.005, endpoints0..5.995; no resampling",
+    "normalization": "None; raw xyz float64 fitting and evaluation",
+    "metrics": "Original compute_raw_metrics; float64 global norm ratio and arithmetic mean of per-Q norm ratios; epsilon1e-12",
+    "test_or_Q400_used": false,
+    "hyperparameter_search": false,
+    "change_after_validation_forbidden": true,
+    "data_directory": "/workspace/shanjinshuo/datasets/fno_kerr/priority1_spline_t1200_val_20261011T0341Z",
+    "data_manifest_sha256": "c9239a433efa34545f2d73250b3c56d2718d74f3b88451306da1e8a74e7d29e5",
+    "code_sha256": {
+      "spline_in_q_priority1.py": "d8695b1d00c4ea9a4b5532bb14bc9a8c93ea474546d1343e7be1dad1bf72dfee",
+      "validate_spline_t1200.py": "548498b30be401609a934a6b98959f08e19cd997661100c2fdbdbd2d9058fb11"
+    },
+    "historical_metric_source_sha256": "ad85646be2147e9771a1aa405a76917a0933150b7d54d6ae0af5772c3d546737",
+    "backup_git_head": "1c97c032a30fd6e9c9999080a022a9bdf0216b2a",
+    "remote_git_checkout": false,
+    "new_code_provenance": "Uncommitted control-workspace scripts copied byte-for-byte and pinned above, not a historical Git commit.",
+    "safety_deadline_utc": "2026-10-11T04:08:00+00:00",
+    "nominal_task_expiry_utc": "2026-10-11T04:23:00+00:00"
+  },
+  "data_manifest": {
+    "status": "VERIFIED_EXACT_TRAIN_VAL_COPY",
+    "source_windows": "D:/AAA_MyNote/Server_Migration/amax_2026-10-01/fno_kerr/kerr_project/data/tasks/q_1p6-3_n2000_t1200/dataset.npz",
+    "source_sha256": "3e0358831e6b96c38f15c8e3178f6d37f38b4bddbe1ab01a63cfaba043f211ce",
+    "source_bytes": 55679506,
+    "source_metadata_sha256": "459f8024f66db1abfe95d732b1cc9c90132c7bcc29d6425e25bbf32143fd6338",
+    "data_seed": 10,
+    "split_counts": {
+      "train": 1400,
+      "val": 300
+    },
+    "original_row_order_preserved": true,
+    "train_val_Q_disjoint": true,
+    "test_or_Q400_arrays_included": false,
+    "data_file": "train1400_val300_t1200.npz",
+    "bytes": 47327218,
+    "sha256": "35337c84f2811364a05c278948509c4553e94325c5caa730b707c48ca92b3dc6",
+    "arrays": {
+      "x_train": {
+        "shape": [
+          1400,
+          1
+        ],
+        "dtype": "float64",
+        "npy_sha256": "b793b29636ce32e0c7cee28832b1a2e862c60140f31afa2551883f4a37b2c3f8",
+        "raw_array_sha256": "19568b3ebb25494faa0f769874d3aa02c0e32bae325e7c968308ffe297e964ea",
+        "bytes": 11328
+      },
+      "y_train": {
+        "shape": [
+          1400,
+          1200,
+          3
+        ],
+        "dtype": "float64",
+        "npy_sha256": "af50ac8f303f592986b6eacc59b75e5587df616217fd4dcbc40b2ea4549d93a6",
+        "raw_array_sha256": "7610c48d283c5dc4375d104ba706996b9474e3f2e6829ae43ebc4ebd8d4bd334",
+        "bytes": 40320128
+      },
+      "x_val": {
+        "shape": [
+          300,
+          1
+        ],
+        "dtype": "float64",
+        "npy_sha256": "649c8cdebb40987997c40a6ecb2fd35438dc61c55316dc7199320de3ecef8811",
+        "raw_array_sha256": "065795c3ac45c8fbf52e8e3c115c0daeb57b476609f73499dc9f9cd420e54275",
+        "bytes": 2528
+      },
+      "y_val": {
+        "shape": [
+          300,
+          1200,
+          3
+        ],
+        "dtype": "float64",
+        "npy_sha256": "990bbff33f2b4bbadc5415a0569ae1112c41cf375ce853b180f26f7dee7b7e8c",
+        "raw_array_sha256": "3bfa08ac1cb753a7ad66c10889b9d7464e73cc6ffb2ec41a0360da65b347c9dd",
+        "bytes": 8640128
+      },
+      "lambda_grid": {
+        "shape": [
+          1200
+        ],
+        "dtype": "float64",
+        "npy_sha256": "3abb55cac4927937f9e2ba268e681e77bc511e3f33e1bc0e967a7d3d423ab3da",
+        "raw_array_sha256": "7f3277caf8bac500d55d63ae409fcd00dc67e4a1ef2df8640dc5274b248becc8",
+        "bytes": 9728
+      }
+    }
+  },
+  "process": {
+    "exit_code": 0,
+    "wall_seconds": 3.6261062063276768,
+    "status": "completed"
+  },
+  "integrity": {
+    "utc": "2026-10-11T03:45:14.286165+00:00",
+    "conda_metadata_unchanged": true,
+    "original_scientific_assets_verified": 171,
+    "mismatches": [],
+    "protocol_hash_unchanged": true,
+    "gpu_processes": "",
+    "stderr_empty": true
+  },
+  "outside_details": [
+    {
+      "original_val_row": 28,
+      "Q": 1.6014007003501751,
+      "region": "left_linear_tail",
+      "relative_l2": 1.4355816318466e-06,
+      "max_abs_error": 6.173499936323879e-05,
+      "MSE": 3.9720760948898726e-11
+    },
+    {
+      "original_val_row": 200,
+      "Q": 1.6,
+      "region": "left_linear_tail",
+      "relative_l2": 8.608808800853302e-06,
+      "max_abs_error": 0.0003697935269251218,
+      "MSE": 1.426914942974015e-09
+    }
+  ],
+  "interpretation": {
+    "supported": "Natural cubic Q interpolation with fixed secant tails fits this dense one-parameter T1200 train/validation problem very accurately. Both outside predictions are finite; their relative errors exceed the interior level and dominate overall squared error.",
+    "not_supported": [
+      "No independent Q400 test result.",
+      "No neural-model ranking: validation results must not be compared with historical independent-test metrics.",
+      "No proof of physical exactness: targets are the saved RK4 numerical trajectories.",
+      "No general claim for sparse Q,other parameters,unseen lambda grids or long physical domains.",
+      "Training-knot reconstruction is an implementation check,not generalization evidence.",
+      "Single timing sample is not a formal performance benchmark."
+    ],
+    "protocol_unchanged_after_results": true,
+    "group_worst_q_index_note": "Within-group metric worst_q_index is subgroup-local; per-validation-Q.json retains original validation row indices."
+  },
+  "MLP_review": {
+    "status": "STATIC_REVIEW_COMPLETE_IMPLEMENTATION_PENDING",
+    "existing_reusable_components": [
+      {
+        "file": "src/training/benchmark_data.py",
+        "features": "Trajectory input [Q,lambda], train-only float64-reduction normalization, raw xyz recovery."
+      },
+      {
+        "file": "src/training/benchmark_track_a.py",
+        "features": "Batch32 trajectory train/validation, AdamW/scheduler, validation-normalized MSE BEST selection, epoch checkpoint payload with optimizer/scheduler/RNG/history/BEST state."
+      },
+      {
+        "file": "tests/test_benchmark_track_a.py",
+        "features": "Existing synthetic uninterrupted-vs-resume equivalence test and no-overwrite checkpoint test are present; not executed this turn."
+      }
+    ],
+    "blocking_gaps": [
+      {
+        "item": "MLP schema and config",
+        "finding": "No standalone plain (Q,lambda)->xyz MLP in MODEL_CONFIGS. Existing _mlp helper is a 1-input DeepONet branch/trunk helper, not the proposed pointwise baseline.",
+        "needed": "Approve explicit MLP configuration and create a separate Priority1 schema/entry point; do not silently extend historical locked model configs."
+      },
+      {
+        "item": "Data loading",
+        "finding": "Existing load_training expects full project data/tasks archives and validates train/val/test. New restored data intentionally contains only train/val under the persistent datasets root.",
+        "needed": "Manifest-verified train/val-only loader preserving Q rows; no test access, no coordinate-level random split; full train-only normalization consistency test."
+      },
+      {
+        "item": "Output routing and provenance",
+        "finding": "Existing output_path restricts PROJECT_ROOT/outputs and source_provenance calls git rev-parse, while new requested output root is outside that directory and restored source has no .git.",
+        "needed": "Explicit isolated output-root allowlist and honest snapshot/source-hash provenance, with future Git restoration separately approved; never fabricate Git state."
+      },
+      {
+        "item": "Checkpoint durability",
+        "finding": "Existing save_checkpoint uses open(xb) directly on final file; no temp+fsync+atomic publish. A task kill may leave a partial epoch filename. Interval25 may lose substantial work near task expiry.",
+        "needed": "New runner: same-filesystem unique temporary checkpoint, flush/fsync, checksum, no-overwrite publish, verified completion marker; refuse partial/unverified resume states; safe epoch-boundary deadline save. Do not modify historical saver."
+      },
+      {
+        "item": "Resume correctness",
+        "finding": "Existing payload contains current and BEST model states, optimizer, scheduler, Python/NumPy/torch/CUDA RNG, epoch, history and time.",
+        "needed": "Preserve all fields and deterministic loader ordering. Test continuous2epochs versus1+resume on synthetic data; verify parameters, optimizer/scheduler, RNG, next batch and BEST selection. No formal training before pass."
+      },
+      {
+        "item": "Validation and logs",
+        "finding": "Normalized MSE selection exists; no new Priority1 logging and status system yet.",
+        "needed": "Per-epoch train/validation normalized MSE, immutable protocol and data hashes, elapsed time, periodic raw validation metrics with no test tuning, strict nonfinite guard, status.json/PID/commands/logs, deadline handling."
+      },
+      {
+        "item": "Time and resources",
+        "finding": "Formal 1M-parameter MLP throughput is unmeasured; prior371-parameter smoke does not estimate500epochs.",
+        "needed": "Separately approved bounded throughput pilot, projected completion plus15-minute reserve, detached execution verification; no prolonged polling."
+      }
+    ],
+    "implemented_this_turn": false,
+    "MLP_training_or_optimizer_steps_this_turn": 0,
+    "light_tests_this_turn": "Spline unit tests and historical metric formula check only; no MLP test rerun.",
+    "next_action": "Prepare a separate resumable Priority1 MLP runner with the approved configuration, then validate synthetic interruption/resume before any long run."
+  },
+  "time": {
+    "utc": "2026-10-11T03:46:24.443227+00:00",
+    "remaining_estimate_minutes": 36,
+    "nominal_expiry_utc": "2026-10-11T04:23:00Z",
+    "safety_deadline_utc": "2026-10-11T04:08:00Z",
+    "scheduler_verified": false
+  },
+  "evidence": {
+    "transfer-result.json": {
+      "bytes": 2718,
+      "sha256": "9069880ebe6eea7ca981a46045a1356c0bcdbcdb1ce112d6130b0e019619cd6b"
+    },
+    "conda-before.json": {
+      "bytes": 24825,
+      "sha256": "686c0eaf039d9605d70963473f0da7f50cb0d71e19f1113428158542d1a61164"
+    },
+    "stdout.log": {
+      "bytes": 3661,
+      "sha256": "9bdb1fb04d63304a80f0bc4d1e575a283e98e118a6a9f212515042718146d9df"
+    },
+    "unit-tests.json": {
+      "bytes": 294,
+      "sha256": "432e5d1f6bbccc5f1a1c906163df0189556d2b2a8a4d8225bb6633e1fed5ad86"
+    },
+    "stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "postflight-integrity.json": {
+      "bytes": 231,
+      "sha256": "0022b961be4d57ace5e63f1f331046a8f7048ecb15fc7ea202e54d5dabf80a23"
+    },
+    "spline_in_q_priority1.py": {
+      "bytes": 3001,
+      "sha256": "d8695b1d00c4ea9a4b5532bb14bc9a8c93ea474546d1343e7be1dad1bf72dfee"
+    },
+    "data-validation.json": {
+      "bytes": 196,
+      "sha256": "116d375f4f055bfbc5fdcb565ac9967f856b184a81c326c69345aad78720fdea"
+    },
+    "system.json": {
+      "bytes": 3994,
+      "sha256": "753558a0a609f551f0e630b37ec7aa550111490bf3bf2592cb506ff2f1b32b2a"
+    },
+    "data-manifest.json": {
+      "bytes": 2281,
+      "sha256": "c9239a433efa34545f2d73250b3c56d2718d74f3b88451306da1e8a74e7d29e5"
+    },
+    "command.json": {
+      "bytes": 528,
+      "sha256": "d9b30b423e91a59c26329fd4efd59939037a1ec29f669695471f351273d0e4f5"
+    },
+    "frozen-protocol.json": {
+      "bytes": 1896,
+      "sha256": "09b1c3052102ca61e102145ac956d50b86976858154d5361d71d0f44b7dd1134"
+    },
+    "transfer-dry-run.json": {
+      "bytes": 1801,
+      "sha256": "d19aae74859591da1f04624a7c5dff44cc4a71ce3ca0f3add85d585bdb6f19bf"
+    },
+    "per-validation-Q.json": {
+      "bytes": 64920,
+      "sha256": "8c74747ffb6902a695c3b4c32bf5a34524239ef2991ae76092d092b83cc6c39c"
+    },
+    "validation-result.json": {
+      "bytes": 4271,
+      "sha256": "4cf8ccfdd86d04894b5f6477f34fb8df915e20c67a5232997785129b4c8ea321"
+    },
+    "mlp-runner-review.json": {
+      "bytes": 4075,
+      "sha256": "ceb6debcb07ddef6678a6944837f25f073795b2d0eb35be34ee33136a29be99b"
+    },
+    "validation-predictions.npz": {
+      "bytes": 8355599,
+      "sha256": "4c61b6ffacff29f1964e3dd59ea096f9100acd26c28c8c05f2bcc3095bdc891a"
+    },
+    "process.json": {
+      "bytes": 83,
+      "sha256": "cb7430a467695bc8d905c701a36783583999318aedb4a45b7b4110009163522c"
+    },
+    "train-sort-mapping.json": {
+      "bytes": 45926,
+      "sha256": "3ea19cd77012773b921fd4866a3b7a727be61a48fd5006bcc3f41633611fc59e"
+    },
+    "validate_spline_t1200.py": {
+      "bytes": 7328,
+      "sha256": "548498b30be401609a934a6b98959f08e19cd997661100c2fdbdbd2d9058fb11"
+    }
+  }
+}

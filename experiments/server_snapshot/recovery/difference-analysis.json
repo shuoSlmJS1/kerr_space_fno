@@ -1,0 +1,18 @@
+{
+  "compared_scalars": 3600,
+  "outside_pointwise_tolerance": 1367,
+  "max_error_index": [
+    0,
+    563,
+    0
+  ],
+  "current_at_max": -11.57993221282959,
+  "historical_at_max": -11.582069396972656,
+  "threshold_at_max": 0.0011682069396972657,
+  "per_channel_max_abs": [
+    0.0021371841430664062,
+    0.0020852088928222656,
+    0.0012350082397460938
+  ],
+  "analysis_only_no_model_execution": true
+}

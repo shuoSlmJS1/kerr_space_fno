@@ -1,0 +1,53 @@
+{
+  "all": {
+    "MLP_over_Spline": {
+      "global_relative_l2": 1569.0892299551613,
+      "mean_per_q_relative_l2": 26493.676818388372,
+      "global_mse": 2462041.0115611097
+    },
+    "FNO_over_Spline": {
+      "global_relative_l2": 1589.498564705711,
+      "mean_per_q_relative_l2": 26401.488491133958,
+      "global_mse": 2526505.6872013384
+    },
+    "FNO_over_MLP": {
+      "global_relative_l2": 1.0130071218136734,
+      "mean_per_q_relative_l2": 0.9965203649200388,
+      "global_mse": 1.026183428845222
+    }
+  },
+  "inside": {
+    "MLP_over_Spline": {
+      "global_relative_l2": 22765883.421796184,
+      "mean_per_q_relative_l2": 87979708.36615884,
+      "global_mse": 518285447974796.25
+    },
+    "FNO_over_Spline": {
+      "global_relative_l2": 23067536.08703638,
+      "mean_per_q_relative_l2": 87668893.80370344,
+      "global_mse": 532111221126707.5
+    },
+    "FNO_over_MLP": {
+      "global_relative_l2": 1.0132502068841918,
+      "mean_per_q_relative_l2": 0.9964672017192665,
+      "global_mse": 1.0266759817508586
+    }
+  },
+  "outside": {
+    "MLP_over_Spline": {
+      "global_relative_l2": 235.90468066876917,
+      "mean_per_q_relative_l2": 235.90468066876917,
+      "global_mse": 55651.01836143397
+    },
+    "FNO_over_Spline": {
+      "global_relative_l2": 236.48018617210255,
+      "mean_per_q_relative_l2": 236.48018617210255,
+      "global_mse": 55922.87845199229
+    },
+    "FNO_over_MLP": {
+      "global_relative_l2": 1.0024395679716989,
+      "mean_per_q_relative_l2": 1.0024395679716989,
+      "global_mse": 1.0048850874352862
+    }
+  }
+}

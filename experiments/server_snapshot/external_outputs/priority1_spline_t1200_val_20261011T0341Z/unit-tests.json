@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "cases": [
+    "stable_sort",
+    "inside_interpolation",
+    "left_secant_tail",
+    "right_secant_tail",
+    "endpoint_membership",
+    "duplicate_rejection",
+    "nonfinite_training_rejection",
+    "nonfinite_query_rejection",
+    "training_node_reconstruction"
+  ]
+}

@@ -1,0 +1,287 @@
+{
+  "status": "PASS",
+  "utc": "2026-10-24T06:45:40.800112+00:00",
+  "raw_rows": 703,
+  "groups": [
+    {
+      "case": "Spline_CPU",
+      "scope": "fit",
+      "group": "preparation",
+      "count": 3,
+      "statistics": "PASS"
+    },
+    {
+      "case": "Spline_CPU",
+      "scope": "load_fitted_coefficients",
+      "group": "preparation",
+      "count": 3,
+      "statistics": "PASS"
+    },
+    {
+      "case": "RK4_CPU",
+      "scope": "end_to_end",
+      "group": "single",
+      "count": 30,
+      "statistics": "PASS"
+    },
+    {
+      "case": "RK4_CPU",
+      "scope": "end_to_end",
+      "group": "Q400",
+      "count": 5,
+      "statistics": "PASS"
+    },
+    {
+      "case": "Spline_CPU",
+      "scope": "model_only",
+      "group": "single",
+      "count": 30,
+      "statistics": "PASS"
+    },
+    {
+      "case": "Spline_CPU",
+      "scope": "end_to_end",
+      "group": "single",
+      "count": 30,
+      "statistics": "PASS"
+    },
+    {
+      "case": "Spline_CPU",
+      "scope": "model_only",
+      "group": "batch32",
+      "count": 30,
+      "statistics": "PASS"
+    },
+    {
+      "case": "Spline_CPU",
+      "scope": "end_to_end",
+      "group": "batch32",
+      "count": 30,
+      "statistics": "PASS"
+    },
+    {
+      "case": "Spline_CPU",
+      "scope": "model_only",
+      "group": "Q400",
+      "count": 5,
+      "statistics": "PASS"
+    },
+    {
+      "case": "Spline_CPU",
+      "scope": "end_to_end",
+      "group": "Q400",
+      "count": 5,
+      "statistics": "PASS"
+    },
+    {
+      "case": "MLP_CPU",
+      "scope": "load_checkpoint_and_initialize",
+      "group": "preparation",
+      "count": 3,
+      "statistics": "PASS"
+    },
+    {
+      "case": "MLP_CPU",
+      "scope": "model_only",
+      "group": "single",
+      "count": 30,
+      "statistics": "PASS"
+    },
+    {
+      "case": "MLP_CPU",
+      "scope": "end_to_end",
+      "group": "single",
+      "count": 30,
+      "statistics": "PASS"
+    },
+    {
+      "case": "MLP_CPU",
+      "scope": "model_only",
+      "group": "batch32",
+      "count": 30,
+      "statistics": "PASS"
+    },
+    {
+      "case": "MLP_CPU",
+      "scope": "end_to_end",
+      "group": "batch32",
+      "count": 30,
+      "statistics": "PASS"
+    },
+    {
+      "case": "MLP_CPU",
+      "scope": "model_only",
+      "group": "Q400",
+      "count": 5,
+      "statistics": "PASS"
+    },
+    {
+      "case": "MLP_CPU",
+      "scope": "end_to_end",
+      "group": "Q400",
+      "count": 5,
+      "statistics": "PASS"
+    },
+    {
+      "case": "FNO_CPU",
+      "scope": "load_checkpoint_and_initialize",
+      "group": "preparation",
+      "count": 3,
+      "statistics": "PASS"
+    },
+    {
+      "case": "FNO_CPU",
+      "scope": "model_only",
+      "group": "single",
+      "count": 30,
+      "statistics": "PASS"
+    },
+    {
+      "case": "FNO_CPU",
+      "scope": "end_to_end",
+      "group": "single",
+      "count": 30,
+      "statistics": "PASS"
+    },
+    {
+      "case": "FNO_CPU",
+      "scope": "model_only",
+      "group": "batch32",
+      "count": 30,
+      "statistics": "PASS"
+    },
+    {
+      "case": "FNO_CPU",
+      "scope": "end_to_end",
+      "group": "batch32",
+      "count": 30,
+      "statistics": "PASS"
+    },
+    {
+      "case": "FNO_CPU",
+      "scope": "model_only",
+      "group": "Q400",
+      "count": 5,
+      "statistics": "PASS"
+    },
+    {
+      "case": "FNO_CPU",
+      "scope": "end_to_end",
+      "group": "Q400",
+      "count": 5,
+      "statistics": "PASS"
+    },
+    {
+      "case": "MLP_GPU",
+      "scope": "load_checkpoint_and_initialize",
+      "group": "preparation",
+      "count": 3,
+      "statistics": "PASS"
+    },
+    {
+      "case": "MLP_GPU",
+      "scope": "model_only",
+      "group": "single",
+      "count": 30,
+      "statistics": "PASS"
+    },
+    {
+      "case": "MLP_GPU",
+      "scope": "end_to_end",
+      "group": "single",
+      "count": 30,
+      "statistics": "PASS"
+    },
+    {
+      "case": "MLP_GPU",
+      "scope": "model_only",
+      "group": "batch32",
+      "count": 30,
+      "statistics": "PASS"
+    },
+    {
+      "case": "MLP_GPU",
+      "scope": "end_to_end",
+      "group": "batch32",
+      "count": 30,
+      "statistics": "PASS"
+    },
+    {
+      "case": "MLP_GPU",
+      "scope": "model_only",
+      "group": "Q400",
+      "count": 5,
+      "statistics": "PASS"
+    },
+    {
+      "case": "MLP_GPU",
+      "scope": "end_to_end",
+      "group": "Q400",
+      "count": 5,
+      "statistics": "PASS"
+    },
+    {
+      "case": "FNO_GPU",
+      "scope": "load_checkpoint_and_initialize",
+      "group": "preparation",
+      "count": 3,
+      "statistics": "PASS"
+    },
+    {
+      "case": "FNO_GPU",
+      "scope": "model_only",
+      "group": "single",
+      "count": 30,
+      "statistics": "PASS"
+    },
+    {
+      "case": "FNO_GPU",
+      "scope": "end_to_end",
+      "group": "single",
+      "count": 30,
+      "statistics": "PASS"
+    },
+    {
+      "case": "FNO_GPU",
+      "scope": "model_only",
+      "group": "batch32",
+      "count": 30,
+      "statistics": "PASS"
+    },
+    {
+      "case": "FNO_GPU",
+      "scope": "end_to_end",
+      "group": "batch32",
+      "count": 30,
+      "statistics": "PASS"
+    },
+    {
+      "case": "FNO_GPU",
+      "scope": "model_only",
+      "group": "Q400",
+      "count": 5,
+      "statistics": "PASS"
+    },
+    {
+      "case": "FNO_GPU",
+      "scope": "end_to_end",
+      "group": "Q400",
+      "count": 5,
+      "statistics": "PASS"
+    }
+  ],
+  "source_hashes_unchanged": true,
+  "all_required_cases_and_counts_complete": true,
+  "all_statistical_summaries_recomputed": true,
+  "all_reported_output_checks_passed": true,
+  "accuracy_results_not_recomputed_or_changed": true,
+  "exit_code": 0,
+  "hami_context_error_count": 7,
+  "hami_only_after_atexit": true,
+  "P1_acceptance": "PASS_FOR_APPROVED_SINGLE_SEED_T1200_SCOPE",
+  "limitations": [
+    "Timing distributions from one shared-container session",
+    "Five full-field repetitions do not establish tail-latency stability",
+    "Cross-container timing repeatability not tested"
+  ]
+}

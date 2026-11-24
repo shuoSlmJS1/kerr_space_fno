@@ -1,0 +1,217 @@
+{
+  "utc": "2026-10-11T01:37:56.714897+00:00",
+  "exit_code": 1,
+  "result": {
+    "status": "FAIL_REFERENCE_TOLERANCE",
+    "checkpoint_load": "PASS_STRICT",
+    "missing_keys": [],
+    "unexpected_keys": [],
+    "state_dict_shapes": {
+      "input_proj.weight": [
+        64,
+        2
+      ],
+      "input_proj.bias": [
+        64
+      ],
+      "blocks.0.spectral_conv.weight_real": [
+        64,
+        64,
+        32
+      ],
+      "blocks.0.spectral_conv.weight_imag": [
+        64,
+        64,
+        32
+      ],
+      "blocks.0.pointwise_conv.weight": [
+        64,
+        64,
+        1
+      ],
+      "blocks.0.pointwise_conv.bias": [
+        64
+      ],
+      "blocks.1.spectral_conv.weight_real": [
+        64,
+        64,
+        32
+      ],
+      "blocks.1.spectral_conv.weight_imag": [
+        64,
+        64,
+        32
+      ],
+      "blocks.1.pointwise_conv.weight": [
+        64,
+        64,
+        1
+      ],
+      "blocks.1.pointwise_conv.bias": [
+        64
+      ],
+      "blocks.2.spectral_conv.weight_real": [
+        64,
+        64,
+        32
+      ],
+      "blocks.2.spectral_conv.weight_imag": [
+        64,
+        64,
+        32
+      ],
+      "blocks.2.pointwise_conv.weight": [
+        64,
+        64,
+        1
+      ],
+      "blocks.2.pointwise_conv.bias": [
+        64
+      ],
+      "blocks.3.spectral_conv.weight_real": [
+        64,
+        64,
+        32
+      ],
+      "blocks.3.spectral_conv.weight_imag": [
+        64,
+        64,
+        32
+      ],
+      "blocks.3.pointwise_conv.weight": [
+        64,
+        64,
+        1
+      ],
+      "blocks.3.pointwise_conv.bias": [
+        64
+      ],
+      "output_proj.0.weight": [
+        64,
+        64,
+        1
+      ],
+      "output_proj.0.bias": [
+        64
+      ],
+      "output_proj.2.weight": [
+        3,
+        64,
+        1
+      ],
+      "output_proj.2.bias": [
+        3
+      ]
+    },
+    "state_dict_entry_count": 22,
+    "model_config": {
+      "modes": 32,
+      "width": 64,
+      "depth": 4
+    },
+    "capacity": {
+      "real_scalar_parameter_count": 1069763,
+      "tensor_numel": 1069763,
+      "trainable_parameter_bytes": 4279052
+    },
+    "normalization": {
+      "method": "standard",
+      "x_mean": [
+        2.2996668343884603,
+        2.997499999998448
+      ],
+      "x_std": [
+        0.4036297106003588,
+        1.7320502057030378
+      ],
+      "y_mean": [
+        0.43491985321362087,
+        0.6950095646262856,
+        0.06759557962227183
+      ],
+      "y_std": [
+        5.459666332244433,
+        5.92913775929884,
+        2.706993031810956
+      ],
+      "eps": 1e-08
+    },
+    "target_transform": "raw",
+    "checkpoint_sha256": "11ccbebf1d0fd68c57d0895685adeb7d1386da723242ee8271b18286ebbb7ff1",
+    "reference_sha256": "4482c19f58f57b5102e33942f6a50fb04ce7a31729727b041457922edef3c0c3",
+    "training_git_head": "3335b3b197cf8b7d7a302d900a51af37a25d2144",
+    "historical_source_hashes_verified": 31,
+    "training_dataset_provenance": {
+      "directory": "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6-3_n2000_t1200",
+      "dataset_sha256": "3e0358831e6b96c38f15c8e3178f6d37f38b4bddbe1ab01a63cfaba043f211ce",
+      "metadata_sha256": "459f8024f66db1abfe95d732b1cc9c90132c7bcc29d6425e25bbf32143fd6338",
+      "split_q_sha256": {
+        "train": "19568b3ebb25494faa0f769874d3aa02c0e32bae325e7c968308ffe297e964ea",
+        "val": "065795c3ac45c8fbf52e8e3c115c0daeb57b476609f73499dc9f9cd420e54275",
+        "test": "c67d057aba98eb080c374280524751deb44d752a58425f3dfff5b4dbcc377e80"
+      }
+    },
+    "selected_reference_index": 0,
+    "Q": [
+      [
+        1.6007
+      ]
+    ],
+    "lambda_grid_shape": [
+      1200
+    ],
+    "lambda_grid_endpoints": [
+      0.0,
+      5.995
+    ],
+    "input_shape": [
+      1,
+      1200,
+      2
+    ],
+    "output_shape": [
+      1,
+      1200,
+      3
+    ],
+    "all_outputs_finite": true,
+    "max_abs_difference": 0.0021371841430664062,
+    "atol": 1e-05,
+    "rtol": 0.0001,
+    "allclose": false,
+    "historical_prediction_difference_metrics": {
+      "evaluation_space": "raw_physical_xyz_float64",
+      "point_count_per_q": 1200,
+      "global_mse": 1.8482192069655925e-07,
+      "global_relative_l2": 9.795989899153952e-05,
+      "mean_per_q_relative_l2": 9.795989899153952e-05,
+      "per_q_relative_l2_summary": {
+        "mean": 9.795989899153952e-05,
+        "median": 9.795989899153952e-05,
+        "max": 9.795989899153952e-05,
+        "p95": 9.795989899153952e-05,
+        "p99": 9.795989899153952e-05,
+        "worst_q_index": 0,
+        "worst_q_value": 1.6007
+      }
+    },
+    "comparison_scope": "Same Q/lambda and checkpoint train-only normalization, one native T1200 trajectory. Reference is saved old prediction, not ground truth.",
+    "batch_difference": "Historical evaluation used batch 32; this bounded FNO diagnostic uses batch 1. FNO has no cross-sample mixing, but numeric kernel differences remain possible.",
+    "full_historical_metrics_reproduced": false,
+    "formal_evaluation": false,
+    "torch": "2.5.1+cu121",
+    "cuda_runtime": "12.1",
+    "gpu": "NVIDIA L40S",
+    "allow_tf32_matmul": false,
+    "allow_tf32_cudnn": true,
+    "gpu_forward_seconds_including_input_copy": 0.7059230264276266,
+    "gpu_forward_count": 1,
+    "checkpoint_unchanged": true,
+    "training": false,
+    "peak_gpu_memory": null
+  },
+  "stderr": "{\"stage\": \"before_import\", \"utc\": \"2026-10-11T01:37:52.547708+00:00\"}\n[HAMI-core Msg(3786:139759309323136:libvgpu.c:856)]: Initializing.....\n{\"stage\": \"after_import\", \"utc\": \"2026-10-11T01:37:54.684439+00:00\"}\n{\"stage\": \"before_checkpoint_load\", \"utc\": \"2026-10-11T01:37:54.732269+00:00\"}\n{\"stage\": \"checkpoint_loaded_strict\", \"utc\": \"2026-10-11T01:37:54.777806+00:00\"}\n[HAMI-core Msg(3786:139759309323136:libvgpu.c:878)]: Initialized\n{\"stage\": \"before_gpu_forward\", \"utc\": \"2026-10-11T01:37:55.377900+00:00\"}\n{\"stage\": \"after_gpu_forward_synchronize\", \"utc\": \"2026-10-11T01:37:56.113470+00:00\"}\nTraceback (most recent call last):\n  File \"/workspace/shanjinshuo/logs/fno-recovery-20261011T0134Z/verify_fno_checkpoint.py\", line 117, in <module>\n    assert passed, 'Historical reference comparison exceeded the preset tolerance'\nAssertionError: Historical reference comparison exceeded the preset tolerance\n{\"stage\": \"python_atexit_after_torch\", \"utc\": \"2026-10-11T01:37:56.233265+00:00\"}\n{\"stage\": \"python_atexit_before_torch\", \"utc\": \"2026-10-11T01:37:56.234855+00:00\"}\n[HAMI-core ERROR (pid:3786 thread=139759309323136 context.c:124)]: cuCtxSetCurrent111 failed res=4 ctx=0x55fe0a1a9020\n[HAMI-core ERROR (pid:3786 thread=139759309323136 context.c:124)]: cuCtxSetCurrent111 failed res=4 ctx=0x55fe0a1a9020\n[HAMI-core ERROR (pid:3786 thread=139759309323136 context.c:124)]: cuCtxSetCurrent111 failed res=4 ctx=0x55fe0a1a9020\n[HAMI-core Msg(3786:139759309323136:multiprocess_memory_limit.c:455)]: Calling exit handler 3786\n",
+  "stdout": "{\"status\": \"FAIL_REFERENCE_TOLERANCE\", \"checkpoint_load\": \"PASS_STRICT\", \"missing_keys\": [], \"unexpected_keys\": [], \"state_dict_shapes\": {\"input_proj.weight\": [64, 2], \"input_proj.bias\": [64], \"blocks.0.spectral_conv.weight_real\": [64, 64, 32], \"blocks.0.spectral_conv.weight_imag\": [64, 64, 32], \"blocks.0.pointwise_conv.weight\": [64, 64, 1], \"blocks.0.pointwise_conv.bias\": [64], \"blocks.1.spectral_conv.weight_real\": [64, 64, 32], \"blocks.1.spectral_conv.weight_imag\": [64, 64, 32], \"blocks.1.pointwise_conv.weight\": [64, 64, 1], \"blocks.1.pointwise_conv.bias\": [64], \"blocks.2.spectral_conv.weight_real\": [64, 64, 32], \"blocks.2.spectral_conv.weight_imag\": [64, 64, 32], \"blocks.2.pointwise_conv.weight\": [64, 64, 1], \"blocks.2.pointwise_conv.bias\": [64], \"blocks.3.spectral_conv.weight_real\": [64, 64, 32], \"blocks.3.spectral_conv.weight_imag\": [64, 64, 32], \"blocks.3.pointwise_conv.weight\": [64, 64, 1], \"blocks.3.pointwise_conv.bias\": [64], \"output_proj.0.weight\": [64, 64, 1], \"output_proj.0.bias\": [64], \"output_proj.2.weight\": [3, 64, 1], \"output_proj.2.bias\": [3]}, \"state_dict_entry_count\": 22, \"model_config\": {\"modes\": 32, \"width\": 64, \"depth\": 4}, \"capacity\": {\"real_scalar_parameter_count\": 1069763, \"tensor_numel\": 1069763, \"trainable_parameter_bytes\": 4279052}, \"normalization\": {\"method\": \"standard\", \"x_mean\": [2.2996668343884603, 2.997499999998448], \"x_std\": [0.4036297106003588, 1.7320502057030378], \"y_mean\": [0.43491985321362087, 0.6950095646262856, 0.06759557962227183], \"y_std\": [5.459666332244433, 5.92913775929884, 2.706993031810956], \"eps\": 1e-08}, \"target_transform\": \"raw\", \"checkpoint_sha256\": \"11ccbebf1d0fd68c57d0895685adeb7d1386da723242ee8271b18286ebbb7ff1\", \"reference_sha256\": \"4482c19f58f57b5102e33942f6a50fb04ce7a31729727b041457922edef3c0c3\", \"training_git_head\": \"3335b3b197cf8b7d7a302d900a51af37a25d2144\", \"historical_source_hashes_verified\": 31, \"training_dataset_provenance\": {\"directory\": \"/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6-3_n2000_t1200\", \"dataset_sha256\": \"3e0358831e6b96c38f15c8e3178f6d37f38b4bddbe1ab01a63cfaba043f211ce\", \"metadata_sha256\": \"459f8024f66db1abfe95d732b1cc9c90132c7bcc29d6425e25bbf32143fd6338\", \"split_q_sha256\": {\"train\": \"19568b3ebb25494faa0f769874d3aa02c0e32bae325e7c968308ffe297e964ea\", \"val\": \"065795c3ac45c8fbf52e8e3c115c0daeb57b476609f73499dc9f9cd420e54275\", \"test\": \"c67d057aba98eb080c374280524751deb44d752a58425f3dfff5b4dbcc377e80\"}}, \"selected_reference_index\": 0, \"Q\": [[1.6007]], \"lambda_grid_shape\": [1200], \"lambda_grid_endpoints\": [0.0, 5.995], \"input_shape\": [1, 1200, 2], \"output_shape\": [1, 1200, 3], \"all_outputs_finite\": true, \"max_abs_difference\": 0.0021371841430664062, \"atol\": 1e-05, \"rtol\": 0.0001, \"allclose\": false, \"historical_prediction_difference_metrics\": {\"evaluation_space\": \"raw_physical_xyz_float64\", \"point_count_per_q\": 1200, \"global_mse\": 1.8482192069655925e-07, \"global_relative_l2\": 9.795989899153952e-05, \"mean_per_q_relative_l2\": 9.795989899153952e-05, \"per_q_relative_l2_summary\": {\"mean\": 9.795989899153952e-05, \"median\": 9.795989899153952e-05, \"max\": 9.795989899153952e-05, \"p95\": 9.795989899153952e-05, \"p99\": 9.795989899153952e-05, \"worst_q_index\": 0, \"worst_q_value\": 1.6007}}, \"comparison_scope\": \"Same Q/lambda and checkpoint train-only normalization, one native T1200 trajectory. Reference is saved old prediction, not ground truth.\", \"batch_difference\": \"Historical evaluation used batch 32; this bounded FNO diagnostic uses batch 1. FNO has no cross-sample mixing, but numeric kernel differences remain possible.\", \"full_historical_metrics_reproduced\": false, \"formal_evaluation\": false, \"torch\": \"2.5.1+cu121\", \"cuda_runtime\": \"12.1\", \"gpu\": \"NVIDIA L40S\", \"allow_tf32_matmul\": false, \"allow_tf32_cudnn\": true, \"gpu_forward_seconds_including_input_copy\": 0.7059230264276266, \"gpu_forward_count\": 1, \"checkpoint_unchanged\": true, \"training\": false, \"peak_gpu_memory\": null}\n",
+  "protected_conda_metadata_unchanged": true,
+  "gpu_processes_after": ""
+}

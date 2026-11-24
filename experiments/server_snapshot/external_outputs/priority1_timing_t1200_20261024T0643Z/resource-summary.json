@@ -1,0 +1,87 @@
+{
+  "Spline_CPU": {
+    "resident_array_bytes": 161302400,
+    "dtype": "float64"
+  },
+  "MLP_CPU": {
+    "parameter_bytes": 4002060,
+    "checkpoint_bytes": 16172730,
+    "checkpoint_sha256": "91503281bd80e5106ab7fb051b5956c88e269d49b20b5749681b66824f78b4c0",
+    "dtype": "torch.float32",
+    "device": "cpu",
+    "cpu_threads": 2,
+    "matmul_precision": "highest",
+    "matmul_tf32": false,
+    "cudnn_tf32": true,
+    "cudnn_deterministic": true
+  },
+  "FNO_CPU": {
+    "parameter_bytes": 4279052,
+    "checkpoint_bytes": 4291732,
+    "checkpoint_sha256": "11ccbebf1d0fd68c57d0895685adeb7d1386da723242ee8271b18286ebbb7ff1",
+    "dtype": "torch.float32",
+    "device": "cpu",
+    "cpu_threads": 2,
+    "matmul_precision": "highest",
+    "matmul_tf32": false,
+    "cudnn_tf32": true,
+    "cudnn_deterministic": false
+  },
+  "MLP_GPU": {
+    "parameter_bytes": 4002060,
+    "checkpoint_bytes": 16172730,
+    "checkpoint_sha256": "91503281bd80e5106ab7fb051b5956c88e269d49b20b5749681b66824f78b4c0",
+    "dtype": "torch.float32",
+    "device": "cuda:0",
+    "cpu_threads": 2,
+    "matmul_precision": "highest",
+    "matmul_tf32": false,
+    "cudnn_tf32": true,
+    "cudnn_deterministic": true,
+    "allocator_peak_bytes": 205649920,
+    "allocator_reserved_bytes": 299892736
+  },
+  "FNO_GPU": {
+    "parameter_bytes": 4279052,
+    "checkpoint_bytes": 4291732,
+    "checkpoint_sha256": "11ccbebf1d0fd68c57d0895685adeb7d1386da723242ee8271b18286ebbb7ff1",
+    "dtype": "torch.float32",
+    "device": "cuda:0",
+    "cpu_threads": 2,
+    "matmul_precision": "highest",
+    "matmul_tf32": false,
+    "cudnn_tf32": true,
+    "cudnn_deterministic": false,
+    "allocator_peak_bytes": 89030656,
+    "allocator_reserved_bytes": 306184192
+  },
+  "system": {
+    "hostname": "job-u15c7468-d8ms2",
+    "cpu_model": "Intel(R) Xeon(R) Platinum 8480+",
+    "affinity": [
+      0,
+      1
+    ],
+    "cpu_max": "600000 100000",
+    "cpu_stat_before": "usage_usec 465655179\nuser_usec 434532889\nsystem_usec 31122290\nnr_periods 6892\nnr_throttled 11\nthrottled_usec 49272891\n",
+    "cpu_stat_after": "usage_usec 716583182\nuser_usec 632881795\nsystem_usec 83701387\nnr_periods 8521\nnr_throttled 11\nthrottled_usec 49272891\n",
+    "torch_threads": 2,
+    "interop_threads": 1,
+    "GPU": "NVIDIA L40S",
+    "gpu_quota_gib_user_report": 22.5,
+    "gpu_memory_note": "PyTorch allocator counters, not HAMI physical free memory",
+    "process_peak_rss_bytes": 1154416640,
+    "rss_scope": "Whole sequential benchmark process including resident data and temporary preparation copies; not isolated per-model RSS",
+    "environment": {
+      "OMP_NUM_THREADS": "2",
+      "MKL_NUM_THREADS": "2",
+      "OPENBLAS_NUM_THREADS": "2",
+      "NUMEXPR_NUM_THREADS": "2"
+    },
+    "python": "3.10.20 (main, Jun 11 2026, 15:17:37) [GCC 14.3.0]",
+    "torch": "2.5.1+cu121",
+    "numpy": "2.0.1",
+    "scipy": "1.15.3",
+    "cuda": "12.1"
+  }
+}

@@ -2,6 +2,10 @@
 
 ## November 22, 2026 source and research update
 
+**Expanded audit on November 24:** the [mentor code review guide](docs/MENTOR_CODE_REVIEW_GUIDE.md)
+maps the research stages to their implementations and documents 10 additional
+recovery, numerical-diagnostic and environment scripts found in persistent storage.
+
 The school-server source snapshot has been synchronized to this repository, including
 the P1 spline/MLP experiments and P2 multi-seed experiment scripts that were stored
 outside `src/`. Start with the [latest detailed research reports](reports/README.md)

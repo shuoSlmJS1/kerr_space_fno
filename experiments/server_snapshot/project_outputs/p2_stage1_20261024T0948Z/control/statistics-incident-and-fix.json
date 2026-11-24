@@ -1,0 +1,15 @@
+{
+  "incident": "First unit completed training and four-grid evaluation; statistics ingestion failed on mse field name",
+  "observed_field": "global_mse",
+  "reported_column": "mse",
+  "fix": "Explicit schema alias only; no metric recomputation or change",
+  "scientific_source_changed": false,
+  "training_runner_changed": false,
+  "protocol_changed": false,
+  "completed_unit_retraining": false,
+  "original_control_and_outputs_preserved": true,
+  "versions": [
+    "stage1_statistics_v2.py",
+    "stage1_supervisor_v2.py"
+  ]
+}

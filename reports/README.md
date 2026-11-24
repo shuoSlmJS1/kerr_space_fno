@@ -2,6 +2,8 @@
 
 整理日期：2026 年 11 月 22 日。报告覆盖最初可追溯探索、服务器迁移及截至11月21日的新增实验。所有文件均为Markdown。
 
+November 24 addition: the [mentor code review and completeness guide](../docs/MENTOR_CODE_REVIEW_GUIDE.md) maps research stages to their code and adds previously unarchived migration, numerical-diagnostic and environment scripts. It also explains the October 11 batch1/batch32 repeatability diagnostic and the limits of its conclusions.
+
 ## 建议阅读顺序
 
 1. [研究历程与实验全景报告](01_研究历程与实验全景报告.md)：中文正文，包含历史时间线、研究动机、模型与数据定义、成功和失败实验、最新三种子结果、结论与当前状态。

@@ -1,0 +1,30 @@
+{
+  "utc": "2026-10-11T01:33:23.048477+00:00",
+  "hostname": "job-l480b340-gxchp",
+  "log_dir": "/workspace/shanjinshuo/logs/fno-recovery-20261011T0134Z",
+  "exit_code": 0,
+  "result": {
+    "numeric_status": "PASS",
+    "cpu_gpu_max_abs_error": 2.9802322387695312e-08,
+    "relative_l2_error": 3.4088053268988006e-08,
+    "atol": 1e-05,
+    "rtol": 0.0001,
+    "finite": true,
+    "output_shape": [
+      1,
+      32,
+      3
+    ],
+    "seed": 20261010,
+    "torch": "2.5.1+cu121",
+    "cuda_runtime": "12.1",
+    "gpu": "NVIDIA L40S",
+    "state_dict_equal_before_forward": true,
+    "cpu_forwards": 1,
+    "gpu_forwards": 1,
+    "training": false,
+    "checkpoint_load": false
+  },
+  "stderr": "{\"stage\": \"before_import\", \"utc\": \"2026-10-11T01:33:16.934390+00:00\"}\n[HAMI-core Msg(3237:139776997272448:libvgpu.c:856)]: Initializing.....\n{\"stage\": \"after_import\", \"utc\": \"2026-10-11T01:33:19.056422+00:00\"}\n{\"stage\": \"before_model_init\", \"utc\": \"2026-10-11T01:33:19.087876+00:00\"}\n[HAMI-core Msg(3237:139776997272448:libvgpu.c:878)]: Initialized\n{\"stage\": \"after_model_init\", \"utc\": \"2026-10-11T01:33:19.778890+00:00\"}\n{\"stage\": \"after_cpu_reference\", \"utc\": \"2026-10-11T01:33:20.194441+00:00\"}\n{\"stage\": \"before_gpu_forward\", \"utc\": \"2026-10-11T01:33:20.194526+00:00\"}\n{\"stage\": \"after_gpu_forward\", \"utc\": \"2026-10-11T01:33:22.584973+00:00\"}\n{\"stage\": \"after_synchronize\", \"utc\": \"2026-10-11T01:33:22.585193+00:00\"}\n{\"stage\": \"result_saved\", \"utc\": \"2026-10-11T01:33:22.591254+00:00\"}\n{\"stage\": \"script_end\", \"utc\": \"2026-10-11T01:33:22.591274+00:00\"}\n{\"stage\": \"python_atexit_after_torch\", \"utc\": \"2026-10-11T01:33:22.591413+00:00\"}\n{\"stage\": \"python_atexit_before_torch\", \"utc\": \"2026-10-11T01:33:22.593744+00:00\"}\n[HAMI-core ERROR (pid:3237 thread=139776997272448 context.c:124)]: cuCtxSetCurrent111 failed res=4 ctx=0x561b0b343970\n[HAMI-core ERROR (pid:3237 thread=139776997272448 context.c:124)]: cuCtxSetCurrent111 failed res=4 ctx=0x561b0b343970\n[HAMI-core Msg(3237:139776997272448:multiprocess_memory_limit.c:455)]: Calling exit handler 3237\n",
+  "stdout": "{\"numeric_status\": \"PASS\", \"cpu_gpu_max_abs_error\": 2.9802322387695312e-08, \"relative_l2_error\": 3.4088053268988006e-08, \"atol\": 1e-05, \"rtol\": 0.0001, \"finite\": true, \"output_shape\": [1, 32, 3], \"seed\": 20261010, \"torch\": \"2.5.1+cu121\", \"cuda_runtime\": \"12.1\", \"gpu\": \"NVIDIA L40S\", \"state_dict_equal_before_forward\": true, \"cpu_forwards\": 1, \"gpu_forwards\": 1, \"training\": false, \"checkpoint_load\": false}\n"
+}

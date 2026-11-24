@@ -1,0 +1,129 @@
+{
+  "status": "COMPLETED_VALIDATION",
+  "started_utc": "2026-10-11T03:44:33.050556+00:00",
+  "finished_utc": "2026-10-11T03:44:35.327126+00:00",
+  "protocol_sha256": "09b1c3052102ca61e102145ac956d50b86976858154d5361d71d0f44b7dd1134",
+  "source_code_sha256": {
+    "spline_in_q_priority1.py": "d8695b1d00c4ea9a4b5532bb14bc9a8c93ea474546d1343e7be1dad1bf72dfee",
+    "validate_spline_t1200.py": "548498b30be401609a934a6b98959f08e19cd997661100c2fdbdbd2d9058fb11"
+  },
+  "data_sha256": "35337c84f2811364a05c278948509c4553e94325c5caa730b707c48ca92b3dc6",
+  "device": "CPU",
+  "python": "3.10.20 (main, Jun 11 2026, 15:17:37) [GCC 14.3.0]",
+  "numpy": "2.0.1",
+  "scipy": "1.15.3",
+  "cpu_platform": "x86_64",
+  "train": {
+    "count": 1400,
+    "Q_min": 1.6021010505252626,
+    "Q_max": 3.0,
+    "max_adjacent_Q_gap": 0.004902451225612614
+  },
+  "validation": {
+    "count": 300,
+    "Q_min": 1.6,
+    "Q_max": 2.9978989494747372,
+    "inside_count": 298,
+    "outside_count": 2
+  },
+  "metrics": {
+    "all": {
+      "status": "evaluated",
+      "count": 300,
+      "evaluation_space": "raw_physical_xyz_float64",
+      "point_count_per_q": 1200,
+      "global_mse": 4.8889154641778154e-12,
+      "global_relative_l2": 4.473503060561983e-07,
+      "mean_per_q_relative_l2": 3.366217496832826e-08,
+      "per_q_relative_l2_summary": {
+        "mean": 3.366217496832826e-08,
+        "median": 1.3887956463487394e-12,
+        "max": 8.608808800853302e-06,
+        "p95": 4.6539079011886715e-11,
+        "p99": 7.767276547200034e-09,
+        "worst_q_index": 200,
+        "worst_q_value": 1.6
+      }
+    },
+    "inside": {
+      "status": "evaluated",
+      "count": 298,
+      "evaluation_space": "raw_physical_xyz_float64",
+      "point_count_per_q": 1200,
+      "global_mse": 1.306554712451755e-16,
+      "global_relative_l2": 2.310985972411473e-09,
+      "mean_per_q_relative_l2": 1.8208744227709827e-10,
+      "per_q_relative_l2_summary": {
+        "mean": 1.8208744227709827e-10,
+        "median": 1.3847978022851533e-12,
+        "max": 4.405244734493122e-08,
+        "p95": 4.1138723288065576e-11,
+        "p99": 2.788112288536485e-10,
+        "worst_q_index": 9,
+        "worst_q_value": 1.603501750875438
+      }
+    },
+    "outside": {
+      "status": "evaluated",
+      "count": 2,
+      "evaluation_space": "raw_physical_xyz_float64",
+      "point_count_per_q": 1200,
+      "global_mse": 7.333178519614569e-10,
+      "global_relative_l2": 6.169893474983964e-06,
+      "mean_per_q_relative_l2": 5.022195216349951e-06,
+      "per_q_relative_l2_summary": {
+        "mean": 5.022195216349951e-06,
+        "median": 5.022195216349951e-06,
+        "max": 8.608808800853302e-06,
+        "p95": 8.250147442402967e-06,
+        "p99": 8.537076529163235e-06,
+        "worst_q_index": 1,
+        "worst_q_value": 1.6
+      }
+    }
+  },
+  "timing": {
+    "fit_seconds": 1.2619626484811306,
+    "prediction_seconds": 0.008115268312394619,
+    "scope": "single CPU wall-clock; fit includes stable sorting and secant slopes; prediction includes region masks and output allocation; excludes disk IO and metrics; no performance benchmark claim"
+  },
+  "checks": {
+    "shapes": true,
+    "all_data_and_outputs_finite": true,
+    "stable_sort_and_unique_Q": true,
+    "original_Q_hashes": true,
+    "lambda_grid_unchanged": true,
+    "train_val_disjoint": true,
+    "boundaries": {
+      "left": {
+        "count": 2,
+        "secant_formula_verified": true,
+        "endpoint_continuity_verified": true
+      },
+      "right": {
+        "count": 0,
+        "secant_formula_verified": true,
+        "endpoint_continuity_verified": true
+      }
+    },
+    "training_node_max_abs_error": 1.7763568394002505e-15,
+    "training_node_check_is_not_generalization_evidence": true
+  },
+  "no_test_or_Q400_evaluation": true,
+  "protocol_changed_after_validation": false,
+  "outside_rows": [
+    {
+      "val_row": 28,
+      "Q": 1.6014007003501751,
+      "relative_l2": 1.4355816318466e-06,
+      "distance_to_train_hull": 0.0007003501750875163
+    },
+    {
+      "val_row": 200,
+      "Q": 1.6,
+      "relative_l2": 8.608808800853302e-06,
+      "distance_to_train_hull": 0.002101050525262549
+    }
+  ],
+  "prediction_sha256": "4c61b6ffacff29f1964e3dd59ea096f9100acd26c28c8c05f2bcc3095bdc891a"
+}

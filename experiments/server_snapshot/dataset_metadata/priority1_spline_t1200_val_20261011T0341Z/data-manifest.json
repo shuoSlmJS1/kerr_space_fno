@@ -1,0 +1,71 @@
+{
+  "status": "VERIFIED_EXACT_TRAIN_VAL_COPY",
+  "source_windows": "D:/AAA_MyNote/Server_Migration/amax_2026-10-01/fno_kerr/kerr_project/data/tasks/q_1p6-3_n2000_t1200/dataset.npz",
+  "source_sha256": "3e0358831e6b96c38f15c8e3178f6d37f38b4bddbe1ab01a63cfaba043f211ce",
+  "source_bytes": 55679506,
+  "source_metadata_sha256": "459f8024f66db1abfe95d732b1cc9c90132c7bcc29d6425e25bbf32143fd6338",
+  "data_seed": 10,
+  "split_counts": {
+    "train": 1400,
+    "val": 300
+  },
+  "original_row_order_preserved": true,
+  "train_val_Q_disjoint": true,
+  "test_or_Q400_arrays_included": false,
+  "data_file": "train1400_val300_t1200.npz",
+  "bytes": 47327218,
+  "sha256": "35337c84f2811364a05c278948509c4553e94325c5caa730b707c48ca92b3dc6",
+  "arrays": {
+    "x_train": {
+      "shape": [
+        1400,
+        1
+      ],
+      "dtype": "float64",
+      "npy_sha256": "b793b29636ce32e0c7cee28832b1a2e862c60140f31afa2551883f4a37b2c3f8",
+      "raw_array_sha256": "19568b3ebb25494faa0f769874d3aa02c0e32bae325e7c968308ffe297e964ea",
+      "bytes": 11328
+    },
+    "y_train": {
+      "shape": [
+        1400,
+        1200,
+        3
+      ],
+      "dtype": "float64",
+      "npy_sha256": "af50ac8f303f592986b6eacc59b75e5587df616217fd4dcbc40b2ea4549d93a6",
+      "raw_array_sha256": "7610c48d283c5dc4375d104ba706996b9474e3f2e6829ae43ebc4ebd8d4bd334",
+      "bytes": 40320128
+    },
+    "x_val": {
+      "shape": [
+        300,
+        1
+      ],
+      "dtype": "float64",
+      "npy_sha256": "649c8cdebb40987997c40a6ecb2fd35438dc61c55316dc7199320de3ecef8811",
+      "raw_array_sha256": "065795c3ac45c8fbf52e8e3c115c0daeb57b476609f73499dc9f9cd420e54275",
+      "bytes": 2528
+    },
+    "y_val": {
+      "shape": [
+        300,
+        1200,
+        3
+      ],
+      "dtype": "float64",
+      "npy_sha256": "990bbff33f2b4bbadc5415a0569ae1112c41cf375ce853b180f26f7dee7b7e8c",
+      "raw_array_sha256": "3bfa08ac1cb753a7ad66c10889b9d7464e73cc6ffb2ec41a0360da65b347c9dd",
+      "bytes": 8640128
+    },
+    "lambda_grid": {
+      "shape": [
+        1200
+      ],
+      "dtype": "float64",
+      "npy_sha256": "3abb55cac4927937f9e2ba268e681e77bc511e3f33e1bc0e967a7d3d423ab3da",
+      "raw_array_sha256": "7f3277caf8bac500d55d63ae409fcd00dc67e4a1ef2df8640dc5274b248becc8",
+      "bytes": 9728
+    }
+  }
+}

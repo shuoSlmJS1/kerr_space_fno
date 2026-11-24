@@ -1,0 +1,200 @@
+{
+  "status": "PARTIAL_RECOVERY_HISTORICAL_REFERENCE_CHECK_FAILED",
+  "utc": "2026-10-11T01:38:28.869515+00:00",
+  "hostname": "job-l480b340-gxchp",
+  "ssh_alias": "school-gpu",
+  "ssh_configuration_modified": false,
+  "log_directory": "/workspace/shanjinshuo/logs/fno-recovery-20261011T0134Z",
+  "phase1": {
+    "numeric_verdict": "PASS",
+    "overall_verdict": "NUMERICS_PASS_WITH_EXIT_WARNING",
+    "exit_code": 0,
+    "max_abs_cpu_gpu_difference": 2.9802322387695312e-08,
+    "relative_l2_cpu_gpu_difference": 3.4088053268988006e-08,
+    "output_shape": [
+      1,
+      32,
+      3
+    ],
+    "atol": 1e-05,
+    "rtol": 0.0001,
+    "hami_error_count": 2,
+    "hami_stage": "After both Python atexit markers; no computation-phase error observed."
+  },
+  "source_restore": {
+    "target": "/workspace/shanjinshuo/projects/fno_kerr/kerr_project",
+    "total_files": 171,
+    "total_bytes": 12365489,
+    "source_config_tests_docs_files": 163,
+    "source_config_tests_docs_bytes": 2147898,
+    "asset_files": 8,
+    "all_sha256_verified": true,
+    "original_model_snapshot_matches": 16,
+    "historical_checkpoint_source_hash_matches": 31,
+    "backup_git_head": "1c97c032a30fd6e9c9999080a022a9bdf0216b2a",
+    "historical_training_git_head": "3335b3b197cf8b7d7a302d900a51af37a25d2144",
+    "git_directory_restored": false,
+    "snapshot_note": "Byte-identical working-file snapshot with recorded provenance, not a Git checkout. Historical model/input/normalization/evaluation content matches even though backup HEAD is later.",
+    "backup_existing_git_changes": "Seven shell scripts have mode-only differences 100755 to 100644. No backup files or Git state modified.",
+    "executable_mode_note": "Published files use data-file permissions; invoke approved shell scripts with bash after separate workflow review, not as an assumption of executable mode."
+  },
+  "checkpoint": {
+    "source": "D:\\AAA_MyNote\\Server_Migration\\amax_2026-10-01\\fno_kerr\\kerr_project\\outputs\\benchmark_track_a_v1\\phase_i_wave1_fno1d_20260912\\train_t1200\\best_model.pt",
+    "destination": "/workspace/shanjinshuo/projects/fno_kerr/kerr_project/outputs/benchmark_track_a_v1/phase_i_wave1_fno1d_20260912/train_t1200/best_model.pt",
+    "bytes": 4291732,
+    "sha256": "11ccbebf1d0fd68c57d0895685adeb7d1386da723242ee8271b18286ebbb7ff1",
+    "selected_epoch": 499,
+    "completed_training_epochs": 500,
+    "selection": "Minimum validation normalized MSE over 500 epochs",
+    "model_config": {
+      "modes": 32,
+      "width": 64,
+      "depth": 4
+    },
+    "normalization": {
+      "method": "standard",
+      "x_mean": [
+        2.2996668343884603,
+        2.997499999998448
+      ],
+      "x_std": [
+        0.4036297106003588,
+        1.7320502057030378
+      ],
+      "y_mean": [
+        0.43491985321362087,
+        0.6950095646262856,
+        0.06759557962227183
+      ],
+      "y_std": [
+        5.459666332244433,
+        5.92913775929884,
+        2.706993031810956
+      ],
+      "eps": 1e-08
+    },
+    "target_transform": "raw",
+    "dataset": {
+      "directory": "/home/shanjinshuo/fno_kerr/kerr_project/data/tasks/q_1p6-3_n2000_t1200",
+      "dataset_sha256": "3e0358831e6b96c38f15c8e3178f6d37f38b4bddbe1ab01a63cfaba043f211ce",
+      "metadata_sha256": "459f8024f66db1abfe95d732b1cc9c90132c7bcc29d6425e25bbf32143fd6338",
+      "split_q_sha256": {
+        "train": "19568b3ebb25494faa0f769874d3aa02c0e32bae325e7c968308ffe297e964ea",
+        "val": "065795c3ac45c8fbf52e8e3c115c0daeb57b476609f73499dc9f9cd420e54275",
+        "test": "c67d057aba98eb080c374280524751deb44d752a58425f3dfff5b4dbcc377e80"
+      }
+    },
+    "strict_load": "PASS",
+    "state_dict_entries": 22,
+    "missing_keys": [],
+    "unexpected_keys": [],
+    "shape_mismatches": 0,
+    "checkpoint_unchanged": true
+  },
+  "phase4": {
+    "gpu_forward_completed": true,
+    "output_shape": [
+      1,
+      1200,
+      3
+    ],
+    "all_outputs_finite": true,
+    "exit_code": 1,
+    "exit_reason": "Explicit AssertionError because saved historical prediction comparison exceeded preset tolerance; not a CUDA exception or load failure.",
+    "comparison_verdict": "FAIL_REFERENCE_TOLERANCE",
+    "max_abs_difference": 0.0021371841430664062,
+    "global_relative_l2": 9.795989899153952e-05,
+    "global_mse": 1.8482192069655925e-07,
+    "atol": 1e-05,
+    "rtol": 0.0001,
+    "difference_analysis": {
+      "compared_scalars": 3600,
+      "outside_pointwise_tolerance": 1367,
+      "max_error_index": [
+        0,
+        563,
+        0
+      ],
+      "current_at_max": -11.57993221282959,
+      "historical_at_max": -11.582069396972656,
+      "threshold_at_max": 0.0011682069396972657,
+      "per_channel_max_abs": [
+        0.0021371841430664062,
+        0.0020852088928222656,
+        0.0012350082397460938
+      ],
+      "analysis_only_no_model_execution": true
+    },
+    "reference": "eval_t1200/prediction_t1200.npz first canonical trajectory only",
+    "Q": 1.6007,
+    "lambda_range": [
+      0,
+      5.995
+    ],
+    "grid_points": 1200,
+    "reference_sha256": "4482c19f58f57b5102e33942f6a50fb04ce7a31729727b041457922edef3c0c3",
+    "normalization_method": "Restored train-only checkpoint statistics, original input builder and inverse normalization.",
+    "metrics_scope": "Original metric code compares current prediction to saved historical prediction; not prediction versus ground truth and not reproduction of published accuracy metrics.",
+    "historical_batch_size": 32,
+    "current_batch_size": 1,
+    "historical_gpu": "NVIDIA GeForce RTX 4090",
+    "current_gpu": "NVIDIA L40S",
+    "hami_error_count": 3,
+    "hami_stage": "After assertion traceback and both Python atexit markers.",
+    "further_gpu_tests_stopped": true
+  },
+  "facts_vs_hypotheses": {
+    "facts": [
+      "Checkpoint hash, configuration, 31 historical source hashes and normalization match.",
+      "Inference used the same Q and lambda grid saved with the reference.",
+      "The historical run used batch 32, while this minimal verification used batch 1.",
+      "Current checkpoint-test cuDNN TF32 flag was true; matmul TF32 flag was false.",
+      "HAMI errors only followed Python exit markers."
+    ],
+    "candidate_causes_not_proven": [
+      "Batch-dependent floating-point kernels",
+      "GPU/library implementation or precision-path differences",
+      "Other unrecorded historical runtime settings"
+    ],
+    "not_established": [
+      "A causal connection between HAMI exit errors and the prediction difference",
+      "Bitwise or tolerance-level reproduction of historical predictions",
+      "Formal Priority 1 readiness"
+    ]
+  },
+  "priority1": {
+    "ready": false,
+    "engineering_basis": "Environment reuse, tiny model CPU/GPU agreement, formal source snapshot, selected BEST strict load, and finite GPU output are available.",
+    "remaining": [
+      "Resolve the failed historical-output tolerance check without relaxing thresholds automatically.",
+      "Restore only the datasets, ground truth and checkpoints explicitly required by a confirmed Priority 1 protocol; currently only metadata and one prediction reference are present.",
+      "Establish the runnable Git/provenance workflow on the new container; .git was not migrated and formal entry points call git rev-parse.",
+      "Review hard-coded old server paths and host-GPU conventions through an approved deployment change, without changing scientific protocol.",
+      "Review exit-stage HAMI warnings with the platform; no system modifications.",
+      "Obtain explicit authorization for any formal experiment."
+    ]
+  },
+  "next_action_proposal": {
+    "approval_required": true,
+    "action": "A bounded numeric-difference diagnosis using saved inputs/weights; first compare one CPU reference, then separately approved controls matching historical batch 32 and precision settings. Record each comparison, keep existing tolerances, never start training.",
+    "executed": false
+  },
+  "safety": {
+    "base_or_environment_installation": false,
+    "protected_conda_metadata_unchanged": true,
+    "driver_or_hami_changes": false,
+    "formal_training": false,
+    "full_dataset_upload": false,
+    "checkpoint_overwrite": false,
+    "asset_deletion": false,
+    "new_gpu_model_forwards": 2,
+    "background_gpu_processes_after": ""
+  },
+  "time": {
+    "platform_user_report_minutes": 175,
+    "platform_user_creation_utc": "2026-10-11T01:23:00Z",
+    "nominal_expiry_utc_from_three_hour_duration": "2026-10-11T04:23:00Z",
+    "remaining_estimate_minutes_at_report": 164,
+    "scheduler_expiry_independently_verified": false
+  }
+}

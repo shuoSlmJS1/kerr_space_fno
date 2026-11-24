@@ -1,0 +1,230 @@
+{
+  "status": "C41_C73_ACCEPTED_WITH_RUNTIME_WARNINGS",
+  "checks": [
+    {
+      "seed": 41,
+      "best_epoch": 78,
+      "best_val": 0.13801167625933886,
+      "best_sha256": "24b450224cb7cfddc80c1e02ddd65bfcb7d7b664d374bcd9a023e8dc130a45d3",
+      "epochs": 500,
+      "strict_cpu_load": true,
+      "csv_summary_consistency": true,
+      "hami_cleanup_error_lines": 6,
+      "evaluation_process_return": "zero inferred from check=True queue completion",
+      "evaluation_summary_sha256": "e84716181a1864a9071100878be8d36731860c19d5c3692428cca3357859de69"
+    },
+    {
+      "seed": 73,
+      "best_epoch": 76,
+      "best_val": 0.14427771605551243,
+      "best_sha256": "2d242d9949dd4ab7a54d02e7bab87bd03c1572c7f07093cb230b9c1ab50007f7",
+      "epochs": 500,
+      "strict_cpu_load": true,
+      "csv_summary_consistency": true,
+      "hami_cleanup_error_lines": 6,
+      "evaluation_process_return": "zero inferred from check=True queue completion",
+      "evaluation_summary_sha256": "642b8f44f07bf63895bf1b3b47b2680e69c109cfdbd37ba87a0fc22d06cbf656"
+    }
+  ],
+  "source_data_hash_count": 114,
+  "statistics": [
+    {
+      "family": "A",
+      "T": 1200,
+      "region": "full",
+      "values": [
+        0.005427490395002388,
+        0.005342309167572118,
+        0.0053196781413562795
+      ],
+      "mean": 0.005363159234643595,
+      "sample_sd": 5.684992947864594e-05
+    },
+    {
+      "family": "A",
+      "T": 1200,
+      "region": "prefix",
+      "values": [
+        0.005427490395002388,
+        0.005342309167572118,
+        0.0053196781413562795
+      ],
+      "mean": 0.005363159234643595,
+      "sample_sd": 5.684992947864594e-05
+    },
+    {
+      "family": "A",
+      "T": 1800,
+      "region": "full",
+      "values": [
+        1.8720813646855663,
+        1.7467423540218496,
+        1.740734726397748
+      ],
+      "mean": 1.7865194817017214,
+      "sample_sd": 0.07415962353075531
+    },
+    {
+      "family": "A",
+      "T": 1800,
+      "region": "prefix",
+      "values": [
+        1.7016413755435957,
+        1.581222982447342,
+        1.5712593849245533
+      ],
+      "mean": 1.618041247638497,
+      "sample_sd": 0.07257102974473131
+    },
+    {
+      "family": "A",
+      "T": 1800,
+      "region": "extrapolation",
+      "values": [
+        2.175171290898468,
+        2.0400905658800883,
+        2.040250287145586
+      ],
+      "mean": 2.085170714641381,
+      "sample_sd": 0.0779428263067007
+    },
+    {
+      "family": "A",
+      "T": 2400,
+      "region": "full",
+      "values": [
+        2.062092417362002,
+        1.799918155162274,
+        1.7774729641844988
+      ],
+      "mean": 1.8798278455695916,
+      "sample_sd": 0.15824420130769484
+    },
+    {
+      "family": "A",
+      "T": 2400,
+      "region": "prefix",
+      "values": [
+        2.2687772980088625,
+        1.991881410587398,
+        1.9622510376433866
+      ],
+      "mean": 2.074303248746549,
+      "sample_sd": 0.16906982766762627
+    },
+    {
+      "family": "A",
+      "T": 2400,
+      "region": "extrapolation",
+      "values": [
+        1.827294006317696,
+        1.5801675376215265,
+        1.5668672818992753
+      ],
+      "mean": 1.6581096086128326,
+      "sample_sd": 0.14666882600142864
+    },
+    {
+      "family": "C",
+      "T": 1200,
+      "region": "full",
+      "values": [
+        0.30423661134631347,
+        0.2388561861610379,
+        0.2727842493176903
+      ],
+      "mean": 0.27195901560834723,
+      "sample_sd": 0.032698023753097535
+    },
+    {
+      "family": "C",
+      "T": 1200,
+      "region": "prefix",
+      "values": [
+        0.30423661134631347,
+        0.2388561861610379,
+        0.2727842493176903
+      ],
+      "mean": 0.27195901560834723,
+      "sample_sd": 0.032698023753097535
+    },
+    {
+      "family": "C",
+      "T": 1800,
+      "region": "full",
+      "values": [
+        1.0320417147537395,
+        1.0295858412836891,
+        1.0475837345230627
+      ],
+      "mean": 1.0364037635201637,
+      "sample_sd": 0.009759694787464942
+    },
+    {
+      "family": "C",
+      "T": 1800,
+      "region": "prefix",
+      "values": [
+        0.8345073047219703,
+        0.8264098431890478,
+        0.7687941982808073
+      ],
+      "mean": 0.8099037820639418,
+      "sample_sd": 0.035831419591417335
+    },
+    {
+      "family": "C",
+      "T": 1800,
+      "region": "extrapolation",
+      "values": [
+        1.3467645409082092,
+        1.3509843126617103,
+        1.4573939214706484
+      ],
+      "mean": 1.3850475916801892,
+      "sample_sd": 0.06268927495214245
+    },
+    {
+      "family": "C",
+      "T": 2400,
+      "region": "full",
+      "values": [
+        1.1463882703177917,
+        1.1375854362632358,
+        1.1373109297898731
+      ],
+      "mean": 1.1404282121236335,
+      "sample_sd": 0.005163386360644829
+    },
+    {
+      "family": "C",
+      "T": 2400,
+      "region": "prefix",
+      "values": [
+        0.8909406006838357,
+        0.8593246286498879,
+        0.7757380219363276
+      ],
+      "mean": 0.8420010837566837,
+      "sample_sd": 0.05952299927985064
+    },
+    {
+      "family": "C",
+      "T": 2400,
+      "region": "extrapolation",
+      "values": [
+        1.3570231040536689,
+        1.3628148908783482,
+        1.4117575244553011
+      ],
+      "mean": 1.3771985064624395,
+      "sample_sd": 0.030068762730262738
+    }
+  ],
+  "limitations": [
+    "No new forward evaluation; CSV metrics checked against summaries.",
+    "Three seeds, fixed historical Q400.",
+    "P2 Stage 1 execution complete; whole P2 and Stage 2 decisions remain separate."
+  ],
+  "correction": "Prior handoff incorrectly grouped validation with training lengths. Actual frozen validation lengths are 700,900,1100,1200; actual runs preserved them."
+}

@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "/workspace/shanjinshuo/environments/fno_kerr/bin/python",
+    "-B",
+    "/workspace/shanjinshuo/logs/fno-numeric-diagnostic-20261011T014713Z/diagnose_fno_numerics.py",
+    "--run-dir",
+    "/workspace/shanjinshuo/logs/fno-numeric-diagnostic-20261011T014713Z",
+    "--name",
+    "cpu_b1",
+    "--device",
+    "cpu",
+    "--batch",
+    "1"
+  ],
+  "timeout_seconds": 60,
+  "utc": "2026-10-11T01:47:25.335509+00:00"
+}

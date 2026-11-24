@@ -1,0 +1,22 @@
+{
+  "numeric_status": "PASS",
+  "cpu_gpu_max_abs_error": 2.9802322387695312e-08,
+  "relative_l2_error": 3.4088053268988006e-08,
+  "atol": 1e-05,
+  "rtol": 0.0001,
+  "finite": true,
+  "output_shape": [
+    1,
+    32,
+    3
+  ],
+  "seed": 20261010,
+  "torch": "2.5.1+cu121",
+  "cuda_runtime": "12.1",
+  "gpu": "NVIDIA L40S",
+  "state_dict_equal_before_forward": true,
+  "cpu_forwards": 1,
+  "gpu_forwards": 1,
+  "training": false,
+  "checkpoint_load": false
+}
