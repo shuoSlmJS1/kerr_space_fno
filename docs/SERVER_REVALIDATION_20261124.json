@@ -1,0 +1,12 @@
+{
+  "checked_at_utc": "2026-11-24T12:13:50.503827+00:00",
+  "source_project_root": "/workspace/shanjinshuo/projects/fno_kerr/kerr_project",
+  "previous_manifest": "server_source_manifest_20261122.json",
+  "verified_files": 214,
+  "source_changes": 0,
+  "missing_files": 0,
+  "new_files": 0,
+  "archive_sha256": "0e3040eabba98d998ead155108c0325753f79e00fd9ed61bcc1f8d1e88373d30",
+  "scope": "Source code, experiment scripts, small configurations and research documents only; no datasets, weights or predictions.",
+  "result": "All 214 newly downloaded source files exactly match the prior source hashes. Published files retain the documented publication transformations. No scientific execution or full reproduction was performed."
+}

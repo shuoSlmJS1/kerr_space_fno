@@ -1,5 +1,9 @@
 # School-server source snapshot — November 22, 2026
 
+Revalidated on November 24 against the replacement compute container: all 214
+freshly downloaded files match the original source hashes, with no added or missing
+files. See the [revalidation receipt](SERVER_REVALIDATION_20261124.json).
+
 ## Scope and provenance
 
 This publication synchronizes the school-server core code to the existing GitHub
